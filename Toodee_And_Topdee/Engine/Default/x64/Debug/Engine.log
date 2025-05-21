@@ -1,0 +1,325 @@
+﻿  Object_Manager.cpp
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\public\Layer.h(25,17): error C2039: 'push_back': 'std::map<const Engine::_wstring,Engine::CGameObject *,std::less<const Engine::_wstring>,std::allocator<std::pair<const Engine::_wstring,Engine::CGameObject *>>>'의 멤버가 아닙니다.
+  (소스 파일 '../private/Object_Manager.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(72,7):
+      'std::map<const Engine::_wstring,Engine::CGameObject *,std::less<const Engine::_wstring>,std::allocator<std::pair<const Engine::_wstring,Engine::CGameObject *>>>' 선언을 참조하십시오.
+  
+  Layer.cpp
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\public\Layer.h(25,17): error C2039: 'push_back': 'std::map<const Engine::_wstring,Engine::CGameObject *,std::less<const Engine::_wstring>,std::allocator<std::pair<const Engine::_wstring,Engine::CGameObject *>>>'의 멤버가 아닙니다.
+  (소스 파일 '../private/Layer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(72,7):
+      'std::map<const Engine::_wstring,Engine::CGameObject *,std::less<const Engine::_wstring>,std::allocator<std::pair<const Engine::_wstring,Engine::CGameObject *>>>' 선언을 참조하십시오.
+  
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7): error C2678: 이항 '!=': 왼쪽 피연산자로 'nullptr' 형식을 사용하는 연산자가 없거나 허용되는 변환이 없습니다.
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\guiddef.h(197,15):
+      'bool operator !=(const GUID &,const GUID &)'일 수 있습니다.
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool operator !=(const GUID &,const GUID &)': 인수 1을(를) 'nullptr'에서 'const GUID &'(으)로 변환할 수 없습니다.
+              C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+              원인: 'nullptr'에서 'const GUID'(으)로 변환할 수 없습니다.
+              C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+              '_GUID::_GUID': 모든 인수 형식을 변환할 수 있는 오버로드된 함수가 없습니다.
+                  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\guiddef.h(27,1):
+                  '_GUID::_GUID(_GUID &&)'일 수 있습니다.
+                      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+                      '_GUID::_GUID(_GUID &&)': 인수 1을(를) 'nullptr'에서 '_GUID &&'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+                          원인: 'nullptr'에서 '_GUID'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+                          변환하려면 둘째 사용자 정의 변환 연산자 또는 생성자가 있어야 합니다.
+                  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\guiddef.h(27,1):
+                  또는       '_GUID::_GUID(const _GUID &)'
+                      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+                      '_GUID::_GUID(const _GUID &)': 인수 1을(를) 'nullptr'에서 'const _GUID &'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+                          원인: 'nullptr'에서 'const _GUID'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+                          변환하려면 둘째 사용자 정의 변환 연산자 또는 생성자가 있어야 합니다.
+                  C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+                  인수 목록 '(nullptr)'을(를) 일치시키는 동안
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\unordered_map(915,17):
+      또는       'bool std::operator !=(const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)': 'nullptr'에서 'const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\unordered_map(543,17):
+      또는       'bool std::operator !=(const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)': 'nullptr'에서 'const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(3275,17):
+      또는       'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem *const ) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem *const ) noexcept': 'nullptr'에서 'const std::basic_string<_Elem,_Traits,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(3269,17):
+      또는       'bool std::operator !=(const _Elem *const ,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const _Elem *const ,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept': 'nullptr'에서 'const _Elem *const '에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(3263,17):
+      또는       'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept': 'nullptr'에서 'const std::basic_string<_Elem,_Traits,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\functional(1266,17):
+      또는       'bool std::operator !=(std::nullptr_t,const std::function<_Fty> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(std::nullptr_t,const std::function<_Fty> &) noexcept': 'std::pair<const Engine::_wstring,Engine::CGameObject *>'에서 'const std::function<_Fty> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\functional(1261,17):
+      또는       'bool std::operator !=(const std::function<_Fty> &,std::nullptr_t) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::function<_Fty> &,std::nullptr_t) noexcept': 'nullptr'에서 'const std::function<_Fty> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(646,17):
+      또는       'bool std::operator !=(const std::multimap<_Kty,_Ty,_Pr,_Alloc> &,const std::multimap<_Kty,_Ty,_Pr,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::multimap<_Kty,_Ty,_Pr,_Alloc> &,const std::multimap<_Kty,_Ty,_Pr,_Alloc> &)': 'nullptr'에서 'const std::multimap<_Kty,_Ty,_Pr,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(414,17):
+      또는       'bool std::operator !=(const std::map<_Kty,_Ty,_Pr,_Alloc> &,const std::map<_Kty,_Ty,_Pr,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::map<_Kty,_Ty,_Pr,_Alloc> &,const std::map<_Kty,_Ty,_Pr,_Alloc> &)': 'nullptr'에서 'const std::map<_Kty,_Ty,_Pr,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\tuple(864,27):
+      또는       'bool std::operator !=(const std::tuple<_Types...> &,const std::tuple<_Types...> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::tuple<_Types...> &,const std::tuple<_Types...> &)': 'nullptr'에서 'const std::tuple<_Types...> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\list(1890,17):
+      또는       'bool std::operator !=(const std::list<_Ty,_Alloc> &,const std::list<_Ty,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::list<_Ty,_Alloc> &,const std::list<_Ty,_Alloc> &)': 'nullptr'에서 'const std::list<_Ty,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(2238,17):
+      또는       'bool std::operator !=(const std::vector<_Ty,_Alloc> &,const std::vector<_Ty,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::vector<_Ty,_Alloc> &,const std::vector<_Ty,_Alloc> &)': 'nullptr'에서 'const std::vector<_Ty,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xmemory(1020,17):
+      또는       'bool std::operator !=(const std::allocator<_Ty> &,const std::allocator<_Other> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::allocator<_Ty> &,const std::allocator<_Other> &) noexcept': 'nullptr'에서 'const std::allocator<_Ty> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4408,30):
+      또는       'bool std::operator !=(const std::move_iterator<_Iter> &,const std::move_iterator<_Iter2> &) noexcept(<expr>)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::move_iterator<_Iter> &,const std::move_iterator<_Iter2> &) noexcept(<expr>)': 'nullptr'에서 'const std::move_iterator<_Iter> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(1859,5):
+      또는       'bool std::operator !=(const std::reverse_iterator<_BidIt> &,const std::reverse_iterator<_BidIt2> &) noexcept(<expr>)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::reverse_iterator<_BidIt> &,const std::reverse_iterator<_BidIt2> &) noexcept(<expr>)': 'nullptr'에서 'const std::reverse_iterator<_BidIt> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(510,27):
+      또는       'bool std::operator !=(const std::pair<_Ty1,_Ty2> &,const std::pair<_Uty1,_Uty2> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+          'bool std::operator !=(const std::pair<_Ty1,_Ty2> &,const std::pair<_Uty1,_Uty2> &)': 'nullptr'에서 'const std::pair<_Ty1,_Ty2> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(12,7):
+      인수 목록 '(nullptr, std::pair<const Engine::_wstring,Engine::CGameObject *>)'을(를) 일치시키는 동안
+  
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(13,4): error C2819: 'std::pair<const Engine::_wstring,Engine::CGameObject *>' 형식에 오버로드된 멤버 'operator ->'가 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(235,8):
+      'std::pair<const Engine::_wstring,Engine::CGameObject *>' 선언을 참조하십시오.
+      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(13,4):
+      대신 '.'을(를) 사용하려고 했습니까?
+  
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(13,17): error C2039: 'Priority_Update': 'std::pair<const Engine::_wstring,Engine::CGameObject *>'의 멤버가 아닙니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(235,8):
+      'std::pair<const Engine::_wstring,Engine::CGameObject *>' 선언을 참조하십시오.
+  
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7): error C2678: 이항 '!=': 왼쪽 피연산자로 'nullptr' 형식을 사용하는 연산자가 없거나 허용되는 변환이 없습니다.
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\guiddef.h(197,15):
+      'bool operator !=(const GUID &,const GUID &)'일 수 있습니다.
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool operator !=(const GUID &,const GUID &)': 인수 1을(를) 'nullptr'에서 'const GUID &'(으)로 변환할 수 없습니다.
+              C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+              원인: 'nullptr'에서 'const GUID'(으)로 변환할 수 없습니다.
+              C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+              '_GUID::_GUID': 모든 인수 형식을 변환할 수 있는 오버로드된 함수가 없습니다.
+                  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\guiddef.h(27,1):
+                  '_GUID::_GUID(_GUID &&)'일 수 있습니다.
+                      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+                      '_GUID::_GUID(_GUID &&)': 인수 1을(를) 'nullptr'에서 '_GUID &&'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+                          원인: 'nullptr'에서 '_GUID'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+                          변환하려면 둘째 사용자 정의 변환 연산자 또는 생성자가 있어야 합니다.
+                  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\guiddef.h(27,1):
+                  또는       '_GUID::_GUID(const _GUID &)'
+                      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+                      '_GUID::_GUID(const _GUID &)': 인수 1을(를) 'nullptr'에서 'const _GUID &'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+                          원인: 'nullptr'에서 'const _GUID'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+                          변환하려면 둘째 사용자 정의 변환 연산자 또는 생성자가 있어야 합니다.
+                  C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+                  인수 목록 '(nullptr)'을(를) 일치시키는 동안
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\unordered_map(915,17):
+      또는       'bool std::operator !=(const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)': 'nullptr'에서 'const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\unordered_map(543,17):
+      또는       'bool std::operator !=(const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)': 'nullptr'에서 'const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(3275,17):
+      또는       'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem *const ) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem *const ) noexcept': 'nullptr'에서 'const std::basic_string<_Elem,_Traits,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(3269,17):
+      또는       'bool std::operator !=(const _Elem *const ,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const _Elem *const ,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept': 'nullptr'에서 'const _Elem *const '에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(3263,17):
+      또는       'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept': 'nullptr'에서 'const std::basic_string<_Elem,_Traits,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\functional(1266,17):
+      또는       'bool std::operator !=(std::nullptr_t,const std::function<_Fty> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(std::nullptr_t,const std::function<_Fty> &) noexcept': 'std::pair<const Engine::_wstring,Engine::CGameObject *>'에서 'const std::function<_Fty> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\functional(1261,17):
+      또는       'bool std::operator !=(const std::function<_Fty> &,std::nullptr_t) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::function<_Fty> &,std::nullptr_t) noexcept': 'nullptr'에서 'const std::function<_Fty> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(646,17):
+      또는       'bool std::operator !=(const std::multimap<_Kty,_Ty,_Pr,_Alloc> &,const std::multimap<_Kty,_Ty,_Pr,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::multimap<_Kty,_Ty,_Pr,_Alloc> &,const std::multimap<_Kty,_Ty,_Pr,_Alloc> &)': 'nullptr'에서 'const std::multimap<_Kty,_Ty,_Pr,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(414,17):
+      또는       'bool std::operator !=(const std::map<_Kty,_Ty,_Pr,_Alloc> &,const std::map<_Kty,_Ty,_Pr,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::map<_Kty,_Ty,_Pr,_Alloc> &,const std::map<_Kty,_Ty,_Pr,_Alloc> &)': 'nullptr'에서 'const std::map<_Kty,_Ty,_Pr,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\tuple(864,27):
+      또는       'bool std::operator !=(const std::tuple<_Types...> &,const std::tuple<_Types...> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::tuple<_Types...> &,const std::tuple<_Types...> &)': 'nullptr'에서 'const std::tuple<_Types...> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\list(1890,17):
+      또는       'bool std::operator !=(const std::list<_Ty,_Alloc> &,const std::list<_Ty,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::list<_Ty,_Alloc> &,const std::list<_Ty,_Alloc> &)': 'nullptr'에서 'const std::list<_Ty,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(2238,17):
+      또는       'bool std::operator !=(const std::vector<_Ty,_Alloc> &,const std::vector<_Ty,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::vector<_Ty,_Alloc> &,const std::vector<_Ty,_Alloc> &)': 'nullptr'에서 'const std::vector<_Ty,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xmemory(1020,17):
+      또는       'bool std::operator !=(const std::allocator<_Ty> &,const std::allocator<_Other> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::allocator<_Ty> &,const std::allocator<_Other> &) noexcept': 'nullptr'에서 'const std::allocator<_Ty> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4408,30):
+      또는       'bool std::operator !=(const std::move_iterator<_Iter> &,const std::move_iterator<_Iter2> &) noexcept(<expr>)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::move_iterator<_Iter> &,const std::move_iterator<_Iter2> &) noexcept(<expr>)': 'nullptr'에서 'const std::move_iterator<_Iter> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(1859,5):
+      또는       'bool std::operator !=(const std::reverse_iterator<_BidIt> &,const std::reverse_iterator<_BidIt2> &) noexcept(<expr>)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::reverse_iterator<_BidIt> &,const std::reverse_iterator<_BidIt2> &) noexcept(<expr>)': 'nullptr'에서 'const std::reverse_iterator<_BidIt> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(510,27):
+      또는       'bool std::operator !=(const std::pair<_Ty1,_Ty2> &,const std::pair<_Uty1,_Uty2> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+          'bool std::operator !=(const std::pair<_Ty1,_Ty2> &,const std::pair<_Uty1,_Uty2> &)': 'nullptr'에서 'const std::pair<_Ty1,_Ty2> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(21,7):
+      인수 목록 '(nullptr, std::pair<const Engine::_wstring,Engine::CGameObject *>)'을(를) 일치시키는 동안
+  
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(22,4): error C2819: 'std::pair<const Engine::_wstring,Engine::CGameObject *>' 형식에 오버로드된 멤버 'operator ->'가 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(235,8):
+      'std::pair<const Engine::_wstring,Engine::CGameObject *>' 선언을 참조하십시오.
+      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(22,4):
+      대신 '.'을(를) 사용하려고 했습니까?
+  
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(22,17): error C2039: 'Update': 'std::pair<const Engine::_wstring,Engine::CGameObject *>'의 멤버가 아닙니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(235,8):
+      'std::pair<const Engine::_wstring,Engine::CGameObject *>' 선언을 참조하십시오.
+  
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7): error C2678: 이항 '!=': 왼쪽 피연산자로 'nullptr' 형식을 사용하는 연산자가 없거나 허용되는 변환이 없습니다.
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\guiddef.h(197,15):
+      'bool operator !=(const GUID &,const GUID &)'일 수 있습니다.
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool operator !=(const GUID &,const GUID &)': 인수 1을(를) 'nullptr'에서 'const GUID &'(으)로 변환할 수 없습니다.
+              C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+              원인: 'nullptr'에서 'const GUID'(으)로 변환할 수 없습니다.
+              C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+              '_GUID::_GUID': 모든 인수 형식을 변환할 수 있는 오버로드된 함수가 없습니다.
+                  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\guiddef.h(27,1):
+                  '_GUID::_GUID(_GUID &&)'일 수 있습니다.
+                      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+                      '_GUID::_GUID(_GUID &&)': 인수 1을(를) 'nullptr'에서 '_GUID &&'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+                          원인: 'nullptr'에서 '_GUID'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+                          변환하려면 둘째 사용자 정의 변환 연산자 또는 생성자가 있어야 합니다.
+                  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\guiddef.h(27,1):
+                  또는       '_GUID::_GUID(const _GUID &)'
+                      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+                      '_GUID::_GUID(const _GUID &)': 인수 1을(를) 'nullptr'에서 'const _GUID &'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+                          원인: 'nullptr'에서 'const _GUID'(으)로 변환할 수 없습니다.
+                          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+                          변환하려면 둘째 사용자 정의 변환 연산자 또는 생성자가 있어야 합니다.
+                  C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+                  인수 목록 '(nullptr)'을(를) 일치시키는 동안
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\unordered_map(915,17):
+      또는       'bool std::operator !=(const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)': 'nullptr'에서 'const std::unordered_multimap<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\unordered_map(543,17):
+      또는       'bool std::operator !=(const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &,const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &)': 'nullptr'에서 'const std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(3275,17):
+      또는       'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem *const ) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem *const ) noexcept': 'nullptr'에서 'const std::basic_string<_Elem,_Traits,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(3269,17):
+      또는       'bool std::operator !=(const _Elem *const ,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const _Elem *const ,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept': 'nullptr'에서 'const _Elem *const '에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(3263,17):
+      또는       'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::basic_string<_Elem,_Traits,_Alloc> &,const std::basic_string<_Elem,_Traits,_Alloc> &) noexcept': 'nullptr'에서 'const std::basic_string<_Elem,_Traits,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\functional(1266,17):
+      또는       'bool std::operator !=(std::nullptr_t,const std::function<_Fty> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(std::nullptr_t,const std::function<_Fty> &) noexcept': 'std::pair<const Engine::_wstring,Engine::CGameObject *>'에서 'const std::function<_Fty> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\functional(1261,17):
+      또는       'bool std::operator !=(const std::function<_Fty> &,std::nullptr_t) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::function<_Fty> &,std::nullptr_t) noexcept': 'nullptr'에서 'const std::function<_Fty> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(646,17):
+      또는       'bool std::operator !=(const std::multimap<_Kty,_Ty,_Pr,_Alloc> &,const std::multimap<_Kty,_Ty,_Pr,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::multimap<_Kty,_Ty,_Pr,_Alloc> &,const std::multimap<_Kty,_Ty,_Pr,_Alloc> &)': 'nullptr'에서 'const std::multimap<_Kty,_Ty,_Pr,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(414,17):
+      또는       'bool std::operator !=(const std::map<_Kty,_Ty,_Pr,_Alloc> &,const std::map<_Kty,_Ty,_Pr,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::map<_Kty,_Ty,_Pr,_Alloc> &,const std::map<_Kty,_Ty,_Pr,_Alloc> &)': 'nullptr'에서 'const std::map<_Kty,_Ty,_Pr,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\tuple(864,27):
+      또는       'bool std::operator !=(const std::tuple<_Types...> &,const std::tuple<_Types...> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::tuple<_Types...> &,const std::tuple<_Types...> &)': 'nullptr'에서 'const std::tuple<_Types...> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\list(1890,17):
+      또는       'bool std::operator !=(const std::list<_Ty,_Alloc> &,const std::list<_Ty,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::list<_Ty,_Alloc> &,const std::list<_Ty,_Alloc> &)': 'nullptr'에서 'const std::list<_Ty,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(2238,17):
+      또는       'bool std::operator !=(const std::vector<_Ty,_Alloc> &,const std::vector<_Ty,_Alloc> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::vector<_Ty,_Alloc> &,const std::vector<_Ty,_Alloc> &)': 'nullptr'에서 'const std::vector<_Ty,_Alloc> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xmemory(1020,17):
+      또는       'bool std::operator !=(const std::allocator<_Ty> &,const std::allocator<_Other> &) noexcept'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::allocator<_Ty> &,const std::allocator<_Other> &) noexcept': 'nullptr'에서 'const std::allocator<_Ty> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4408,30):
+      또는       'bool std::operator !=(const std::move_iterator<_Iter> &,const std::move_iterator<_Iter2> &) noexcept(<expr>)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::move_iterator<_Iter> &,const std::move_iterator<_Iter2> &) noexcept(<expr>)': 'nullptr'에서 'const std::move_iterator<_Iter> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(1859,5):
+      또는       'bool std::operator !=(const std::reverse_iterator<_BidIt> &,const std::reverse_iterator<_BidIt2> &) noexcept(<expr>)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::reverse_iterator<_BidIt> &,const std::reverse_iterator<_BidIt2> &) noexcept(<expr>)': 'nullptr'에서 'const std::reverse_iterator<_BidIt> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(510,27):
+      또는       'bool std::operator !=(const std::pair<_Ty1,_Ty2> &,const std::pair<_Uty1,_Uty2> &)'
+          C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+          'bool std::operator !=(const std::pair<_Ty1,_Ty2> &,const std::pair<_Uty1,_Uty2> &)': 'nullptr'에서 'const std::pair<_Ty1,_Ty2> &'에 대한 템플릿 인수를 추론할 수 없습니다.
+      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(30,7):
+      인수 목록 '(nullptr, std::pair<const Engine::_wstring,Engine::CGameObject *>)'을(를) 일치시키는 동안
+  
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(31,4): error C2819: 'std::pair<const Engine::_wstring,Engine::CGameObject *>' 형식에 오버로드된 멤버 'operator ->'가 없습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(235,8):
+      'std::pair<const Engine::_wstring,Engine::CGameObject *>' 선언을 참조하십시오.
+      C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(31,4):
+      대신 '.'을(를) 사용하려고 했습니까?
+  
+C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp(31,17): error C2039: 'Late_Update': 'std::pair<const Engine::_wstring,Engine::CGameObject *>'의 멤버가 아닙니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(235,8):
+      'std::pair<const Engine::_wstring,Engine::CGameObject *>' 선언을 참조하십시오.
+  
+  코드를 생성하고 있습니다...
