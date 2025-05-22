@@ -54,12 +54,15 @@ public:
 	void Go_Backward(_float fTimeDelta);
 	void Go_Right(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
+	void Go_Up(_float fTimeDelta);
+	void Go_Down(_float fTimeDelta);
 
 	void Look_At(const _float3& vTarget);
 	void Move_To(const _float3& vTarget, _float fTimeDelta, _float fLimitRange = 0.f);
 
 	void Rotation(const _float3& vAxis, _float fRadian);
 	void Turn(const _float3& vAxis, _float fTimeDelta);
+	void TurnToRadian(const _float3& vAxis, _float fRadian);
 	void Scaling(_float fScaleX, _float fScaleY, _float fScaleZ);
 
 public:

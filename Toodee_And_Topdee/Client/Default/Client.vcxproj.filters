@@ -34,6 +34,15 @@
     <Filter Include="02. GameObject\Test_Cube">
       <UniqueIdentifier>{37c3bb8f-9cba-4bc3-8881-e8fcf8025d0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Player">
+      <UniqueIdentifier>{4fd095e4-3237-4122-be3f-53d90416c59d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Player\Player_Toodee">
+      <UniqueIdentifier>{e3b25ffd-c3c0-4b6a-a712-0bc59349e5fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Player\Player_Topdee">
+      <UniqueIdentifier>{c750e078-5eff-43ca-a90f-4ff498e72c87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -72,6 +81,15 @@
     <ClInclude Include="..\public\Test_Cube.h">
       <Filter>02. GameObject\Test_Cube</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Player.h">
+      <Filter>02. GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player_Toodee.h">
+      <Filter>02. GameObject\Player\Player_Toodee</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player_Topdee.h">
+      <Filter>02. GameObject\Player\Player_Topdee</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -97,6 +115,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Test_Cube.cpp">
       <Filter>02. GameObject\Test_Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player.cpp">
+      <Filter>02. GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player_Toodee.cpp">
+      <Filter>02. GameObject\Player\Player_Toodee</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player_Topdee.cpp">
+      <Filter>02. GameObject\Player\Player_Topdee</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

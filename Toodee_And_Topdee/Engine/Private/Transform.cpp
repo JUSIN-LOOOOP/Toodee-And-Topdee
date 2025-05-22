@@ -71,6 +71,26 @@ void CTransform::Go_Left(_float fTimeDelta)
 	Set_State(STATE::POSITION, vPosition);
 }
 
+void CTransform::Go_Up(_float fTimeDelta)
+{
+	_float3 vPosition = Get_State(STATE::POSITION);
+	_float3 vUp = Get_State(STATE::UP);
+
+	vPosition += *D3DXVec3Normalize(&vUp, &vUp) * fTimeDelta * m_fSpeedPerSec;
+
+	Set_State(STATE::POSITION, vPosition);
+}
+
+void CTransform::Go_Down(_float fTimeDelta)
+{
+	_float3 vPosition = Get_State(STATE::POSITION);
+	_float3 vUp = Get_State(STATE::UP);
+
+	vPosition -= *D3DXVec3Normalize(&vUp, &vUp) * fTimeDelta * m_fSpeedPerSec;
+
+	Set_State(STATE::POSITION, vPosition);
+}
+
 void CTransform::Look_At(const _float3& vTarget)
 {
 	_float3 vScale = Get_Scaled();
@@ -129,6 +149,25 @@ void CTransform::Turn(const _float3& vAxis, _float fTimeDelta)
 	_float4x4 rotationMatrix{};
 
 	D3DXMatrixRotationAxis(&rotationMatrix, &vAxis, m_fRotationPerSec* fTimeDelta);
+
+	D3DXVec3TransformNormal(&vRight, &vRight, &rotationMatrix);
+	D3DXVec3TransformNormal(&vUp, &vUp, &rotationMatrix);
+	D3DXVec3TransformNormal(&vLook, &vLook, &rotationMatrix);
+
+	Set_State(STATE::RIGHT, vRight);
+	Set_State(STATE::UP, vUp);
+	Set_State(STATE::LOOK, vLook);
+}
+
+void CTransform::TurnToRadian(const _float3& vAxis, _float fRadian)
+{
+	_float3 vRight = Get_State(STATE::RIGHT);
+	_float3 vUp = Get_State(STATE::UP);
+	_float3 vLook = Get_State(STATE::LOOK);
+
+	_float4x4 rotationMatrix{};
+
+	D3DXMatrixRotationAxis(&rotationMatrix, &vAxis, fRadian);
 
 	D3DXVec3TransformNormal(&vRight, &vRight, &rotationMatrix);
 	D3DXVec3TransformNormal(&vUp, &vUp, &rotationMatrix);
