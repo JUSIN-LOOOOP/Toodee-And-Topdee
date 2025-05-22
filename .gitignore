@@ -366,3 +366,11 @@ FodyWeavers.xsd
 
 # Custom File
 Client/Default/imgui.ini
+*.tlog
+*.obj
+Toodee_And_Topdee/Engine/Default/x64/Debug/Engine.dll.recipe
+Toodee_And_Topdee/Engine/Default/x64/Debug/Engine.ilk
+Toodee_And_Topdee/Engine/Default/x64/Debug/Engine.log
+Toodee_And_Topdee/Engine/Default/x64/Debug/key_manager.obj.enc
+Toodee_And_Topdee/Engine/Default/x64/Debug/vc143.idb
+Toodee_And_Topdee/Engine/Default/x64/Debug/vc143.pdb
