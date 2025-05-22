@@ -150,6 +150,9 @@
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
+    <ClInclude Include="..\public\Player.h" />
+    <ClInclude Include="..\public\Player_Toodee.h" />
+    <ClInclude Include="..\public\Player_Topdee.h" />
     <ClInclude Include="..\public\Test_Cube.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -163,6 +166,9 @@
     <ClCompile Include="..\private\Level_Logo.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
+    <ClCompile Include="..\private\Player.cpp" />
+    <ClCompile Include="..\private\Player_Toodee.cpp" />
+    <ClCompile Include="..\private\Player_Topdee.cpp" />
     <ClCompile Include="..\private\Test_Cube.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>

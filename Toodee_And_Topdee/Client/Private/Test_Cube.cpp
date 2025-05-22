@@ -30,17 +30,17 @@ void CTest_Cube::Priority_Update(_float fTimeDelta)
 
 void CTest_Cube::Update(_float fTimeDelta)
 {
-	if (m_pGameInstance->Key_Pressing(VK_UP))
-		m_pTransformCom->Go_Straight(fTimeDelta);
-
-	if (m_pGameInstance->Key_Pressing(VK_DOWN))
-		m_pTransformCom->Go_Backward(fTimeDelta);
-
-	if (m_pGameInstance->Key_Pressing(VK_LEFT))
-		m_pTransformCom->Go_Left(fTimeDelta);
-
-	if (m_pGameInstance->Key_Pressing(VK_RIGHT))
-		m_pTransformCom->Go_Right(fTimeDelta);
+//	if (m_pGameInstance->Key_Pressing(VK_UP))
+//		m_pTransformCom->Go_Straight(fTimeDelta);
+//
+//	if (m_pGameInstance->Key_Pressing(VK_DOWN))
+//		m_pTransformCom->Go_Backward(fTimeDelta);
+//
+//	if (m_pGameInstance->Key_Pressing(VK_LEFT))
+//		m_pTransformCom->Go_Left(fTimeDelta);
+//
+//	if (m_pGameInstance->Key_Pressing(VK_RIGHT))
+//		m_pTransformCom->Go_Right(fTimeDelta);
 }
 
 void CTest_Cube::Late_Update(_float fTimeDelta)
