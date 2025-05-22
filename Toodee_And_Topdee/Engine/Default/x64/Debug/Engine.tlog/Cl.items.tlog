@@ -1,20 +1,20 @@
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Private\Base.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Base.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Component.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Component.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\GameInstance.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\GameInstance.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\GameObject.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\GameObject.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Key_Manager.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Key_Manager.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Object_Manager.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Object_Manager.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Graphic_Device.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Graphic_Device.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Layer.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Layer.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Level.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Level.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Level_Manager.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Level_Manager.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Prototype_Manager.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Prototype_Manager.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Renderer.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Renderer.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Texture.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Texture.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Timer.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Timer.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Timer_Manager.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Timer_Manager.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\Transform.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\Transform.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\VIBuffer.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\VIBuffer.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\VIBuffer_Cube.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\VIBuffer_Cube.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\VIBuffer_Rect.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\VIBuffer_Rect.obj
-C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\private\VIBuffer_Terrain.cpp;C:\Users\jeong\Desktop\jusin\수업코드\Burger_DirectX\3일차 프레임워크 만들기3(엔진)\Engine\Default\x64\Debug\VIBuffer_Terrain.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Private\Base.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Base.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Component.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Component.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\GameInstance.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\GameInstance.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\GameObject.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\GameObject.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Key_Manager.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Key_Manager.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Object_Manager.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Object_Manager.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Graphic_Device.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Graphic_Device.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Layer.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Layer.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Level.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Level.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Level_Manager.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Level_Manager.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Prototype_Manager.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Prototype_Manager.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Renderer.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Renderer.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Texture.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Texture.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Timer.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Timer.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Timer_Manager.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Timer_Manager.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\Transform.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\Transform.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\VIBuffer.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\VIBuffer.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\VIBuffer_Cube.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\VIBuffer_Cube.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\VIBuffer_Rect.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\VIBuffer_Rect.obj
+C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\private\VIBuffer_Terrain.cpp;C:\Users\jeong\Desktop\Toodee-And-Topdee\Toodee_And_Topdee\Engine\Default\x64\Debug\VIBuffer_Terrain.obj

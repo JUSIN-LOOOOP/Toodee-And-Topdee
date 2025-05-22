@@ -28,9 +28,9 @@ public:
 
 
 private:
-	//list<class CGameObject*> m_GameObjects;
+	list<class CGameObject*> m_GameObjects;
 
-	map<const _wstring, class CGameObject*> m_GameObjects;
+	//map<const _wstring, class CGameObject*> m_GameObjects;
 
 public:
 	static CLayer* Create();
