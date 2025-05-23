@@ -39,6 +39,7 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_pTransformCom->Scaling(5.f, 5.f, 5.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
     return S_OK;
@@ -119,11 +120,7 @@ void CPlayer_Toodee::Late_Update(_float fTimeDelta)
             m_fAnimTime += fTimeDelta;
     }
     
-    /* Topdee 시점에서 블렌딩 */
-    if (m_eCurrentState == PS_STOP)
-        m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
-    else
-        m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
 HRESULT CPlayer_Toodee::Render()
@@ -185,11 +182,13 @@ HRESULT CPlayer_Toodee::Begin_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 
     if (m_eCurrentState == PS_STOP)
+    {
         m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+        m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    }
     else
         m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-    m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
     return S_OK;
 }

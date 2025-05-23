@@ -45,7 +45,7 @@ void CTest_Cube::Update(_float fTimeDelta)
 
 void CTest_Cube::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
 
 HRESULT CTest_Cube::Render()
