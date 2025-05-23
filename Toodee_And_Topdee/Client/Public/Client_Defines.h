@@ -15,7 +15,7 @@ namespace Client
 extern HWND g_hWnd;
 using namespace Client;
 
-
+#define GRAVITY 9.8f
 
 
 /* 0. 정치속에 여러분들의 생존법.  */
