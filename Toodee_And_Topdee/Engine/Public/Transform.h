@@ -59,12 +59,15 @@ public:
 
 	void Look_At(const _float3& vTarget);
 	void Move_To(const _float3& vTarget, _float fTimeDelta, _float fLimitRange = 0.f);
+	_bool Move_To(const _float3& vTarget, _float fTimeDelta, _float fSpeed, _float fLimitRange = 0.f);
 
 	void Rotation(const _float3& vAxis, _float fRadian);
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void TurnToRadian(const _float3& vAxis, _float fRadian);
 	void Scaling(_float fScaleX, _float fScaleY, _float fScaleZ);
-
+	/* vTarget 위치까지 vAxis 축 회전, fRotationDegree = 도착할때까지 회전할 각도, fDistance = 시작기준 타겟과의 거리*/
+	_bool Spiral(const _float3& vTarget, const _float3 vAxis, _float fRotationDegree, _float fDistance, _float fTimeDelta);
+	
 public:
 	void Bind_Matrix();
 
@@ -73,6 +76,7 @@ private:
 	_float4x4				m_WorldMatrixInverse = {};
 	_float					m_fSpeedPerSec = { };
 	_float					m_fRotationPerSec = { };
+	_float					m_fTotalRotation = {};
 
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
