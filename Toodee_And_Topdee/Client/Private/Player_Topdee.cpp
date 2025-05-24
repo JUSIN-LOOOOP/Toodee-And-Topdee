@@ -15,7 +15,7 @@ HRESULT CPlayer_Topdee::Initialize_Prototype()
 {
 	m_iMaxAnimCount[ENUM_CLASS(PS_IDLE)] = 0;
 	m_iMaxAnimCount[ENUM_CLASS(PS_MOVE)] = 8;
-
+	m_iMaxAnimCount[ENUM_CLASS(PS_CLEAR)] = 17;
 
 	m_eCurrentDir = DIR_R;
 	m_ePreDir = m_eCurrentDir;
@@ -23,6 +23,9 @@ HRESULT CPlayer_Topdee::Initialize_Prototype()
 	m_eMoveDir = MD_DOWN;
 
 	m_fAnimDelay = 0.05f;
+
+	//포탈과의 거리
+	m_fPotalDistance = 5.f;
 
 	m_bInput = false;
 
@@ -36,7 +39,7 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Scaling(5.f, 5.f, 5.f);
+	m_pTransformCom->Scaling(5.f, 5.f, 0.f); 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
 	return S_OK;
@@ -44,12 +47,17 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 
 void CPlayer_Topdee::Priority_Update(_float fTimeDelta)
 {
+	//Test
+	if (!m_bClear)
+	{
+		_float3 vTarget = { 0.f, 0.f, 0.f }; // 포탈 위치
+
+		__super::MoveToPotal(vTarget, _float3(0.f, 1.f, 0.f), fTimeDelta);
+	}
 }
 
 void CPlayer_Topdee::Update(_float fTimeDelta)
 {
-	m_eCurrentState = PS_IDLE;
-
 	m_iInputState = 0;
 
 	if (m_pGameInstance->Key_Down('Z'))
@@ -88,9 +96,15 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 		}
 	}
 
+
+
+
 	/* 입력 없었으면 마지막 입력을 기준으로 방향 결정 */
-	if (m_iInputState == 0)
+	if (m_iInputState == 0 && m_eCurrentState != PS_CLEAR)
+	{
+		m_eCurrentState = PS_IDLE;
 		m_iInputState = m_iOldInputState;
+	}
 	else
 		m_iOldInputState = m_iInputState;
 
@@ -102,7 +116,22 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 void CPlayer_Topdee::Late_Update(_float fTimeDelta)
 {
 	/* 애니메이션 카운트 딜레이 */
-	if (m_eCurrentState != PS_IDLE)
+
+	//클리어(포탈 입장) 애니메이션
+	if (m_eCurrentState == PS_CLEAR)
+	{
+		if (m_fAnimTime + fTimeDelta > m_fAnimDelay)
+		{
+			if (m_iCurrentAnimCount < m_iMaxAnimCount[ENUM_CLASS(PS_CLEAR)] - 1)
+			{
+				m_iCurrentAnimCount = m_iCurrentAnimCount++;
+				m_fAnimTime = 0.f;
+			}
+		}
+		else
+			m_fAnimTime += fTimeDelta;
+	}
+	else if (m_eCurrentState != PS_IDLE)
 	{
 		/* MoveDir에 따른 AnimCount 초기값 설정 */
 		if (m_iCurrentAnimCount == 0)
@@ -187,6 +216,10 @@ HRESULT CPlayer_Topdee::Ready_Components()
 		TEXT("Com_Move_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PS_MOVE)]))))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Clear"),
+		TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PS_CLEAR)]))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -194,16 +227,19 @@ HRESULT CPlayer_Topdee::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+//	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+//	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
 
-	if (m_eCurrentState == PS_STOP)
-	{
-		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-		m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	}
-	else
-		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	//if (m_eCurrentState == PS_STOP)
+	//{
+	//	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	//	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	//}
+	//else
+	//	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	
 	return S_OK;
