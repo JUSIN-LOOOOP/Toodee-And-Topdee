@@ -19,6 +19,7 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
     m_iMaxAnimCount[ENUM_CLASS(PS_IDLE)] = 13;
     m_iMaxAnimCount[ENUM_CLASS(PS_MOVE)] = 11;
     m_iMaxAnimCount[ENUM_CLASS(PS_ACTION)] = 5;
+    m_iMaxAnimCount[ENUM_CLASS(PS_CLEAR)] = 17;
 
     m_fAnimDelay = 0.05f;
     //점프 최대 높이 조절
@@ -27,7 +28,10 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
     m_fHangDelay = 0.05f;
 
     m_eCurrentDir = DIR_R;
+
     m_ePreDir = m_eCurrentDir;
+
+    m_fPotalDistance = -5.f;
 
 
 
@@ -39,19 +43,24 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_pTransformCom->Scaling(5.f, 5.f, 0.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-
     return S_OK;
 }
 
 void CPlayer_Toodee::Priority_Update(_float fTimeDelta)
-{
+{     //Test
+    if(!m_bClear)
+    {
+        _float3 vTarget = { 0.f, 0.f, 0.f };
+       __super::MoveToPotal(vTarget, _float3(0.f, 1.f, 0.f), fTimeDelta);
+    }
 }
 
 void CPlayer_Toodee::Update(_float fTimeDelta)
 {
     //점프 중에는 State Action으로 고정
-    if(!m_bIsJumping)
+    if(!m_bIsJumping && m_eCurrentState != PS_CLEAR)
         m_eCurrentState = PS_IDLE;
 
     if (m_pGameInstance->Key_Pressing(VK_RIGHT))
@@ -89,6 +98,7 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
         }
     }
 
+
     //점프 중 다른 State 변경 방지 + 점프 기능
     if (m_bIsJumping)
     {
@@ -108,6 +118,19 @@ void CPlayer_Toodee::Late_Update(_float fTimeDelta)
     {
         m_iCurrentAnimCount = ENUM_CLASS(m_eJumpState);
     }
+    else if (m_eCurrentState == PS_CLEAR)
+    {
+        if (m_fAnimTime + fTimeDelta > m_fAnimDelay)
+        {
+            if (m_iCurrentAnimCount < m_iMaxAnimCount[ENUM_CLASS(PS_CLEAR)] - 1)
+            {
+                m_iCurrentAnimCount = m_iCurrentAnimCount++;
+                m_fAnimTime = 0.f;
+            }
+        }
+        else
+            m_fAnimTime += fTimeDelta;
+    }
     else
     {
         if (m_fAnimTime + fTimeDelta > m_fAnimDelay)
@@ -119,11 +142,7 @@ void CPlayer_Toodee::Late_Update(_float fTimeDelta)
             m_fAnimTime += fTimeDelta;
     }
     
-    /* Topdee 시점에서 블렌딩 */
-    if (m_eCurrentState == PS_STOP)
-        m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
-    else
-        m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
 
 HRESULT CPlayer_Toodee::Render()
@@ -173,6 +192,10 @@ HRESULT CPlayer_Toodee::Ready_Components()
         TEXT("Com_Action_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PS_ACTION)]))))
         return E_FAIL;
 
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Clear"),
+        TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PS_CLEAR)]))))
+        return E_FAIL;
+
 
     return S_OK;
 }
@@ -181,15 +204,20 @@ HRESULT CPlayer_Toodee::Begin_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+  //  m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+  //  m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
 
-    if (m_eCurrentState == PS_STOP)
-        m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-    else
-        m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-    m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+  //  if (m_eCurrentState == PS_STOP)
+  //  {
+  //  }
+  //  else
+  //      m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+  //
+  //  m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+  //  m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
     return S_OK;
 }
@@ -252,6 +280,7 @@ void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
         m_pTransformCom->Set_State(STATE::POSITION, vPosition);
     }
 }
+
 
 CPlayer_Toodee* CPlayer_Toodee::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

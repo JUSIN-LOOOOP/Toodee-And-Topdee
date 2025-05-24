@@ -119,6 +119,34 @@ void CTransform::Move_To(const _float3& vTarget, _float fTimeDelta, _float fLimi
 	}
 }
 
+_bool CTransform::Move_To(const _float3& vTarget, _float fTimeDelta, _float fSpeed, _float fLimitRange)
+{
+	_float3 vPosition = Get_State(STATE::POSITION);
+	_float3 vMoveDir = vTarget - vPosition;
+
+	//if (fLimitRange <= D3DXVec3Length(&vMoveDir))
+	{
+		_float fDistanceX = vMoveDir.x;
+		_float fDistanceZ = vMoveDir.z;
+
+		_float3 vMove = *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * fSpeed * fTimeDelta;
+
+		if (D3DXVec3Length(&vMove) == 0.f)
+			return true;
+
+		if (abs(vMove.x) >= abs(fDistanceX))
+			vMove.x = fDistanceX;
+
+		if (abs(vMove.z) >= abs(fDistanceZ))
+			vMove.z = fDistanceZ;
+		
+		vPosition += vMove;
+
+		Set_State(STATE::POSITION, vPosition);
+	}
+	return false;
+}
+
 void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 {
 	_float3 vScale = Get_Scaled();
@@ -186,6 +214,47 @@ void CTransform::Scaling(_float fScaleX, _float fScaleY, _float fScaleZ)
 	Set_State(STATE::UP, *D3DXVec3Normalize(&vUp, &vUp) * fScaleY);
 	Set_State(STATE::LOOK, *D3DXVec3Normalize(&vLook, &vLook) * fScaleZ);
 }
+
+_bool CTransform::Spiral(const _float3& vTarget, const _float3 vAxis, _float fRotationDegree, _float fDistance,_float fTimeDelta)
+{
+	_float3 vPosition = Get_State(STATE::POSITION);
+
+
+	_float4x4 rotationMatrix{};
+	
+	//회전 속도
+	_float fRotationPerSec = D3DXToRadian(fRotationDegree);
+
+	//지금까지 회전한 각도
+	m_fTotalRotation += fRotationPerSec * fTimeDelta;
+	
+
+	//위치벡터 회전
+	D3DXMatrixRotationAxis(&rotationMatrix, &vAxis, fRotationPerSec * fTimeDelta);
+	D3DXVec3TransformNormal(&vPosition, &vPosition, &rotationMatrix);
+	
+
+	//회전한 위치에서의 방향 벡터 구하기
+	_float3 vMoveDir = vTarget - vPosition;
+
+	//타겟과의 거리와 회전할 각도를 통해 스피드 구하기 , Distance Toodee가 음수 들어가서 abs
+	_float fSpeedPerSec = abs(fDistance) * (fRotationPerSec / (2.f * D3DX_PI));
+
+
+	_float3 vMove = *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * fSpeedPerSec * fTimeDelta;
+
+	vPosition += vMove;
+
+	Set_State(STATE::POSITION, vPosition);
+
+	//목표만큼 각도보다 회전 했다면 true
+	if (m_fTotalRotation >= fRotationPerSec)
+		return true;
+
+	return false;
+
+}
+
 
 void CTransform::Bind_Matrix()
 {
