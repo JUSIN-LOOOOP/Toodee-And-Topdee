@@ -6,17 +6,17 @@
 
 BEGIN(Engine)
 
-namespace Picking
-{
-	struct ENGINE_DLL Ray
-	{
-		D3DXVECTOR3 origin;
-		D3DXVECTOR3 dir;
-	};
+BEGIN(Picking)
 
-	ENGINE_DLL Ray GetRayFromMouse(const unsigned int WinX, const unsigned int WinY, HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device);
-	ENGINE_DLL HRESULT RayIntersectsAABB(const Ray& ray, const D3DXVECTOR3& min, const D3DXVECTOR3& max, float* pDist = nullptr);
-	ENGINE_DLL HRESULT RayIntersectsTriangle(const Ray& ray, const D3DXVECTOR3& v0, const D3DXVECTOR3& v1, const D3DXVECTOR3& v2, float* pDist = nullptr);
+struct ENGINE_DLL Ray
+{
+	_float3 origin;
+	_float3 dir;
 };
 
+ENGINE_DLL Ray GetRayFromMouse(const unsigned int WinX, const unsigned int WinY, HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device);
+ENGINE_DLL HRESULT RayIntersectsAABB(const Ray& ray, const _float3& min, const _float3& max, _float* pDist = nullptr);
+ENGINE_DLL HRESULT RayIntersectsTriangle(const Ray& ray, const _float3& v0, const _float3& v1, const _float3& v2, _float* pDist = nullptr);
+
+END
 END

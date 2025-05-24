@@ -2,7 +2,7 @@
 
 Picking::Ray Picking::GetRayFromMouse(const unsigned int WinX, const unsigned int WinY, HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	POINT			ptMouse{};
+	POINT ptMouse{};
 	GetCursorPos(&ptMouse);
 	ScreenToClient(hWnd, &ptMouse);
 
@@ -22,13 +22,13 @@ Picking::Ray Picking::GetRayFromMouse(const unsigned int WinX, const unsigned in
 	D3DXMATRIX view, viewInv;
 	pGraphic_Device->GetTransform(D3DTS_VIEW, &view);
 	D3DXMatrixInverse(&viewInv, nullptr, &view);
-	D3DXVECTOR3 origin(viewInv._41, viewInv._42, viewInv._43);
+	_float3 origin(viewInv._41, viewInv._42, viewInv._43);
 	//D3DXVec3TransformCoord(&origin, &origin, &viewInv);
 
 
 	//	[3] 뷰공간과 월드공간간의 Ray 방향 구하기
-	D3DXVECTOR3 dirView(px, py, 1.f);
-	D3DXVECTOR3 dir;
+	_float3 dirView(px, py, 1.f);
+	_float3 dir;
 	D3DXVec3TransformNormal(&dir, &dirView, &viewInv);	//뷰행렬 <-> 월드행렬 광선방향
 	D3DXVec3Normalize(&dir, &dir);
 
@@ -36,16 +36,14 @@ Picking::Ray Picking::GetRayFromMouse(const unsigned int WinX, const unsigned in
 	return Picking::Ray{ origin, dir };
 }
 
-HRESULT Picking::RayIntersectsAABB(const Ray& ray, const D3DXVECTOR3& min, const D3DXVECTOR3& max, float* pDist)
+HRESULT Picking::RayIntersectsAABB(const Ray& ray, const _float3& min, const _float3& max, _float* pDist)
 {
 	return E_FAIL;
 }
 
-HRESULT Picking::RayIntersectsTriangle(const Ray& ray, const D3DXVECTOR3& v0, const D3DXVECTOR3& v1, const D3DXVECTOR3& v2, float* pDist)
+HRESULT Picking::RayIntersectsTriangle(const Ray& ray, const _float3& v0, const _float3& v1, const _float3& v2, _float* pDist)
 {
-	FLOAT u, v, dist;
-
-	_bool hit = D3DXIntersectTri(&v0, &v1, &v2, &ray.origin, &ray.dir, &u, &v, &dist);
+	_bool hit = D3DXIntersectTri(&v0, &v1, &v2, &ray.origin, &ray.dir, nullptr, nullptr, nullptr);
 
 	if (hit)
 		return S_OK;
