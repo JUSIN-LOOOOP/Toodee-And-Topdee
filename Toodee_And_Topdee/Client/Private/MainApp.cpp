@@ -3,6 +3,8 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 
+#include "Part_Eyes.h"
+
 Client::CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
 {
@@ -82,6 +84,10 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Eyes"),
+		CPart_Eyes::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;

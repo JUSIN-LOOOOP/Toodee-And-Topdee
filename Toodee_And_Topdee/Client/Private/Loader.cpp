@@ -5,6 +5,7 @@
 #include "Test_Cube.h"
 #include "Player_Toodee.h"
 #include "Player_Topdee.h"
+#include "Pig.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:m_pGraphic_Device{ pGraphic_Device },
@@ -103,6 +104,11 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Move%d.png"), 40))))
 		return E_FAIL;
 
+	/* Prototype_Component_Texture_Pig */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/pigTopSpr_%d.png"), 6))))
+		return E_FAIL;
+
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩중입니다."));
 
 	lstrcpy(m_szLoadingText, TEXT("쉐이더를 로딩중입니다."));
@@ -127,6 +133,12 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Player_Topdee"),
 		CPlayer_Topdee::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"),
+		CPig::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	
 
 	lstrcpy(m_szLoadingText, TEXT("GamePlay_Level 로딩이 완료되었습니다."));
 

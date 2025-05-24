@@ -43,6 +43,18 @@
     <Filter Include="02. GameObject\Player\Player_Topdee">
       <UniqueIdentifier>{c750e078-5eff-43ca-a90f-4ff498e72c87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Moster">
+      <UniqueIdentifier>{17ab9ce8-0442-4100-b36c-97200f76e34a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Moster\Pig">
+      <UniqueIdentifier>{3f053720-fe2b-4c0c-a9d1-5fd77e39e84f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Parts">
+      <UniqueIdentifier>{4c4e753c-a509-47a8-a7e2-0ed20ddd4776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Parts\Eyes">
+      <UniqueIdentifier>{5eb927c0-c101-4c3b-af45-4bb47f510d8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -90,6 +102,12 @@
     <ClInclude Include="..\public\Player_Topdee.h">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Part_Eyes.h">
+      <Filter>02. GameObject\Parts\Eyes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Pig.h">
+      <Filter>02. GameObject\Moster\Pig</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -124,6 +142,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Player_Topdee.cpp">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Eyes.cpp">
+      <Filter>02. GameObject\Parts\Eyes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Pig.cpp">
+      <Filter>02. GameObject\Moster\Pig</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
