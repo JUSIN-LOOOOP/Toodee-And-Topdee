@@ -79,6 +79,9 @@
     <Filter Include="01. Utility\99. Util">
       <UniqueIdentifier>{042ba3c7-4c35-48fe-a77b-e1ff10d2abc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\06. MapManager">
+      <UniqueIdentifier>{bfdb7326-3321-43c8-a612-a5d462a92d36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -162,6 +165,9 @@
     <ClInclude Include="..\Public\Util.h">
       <Filter>01. Utility\99. Util</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Map_Manager.h">
+      <Filter>01. Utility\06. MapManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -226,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Util.cpp">
       <Filter>01. Utility\99. Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map_Manager.cpp">
+      <Filter>01. Utility\06. MapManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -44,6 +44,11 @@ HRESULT CGameObject::Render()
     return S_OK;
 }
 
+BLOCK_INFO CGameObject::Get_Block_Info()
+{
+    return BLOCK_INFO();
+}
+
 CComponent* CGameObject::Get_Component(const _wstring& strComponentTag)
 {
     auto    iter = m_Components.find(strComponentTag);
