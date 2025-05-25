@@ -59,7 +59,7 @@ private:
 	POINT						m_OldPoint = {};
 	_bool						m_bOldKey = {};
 	_bool						m_bRotating = false;
-	_float						m_fTargetAngle = 10.f;
+	_float						m_fTargetAngle = 8.f;
 	_float						m_fCurrentAngle = {};
 	_float						m_fCurrentPos = {};
 	_float						m_OffsetLength;

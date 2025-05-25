@@ -41,7 +41,7 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 
 	m_pTransformCom->Scaling(5.f, 5.f, 0.f); 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-
+	
 	return S_OK;
 }
 
@@ -53,7 +53,11 @@ void CPlayer_Topdee::Priority_Update(_float fTimeDelta)
 		_float3 vTarget = { 0.f, 0.f, 0.f }; // Æ÷Å» À§Ä¡
 
 		__super::MoveToPotal(vTarget, _float3(0.f, 1.f, 0.f), fTimeDelta);
+
 	}
+
+	_float3 scale = m_pTransformCom->Get_Scaled();
+	int a;
 }
 
 void CPlayer_Topdee::Update(_float fTimeDelta)
