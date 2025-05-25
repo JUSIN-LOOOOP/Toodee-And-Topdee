@@ -23,6 +23,7 @@ public:
 
 	virtual void Move(_float fTimeDelta) override;
 	virtual void Action() override;
+	virtual void Stop() override;
 
 private:
 	//Action มกวม
