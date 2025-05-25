@@ -19,6 +19,7 @@ public:
 	virtual void HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta) PURE;
 	virtual void Update(CPlayer* pPlayer, _float fTimeDelta) PURE;
 	virtual void Exit(CPlayer* pPlayer) PURE;
+	virtual void UpdateAnim(_float fTimeDelta) PURE;
 
 public:
 	PLAYERSTATE GetTextureKey() {
@@ -33,8 +34,6 @@ public:
 		return m_iMaxAnimCount;
 	}
 
-protected:
-	virtual void UpdateAnim(_float fTimeDelta) PURE;
 
 protected:
 	PLAYERSTATE				m_eState = {};
