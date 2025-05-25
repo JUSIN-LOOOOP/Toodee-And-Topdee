@@ -111,23 +111,23 @@
     <ClInclude Include="..\public\Player_Topdee.h">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PlayerState.h">
-      <Filter>02. GameObject\Player\PlayerStates</Filter>
+    <ClInclude Include="..\Public\State_Stop.h">
+      <Filter>02. GameObject\Player\PlayerStates\Stop</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\State_Idle.h">
-      <Filter>02. GameObject\Player\PlayerStates\Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\State_Move.h">
+    <ClInclude Include="..\Public\State_Move.h">
       <Filter>02. GameObject\Player\PlayerStates\Move</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\State_Action.h">
-      <Filter>02. GameObject\Player\PlayerStates\Action</Filter>
+    <ClInclude Include="..\Public\State_Idle.h">
+      <Filter>02. GameObject\Player\PlayerStates\Idle</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\State_Clear.h">
+    <ClInclude Include="..\Public\State_Clear.h">
       <Filter>02. GameObject\Player\PlayerStates\Clear</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\State_Stop.h">
-      <Filter>02. GameObject\Player\PlayerStates\Stop</Filter>
+    <ClInclude Include="..\Public\State_Action.h">
+      <Filter>02. GameObject\Player\PlayerStates\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerState.h">
+      <Filter>02. GameObject\Player\PlayerStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,22 +164,22 @@
     <ClCompile Include="..\private\Player_Topdee.cpp">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PlayerState.cpp">
+    <ClCompile Include="..\Private\PlayerState.cpp">
       <Filter>02. GameObject\Player\PlayerStates</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\State_Idle.cpp">
-      <Filter>02. GameObject\Player\PlayerStates\Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\State_Move.cpp">
-      <Filter>02. GameObject\Player\PlayerStates\Move</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\State_Action.cpp">
+    <ClCompile Include="..\Private\State_Action.cpp">
       <Filter>02. GameObject\Player\PlayerStates\Action</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\State_Clear.cpp">
+    <ClCompile Include="..\Private\State_Clear.cpp">
       <Filter>02. GameObject\Player\PlayerStates\Clear</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\State_Stop.cpp">
+    <ClCompile Include="..\Private\State_Idle.cpp">
+      <Filter>02. GameObject\Player\PlayerStates\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Move.cpp">
+      <Filter>02. GameObject\Player\PlayerStates\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Stop.cpp">
       <Filter>02. GameObject\Player\PlayerStates\Stop</Filter>
     </ClCompile>
   </ItemGroup>
