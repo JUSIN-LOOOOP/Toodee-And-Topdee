@@ -35,7 +35,9 @@ void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTime
 
     if (iInputData & ENUM_CLASS(KEYINPUT::KEY_X))
     {
-    //     pPlayer->Change_State(PLAYERSTATE::STOP);
+        if (FAILED(pPlayer->Change_State(PLAYERSTATE::STOP)))
+            MSG_BOX(TEXT("Failed Change State : STOP"));
+
     }
 
     if ((iInputData & ENUM_CLASS(KEYINPUT::KEY_MOVES)) != 0)
@@ -43,13 +45,15 @@ void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTime
         pPlayer->Move(fTimeDelta);
 
         if (!pPlayer->InAction())
-            pPlayer->Change_State(PLAYERSTATE::MOVE);
+            if (FAILED(pPlayer->Change_State(PLAYERSTATE::MOVE)))
+                MSG_BOX(TEXT("Failed Change State : MOVE"));
     }
 
     if (iInputData == 0)
     {
         if (!pPlayer->InAction())
-            pPlayer->Change_State(PLAYERSTATE::IDLE);
+            if (FAILED(pPlayer->Change_State(PLAYERSTATE::IDLE)))
+                MSG_BOX(TEXT("Failed Change State : IDLE"));
     }
 
 }
@@ -61,7 +65,10 @@ void CState_Action::Update(CPlayer* pPlayer, _float fTimeDelta)
     if (pPlayer->CanClear())
     {
         pPlayer->Clear();
-        pPlayer->Change_State(PLAYERSTATE::CLEAR);
+        
+        if(FAILED(pPlayer->Change_State(PLAYERSTATE::CLEAR)))
+            MSG_BOX(TEXT("Failed Change State : CLEAR"));
+
         return;
     }
 

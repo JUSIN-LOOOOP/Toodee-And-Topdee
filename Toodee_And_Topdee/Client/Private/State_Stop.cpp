@@ -42,7 +42,15 @@ void CState_Stop::UpdateAnim(_float fTimeDelta)
 
 CState_Stop* CState_Stop::Create(void* pArg)
 {
-	return nullptr;
+    CState_Stop* pInstance = new CState_Stop();
+
+    if (FAILED(pInstance->Initialize(pArg)))
+    {
+        MSG_BOX(TEXT("Created Failed : CState_Stop"));
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
 }
 
 void CState_Stop::Free()
