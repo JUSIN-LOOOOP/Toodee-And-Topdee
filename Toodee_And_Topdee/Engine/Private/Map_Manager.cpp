@@ -1,6 +1,7 @@
 #include "Map_Manager.h"
 #include "Util.h"
 #include "GameInstance.h"
+#include "Tile.h"
 
 CMap_Manager::CMap_Manager()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
@@ -73,7 +74,7 @@ HRESULT CMap_Manager::Save_File(const _wstring& filename)
 	/*type이 0인 경우를 제외하고 파일에 적는다.*/
 	for (auto block : m_pTiles)
 	{
-		data = block->Get_Block_Info();
+		data = dynamic_cast<CTile*>(block)->Get_BlockInfo();
 
 		if (data.itype == 0)
 			continue;
