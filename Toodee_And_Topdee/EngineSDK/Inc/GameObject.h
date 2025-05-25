@@ -38,6 +38,8 @@ protected:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag,
 		const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
 
+	_wstring name = {};
+
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
 	virtual void Free() override;
