@@ -35,24 +35,24 @@ public:
 
 public:
 	//State
-	virtual HRESULT Change_State(PLAYERSTATE eNewState);
-
+	HRESULT Change_State(PLAYERSTATE eNewState);
+	HRESULT Return_PrevState();
 	virtual void Move(_float fTimeDelta) PURE;
 	virtual void Action() PURE;
+	virtual void Stop() PURE;
 	void Clear();
 
 	_bool CanMoveInAction() const { return m_bMoveInAction; }
 	_bool InAction() const { return m_bInAction; }
 	_bool CanClear() const { return m_bCanClear; }
-	_bool MoveToPotal(const _float3& vTarget, const _float3& vAxis, _float fTimeDelta);
-
-
+	
 protected:
 	void Change_TextureDir(TEXTUREDIRECTION eTextureDirection);
 	CPlayerState* Find_State(PLAYERSTATE eKeyState);
 	HRESULT Add_State(PLAYERSTATE eKeyState, void* pArg);
 	//TextureDirection
 	void ComputeTextureDirection(_uint iInputData);
+	_uint ComputeStopAnimCount(PLAYERSTATE eCurrentState);
 
 protected:
 	CTransform*						m_pTransformCom = { nullptr };
@@ -67,6 +67,12 @@ protected:
 	CPlayerState*					m_pCurrentState = { nullptr };
 	//현재 State enum class
 	PLAYERSTATE						m_eCurrentState = {};
+
+	//Stop State용
+	CPlayerState*					m_pPrevState = { nullptr };
+	PLAYERSTATE						m_ePrevState = {};
+	_uint							m_iStopAnimCount = {};
+
 
 	//액션 중 움직임 가능여부
 	_bool							m_bMoveInAction = {};
