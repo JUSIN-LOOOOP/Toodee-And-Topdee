@@ -28,6 +28,7 @@ public:
 	//Level
 public:
 	HRESULT			Open_Level(_uint iLevelID, class CLevel* pNewLevel);
+	const _uint		Get_CurrentLevelID();
 
 	//Prototype
 public:
@@ -50,6 +51,11 @@ public:
 	HRESULT			Add_Timer(const _wstring& strTimerTag);
 	void			Compute_TimeDelta(const _wstring& strTimerTag);
 
+	//Collision
+public:
+	HRESULT			Add_Collider(_uint iLevelIndex, COLLIDER_SHAPE etype, class CCollider** pCollider);
+
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
@@ -58,6 +64,7 @@ private:
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CKey_Manager*			m_pKey_Manager = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
+	class CCollision_Manager*	m_pCollision_Manager = { nullptr };
 
 
 
