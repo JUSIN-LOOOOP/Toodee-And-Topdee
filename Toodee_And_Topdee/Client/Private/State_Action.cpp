@@ -13,7 +13,7 @@ HRESULT CState_Action::Initialize(void* pArg)
     m_eState = pDesc->eState;
 
     m_iMaxAnimCount = pDesc->iMaxAnimCount;
-    m_fAnimDelay = 0.05f;
+    m_fAnimDelay = 0.02f;
 
     return S_OK;
 }
@@ -26,8 +26,6 @@ void CState_Action::Enter(CPlayer* pPlayer)
 
 void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta)
 {
-    
-
     if(iInputData & ENUM_CLASS(KEYINPUT::KEY_Z))
     {
         pPlayer->Action();
@@ -37,12 +35,12 @@ void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTime
     {
         if (FAILED(pPlayer->Change_State(PLAYERSTATE::STOP)))
             MSG_BOX(TEXT("Failed Change State : STOP"));
-
     }
 
     if ((iInputData & ENUM_CLASS(KEYINPUT::KEY_MOVES)) != 0)
     {
-        pPlayer->Move(fTimeDelta);
+        if(pPlayer->CanMoveInAction())
+            pPlayer->Move(fTimeDelta);
 
         if (!pPlayer->InAction())
             if (FAILED(pPlayer->Change_State(PLAYERSTATE::MOVE)))
@@ -60,8 +58,6 @@ void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTime
 
 void CState_Action::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
-    UpdateAnim(fTimeDelta);
-
     if (pPlayer->CanClear())
     {
         pPlayer->Clear();
@@ -76,9 +72,12 @@ void CState_Action::Update(CPlayer* pPlayer, _float fTimeDelta)
 
 void CState_Action::UpdateAnim(_float fTimeDelta)
 {
+    if (m_iCurrentAnimCount >= m_iMaxAnimCount - 1)
+        return;
+
     if (m_fAnimTime + fTimeDelta > m_fAnimDelay)
     {
-        m_iCurrentAnimCount = (m_iCurrentAnimCount + 1) % m_iMaxAnimCount;
+        m_iCurrentAnimCount++;
         m_fAnimTime = 0.f;
     }
     else

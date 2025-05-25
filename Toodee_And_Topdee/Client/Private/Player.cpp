@@ -7,6 +7,7 @@
 #include "State_Move.h"
 #include "State_Action.h"
 #include "State_Clear.h"
+#include "State_Stop.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -32,7 +33,17 @@ HRESULT CPlayer::Change_State(PLAYERSTATE eNewState)
 
 	if (m_pCurrentState)
 	{
-		m_pCurrentState->Exit(this);
+		if (eNewState == PLAYERSTATE::STOP)
+		{
+			m_pPrevState = m_pCurrentState;
+			m_iStopAnimCount = ComputeStopAnimCount(m_eCurrentState);
+			m_ePrevState = m_pCurrentState->GetTextureKey();
+			Safe_AddRef(m_pPrevState);
+		}
+		else
+		{
+			m_pCurrentState->Exit(this);
+		}
 		Safe_Release(m_pCurrentState);
 	}
 
@@ -45,6 +56,30 @@ HRESULT CPlayer::Change_State(PLAYERSTATE eNewState)
 
 	m_pCurrentState->Enter(this);
 	Safe_AddRef(m_pCurrentState);
+
+	return S_OK;
+}
+
+HRESULT CPlayer::Return_PrevState()
+{
+	if (m_pPrevState == nullptr)
+		return E_FAIL;
+
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->Exit(this);
+		Safe_Release(m_pCurrentState);
+	}
+
+	m_pCurrentState = m_pPrevState;
+	m_eCurrentState = m_pPrevState->GetTextureKey();
+
+	Safe_Release(m_pPrevState);
+
+	Safe_AddRef(m_pCurrentState);
+	
+	if (m_pPrevState)
+		m_pPrevState = nullptr;
 
 	return S_OK;
 }
@@ -74,12 +109,6 @@ void CPlayer::Change_TextureDir(TEXTUREDIRECTION eTextureDirection)
 	m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
 }
 
-_bool CPlayer::MoveToPotal(const _float3& vTarget, const _float3& vAxis, _float fTimeDelta)
-{
-	
-	return false;
-}
-
 CPlayerState* CPlayer::Find_State(PLAYERSTATE eKeyState)
 {
 	auto iter = m_States.find(eKeyState);
@@ -107,8 +136,12 @@ HRESULT CPlayer::Add_State(PLAYERSTATE eKeyState, void* pArg)
 	case PLAYERSTATE::ACTION:
 		pInstance = CState_Action::Create(pArg);
 		break;
+	case PLAYERSTATE::STOP:
+		pInstance = CState_Stop::Create(pArg);
+		break;
 	case PLAYERSTATE::CLEAR:
 		pInstance = CState_Clear::Create(pArg);
+		break;
 	}
 
 	m_States.emplace(eKeyState, pInstance);
@@ -128,6 +161,23 @@ void CPlayer::ComputeTextureDirection(_uint iInputData)
 		Change_TextureDir(TEXTUREDIRECTION::RIGHT);
 
 }
+_uint CPlayer::ComputeStopAnimCount(PLAYERSTATE eCurrentState)
+{
+	if (ENUM_CLASS(eCurrentState) >= ENUM_CLASS(PLAYERSTATE::STOP))
+		return 0;
+
+	_uint iStateCount = ENUM_CLASS(eCurrentState);
+	_uint iTotal = 0;
+
+	while (iStateCount > 0)
+	{
+		iTotal += m_tStateInitDesc[--iStateCount].iMaxAnimCount;
+	}
+
+	iTotal += m_iCurrentAnimCount;
+
+	return iTotal;
+}
 void CPlayer::Free()
 {
 	__super::Free();
@@ -145,5 +195,6 @@ void CPlayer::Free()
 	m_States.clear();
 
 	Safe_Release(m_pCurrentState);
+	Safe_Release(m_pPrevState);
 
 }
