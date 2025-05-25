@@ -17,7 +17,7 @@ public:
 	virtual void Update(CPlayer* pPlayer, _float fTimeDelta) override;
 	virtual void Exit(CPlayer* pPlayer) override;
 	
-protected:
+private:
 	virtual void UpdateAnim(_float fTimeDelta) override;
 
 public:

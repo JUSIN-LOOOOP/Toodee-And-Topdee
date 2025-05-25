@@ -8,13 +8,14 @@ private:
 	virtual ~CState_Stop() = default;
 
 public:
-	HRESULT Initialize(void* pArg) override;
-	void Enter(CPlayer* pPlayer) override;
-	void HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta) override;
-	void Update(CPlayer* pPlayer, _float fTimeDelta) override;
-	void Exit(CPlayer* pPlayer) override;
-	void UpdateAnim(_float fTimeDelta) override;
-
+	virtual HRESULT Initialize(void* pArg) override;
+	virtual void Enter(CPlayer* pPlayer) override;
+	virtual void HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta) override;
+	virtual void Update(CPlayer* pPlayer, _float fTimeDelta) override;
+	virtual void Exit(CPlayer* pPlayer) override;
+	
+private:
+	virtual void UpdateAnim(_float fTimeDelta) override;
 
 public:
 	static CState_Stop* Create(void* pArg);
