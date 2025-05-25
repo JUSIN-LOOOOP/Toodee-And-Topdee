@@ -31,9 +31,6 @@ private:
 	/* Action 상자 들기 */
 	_bool		m_bIsAttach = { false };
 	
-	//Test
-	_bool m_bInput = {};
-	
 private:
 	_uint KeyInput();
 	void Change_MoveDir(_uint iInputData);
