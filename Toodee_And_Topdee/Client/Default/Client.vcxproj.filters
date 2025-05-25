@@ -43,6 +43,9 @@
     <Filter Include="02. GameObject\Player\Player_Topdee">
       <UniqueIdentifier>{c750e078-5eff-43ca-a90f-4ff498e72c87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Camera\MultiViewCamera">
+      <UniqueIdentifier>{c8379611-c60e-4a07-a971-30d6c5ae69b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -90,6 +93,9 @@
     <ClInclude Include="..\public\Player_Topdee.h">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MultiViewCamera.h">
+      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -124,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Player_Topdee.cpp">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MultiViewCamera.cpp">
+      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
