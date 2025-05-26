@@ -49,6 +49,12 @@ public:
 	_float			Get_TimeDelta(const _wstring& strTimerTag);
 	HRESULT			Add_Timer(const _wstring& strTimerTag);
 	void			Compute_TimeDelta(const _wstring& strTimerTag);
+	void			Change_Dimension(DIMENSION eDimension) {
+		m_eCurrentDimension = eDimension;
+	}
+	DIMENSION		Get_CurrentDimension() {
+		return m_eCurrentDimension;
+	}
 
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -59,7 +65,7 @@ private:
 	class CKey_Manager*			m_pKey_Manager = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
 
-
+	DIMENSION					m_eCurrentDimension = {};
 
 public:
 	void Release_Engine();

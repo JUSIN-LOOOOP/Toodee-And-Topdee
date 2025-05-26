@@ -45,6 +45,8 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pTimer_Manager)
 		return E_FAIL;
 
+	m_eCurrentDimension = DIMENSION::TOODEE;
+
     return S_OK;
 }
 
