@@ -23,14 +23,22 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+
+	//State 호출 함수
+	virtual HRESULT Return_PrevState() override;
 	virtual void Move(_float fTimeDelta) override;
 	virtual void Action() override;
+	virtual void Stop() override;
 
 private:
+	// Texture Index 계산용 방향 보관
 	MOVEDIRECTION m_eCurrentMoveDir = {};
-	/* Action 상자 들기 */
+	// Stop 해제시 돌려줄 방향 보관
+	MOVEDIRECTION m_ePrevMoveDir = {};
+	// Stop 시작시 아래 방향 보게하려는 트리거
+	_bool		m_bIsTurnDown = { false };
+	// Action 상자 들기
 	_bool		m_bIsAttach = { false };
-	
 private:
 	_uint KeyInput();
 	void Change_MoveDir(_uint iInputData);
@@ -40,6 +48,8 @@ private:
 	HRESULT Ready_States();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
+
+	void TurnDownOnStop();
 	
 public:
 	static CPlayer_Topdee* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

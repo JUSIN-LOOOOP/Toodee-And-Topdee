@@ -13,7 +13,7 @@ HRESULT CState_Action::Initialize(void* pArg)
     m_eState = pDesc->eState;
 
     m_iMaxAnimCount = pDesc->iMaxAnimCount;
-    m_fAnimDelay = 0.05f;
+    m_fAnimDelay = 0.02f;
 
     return S_OK;
 }
@@ -26,8 +26,6 @@ void CState_Action::Enter(CPlayer* pPlayer)
 
 void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta)
 {
-    
-
     if(iInputData & ENUM_CLASS(KEYINPUT::KEY_Z))
     {
         pPlayer->Action();
@@ -35,43 +33,55 @@ void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTime
 
     if (iInputData & ENUM_CLASS(KEYINPUT::KEY_X))
     {
-    //     pPlayer->Change_State(PLAYERSTATE::STOP);
+        pPlayer->Stop();
     }
 
     if ((iInputData & ENUM_CLASS(KEYINPUT::KEY_MOVES)) != 0)
     {
-        pPlayer->Move(fTimeDelta);
+        if(pPlayer->CanMoveInAction())
+            pPlayer->Move(fTimeDelta);
 
         if (!pPlayer->InAction())
-            pPlayer->Change_State(PLAYERSTATE::MOVE);
+            if (FAILED(pPlayer->Change_State(PLAYERSTATE::MOVE)))
+                MSG_BOX(TEXT("Failed Change State : MOVE"));
     }
 
     if (iInputData == 0)
     {
         if (!pPlayer->InAction())
-            pPlayer->Change_State(PLAYERSTATE::IDLE);
+            if (FAILED(pPlayer->Change_State(PLAYERSTATE::IDLE)))
+                MSG_BOX(TEXT("Failed Change State : IDLE"));
     }
 
 }
 
 void CState_Action::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
-    UpdateAnim(fTimeDelta);
-
     if (pPlayer->CanClear())
     {
         pPlayer->Clear();
-        pPlayer->Change_State(PLAYERSTATE::CLEAR);
+        
+        if(FAILED(pPlayer->Change_State(PLAYERSTATE::CLEAR)))
+            MSG_BOX(TEXT("Failed Change State : CLEAR"));
+
         return;
     }
 
+    if (pPlayer->CanActive() == false)
+    {
+        if (FAILED(pPlayer->Change_State(PLAYERSTATE::STOP)))
+            MSG_BOX(TEXT("Failed Change State : STOP"));
+    }
 }
 
 void CState_Action::UpdateAnim(_float fTimeDelta)
 {
+    if (m_iCurrentAnimCount >= m_iMaxAnimCount - 1)
+        return;
+
     if (m_fAnimTime + fTimeDelta > m_fAnimDelay)
     {
-        m_iCurrentAnimCount = (m_iCurrentAnimCount + 1) % m_iMaxAnimCount;
+        m_iCurrentAnimCount++;
         m_fAnimTime = 0.f;
     }
     else

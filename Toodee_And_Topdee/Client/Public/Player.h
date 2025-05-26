@@ -35,24 +35,30 @@ public:
 
 public:
 	//State
-	virtual HRESULT Change_State(PLAYERSTATE eNewState);
-
-	virtual void Move(_float fTimeDelta) PURE;
-	virtual void Action() PURE;
+	HRESULT Change_State(PLAYERSTATE eNewState);	//Stop을 제외한 State 변경시 호출
+	virtual HRESULT Return_PrevState() PURE;		//Stop State 해제시 호출
+	virtual void Move(_float fTimeDelta) PURE;		//움직임
+	virtual void Action() PURE;						//Action 트리거
+	virtual void Stop() PURE;						//GameInstance Change Dimension 호출
 	void Clear();
 
-	_bool CanMoveInAction() const { return m_bMoveInAction; }
-	_bool InAction() const { return m_bInAction; }
-	_bool CanClear() const { return m_bCanClear; }
-	_bool MoveToPotal(const _float3& vTarget, const _float3& vAxis, _float fTimeDelta);
-
-
+	_bool CanMoveInAction() const { return m_bMoveInAction; }	
+	_bool InAction() const { return m_bInAction; }				
+	_bool CanClear() const { return m_bCanClear; }				
+	_bool CanActive() const { return m_bCanActive; }			
+	
 protected:
 	void Change_TextureDir(TEXTUREDIRECTION eTextureDirection);
+
 	CPlayerState* Find_State(PLAYERSTATE eKeyState);
 	HRESULT Add_State(PLAYERSTATE eKeyState, void* pArg);
+
 	//TextureDirection
 	void ComputeTextureDirection(_uint iInputData);
+	_uint ComputeStopAnimCount(PLAYERSTATE eCurrentState);
+
+	//Toodee Topdee Check
+	void Check_Dimension();
 
 protected:
 	CTransform*						m_pTransformCom = { nullptr };
@@ -61,12 +67,24 @@ protected:
 	
 	//Player 상태
 	PLAYERSTATE_DESC				m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END)];
+	
 	//CPlayerStates 보관 맵
 	map<PLAYERSTATE, CPlayerState*> m_States;
+	
 	//현재 CPlayerState 포인터
 	CPlayerState*					m_pCurrentState = { nullptr };
+	
 	//현재 State enum class
 	PLAYERSTATE						m_eCurrentState = {};
+
+	//Stop State용
+	CPlayerState*					m_pPrevState = { nullptr };
+	PLAYERSTATE						m_ePrevState = {};
+	_uint							m_iStopAnimCount = {};
+
+	
+	DIMENSION						m_eActivateDimension = {};  // DIMENSION enum class 선언 후 _bool 대신 enum class 쓰는게?? TOODEE, TOPDEE 2가지
+	_bool							m_bCanActive = {};
 
 	//액션 중 움직임 가능여부
 	_bool							m_bMoveInAction = {};

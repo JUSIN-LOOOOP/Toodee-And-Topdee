@@ -15,8 +15,6 @@ public:
 	virtual void HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta) override;
 	virtual void Update(CPlayer* pPlayer, _float fTimeDelta) override;
 	virtual void Exit(CPlayer* pPlayer) override;
-
-private:
 	virtual void UpdateAnim(_float fTimeDelta) override;
 
 public:

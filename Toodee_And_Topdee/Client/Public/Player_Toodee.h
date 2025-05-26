@@ -21,27 +21,29 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	virtual void Move(_float fTimeDelta) override;
-	virtual void Action() override;
+	//State 호출 함수
+	virtual HRESULT Return_PrevState() override;	
+	virtual void Move(_float fTimeDelta) override;	
+	virtual void Action() override;					
+	virtual void Stop() override;					
 
 private:
-	//Action 점프
+	//Action 점프 변수
 	JUMPSTATE	m_eJumpState = {};
 	_float		m_fCurrentJumpPower = {};
 	_float		m_fMaxJumpPower = {};
 	_float		m_fGravityPower = {};
-	_float		m_fHangTime= {};
-	_float		m_fHangDelay = {};
+
 
 private:
-	_uint KeyInput();
+	_uint KeyInput();	// 키 입력 저장
 
 	HRESULT Ready_Components();
 	HRESULT Ready_States();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
-	void Action_Jump(_float fTimeDelta);
+	void Action_Jump(_float fTimeDelta);	//CurrentState == Action State 일때 실행
 public:
 	static CPlayer_Toodee* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

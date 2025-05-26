@@ -20,16 +20,16 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
 {
     m_fMaxJumpPower = 15.f; //임시
 
-    m_fHangDelay = 0.05f;
+    m_fPotalDistance = -5.f;    //임시
 
-    m_fPotalDistance = -5.f;
+    m_bMoveInAction = true;     //Action 중 움직일수 있는가
 
-    m_bMoveInAction = true;
+    m_eActivateDimension = DIMENSION::TOODEE;
 
     m_eCurrentTextureDir = TEXTUREDIRECTION::RIGHT;
 
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::IDLE)].eState = PLAYERSTATE::IDLE;
-    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::IDLE)].iMaxAnimCount = 13;
+    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::IDLE)].iMaxAnimCount = 21;
 
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::MOVE)].eState = PLAYERSTATE::MOVE;
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::MOVE)].iMaxAnimCount = 12;
@@ -38,7 +38,7 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::ACTION)].iMaxAnimCount = 5;
 
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].eState = PLAYERSTATE::STOP;
-    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].iMaxAnimCount = 0;
+    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].iMaxAnimCount = 46;
 
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::CLEAR)].eState = PLAYERSTATE::CLEAR;
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::CLEAR)].iMaxAnimCount = 17;
@@ -57,40 +57,40 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (FAILED(Ready_States()))
         return E_FAIL;
 
-
     //Test true = 클리어모션 false = 플레이모션
     m_bCanClear = false;
     m_vPotalPosition = { 0.f, 0.f, 0.f };
 
     m_pTransformCom->Scaling(5.f, 5.f, 0.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+    
     return S_OK;
 }
 
 void CPlayer_Toodee::Priority_Update(_float fTimeDelta)
-{     //Test
-    //if(!m_bClear)
-    //{
-    //    _float3 vTarget = { 0.f, 0.f, 0.f };
-    //   __super::MoveToPotal(vTarget, _float3(0.f, 1.f, 0.f), fTimeDelta);
-    //}
+{     
+    Check_Dimension();
 }
 
 void CPlayer_Toodee::Update(_float fTimeDelta)
 {
     if(!m_bCanClear)
     {
-        _uint iInputData = KeyInput();
+        if(m_eCurrentState != PLAYERSTATE::STOP)
+        {
+            _uint iInputData = KeyInput();
 
-        ComputeTextureDirection(iInputData);
-        m_pCurrentState->HandleInput(this, iInputData, fTimeDelta);
+            m_pCurrentState->HandleInput(this, iInputData, fTimeDelta);
+
+            ComputeTextureDirection(iInputData);
+
+            if (m_bInAction)
+            {
+                Action_Jump(fTimeDelta);
+            }
+        }
 
         m_pCurrentState->Update(this, fTimeDelta);
-
-        if (m_bInAction)
-        {
-            Action_Jump(fTimeDelta);
-        }
     }
     else
     {
@@ -118,20 +118,27 @@ void CPlayer_Toodee::Late_Update(_float fTimeDelta)
 {
     /* 애니메이션 카운트 딜레이 */
 
-
-    if (m_eCurrentState == PLAYERSTATE::ACTION)
-        m_iCurrentAnimCount = ENUM_CLASS(m_eJumpState);
+    if (m_eCurrentState == PLAYERSTATE::STOP)
+        m_iCurrentAnimCount = m_pPrevState->GetAnimCount();
     else
         m_iCurrentAnimCount = m_pCurrentState->GetAnimCount();
     
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+    if (m_eCurrentState == PLAYERSTATE::STOP)
+        m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+    else
+        m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
 
 HRESULT CPlayer_Toodee::Render()
 {
     m_pTransformCom->Bind_Matrix();
-
-    m_pTextureComs[ENUM_CLASS(m_eCurrentState)]->Bind_Texture(m_iCurrentAnimCount);
+    
+    if (m_eCurrentState == PLAYERSTATE::STOP)
+    {
+        m_pTextureComs[ENUM_CLASS(m_eCurrentState)]->Bind_Texture(m_iStopAnimCount);    //Stop OutLine Texxture
+    }
+    else
+        m_pTextureComs[ENUM_CLASS(m_eCurrentState)]->Bind_Texture(m_iCurrentAnimCount);
     
     m_pVIBufferCom->Bind_Buffers();
 
@@ -139,7 +146,39 @@ HRESULT CPlayer_Toodee::Render()
 
     m_pVIBufferCom->Render();
 
+    if (m_eCurrentState == PLAYERSTATE::STOP)
+    {
+        m_pTextureComs[ENUM_CLASS(m_ePrevState)]->Bind_Texture(m_iCurrentAnimCount); //Stop Player Texture
+    
+        m_pVIBufferCom->Render();
+    
+    }
+
     End_RenderState();
+
+    return S_OK;
+}
+
+HRESULT CPlayer_Toodee::Return_PrevState()
+{
+    if (m_pPrevState == nullptr)
+        return E_FAIL;
+
+    if (m_pCurrentState)
+    {
+        m_pCurrentState->Exit(this);
+        Safe_Release(m_pCurrentState);
+    }
+
+    m_pCurrentState = m_pPrevState;
+    m_eCurrentState = m_pPrevState->GetTextureKey();
+
+    Safe_Release(m_pPrevState);
+
+    Safe_AddRef(m_pCurrentState);
+
+    if (m_pPrevState)
+        m_pPrevState = nullptr;
 
     return S_OK;
 }
@@ -151,23 +190,28 @@ void CPlayer_Toodee::Move(_float fTimeDelta)
 
 void CPlayer_Toodee::Action()
 {
-    if (m_bInAction)
+    if (m_bInAction) // 점프 중 이라면 점프 파워 상승
     {
         if (m_fCurrentJumpPower + 2.f < m_fMaxJumpPower && m_eJumpState == JUMPSTATE::JUMPING)
             m_fCurrentJumpPower += 2.f;
 
         return;
     }
-    else
+    else    // 첫 점프
     {
+        //Action 트리거 On
         m_bInAction = true;
         m_eJumpState = JUMPSTATE::JUMPING;
         //점프 최소 높이
         m_fCurrentJumpPower = 5.f;
         //초기화
         m_fGravityPower = 0.f;
-        m_fHangTime = 0.f;
     }
+}
+
+void CPlayer_Toodee::Stop()
+{
+    m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 }
 
 
@@ -184,7 +228,7 @@ _uint CPlayer_Toodee::KeyInput()
     if (m_pGameInstance->Key_Pressing('Z'))
         iInputData |= ENUM_CLASS(KEYINPUT::KEY_Z);
 
-    if (m_pGameInstance->Key_Pressing('X'))
+    if (m_pGameInstance->Key_Down('X'))
         iInputData |= ENUM_CLASS(KEYINPUT::KEY_X);
 
     return iInputData;
@@ -194,10 +238,9 @@ _uint CPlayer_Toodee::KeyInput()
 HRESULT CPlayer_Toodee::Ready_Components()
 {
     /* For.Com_VIBuffer*/
-    if(FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
-
 
     /* For.Com_Transform*/
     CTransform::TRANSFORM_DESC		TransformDesc{};
@@ -218,6 +261,10 @@ HRESULT CPlayer_Toodee::Ready_Components()
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Action"),
         TEXT("Com_Action_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::ACTION)]))))
+        return E_FAIL;
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Stop"),
+        TEXT("Com_Stop_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::STOP)]))))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Clear"),
@@ -253,10 +300,20 @@ HRESULT CPlayer_Toodee::Begin_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
+    if (m_eCurrentState == PLAYERSTATE::STOP)
+    {
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+        m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+        m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+        m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+    }
+    else
+    {
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+    }
 
     return S_OK;
 }
@@ -264,7 +321,11 @@ HRESULT CPlayer_Toodee::Begin_RenderState()
 HRESULT CPlayer_Toodee::End_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+    if (m_eCurrentState == PLAYERSTATE::STOP)
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    else
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
     return S_OK;
 }
@@ -286,20 +347,8 @@ void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
     //최고점에서 잠깐 머무르기
     if (m_fCurrentJumpPower * fTimeDelta <= 0.f && m_eJumpState != JUMPSTATE::FALLING)
     {
-        if (m_eJumpState == JUMPSTATE::JUMPING)
-            m_eJumpState = JUMPSTATE::HANGSTART;
-        else if (m_eJumpState == JUMPSTATE::HANGEND)
-            m_eJumpState = JUMPSTATE::FALLING;
-        else
-        {
-            if (m_fHangTime + fTimeDelta > m_fHangDelay)
-            {   
-                m_eJumpState = static_cast<JUMPSTATE>(ENUM_CLASS(m_eJumpState) + 1);
-                m_fHangTime = 0.f;
-            }
-            else
-                m_fHangTime += fTimeDelta;
-        }
+        m_pCurrentState->UpdateAnim(fTimeDelta);
+        m_eJumpState = static_cast<JUMPSTATE>(m_pCurrentState->GetAnimCount());
     }
 
     //점프 높이 적용
