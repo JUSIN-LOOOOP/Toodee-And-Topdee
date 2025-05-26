@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "Tile.h"
 
-BEGIN(Engine)
+BEGIN(Client)
 
 class CBasicTile : public CTile
 {

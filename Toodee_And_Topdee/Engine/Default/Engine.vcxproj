@@ -158,6 +158,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\private\GameObject.cpp" />
     <ClCompile Include="..\private\Key_Manager.cpp" />
+    <ClCompile Include="..\Private\Map_Manager.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />
     <ClCompile Include="..\private\Graphic_Device.cpp" />
     <ClCompile Include="..\private\Layer.cpp" />
@@ -188,6 +189,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\public\GameInstance.h" />
     <ClInclude Include="..\public\GameObject.h" />
     <ClInclude Include="..\public\Key_Manager.h" />
+    <ClInclude Include="..\Public\Map_Manager.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
     <ClInclude Include="..\public\Graphic_Device.h" />
     <ClInclude Include="..\public\Layer.h" />

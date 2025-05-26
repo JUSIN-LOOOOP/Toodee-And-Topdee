@@ -376,3 +376,5 @@ Toodee_And_Topdee/Engine/Default/x64/Debug/vc143.idb
 Toodee_And_Topdee/Engine/Default/x64/Debug/vc143.pdb
 Toodee_And_Topdee/Client/Bin/Client.exe
 Toodee_And_Topdee/Client/Bin/Client.pdb
+*.dll
+Toodee_And_Topdee/Engine/Bin
