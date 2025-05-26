@@ -24,7 +24,11 @@ HRESULT CPig::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	// m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+
 	m_pTransformCom->Set_State(STATE::POSITION, _float3(5.f, 5.f, 5.f));
+
+	
 
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
@@ -44,29 +48,29 @@ void CPig::Update(_float fTimeDelta)
 	if (GetKeyState('T') < 0)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
-		m_fTheta = 0;
-		m_fPhi = 15;
+		m_fTheta = 10;
+		m_fPhi = 0;
 	}
 
 	else if (GetKeyState('G') < 0)
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);
-		m_fTheta = 0;
-		m_fPhi = 15;
+		m_fTheta = -10;
+		m_fPhi = 0;
 	}
 
 	else if (GetKeyState('F') < 0)
 	{
 		m_pTransformCom->Go_Left(fTimeDelta);
-		m_fTheta = 15;
-		m_fPhi = 0;
+		m_fTheta = 0;
+		m_fPhi = -10;
 	}
 
 	else if (GetKeyState('H') < 0)
 	{
 		m_pTransformCom->Go_Right(fTimeDelta);
-		m_fTheta = 15;
-		m_fPhi = 0;
+		m_fTheta = 0;
+		m_fPhi = 10;
 	}
 	else
 	{
@@ -90,6 +94,8 @@ void CPig::Late_Update(_float fTimeDelta)
 
 HRESULT CPig::Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+
 	m_pTransformCom->Bind_Matrix();
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -99,16 +105,9 @@ HRESULT CPig::Render()
 
 	m_pVIBufferCom->Render();
 
-	//for (auto iter = m_vParts.begin() ; iter != m_vParts.end();)
-	//{
-	//	if (nullptr != iter.)
-	//		iter.second->Render();
-	//}
-	for (auto& Pair : m_vParts)
-	{
-		if (nullptr != Pair.second)
-			Pair.second->Render();
-	}
+	Render_Parts();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	return S_OK;
 }
@@ -142,22 +141,72 @@ HRESULT CPig::Ready_Parts()
 
 	CComponent* pComponent = { nullptr };
 
-	CPart_Eyes::EYEPART_DESC EyepartDesc = {};
-	EyepartDesc.eState = PARTSTATE::PS_RIGHT;
-	EyepartDesc.pParentTransform = m_pTransformCom;
-	EyepartDesc.pParentObject = this;
-	EyepartDesc.m_fTheta = D3DXToRadian(45.f);
-	EyepartDesc.m_fPhi = D3DXToRadian(-45.f);
-	EyepartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig");
-	EyepartDesc.iTexLevelIndex = ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY);
+	CPart_Eyes::PART_DESC PartDesc = {};
+	PartDesc.iTexLevelIndex = ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY);
+	PartDesc.eState = PARTSTATE::PS_LEFT;
+	PartDesc.fTheta = -60.f;
+	PartDesc.fPhi = 60.f;
+	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig");
+	PartDesc.iTextureIndex = 2;
+	
+
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Eyes"),
-		TEXT("Com_PartCom"), reinterpret_cast<CComponent**>(&pComponent), &EyepartDesc)))
+		TEXT("Com_PartLeftEye"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
+		return E_FAIL;
+
+	m_vParts.emplace(TEXT("Left_Eye"), static_cast<CParts*>(pComponent));
+
+	PartDesc.eState = PARTSTATE::PS_RIGHT;
+	PartDesc.iTextureIndex = 3;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Eyes"),
+		TEXT("Com_PartRightEye"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
 
 	m_vParts.emplace(TEXT("Right_Eye"), static_cast<CParts*>(pComponent));
 
 
+	PartDesc.eState = PARTSTATE::PS_FRONT;
+	PartDesc.fTheta = -90.f;
+	PartDesc.fPhi = 90.f;
+	PartDesc.iTextureIndex = 4;
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Nose"),
+		TEXT("Com_PartNose"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
+		return E_FAIL;
+
+	m_vParts.emplace(TEXT("Nose"), static_cast<CParts*>(pComponent));
+	
+
+	PartDesc.eState = PARTSTATE::PS_BACK;
+	PartDesc.fTheta = 90.f;
+	PartDesc.iTextureIndex = 5;
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Tail"),
+		TEXT("Com_PartTail"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
+		return E_FAIL;
+
+	m_vParts.emplace(TEXT("Tail"), static_cast<CParts*>(pComponent));
+
+
+
+
+
+	
+
+
 	return S_OK;
+}
+
+void CPig::Render_Parts()
+{
+	
+	// m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	for (auto& Pair : m_vParts)
+	{
+		if (nullptr != Pair.second)
+			Pair.second->Render();
+	}
+	// 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
 }
 
 CPig* CPig::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

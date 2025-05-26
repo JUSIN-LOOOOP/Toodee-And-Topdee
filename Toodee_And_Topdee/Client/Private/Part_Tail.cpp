@@ -1,27 +1,25 @@
-#include "Part_Eyes.h"
+#include "Part_Tail.h"
 #include "GameInstance.h"
 #include "GameObject.h"
-#include "Pig.h"
 
-CPart_Eyes::CPart_Eyes(LPDIRECT3DDEVICE9 pGraphic_Device)
+CPart_Tail::CPart_Tail(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CParts {pGraphic_Device}
 {
 }
 
-CPart_Eyes::CPart_Eyes(const CPart_Eyes& Prototype)
-	: CParts {Prototype}
-	, m_iTextureIndex{ Prototype.m_iTextureIndex }
+CPart_Tail::CPart_Tail(const CPart_Tail& Prototype)
+	: CParts{ Prototype }
 {
 }
 
 
-HRESULT CPart_Eyes::Initialize_Prototype()
+HRESULT CPart_Tail::Initialize_Prototype()
 {
-	
+
 	return S_OK;
 }
 
-HRESULT CPart_Eyes::Initialize(void* pArg)
+HRESULT CPart_Tail::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
 		return E_FAIL;
@@ -31,31 +29,32 @@ HRESULT CPart_Eyes::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
-	m_pTransformCom->Scaling(0.5f, 0.5f, 0.5f);
 	
+	
+	m_pTransformCom->Scaling(0.7f, 0.7f, 0.7f);
+
 
 	return S_OK;
 }
 
 
-void CPart_Eyes::Update(CTransform* pTransform, _float fTheta, _float fPhi)
+void CPart_Tail::Update(CTransform* pTransform, _float fTheta, _float fPhi)
 {
-	if( 90.f >= m_fHeight + fTheta &&  0 < m_fHeight + fTheta)
+	if (180.f >= m_fHeight + fTheta && 0 < m_fHeight + fTheta)
 		m_fHeight += fTheta;
-	
+
 	if (90.f >= m_fWidth + fPhi && -90.f <= m_fWidth + fPhi)
 		m_fWidth += fPhi;
 
 
 	__super::RevolveAround(pTransform, m_fWidth, m_fHeight);
-		
+
 }
 
-HRESULT CPart_Eyes::Render()
+HRESULT CPart_Tail::Render()
 {
 	m_pTransformCom->Bind_Matrix();
-	
+
 
 	if (FAILED(m_pTextureCom->Bind_Texture(m_iTextureIndex)))
 		return E_FAIL;
@@ -67,13 +66,13 @@ HRESULT CPart_Eyes::Render()
 	return S_OK;
 }
 
-CPart_Eyes* CPart_Eyes::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CPart_Tail* CPart_Tail::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CPart_Eyes* pInstance = new CPart_Eyes(pGraphic_Device);
+	CPart_Tail* pInstance = new CPart_Tail(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed To Created : Part_Eyes"));
+		MSG_BOX(TEXT("Failed To Created : CPart_Tail"));
 		Safe_Release(pInstance);
 
 	}
@@ -81,12 +80,12 @@ CPart_Eyes* CPart_Eyes::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CComponent* CPart_Eyes::Clone(void* pArg)
+CComponent* CPart_Tail::Clone(void* pArg)
 {
-	CPart_Eyes* pInstance = new CPart_Eyes(*this);
+	CPart_Tail* pInstance = new CPart_Tail(*this);
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed To Cloned : Part_Eyes"));
+		MSG_BOX(TEXT("Failed To Cloned : CPart_Tail"));
 		Safe_Release(pInstance);
 
 	}
@@ -94,7 +93,7 @@ CComponent* CPart_Eyes::Clone(void* pArg)
 	return pInstance;
 }
 
-void CPart_Eyes::Free()
+void CPart_Tail::Free()
 {
 	__super::Free();
 

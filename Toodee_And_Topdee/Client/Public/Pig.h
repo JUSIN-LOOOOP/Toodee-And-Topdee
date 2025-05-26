@@ -38,9 +38,10 @@ private:
 	_float m_fPhi{};
 
 
-public:
+private:
 	HRESULT Ready_Components();
 	HRESULT Ready_Parts();
+	void Render_Parts();
 
 public:
 	static CPig* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

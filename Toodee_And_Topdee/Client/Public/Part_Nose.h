@@ -11,12 +11,12 @@ END
 
 BEGIN(Client)
 
-class CPart_Eyes final : public Engine::CParts
+class CPart_Nose final : public Engine::CParts
 {
 private:
-	CPart_Eyes(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CPart_Eyes(const CPart_Eyes& Prototype);
-	virtual ~CPart_Eyes() = default;
+	CPart_Nose(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CPart_Nose(const CPart_Nose& Prototype);
+	virtual ~CPart_Nose() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -28,9 +28,9 @@ private:
 	_int   m_iTextureIndex = {};
 	_float m_fWidth = {};
 	_float m_fHeight = {};
-	
+
 public:
-	static CPart_Eyes* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CPart_Nose* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
 };

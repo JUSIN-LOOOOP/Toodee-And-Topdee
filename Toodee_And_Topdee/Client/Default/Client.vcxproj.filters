@@ -55,6 +55,12 @@
     <Filter Include="02. GameObject\Parts\Eyes">
       <UniqueIdentifier>{5eb927c0-c101-4c3b-af45-4bb47f510d8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Parts\Tail">
+      <UniqueIdentifier>{9b5c349c-b93f-4781-8274-5a79bcadf924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Parts\Nose">
+      <UniqueIdentifier>{a109757f-d862-4644-9029-ea699b0b44a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -108,6 +114,12 @@
     <ClInclude Include="..\Public\Pig.h">
       <Filter>02. GameObject\Moster\Pig</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Part_Nose.h">
+      <Filter>02. GameObject\Parts\Nose</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Tail.h">
+      <Filter>02. GameObject\Parts\Tail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -148,6 +160,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Pig.cpp">
       <Filter>02. GameObject\Moster\Pig</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Nose.cpp">
+      <Filter>02. GameObject\Parts\Nose</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Tail.cpp">
+      <Filter>02. GameObject\Parts\Tail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
