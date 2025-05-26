@@ -32,7 +32,7 @@ HRESULT CPlayer_Topdee::Initialize_Prototype()
 	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::ACTION)].iMaxAnimCount = 1;
 
 	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].eState = PLAYERSTATE::STOP;
-	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].iMaxAnimCount = 1;
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].iMaxAnimCount = 5;
 
 	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::CLEAR)].eState = PLAYERSTATE::CLEAR;
 	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::CLEAR)].iMaxAnimCount = 17;
@@ -54,9 +54,11 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 		return E_FAIL;
 	
 	m_bCanClear = false;
+	m_fTurnDownTime = 0.f;
+	m_fTurnDownDelay = 0.04f;
 	m_vPotalPosition = { 0.f, 0.f, 0.f };
 
-	m_pTransformCom->Scaling(5.f, 5.f, 0.f); 
+	m_pTransformCom->Scaling(16.f, 16.f, 0.f); 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	
 	return S_OK;
@@ -88,7 +90,7 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 		else
 		{
 			if (!m_bIsTurnDown)
-				TurnDownOnStop();
+				TurnDownOnStop(fTimeDelta);
 		}
 		m_pCurrentState->Update(this, fTimeDelta);
 
@@ -132,23 +134,15 @@ HRESULT CPlayer_Topdee::Render()
 	m_pTransformCom->Bind_Matrix();
 
 	if (m_eCurrentState == PLAYERSTATE::STOP)
-		m_pTextureComs[ENUM_CLASS(m_eCurrentState)]->Bind_Texture(0);		//Stop OutLine Render
+		m_pTextureComs[ENUM_CLASS(m_eCurrentState)]->Bind_Texture(ENUM_CLASS(m_eCurrentMoveDir));		//Stop OutLine Render
 	else
-	m_pTextureComs[ENUM_CLASS(m_eCurrentState)]->Bind_Texture(m_iCurrentAnimCount);
+		m_pTextureComs[ENUM_CLASS(m_eCurrentState)]->Bind_Texture(m_iCurrentAnimCount);
 
 	m_pVIBufferCom->Bind_Buffers();
 
 	Begin_RenderState();
 
 	m_pVIBufferCom->Render();
-
-	if (m_eCurrentState == PLAYERSTATE::STOP)
-	{
-		m_pTextureComs[ENUM_CLASS(PLAYERSTATE::IDLE)]->Bind_Texture(ENUM_CLASS(m_eCurrentMoveDir)); //Stop Player Render
-
-		m_pVIBufferCom->Render();
-
-	}
 
 	End_RenderState();
 	return S_OK;
@@ -364,10 +358,18 @@ HRESULT CPlayer_Topdee::End_RenderState()
 	return S_OK;
 }
 
-void CPlayer_Topdee::TurnDownOnStop()
+void CPlayer_Topdee::TurnDownOnStop(_float fTimeDelta)
 {
 	if (ENUM_CLASS(m_eCurrentMoveDir) > ENUM_CLASS(MOVEDIRECTION::DOWN))
-		m_eCurrentMoveDir = static_cast<MOVEDIRECTION>(ENUM_CLASS(m_eCurrentMoveDir) - 1);
+	{
+		if (m_fTurnDownTime + fTimeDelta > m_fTurnDownDelay)
+		{
+			m_eCurrentMoveDir = static_cast<MOVEDIRECTION>(ENUM_CLASS(m_eCurrentMoveDir) - 1);
+			m_fTurnDownTime = 0.f;
+		}
+		else
+			m_fTurnDownTime += fTimeDelta;
+	}
 
 	m_bIsTurnDown = m_eCurrentMoveDir == MOVEDIRECTION::DOWN;
 }

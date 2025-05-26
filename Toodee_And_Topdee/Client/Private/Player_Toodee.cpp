@@ -61,7 +61,7 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     m_bCanClear = false;
     m_vPotalPosition = { 0.f, 0.f, 0.f };
 
-    m_pTransformCom->Scaling(5.f, 5.f, 0.f);
+    m_pTransformCom->Scaling(16.f, 16.f, 0.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     
     return S_OK;
@@ -145,14 +145,6 @@ HRESULT CPlayer_Toodee::Render()
     Begin_RenderState();
 
     m_pVIBufferCom->Render();
-
-    if (m_eCurrentState == PLAYERSTATE::STOP)
-    {
-        m_pTextureComs[ENUM_CLASS(m_ePrevState)]->Bind_Texture(m_iCurrentAnimCount); //Stop Player Texture
-    
-        m_pVIBufferCom->Render();
-    
-    }
 
     End_RenderState();
 
