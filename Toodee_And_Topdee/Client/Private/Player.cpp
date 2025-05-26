@@ -2,6 +2,11 @@
 #include "Transform.h"
 #include "Texture.h"
 #include "VIBuffer_Rect.h"
+#include "PlayerState.h"
+#include "State_Idle.h"
+#include "State_Move.h"
+#include "State_Action.h"
+#include "State_Clear.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -10,75 +15,118 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CPlayer::CPlayer(const CPlayer& Prototype)
 	: CGameObject { Prototype }
-	, m_fAnimDelay{ Prototype.m_fAnimDelay }
-	, m_ePreDir { Prototype.m_ePreDir }
-	, m_eCurrentDir { Prototype.m_eCurrentDir }
 	, m_fPotalDistance { Prototype.m_fPotalDistance }
+	, m_bMoveInAction { Prototype.m_bMoveInAction }
+	, m_eCurrentTextureDir { Prototype.m_eCurrentTextureDir }
 {
-	for (_uint i = 0; i < ENUM_CLASS(PS_DEAD); i++)
+	for (_uint i = 0; i < ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END); i++)
 	{
-		m_iMaxAnimCount[i] = Prototype.m_iMaxAnimCount[i];
+		m_tStateInitDesc[i] = Prototype.m_tStateInitDesc[i];
+	}
+}
+
+HRESULT CPlayer::Change_State(PLAYERSTATE eNewState)
+{
+	if (m_eCurrentState == eNewState)
+		return S_OK;
+
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->Exit(this);
+		Safe_Release(m_pCurrentState);
 	}
 
+	auto iterState = m_States.find(eNewState);
+	if (iterState == m_States.end())
+		return E_FAIL;
+
+	m_pCurrentState = iterState->second;
+	m_eCurrentState = eNewState;
+
+	m_pCurrentState->Enter(this);
+	Safe_AddRef(m_pCurrentState);
+
+	return S_OK;
 }
 
-void CPlayer::Change_State()
+void CPlayer::Clear()
 {
-	if (m_ePreState == m_eCurrentState)
-		return;
+	m_bCanClear = true; //Test
 
-	m_ePreState = m_eCurrentState;
-	m_iCurrentAnimCount = 0;
+	m_bMoveToPotal = false;
+
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	m_vPotalStartPosition = { m_vPotalPosition.x + m_fPotalDistance, m_vPotalPosition.y, m_vPotalPosition.z };
+
+	_float3 vSpeed = m_vPotalStartPosition - vPosition;
+
+	m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 }
 
-void CPlayer::Change_Dir()
+void CPlayer::Change_TextureDir(TEXTUREDIRECTION eTextureDirection)
 {
-	if (m_ePreDir == m_eCurrentDir)
+	if (m_eCurrentTextureDir == eTextureDirection)
 		return;
 
-	m_ePreDir = m_eCurrentDir;
+	m_eCurrentTextureDir = eTextureDirection;
 
 	m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
-
 }
 
 _bool CPlayer::MoveToPotal(const _float3& vTarget, const _float3& vAxis, _float fTimeDelta)
 {
-	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 	
-
-	if(m_eCurrentState != PS_CLEAR )
-	{
-		if (m_fClearSpeedPerSec == 0.f)
-		{
-			m_vPotalStartPosition = { vTarget.x + m_fPotalDistance, vTarget.y, vTarget.z };
-
-			_float3 vSpeed = m_vPotalStartPosition - vPosition;
-
-			m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
-
-		}
-
-		if(m_pTransformCom->Move_To(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec, 0.f))
-		{
-			m_eCurrentState = PS_CLEAR;
-			m_fClearSpeedPerSec = 0.f;
-		}
-
-	}
-	else if (m_eCurrentState == PS_CLEAR)
-	{
-		_float fDegree = 480.f;
-
-		if (m_pTransformCom->Spiral(vTarget, vAxis, fDegree, m_fPotalDistance, fTimeDelta))
-		{
-			m_bClear = true;
-			return true;
-		}
-
-	}
-
 	return false;
+}
+
+CPlayerState* CPlayer::Find_State(PLAYERSTATE eKeyState)
+{
+	auto iter = m_States.find(eKeyState);
+
+	if (iter == m_States.end())
+		return nullptr;
+
+	return iter->second;
+}
+HRESULT CPlayer::Add_State(PLAYERSTATE eKeyState, void* pArg)
+{
+	if (Find_State(eKeyState) != nullptr)
+		return E_FAIL;
+
+	CPlayerState* pInstance = nullptr;
+
+	switch (eKeyState)
+	{
+	case PLAYERSTATE::IDLE:
+		pInstance = CState_Idle::Create(pArg);
+		break;
+	case PLAYERSTATE::MOVE:
+		pInstance = CState_Move::Create(pArg);
+		break;
+	case PLAYERSTATE::ACTION:
+		pInstance = CState_Action::Create(pArg);
+		break;
+	case PLAYERSTATE::CLEAR:
+		pInstance = CState_Clear::Create(pArg);
+	}
+
+	m_States.emplace(eKeyState, pInstance);
+
+	return S_OK;
+}
+void CPlayer::ComputeTextureDirection(_uint iInputData)
+{
+	if (iInputData == 0 ||
+		(iInputData & ENUM_CLASS(KEYINPUT::KEY_LEFT) && iInputData & ENUM_CLASS(KEYINPUT::KEY_RIGHT)))
+		return;
+
+	if (iInputData & ENUM_CLASS(KEYINPUT::KEY_LEFT))
+		Change_TextureDir(TEXTUREDIRECTION::LEFT);
+
+	if (iInputData & ENUM_CLASS(KEYINPUT::KEY_RIGHT))
+		Change_TextureDir(TEXTUREDIRECTION::RIGHT);
+
 }
 void CPlayer::Free()
 {
@@ -87,8 +135,15 @@ void CPlayer::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 
-	for (_uint i = 0; i < static_cast<_uint>(PS_DEAD); i++)
+	for (_uint i = 0; i < ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END); i++)
 	{
 		Safe_Release(m_pTextureComs[i]);
 	}
+
+	for (auto& StatePair : m_States)
+		Safe_Release(StatePair.second);
+	m_States.clear();
+
+	Safe_Release(m_pCurrentState);
+
 }
