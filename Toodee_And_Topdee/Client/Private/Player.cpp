@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameInstance.h"
 #include "Transform.h"
 #include "Texture.h"
 #include "VIBuffer_Rect.h"
@@ -19,6 +20,7 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 	, m_fPotalDistance { Prototype.m_fPotalDistance }
 	, m_bMoveInAction { Prototype.m_bMoveInAction }
 	, m_eCurrentTextureDir { Prototype.m_eCurrentTextureDir }
+	, m_eActivateDimension { Prototype.m_eActivateDimension }
 {
 	for (_uint i = 0; i < ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END); i++)
 	{
@@ -60,35 +62,15 @@ HRESULT CPlayer::Change_State(PLAYERSTATE eNewState)
 	return S_OK;
 }
 
-HRESULT CPlayer::Return_PrevState()
-{
-	if (m_pPrevState == nullptr)
-		return E_FAIL;
 
-	if (m_pCurrentState)
-	{
-		m_pCurrentState->Exit(this);
-		Safe_Release(m_pCurrentState);
-	}
-
-	m_pCurrentState = m_pPrevState;
-	m_eCurrentState = m_pPrevState->GetTextureKey();
-
-	Safe_Release(m_pPrevState);
-
-	Safe_AddRef(m_pCurrentState);
-	
-	if (m_pPrevState)
-		m_pPrevState = nullptr;
-
-	return S_OK;
-}
 
 void CPlayer::Clear()
 {
 	m_bCanClear = true; //Test
 
 	m_bMoveToPotal = false;
+
+	Change_TextureDir(TEXTUREDIRECTION::RIGHT);
 
 	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
@@ -177,6 +159,13 @@ _uint CPlayer::ComputeStopAnimCount(PLAYERSTATE eCurrentState)
 	iTotal += m_iCurrentAnimCount;
 
 	return iTotal;
+}
+void CPlayer::Check_Dimension()
+{
+	if (m_eActivateDimension == m_pGameInstance->Get_CurrentDimension())
+		m_bCanActive = true;
+	else
+		m_bCanActive = false;
 }
 void CPlayer::Free()
 {

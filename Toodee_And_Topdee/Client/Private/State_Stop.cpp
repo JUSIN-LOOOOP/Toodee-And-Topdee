@@ -26,15 +26,15 @@ void CState_Stop::Enter(CPlayer* pPlayer)
 
 void CState_Stop::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta)
 {
-    if (iInputData & ENUM_CLASS(KEYINPUT::KEY_X))
-    {
-        if (FAILED(pPlayer->Return_PrevState()))
-            MSG_BOX(TEXT("Failed Return PrevState"));
-    }
 }
 
 void CState_Stop::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
+    if(pPlayer->CanActive())
+    {
+        if (FAILED(pPlayer->Return_PrevState()))
+            MSG_BOX(TEXT("Failed Return PrevState"));
+    }
 }
 
 void CState_Stop::Exit(CPlayer* pPlayer)
