@@ -76,14 +76,14 @@
     <Filter Include="00. System\00. Device\Input">
       <UniqueIdentifier>{a1b3609b-7861-441c-8e14-a4e2f6737052}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Utility\03. GameObject\Tile">
-      <UniqueIdentifier>{c7dc2b04-db06-4056-ae02-4fe5f25c8a0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Utility\05. Component\99. Util">
-      <UniqueIdentifier>{8c5ca80a-3a70-4ff5-9958-446fe65c6f64}</UniqueIdentifier>
+    <Filter Include="01. Utility\99. Util">
+      <UniqueIdentifier>{042ba3c7-4c35-48fe-a77b-e1ff10d2abc8}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Utility\06. MapManager">
-      <UniqueIdentifier>{9cfa3c78-eb1c-42bf-9fb3-a78036a78525}</UniqueIdentifier>
+      <UniqueIdentifier>{bfdb7326-3321-43c8-a612-a5d462a92d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. GameObject\Tile">
+      <UniqueIdentifier>{cd922f10-5cb5-4062-9f0f-b1d279bb817a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -165,14 +165,14 @@
     <ClInclude Include="..\public\Key_Manager.h">
       <Filter>00. System\00. Device\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Tile.h">
-      <Filter>01. Utility\03. GameObject\Tile</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Util.h">
-      <Filter>01. Utility\05. Component\99. Util</Filter>
+      <Filter>01. Utility\99. Util</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Map_Manager.h">
       <Filter>01. Utility\06. MapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Tile.h">
+      <Filter>01. Utility\03. GameObject\Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,14 +236,14 @@
     <ClCompile Include="..\private\Key_Manager.cpp">
       <Filter>00. System\00. Device\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Tile.cpp">
-      <Filter>01. Utility\03. GameObject\Tile</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Util.cpp">
-      <Filter>01. Utility\05. Component\99. Util</Filter>
+      <Filter>01. Utility\99. Util</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Map_Manager.cpp">
       <Filter>01. Utility\06. MapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Tile.cpp">
+      <Filter>01. Utility\03. GameObject\Tile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

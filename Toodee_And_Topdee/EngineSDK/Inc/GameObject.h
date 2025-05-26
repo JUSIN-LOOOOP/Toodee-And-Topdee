@@ -24,6 +24,7 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
+	virtual BLOCK_INFO Get_Block_Info();
 
 public:
 	class CComponent* Get_Component(const _wstring& strComponentTag);

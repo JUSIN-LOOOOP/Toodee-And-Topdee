@@ -7,9 +7,8 @@ class CPlayer_Topdee final : public CPlayer
 {
 private:
 	/* 순서대로 리소스 번호 찾아감 (아래, 횡, 아래 대각선, 위 대각선, 위) */
-	enum MOVE_DIRECTION { MD_DOWN, MD_TRANSVERSE, MD_DIAGONAL_DOWN, MD_DIAGONAL_UP, MD_UP };
 	/* 비트 연산용 input enum class */
-	enum INPUT_DIRECTION { NONE =0, ID_UP = 1 <<0, ID_DOWN = 1 << 1, ID_LEFT = 1 << 2, ID_RIGHT = 1 << 3};
+
 
 private:
 	CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -24,26 +23,34 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
-	/*비트연산으로 방향 결정 */
-	MOVE_DIRECTION Check_Move_Direction(_uint iInputState);
+
+	//State 호출 함수
+	virtual HRESULT Return_PrevState() override;
+	virtual void Move(_float fTimeDelta) override;
+	virtual void Action() override;
+	virtual void Stop() override;
 
 private:
-	/* 플레이어가 보는 방향 */
-	MOVE_DIRECTION m_eMoveDir = {};
-	_uint m_iInputState = {};
-	_uint m_iOldInputState = {};
-	/* Action 상자 들기 */
+	// Texture Index 계산용 방향 보관
+	MOVEDIRECTION m_eCurrentMoveDir = {};
+	// Stop 해제시 돌려줄 방향 보관
+	MOVEDIRECTION m_ePrevMoveDir = {};
+	// Stop 시작시 아래 방향 보게하려는 트리거
+	_bool		m_bIsTurnDown = { false };
+	// Action 상자 들기
 	_bool		m_bIsAttach = { false };
-	
-	//Test
-	_bool m_bInput = {};
-	
 private:
+	_uint KeyInput();
+	void Change_MoveDir(_uint iInputData);
+	MOVEDIRECTION ComputeMoveDirection(_uint iInputData);
+
 	HRESULT Ready_Components();
+	HRESULT Ready_States();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+	void TurnDownOnStop();
+	
 public:
 	static CPlayer_Topdee* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

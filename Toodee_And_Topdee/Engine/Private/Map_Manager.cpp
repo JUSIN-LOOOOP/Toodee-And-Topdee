@@ -18,7 +18,7 @@ HRESULT CMap_Manager::Initialize(_uint iNumTypes)
 
 void CMap_Manager::Update(_float fTimeDelta)
 {
-	/* ¸¶¿ì½º ¿À¸¥ÂÊ ¹öÆ°À¸·Î Å¸ÀÏ Å¸ÀÔ ¹Ù²Ù±â */
+	/* ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½Ù²Ù±ï¿½ */
 	_bool newkey = GetKeyState(VK_RBUTTON) & 0x8000;
 	if (!m_bOldKey && newkey)
 	{
@@ -28,7 +28,7 @@ void CMap_Manager::Update(_float fTimeDelta)
 	}
 	m_bOldKey = newkey;
 
-	/* S ´©¸£¸é Å¸ÀÏ ÀúÀå */
+	/* S ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 	newkey = GetKeyState('S') & 0x8000;
 	if (!m_bOldKey && newkey)
 		Save_File(TEXT("Map_File"));
@@ -46,7 +46,7 @@ HRESULT CMap_Manager::Load_File(const _wstring& filename)
 
 	BLOCK_INFO data;
 
-	/*ÀÐÀº byte¼ö°¡ 0ÀÏ ¶§ ±îÁö "BLOCK_INFO"¸¸Å­ °è¼Ó ÀÐ¾î¼­ µ¥ÀÌÅÍ¸¦ ÀúÁ¤ÇÑ´Ù.*/
+	/*ï¿½ï¿½ï¿½ï¿½ byteï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ "BLOCK_INFO"ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.*/
 	while (true)
 	{
 		is.read(reinterpret_cast<char*>(&data), sizeof(data));
@@ -71,7 +71,7 @@ HRESULT CMap_Manager::Save_File(const _wstring& filename)
 
 	BLOCK_INFO data;
 
-	/*typeÀÌ 0ÀÎ °æ¿ì¸¦ Á¦¿ÜÇÏ°í ÆÄÀÏ¿¡ Àû´Â´Ù.*/
+	/*typeï¿½ï¿½ 0ï¿½ï¿½ ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.*/
 	for (auto block : m_pTiles)
 	{
 		data = dynamic_cast<CTile*>(block)->Get_BlockInfo();

@@ -378,3 +378,4 @@ Toodee_And_Topdee/Client/Bin/Client.exe
 Toodee_And_Topdee/Client/Bin/Client.pdb
 *.dll
 Toodee_And_Topdee/Engine/Bin
+Toodee_And_Topdee/EngineSDK/Lib/Engine.lib

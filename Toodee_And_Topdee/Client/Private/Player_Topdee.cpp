@@ -1,5 +1,6 @@
 #include "Player_Topdee.h"
 #include "GameInstance.h"
+#include "PlayerState.h"
 
 CPlayer_Topdee::CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPlayer { pGraphic_Device }
@@ -13,33 +14,49 @@ CPlayer_Topdee::CPlayer_Topdee(const CPlayer_Topdee& Prototype)
 
 HRESULT CPlayer_Topdee::Initialize_Prototype()
 {
-	m_iMaxAnimCount[ENUM_CLASS(PS_IDLE)] = 0;
-	m_iMaxAnimCount[ENUM_CLASS(PS_MOVE)] = 8;
-	m_iMaxAnimCount[ENUM_CLASS(PS_CLEAR)] = 17;
-
-	m_eCurrentDir = DIR_R;
-	m_ePreDir = m_eCurrentDir;
-
-	m_eMoveDir = MD_DOWN;
-
-	m_fAnimDelay = 0.05f;
-
-	//Æ÷Å»°úÀÇ °Å¸®
+	m_bMoveInAction = false;
+	//ï¿½ï¿½Å»ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½
 	m_fPotalDistance = 5.f;
+	
+	m_eActivateDimension = DIMENSION::TOPDEE;
 
-	m_bInput = false;
+	m_eCurrentTextureDir = TEXTUREDIRECTION::RIGHT;
+
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::IDLE)].eState = PLAYERSTATE::IDLE;
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::IDLE)].iMaxAnimCount = 1;
+
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::MOVE)].eState = PLAYERSTATE::MOVE;
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::MOVE)].iMaxAnimCount = 8;
+
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::ACTION)].eState = PLAYERSTATE::ACTION;
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::ACTION)].iMaxAnimCount = 1;
+
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].eState = PLAYERSTATE::STOP;
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].iMaxAnimCount = 1;
+
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::CLEAR)].eState = PLAYERSTATE::CLEAR;
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::CLEAR)].iMaxAnimCount = 17;
+
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].eState = PLAYERSTATE::DEAD;
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].iMaxAnimCount = 1;
+
 
 	return S_OK;
 }
 
 HRESULT CPlayer_Topdee::Initialize(void* pArg)
 {
-	m_eMoveDir = MD_DOWN;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Scaling(16.f, 16.f, 0.f); 
+	if (FAILED(Ready_States()))
+		return E_FAIL;
+	
+	m_bCanClear = false;
+	m_vPotalPosition = { 0.f, 0.f, 0.f };
+
+	m_pTransformCom->Scaling(5.f, 5.f, 0.f); 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	
 	return S_OK;
@@ -47,122 +64,76 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 
 void CPlayer_Topdee::Priority_Update(_float fTimeDelta)
 {
-	//Test
-	if (!m_bClear)
-	{
-		_float3 vTarget = { 0.f, 0.f, 0.f }; // Æ÷Å» À§Ä¡
-
-		__super::MoveToPotal(vTarget, _float3(0.f, 1.f, 0.f), fTimeDelta);
-
-	}
-
-	_float3 scale = m_pTransformCom->Get_Scaled();
-	int a;
+	Check_Dimension();
 }
 
 void CPlayer_Topdee::Update(_float fTimeDelta)
 {
-	m_iInputState = 0;
-
-	if (m_pGameInstance->Key_Down('Z'))
-		m_bInput = m_bInput ? false : true;
-
-	if(m_bInput)
+	if (!m_bCanClear)
 	{
-		if (m_pGameInstance->Key_Pressing(VK_RIGHT))
+		if (m_eCurrentState != PLAYERSTATE::STOP)
 		{
-			m_eCurrentState = PS_MOVE;
-			m_eCurrentDir = DIR_R;
-			m_iInputState |= ID_RIGHT;
-			m_pTransformCom->Go_Right(fTimeDelta);
-		}
+			_uint iInputData = KeyInput();
 
-		if (m_pGameInstance->Key_Pressing(VK_LEFT))
+			m_pCurrentState->HandleInput(this, iInputData, fTimeDelta);
+
+			ComputeTextureDirection(iInputData);
+			Change_MoveDir(iInputData);
+
+			if (m_bInAction)
+			{
+				m_bInAction = false;
+			}
+		}
+		else
 		{
-			m_eCurrentState = PS_MOVE;
-			m_eCurrentDir = DIR_L;
-			m_iInputState |= ID_LEFT;
-			m_pTransformCom->Go_Right(fTimeDelta);
+			if (!m_bIsTurnDown)
+				TurnDownOnStop();
 		}
+		m_pCurrentState->Update(this, fTimeDelta);
 
-		if (m_pGameInstance->Key_Pressing(VK_UP))
-		{
-			m_eCurrentState = PS_MOVE;
-			m_iInputState |= ID_UP;
-			m_pTransformCom->Go_Up(fTimeDelta);
-		}
-
-		if (m_pGameInstance->Key_Pressing(VK_DOWN))
-		{
-			m_eCurrentState = PS_MOVE;
-			m_iInputState |= ID_DOWN;
-			m_pTransformCom->Go_Down(fTimeDelta);
-		}
-	}
-
-
-
-
-	/* ÀÔ·Â ¾ø¾úÀ¸¸é ¸¶Áö¸· ÀÔ·ÂÀ» ±âÁØÀ¸·Î ¹æÇâ °áÁ¤ */
-	if (m_iInputState == 0 && m_eCurrentState != PS_CLEAR)
-	{
-		m_eCurrentState = PS_IDLE;
-		m_iInputState = m_iOldInputState;
 	}
 	else
-		m_iOldInputState = m_iInputState;
+	{
+		if (!m_bMoveToPotal)
+		{
+			m_bMoveToPotal = m_pTransformCom->Move_To(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec, 0.f);
 
-	__super::Change_State();
-	__super::Change_Dir();
-	m_eMoveDir = Check_Move_Direction(m_iInputState);
+			if (m_bMoveToPotal)
+				m_bClearAnimStart = true;
+		}
+
+		if (m_bClearAnimStart)
+		{
+			m_pCurrentState->Update(this, fTimeDelta);
+
+			if (m_pTransformCom->Spiral(m_vPotalPosition, _float3(0.f, 1.f, 0.f), 480.f, m_fPotalDistance, fTimeDelta))
+			{
+				m_bClear = true;
+			}
+		}
+	}
+
 }
 
 void CPlayer_Topdee::Late_Update(_float fTimeDelta)
 {
-	/* ¾Ö´Ï¸ÞÀÌ¼Ç Ä«¿îÆ® µô·¹ÀÌ */
+	m_iCurrentAnimCount = m_pCurrentState->GetAnimCount() + ( ENUM_CLASS(m_eCurrentMoveDir) * m_pCurrentState->GetMaxAnimCount());
 
-	//Å¬¸®¾î(Æ÷Å» ÀÔÀå) ¾Ö´Ï¸ÞÀÌ¼Ç
-	if (m_eCurrentState == PS_CLEAR)
-	{
-		if (m_fAnimTime + fTimeDelta > m_fAnimDelay)
-		{
-			if (m_iCurrentAnimCount < m_iMaxAnimCount[ENUM_CLASS(PS_CLEAR)] - 1)
-			{
-				m_iCurrentAnimCount = m_iCurrentAnimCount++;
-				m_fAnimTime = 0.f;
-			}
-		}
-		else
-			m_fAnimTime += fTimeDelta;
-	}
-	else if (m_eCurrentState != PS_IDLE)
-	{
-		/* MoveDir¿¡ µû¸¥ AnimCount ÃÊ±â°ª ¼³Á¤ */
-		if (m_iCurrentAnimCount == 0)
-			m_iCurrentAnimCount = (m_iMaxAnimCount[ENUM_CLASS(m_eCurrentState)] * ENUM_CLASS(m_eMoveDir));
 
-		if (m_fAnimTime + fTimeDelta > m_fAnimDelay)
-		{
-			m_iCurrentAnimCount = ((m_iCurrentAnimCount + 1) % m_iMaxAnimCount[ENUM_CLASS(m_eCurrentState)])
-				+ (m_iMaxAnimCount[ENUM_CLASS(m_eCurrentState)] * ENUM_CLASS(m_eMoveDir));
-			m_fAnimTime = 0.f;
-		}
-		else
-			m_fAnimTime += fTimeDelta;
-	}
+	if (m_eCurrentState == PLAYERSTATE::STOP)
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 	else
-		m_iCurrentAnimCount = ENUM_CLASS(m_eMoveDir);
-
-
-	/* Toddee ½ÃÁ¡¿¡¼­ ºí·»µù */
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
-
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
 
 HRESULT CPlayer_Topdee::Render()
 {
 	m_pTransformCom->Bind_Matrix();
 
+	if (m_eCurrentState == PLAYERSTATE::STOP)
+		m_pTextureComs[ENUM_CLASS(m_eCurrentState)]->Bind_Texture(0);		//Stop OutLine Render
+	else
 	m_pTextureComs[ENUM_CLASS(m_eCurrentState)]->Bind_Texture(m_iCurrentAnimCount);
 
 	m_pVIBufferCom->Bind_Buffers();
@@ -171,28 +142,137 @@ HRESULT CPlayer_Topdee::Render()
 
 	m_pVIBufferCom->Render();
 
+	if (m_eCurrentState == PLAYERSTATE::STOP)
+	{
+		m_pTextureComs[ENUM_CLASS(PLAYERSTATE::IDLE)]->Bind_Texture(ENUM_CLASS(m_eCurrentMoveDir)); //Stop Player Render
+
+		m_pVIBufferCom->Render();
+
+	}
+
 	End_RenderState();
 	return S_OK;
 }
 
-CPlayer_Topdee::MOVE_DIRECTION CPlayer_Topdee::Check_Move_Direction(_uint iInputState)
+HRESULT CPlayer_Topdee::Return_PrevState()
 {
-	if (((iInputState & ID_UP) && (iInputState & ID_RIGHT)) || (iInputState & ID_UP) && (iInputState & ID_LEFT))
-		return MD_DIAGONAL_UP;
+	if (m_pPrevState == nullptr)
+		return E_FAIL;
 
-	if (((iInputState & ID_DOWN) && (iInputState & ID_RIGHT)) || (iInputState & ID_DOWN) && (iInputState & ID_LEFT))
-		return MD_DIAGONAL_DOWN;
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->Exit(this);
+		Safe_Release(m_pCurrentState);
+	}
 
-	if (iInputState & ID_UP)
-		return MD_UP;
+	m_pCurrentState = m_pPrevState;
+	m_eCurrentState = m_pPrevState->GetTextureKey();
 
-	if (iInputState & ID_DOWN)
-		return MD_DOWN;
+	Safe_Release(m_pPrevState);
 
-	if ((iInputState & ID_LEFT) || (iInputState & ID_RIGHT))
-		return MD_TRANSVERSE;
+	Safe_AddRef(m_pCurrentState);
 
-	return MD_DOWN;
+	if (m_pPrevState)
+		m_pPrevState = nullptr;
+
+	m_eCurrentMoveDir = m_ePrevMoveDir;
+
+	return S_OK;
+}
+
+void CPlayer_Topdee::Move(_float fTimeDelta)
+{
+	switch (m_eCurrentMoveDir)
+	{
+	case MOVEDIRECTION::UP:
+		m_pTransformCom->Go_Up(fTimeDelta);
+		break;
+	case MOVEDIRECTION::DOWN:
+		m_pTransformCom->Go_Down(fTimeDelta);
+		break;
+	case MOVEDIRECTION::TRANSVERSE:
+		m_pTransformCom->Go_Right(fTimeDelta);
+		break;
+	case MOVEDIRECTION::DIAGONAL_DOWN:
+		m_pTransformCom->Go_Right(fTimeDelta);
+		m_pTransformCom->Go_Down(fTimeDelta);
+		break;
+	case MOVEDIRECTION::DIAGONAL_UP:
+		m_pTransformCom->Go_Right(fTimeDelta);
+		m_pTransformCom->Go_Up(fTimeDelta);
+		break;
+	}
+}
+
+void CPlayer_Topdee::Action()
+{
+	m_bInAction = true;
+}
+
+void CPlayer_Topdee::Stop()
+{
+	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+
+	m_ePrevMoveDir = m_eCurrentMoveDir;
+	m_bIsTurnDown = false;
+
+}
+
+_uint CPlayer_Topdee::KeyInput()
+{
+	_uint iInputData = 0;
+
+	if (m_pGameInstance->Key_Pressing(VK_LEFT))
+		iInputData |= ENUM_CLASS(KEYINPUT::KEY_LEFT);
+
+	if (m_pGameInstance->Key_Pressing(VK_RIGHT))
+		iInputData |= ENUM_CLASS(KEYINPUT::KEY_RIGHT);
+
+	if (m_pGameInstance->Key_Pressing(VK_UP))
+		iInputData |= ENUM_CLASS(KEYINPUT::KEY_UP);
+
+	if (m_pGameInstance->Key_Pressing(VK_DOWN))
+		iInputData |= ENUM_CLASS(KEYINPUT::KEY_DOWN);
+
+	if (m_pGameInstance->Key_Pressing('Z'))
+		iInputData |= ENUM_CLASS(KEYINPUT::KEY_Z);
+
+	if (m_pGameInstance->Key_Down('X'))
+		iInputData |= ENUM_CLASS(KEYINPUT::KEY_X);
+
+	return iInputData;
+}
+
+void CPlayer_Topdee::Change_MoveDir(_uint iInputData)
+{
+	MOVEDIRECTION eNewMoveDir = ComputeMoveDirection(iInputData);
+	
+	if (m_eCurrentMoveDir == eNewMoveDir)
+		return;
+
+	m_eCurrentMoveDir = eNewMoveDir;
+}
+
+MOVEDIRECTION CPlayer_Topdee::ComputeMoveDirection(_uint iInputData)
+{
+	if(  ((iInputData & ENUM_CLASS(KEYINPUT::KEY_UP)) && (iInputData & ENUM_CLASS(KEYINPUT::KEY_RIGHT))) ||
+		((iInputData & ENUM_CLASS(KEYINPUT::KEY_UP)) && (iInputData & ENUM_CLASS(KEYINPUT::KEY_LEFT)))   )
+		return MOVEDIRECTION::DIAGONAL_UP;
+
+	if(   ((iInputData & ENUM_CLASS(KEYINPUT::KEY_DOWN)) && (iInputData & ENUM_CLASS(KEYINPUT::KEY_RIGHT))) ||
+		((iInputData & ENUM_CLASS(KEYINPUT::KEY_DOWN)) && (iInputData & ENUM_CLASS(KEYINPUT::KEY_LEFT))))
+		return MOVEDIRECTION::DIAGONAL_DOWN;
+
+	if (iInputData & ENUM_CLASS(KEYINPUT::KEY_UP))
+		return MOVEDIRECTION::UP;
+
+	if (iInputData & ENUM_CLASS(KEYINPUT::KEY_DOWN))
+		return MOVEDIRECTION::DOWN;
+
+	if ((iInputData & ENUM_CLASS(KEYINPUT::KEY_LEFT)) || (iInputData & ENUM_CLASS(KEYINPUT::KEY_RIGHT)))
+		return MOVEDIRECTION::TRANSVERSE;
+
+	return m_eCurrentMoveDir;
 }
 
 HRESULT CPlayer_Topdee::Ready_Components()
@@ -213,16 +293,44 @@ HRESULT CPlayer_Topdee::Ready_Components()
 
 	/* For.Com_Texture*/
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Idle"),
-		TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PS_IDLE)]))))
+		TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::IDLE)]))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Move"),
-		TEXT("Com_Move_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PS_MOVE)]))))
+		TEXT("Com_Move_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::MOVE)]))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Action"),
+		TEXT("Com_Action_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::ACTION)]))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Stop"),
+		TEXT("Com_Stop_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::STOP)]))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Clear"),
-		TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PS_CLEAR)]))))
+		TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::CLEAR)]))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Topdee::Ready_States()
+{
+	for (_uint i = 0; i < ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END); i++)
+	{
+		PLAYERSTATE eState = m_tStateInitDesc[i].eState;
+
+		if (FAILED(__super::Add_State(eState, &m_tStateInitDesc[i])))
+			return E_FAIL;
+	}
+
+	m_pCurrentState = Find_State(PLAYERSTATE::IDLE);
+
+	if (!m_pCurrentState)
+		return E_FAIL;
+
+	Safe_AddRef(m_pCurrentState);
 
 	return S_OK;
 }
@@ -231,20 +339,19 @@ HRESULT CPlayer_Topdee::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-//	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-//	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	//if (m_eCurrentState == PS_STOP)
-	//{
-	//	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-	//	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	//}
-	//else
-	//	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
+	if (m_eCurrentState == PLAYERSTATE::STOP)
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	}
+	else
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	}
 	
 	return S_OK;
 }
@@ -255,6 +362,14 @@ HRESULT CPlayer_Topdee::End_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	return S_OK;
+}
+
+void CPlayer_Topdee::TurnDownOnStop()
+{
+	if (ENUM_CLASS(m_eCurrentMoveDir) > ENUM_CLASS(MOVEDIRECTION::DOWN))
+		m_eCurrentMoveDir = static_cast<MOVEDIRECTION>(ENUM_CLASS(m_eCurrentMoveDir) - 1);
+
+	m_bIsTurnDown = m_eCurrentMoveDir == MOVEDIRECTION::DOWN;
 }
 
 CPlayer_Topdee* CPlayer_Topdee::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

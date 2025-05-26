@@ -6,8 +6,8 @@ BEGIN(Client)
 
 class CPlayer_Toodee final : public CPlayer
 {
-private:
-	enum JUMPSTATE { JS_JUMPING, JS_HANGSTART, JS_HANGING, JS_HANGEND, JS_FALLING};
+
+
 private:
 	CPlayer_Toodee(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer_Toodee(const CPlayer_Toodee& Prototype);
@@ -21,21 +21,29 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	//State 호출 함수
+	virtual HRESULT Return_PrevState() override;	
+	virtual void Move(_float fTimeDelta) override;	
+	virtual void Action() override;					
+	virtual void Stop() override;					
 
 private:
-	//Action 점프
+	//Action 점프 변수
 	JUMPSTATE	m_eJumpState = {};
-	_bool		m_bIsJumping = { false };
 	_float		m_fCurrentJumpPower = {};
 	_float		m_fMaxJumpPower = {};
 	_float		m_fGravityPower = {};
-	_float		m_fHangTime= {};
-	_float		m_fHangDelay = {};
+
+
 private:
+	_uint KeyInput();	// 키 입력 저장
+
 	HRESULT Ready_Components();
+	HRESULT Ready_States();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
-	void Action_Jump(_float fTimeDelta);
+
+	void Action_Jump(_float fTimeDelta);	//CurrentState == Action State 일때 실행
 public:
 	static CPlayer_Toodee* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
