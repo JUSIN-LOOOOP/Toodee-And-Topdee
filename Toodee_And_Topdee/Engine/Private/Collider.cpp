@@ -31,7 +31,6 @@ HRESULT CCollider::Initialize(void* pArg)
     m_pOwner = pDesc->pOwner;
     m_pTransform = pDesc->pTransform;
 
-    Safe_AddRef(m_pOwner);
     Safe_AddRef(m_pTransform);
     return S_OK;
 }
@@ -96,5 +95,4 @@ void CCollider::Free()
 
     Safe_Release(m_pTransform);
 
-    Safe_Release(m_pOwner);
 }

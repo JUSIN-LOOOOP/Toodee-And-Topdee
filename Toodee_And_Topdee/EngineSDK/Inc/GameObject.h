@@ -27,6 +27,8 @@ public:
 
 public:
 	class CComponent* Get_Component(const _wstring& strComponentTag);
+	const _wstring&	  Get_Name() const { return name; }
+	const _bool		  CompareName(const _wstring& strName) { return strName == name; }
 
 protected:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };

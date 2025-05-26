@@ -61,6 +61,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Update(fTimeDelta);
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
+	m_pCollision_Manager->Update(fTimeDelta);
+
 	m_pLevel_Manager->Update(fTimeDelta);
 }
 

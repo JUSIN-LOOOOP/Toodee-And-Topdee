@@ -23,8 +23,8 @@ public:
 	static _bool			Collision_Rect_Cube(const OBB& RectA, const OBB& CubeB);
 	static _bool			Collision_Cube_Cube(const OBB& CubeA, const OBB& CubeB);
 
-	static void				GetProjection(const size_t& iLength, const _float3* vEdge, const _float3& vAxis, _float& fMin, _float& fMax);
-	static _bool			OverlapOnAxis(const size_t& iLength, const _float3* vEdgeA, const _float3* vEdgeB, const _float3& vAxis);
+	static void				GetProjection(const size_t& iLength ,const _float3* vEdge, const _float3& vAxis, _float& fMin, _float& fMax);
+	static _bool			OverlapOnAxis(const size_t& iLengthA, const size_t& iLengthB, const _float3* vEdgeA, const _float3* vEdgeB, const _float3& vAxis);
 
 public:
 	static const _float		CubeEdgeDirX[8];

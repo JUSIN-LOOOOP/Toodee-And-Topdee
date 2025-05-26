@@ -1,6 +1,7 @@
 #include "Test_Cube.h"
 #include "GameInstance.h"
 
+
 CTest_Cube::CTest_Cube(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
 {
@@ -21,6 +22,8 @@ HRESULT CTest_Cube::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+
+	name = TEXT("1111");
     return S_OK;
 }
 
@@ -30,6 +33,7 @@ void CTest_Cube::Priority_Update(_float fTimeDelta)
 
 void CTest_Cube::Update(_float fTimeDelta)
 {
+
 	if (m_pGameInstance->Key_Pressing(VK_UP))
 		m_pTransformCom->Go_Straight(fTimeDelta);
 
@@ -41,6 +45,46 @@ void CTest_Cube::Update(_float fTimeDelta)
 
 	if (m_pGameInstance->Key_Pressing(VK_RIGHT))
 		m_pTransformCom->Go_Right(fTimeDelta);
+
+	//충돌 진입
+	if (m_pColliderCom->OnCollisionEnter())
+	{
+		m_pTransformCom->Scaling(1.5f, 1.5f, 1.5f);
+	}
+
+	//충돌 끝
+	if (m_pColliderCom->OnCollisionExit())
+	{
+		m_pTransformCom->Scaling(1.f, 1.f, 1.f);
+	}
+
+	list<CGameObject*>* findAll = { nullptr };
+
+	//충돌 중
+	if (m_pColliderCom->OnCollisionStay())
+	{
+		//이 게임 오브젝트와 충돌중인 모든 오브젝트 들고 오기
+		if (m_pColliderCom->GetOverlapAll(findAll))
+		{
+			for (auto& other : *findAll)
+			{
+				if (other->CompareName(TEXT("3333")))
+				{
+					// 코드
+				}
+			}
+		} 
+
+		// 가장 마지막에 들어온 객체 참조하기
+		CGameObject* other = m_pColliderCom->GetOverlapTarget();
+		_wstring otherName = other->Get_Name();
+		
+		//코드 
+
+	}
+
+
+
 }
 
 void CTest_Cube::Late_Update(_float fTimeDelta)
@@ -89,6 +133,18 @@ HRESULT CTest_Cube::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+
+	CCollider::COLLIDER_DESC  ColliderDesc{};
+	ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
+	ColliderDesc.pTransform = m_pTransformCom;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+	{
+		MSG_BOX(TEXT("Failed to Add_Component : Com_Collision"));
+		return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -144,7 +200,10 @@ void CTest_Cube::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+
+
 }

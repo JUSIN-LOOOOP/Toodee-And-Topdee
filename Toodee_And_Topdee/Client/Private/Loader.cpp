@@ -95,7 +95,6 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CCamera::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_GameObject_Camera*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube"),
 		CTest_Cube::Create(m_pGraphic_Device))))
 		return E_FAIL;

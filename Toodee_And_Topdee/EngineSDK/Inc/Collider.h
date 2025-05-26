@@ -40,11 +40,11 @@ public:
 	void				Collision_Off() { m_bisTrigger = false; }
 	void				Collision_On() { m_bisTrigger = true; }
 
-	HRESULT				GetOverlapAll(list<class CGameObject*>& pList)
+	 _bool				GetOverlapAll(list<class CGameObject*>*& pList)
 	{
-		if (m_eState == COLLIDERSTATE::NONE) return E_FAIL;
-		pList = m_pOthers;
-		return S_OK;
+		if (m_eState == COLLIDERSTATE::NONE) return false;
+		pList = &m_pOthers;
+		return true;
 	}
 	/* 정확할지 모르겠음... 충돌 가장 마지막에 들어 온 객체를 꺼내오는거임.
 	만약 정확하지 않으면 GetOverlapAll에서 꺼내서 이름 비교하며 처리하기*/
@@ -62,11 +62,11 @@ public:
 private:
 	 COLLIDER_SHAPE				m_eShape = {};
 	 COLLIDERSTATE				m_eState = { COLLIDERSTATE::NONE };
-	 _bool						m_bisTrigger = {}; //충돌 영역 활성/ 비활성
+	 _bool						m_bisTrigger = { true }; //충돌 영역 활성/ 비활성
 
 	 /* 매번 CGameObject를 통해 find로 찾아서 트랜스폼을 찾는 것보다 들고 있는게 낫다. */
 	 class CTransform*			m_pTransform = { nullptr };//이 컴포넌트를 들고 있는 객체의 트랜스폼
-	 class CGameObject*			m_pOwner = { nullptr }; //이 컴포넌트를 들고 있는 객체
+	 class CGameObject*			m_pOwner = { nullptr }; //순환 참조되므로 카운터를 올리지 않는다.
 
 	 list<class CGameObject*>	m_pOthers; // 충돌중인 객체 모음집.
 
