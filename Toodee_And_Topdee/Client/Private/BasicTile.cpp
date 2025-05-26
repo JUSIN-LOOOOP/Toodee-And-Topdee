@@ -22,8 +22,8 @@ HRESULT CBasicTile::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_iTileSizeX = 12;
-    m_iTileSizeY = 12;
+    m_iTileSizeX = 2;
+    m_iTileSizeY = 2;
 
     _float3* pos = static_cast<_float3*>(pArg);
     m_pTransformCom->Scaling(m_iTileSizeX, m_iTileSizeY, 0.f);

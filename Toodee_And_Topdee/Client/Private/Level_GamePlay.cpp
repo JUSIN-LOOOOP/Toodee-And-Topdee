@@ -19,6 +19,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
+
 	return S_OK;
 }
 
@@ -52,7 +53,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 		return E_FAIL;*/
 
 	CCamera::CAMERA_DESC			CameraDesc{};
-	CameraDesc.vEye = _float3(0.f, 32.f, 0.f);
+	CameraDesc.vEye = _float3(0.f, 34.f, 0.f);
 	CameraDesc.vAt = _float3(0.f, 0.f, 0.1f);
 	CameraDesc.fFovy = D3DXToRadian(60.0f);
 	CameraDesc.fNear = 0.1f;
