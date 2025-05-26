@@ -125,7 +125,7 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 
 	/* Prototype_Component_Texture_Topdee_Stop */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Stop"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Outline%d.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Outline%d.png"), 5))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_Topdee_Clear */

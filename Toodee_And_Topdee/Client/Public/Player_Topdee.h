@@ -39,6 +39,9 @@ private:
 	_bool		m_bIsTurnDown = { false };
 	// Action 상자 들기
 	_bool		m_bIsAttach = { false };
+	//TurnDownOnStop 딜레이용 타이머 입니다.
+	_float		m_fTurnDownTime = {};
+	_float		m_fTurnDownDelay = {};
 private:
 	_uint KeyInput();
 	void Change_MoveDir(_uint iInputData);
@@ -49,7 +52,7 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
-	void TurnDownOnStop();
+	void TurnDownOnStop(_float fTimeDelta);
 	
 public:
 	static CPlayer_Topdee* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
