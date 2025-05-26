@@ -43,6 +43,9 @@
     <Filter Include="02. GameObject\Player\Player_Topdee">
       <UniqueIdentifier>{c750e078-5eff-43ca-a90f-4ff498e72c87}</UniqueIdentifier>
     </Filter>
+
+    <Filter Include="02. GameObject\Camera\MultiViewCamera">
+      <UniqueIdentifier>{c8379611-c60e-4a07-a971-30d6c5ae69b8}</UniqueIdentifier>
     <Filter Include="02. GameObject\Player\PlayerStates">
       <UniqueIdentifier>{c3735abc-2ed4-496b-b0a9-88325bce77a5}</UniqueIdentifier>
     </Filter>
@@ -63,6 +66,7 @@
     </Filter>
     <Filter Include="02. GameObject\Player\PlayerStates\Stop">
       <UniqueIdentifier>{62f65a7f-d5ea-41b0-8d32-c5f5a5e7b381}</UniqueIdentifier>
+
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +115,9 @@
     <ClInclude Include="..\public\Player_Topdee.h">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
     </ClInclude>
+
+    <ClInclude Include="..\Public\MultiViewCamera.h">
+      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
     <ClInclude Include="..\Public\State_Stop.h">
       <Filter>02. GameObject\Player\PlayerStates\Stop</Filter>
     </ClInclude>
@@ -128,6 +135,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\PlayerState.h">
       <Filter>02. GameObject\Player\PlayerStates</Filter>
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +172,9 @@
     <ClCompile Include="..\private\Player_Topdee.cpp">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
     </ClCompile>
+
+    <ClCompile Include="..\Private\MultiViewCamera.cpp">
+      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
     <ClCompile Include="..\Private\PlayerState.cpp">
       <Filter>02. GameObject\Player\PlayerStates</Filter>
     </ClCompile>
@@ -181,6 +192,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_Stop.cpp">
       <Filter>02. GameObject\Player\PlayerStates\Stop</Filter>
+
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

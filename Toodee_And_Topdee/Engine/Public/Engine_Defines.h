@@ -13,6 +13,9 @@
 #include <string>
 #include <unordered_map>
 #include <ctime>
+#include <fstream>
+#include <iostream>
+
 using namespace std;
 
 #include "Engine_Enum.h"

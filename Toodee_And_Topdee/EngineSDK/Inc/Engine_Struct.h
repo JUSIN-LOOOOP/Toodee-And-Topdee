@@ -19,6 +19,13 @@ namespace Engine
 		D3DXVECTOR2		vTexcoord;
 	}VTXPOSTEX;
 
+	typedef struct tagMapEdit
+	{
+		D3DXVECTOR3		fPos;
+		D3DXVECTOR3		fScale;
+		unsigned int	itype;
+	}BLOCK_INFO;
+
 }
 
 
