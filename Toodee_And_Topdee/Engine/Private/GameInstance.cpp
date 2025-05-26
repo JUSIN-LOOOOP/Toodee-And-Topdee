@@ -6,6 +6,7 @@
 #include "Prototype_Manager.h"
 #include "Key_Manager.h"
 #include "Timer_Manager.h"
+#include "Map_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -42,6 +43,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 		return E_FAIL;
 
 	m_pTimer_Manager = CTimer_Manager::Create();
+	if (nullptr == m_pTimer_Manager)
+		return E_FAIL;
+
+	m_pMap_Manager = CMap_Manager::Create(1);
 	if (nullptr == m_pTimer_Manager)
 		return E_FAIL;
 
@@ -204,6 +209,31 @@ void CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
 
 #pragma endregion
 
+#pragma region MAP_MANAGER
+HRESULT CGameInstance::Load_File(const _wstring& filename)
+{
+	m_pMap_Manager->Load_File(filename);
+	return S_OK;
+}
+
+_int CGameInstance::Get_CurrentType()
+{
+	return m_pMap_Manager->Get_CurrentType();
+}
+
+HRESULT CGameInstance::Add_Tile(CGameObject* tile)
+{
+	m_pMap_Manager->Add_Tiles(tile);
+	Safe_AddRef(tile);
+
+	return S_OK;
+}
+#pragma endregion
+HRESULT CGameInstance::Get_Tile_Data(_int idx, BLOCK_INFO& block_data)
+{
+	return m_pMap_Manager->Get_Tile_Data(idx, block_data);
+}
+
 void CGameInstance::Release_Engine()
 {
 	Release();
@@ -215,6 +245,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pPrototype_Manager);
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pGraphic_Device);
+	Safe_Release(m_pMap_Manager);
 }
 
 void CGameInstance::Free()

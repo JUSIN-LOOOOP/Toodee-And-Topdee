@@ -13,12 +13,14 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -73,9 +75,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube"))))
-		return E_FAIL;
+	m_pGameInstance->Load_File(TEXT("Map_File"));
+
+	BLOCK_INFO	info = {};
+	_uint		idx = {};
+
+	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube") , &info)))
+			return E_FAIL;
+
+	return S_OK;
 
 	return S_OK;
 }
@@ -90,6 +100,23 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Player_Topdee"))))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Tile(const _wstring& strLayerTag)
+{
+	_int MapHeight(18), MapWidth(32);
+	for (_int height = 0; height < MapHeight; ++height)
+	{
+		for (_int width = 0; width < MapWidth; ++width)
+		{
+			_float3 pos{ (FLOAT)((width + 0.5 - (MapWidth / 2)) * 2) , 0.f,  (FLOAT)((height + 0.5 - (MapHeight / 2)) * 2) };
+
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Tile"), &pos)))
+				return E_FAIL;
+		}
+	}
 	return S_OK;
 }
 

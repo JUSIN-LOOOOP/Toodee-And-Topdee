@@ -21,6 +21,13 @@ HRESULT CTest_Cube::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
+
+	m_pTransformCom->Set_State(STATE::POSITION, pDesc->fPos);
+	m_pTransformCom->Scaling(pDesc->fScale.x, pDesc->fScale.y, 2);
+
+	
+
     return S_OK;
 }
 
@@ -41,6 +48,7 @@ void CTest_Cube::Update(_float fTimeDelta)
 //
 //	if (m_pGameInstance->Key_Pressing(VK_RIGHT))
 //		m_pTransformCom->Go_Right(fTimeDelta);
+
 }
 
 void CTest_Cube::Late_Update(_float fTimeDelta)

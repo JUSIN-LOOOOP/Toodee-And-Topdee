@@ -26,7 +26,7 @@ HRESULT CBasicTile::Initialize(void* pArg)
     m_iTileSizeY = 2;
 
     _float3* pos = static_cast<_float3*>(pArg);
-    m_pTransformCom->Scaling(m_iTileSizeX, m_iTileSizeY, 0.f);
+    m_pTransformCom->Scaling(m_iTileSizeX, m_iTileSizeY, 2);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     m_pTransformCom->Set_State(STATE::POSITION, *pos);
 

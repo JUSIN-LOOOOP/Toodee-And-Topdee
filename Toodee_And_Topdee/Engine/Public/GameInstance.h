@@ -50,6 +50,12 @@ public:
 	HRESULT			Add_Timer(const _wstring& strTimerTag);
 	void			Compute_TimeDelta(const _wstring& strTimerTag);
 
+public:
+	HRESULT				Load_File(const _wstring& filename);
+	_int				Get_CurrentType();
+	HRESULT				Add_Tile(CGameObject* tile);
+	HRESULT				Get_Tile_Data(_int idx, BLOCK_INFO& block_data);
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
@@ -58,6 +64,7 @@ private:
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CKey_Manager*			m_pKey_Manager = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
+	class CMap_Manager*			m_pMap_Manager = { nullptr };
 
 
 
