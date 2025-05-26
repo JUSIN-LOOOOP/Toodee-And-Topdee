@@ -43,6 +43,15 @@
     <Filter Include="02. GameObject\Player\Player_Topdee">
       <UniqueIdentifier>{c750e078-5eff-43ca-a90f-4ff498e72c87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Levels\99. MapEdit">
+      <UniqueIdentifier>{b1dee6cb-8428-44ac-8dc0-bc4ae24e182b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Camera\MultiViewCamera">
+      <UniqueIdentifier>{9985cff2-34b6-42ae-98f2-85dc3ffa65a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Tile">
+      <UniqueIdentifier>{509dc297-8ab8-4ecb-847b-9b024c7d0bc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -90,6 +99,12 @@
     <ClInclude Include="..\public\Player_Topdee.h">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MultiViewCamera.h">
+      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BasicTile.h">
+      <Filter>02. GameObject\Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -124,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Player_Topdee.cpp">
       <Filter>02. GameObject\Player\Player_Topdee</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MultiViewCamera.cpp">
+      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BasicTile.cpp">
+      <Filter>02. GameObject\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
