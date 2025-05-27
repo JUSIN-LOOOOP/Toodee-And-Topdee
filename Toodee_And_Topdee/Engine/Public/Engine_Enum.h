@@ -12,6 +12,7 @@ namespace Engine
 	enum class MOUSEMOVESTATE { DIMS_X, DIMS_Y, DIMS_Z, DIMS_END };
 
 	enum class TEXTURE { RECT, CUBE };
+	enum class COLLIDER_SHAPE { RECT, CUBE };
 
 	enum class DIMENSION { TOODEE, TOPDEE };
 

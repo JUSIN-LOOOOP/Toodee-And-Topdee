@@ -52,7 +52,7 @@ CComponent* CGameObject::Get_Component(const _wstring& strComponentTag)
 
     return iter->second;
 }
-
+ 
 HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {
     if (nullptr != Get_Component(strComponentTag))
@@ -63,6 +63,11 @@ HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& s
         return E_FAIL;
 
     m_Components.emplace(strComponentTag, pComponent);
+
+    if (strPrototypeTag == TEXT("Prototype_Component_Collider_Rect"))
+        m_pGameInstance->Add_Collider(m_pGameInstance->Get_CurrentLevelID() + 1, COLLIDER_SHAPE::RECT, reinterpret_cast<CCollider**>(&pComponent));
+    else if (strPrototypeTag == TEXT("Prototype_Component_Collider_Cube"))
+        m_pGameInstance->Add_Collider(m_pGameInstance->Get_CurrentLevelID() + 1, COLLIDER_SHAPE::CUBE, reinterpret_cast<CCollider**>(&pComponent));
 
     *ppOut = pComponent;
 

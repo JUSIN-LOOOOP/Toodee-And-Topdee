@@ -84,6 +84,17 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_Component_Collider_Rect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Rect"),
+		CCollider::Create(m_pGraphic_Device,COLLIDER_SHAPE::RECT))))
+		return E_FAIL;
+
+	/* Prototype_Component_Collider_Cube */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		CCollider::Create(m_pGraphic_Device, COLLIDER_SHAPE::CUBE))))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 

@@ -19,6 +19,12 @@ namespace Engine
 		D3DXVECTOR2		vTexcoord;
 	}VTXPOSTEX;
 
+	typedef struct tagVertexPosCubeTex
+	{
+		D3DXVECTOR3		vPosition;
+		D3DXVECTOR3		vTexcoord;
+	}VTXCUBETEX;
+
 	typedef struct tagMapEdit
 	{
 		D3DXVECTOR3		fPos;

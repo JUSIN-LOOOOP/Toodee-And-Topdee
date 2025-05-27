@@ -10,100 +10,57 @@ CVIBuffer_Cube::CVIBuffer_Cube(const CVIBuffer_Cube& Prototype)
 {
 }
 
-HRESULT CVIBuffer_Cube::Initialize_Prototype()
+HRESULT CVIBuffer_Cube::Initialize_Prototype() 
 {
-	m_iNumVertices = 24;
-	m_iVertexStride = sizeof(VTXPOSTEX);
-	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1;
+	m_iNumVertices = 8;
+	m_iVertexStride = sizeof(VTXCUBETEX);
+	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
+	// m_iFVF = D3DFVF_XYZ | D3DFVF_TEX2 /*| D3DFVF_TEXCOORDSIZE2(0)*/ | D3DFVF_TEXCOORDSIZE3(1);
 	m_ePrimitiveType = D3DPT_TRIANGLELIST;
 	m_iNumPrimitive = 12;
-
-	m_iNumIndices = 36;
 	m_iIndexStride = 2;
+	m_iNumIndices = 36;
 	m_eIndexFormat = D3DFMT_INDEX16;
 
+	/* 정점버퍼를 생성한다. == 정점을 배열로 할당해준다. */
+	/* 몇바이트할당해라 == 정점하나의 크기 * 정점의 갯수 */
+	/* 0(정적) or D3DUSAGE_DYNAMIC(동적) */
+	/* 정적 : 공간에 있는 값을 읽는 속도는 빠르다. 정점을 갱신한다라는 속도는굉장히 느리다. */
+	/* 동적 : */
+	/* D3DPOOL_MANAGED : 메모리할당 위치(RAM, VRAM)를 알아서 해라. */
 
 #pragma region VERTEX_BUFFER
 	if (FAILED(m_pGraphic_Device->CreateVertexBuffer(m_iVertexStride * m_iNumVertices, 0, m_iFVF, D3DPOOL_MANAGED, &m_pVB, nullptr)))
 		return E_FAIL;
 
+	VTXCUBETEX* pVertices = { nullptr };
 
-	_float3 fVertexCube[8] =
-	{
-		{-0.5f, 0.5f, -0.5f},
-		{0.5f, 0.5f, -0.5f},
-		{0.5f, -0.5f, -0.5f},
-		{-0.5f, -0.5f, -0.5f},
+	/* 공간에 접근하기위한 포인터를 얻어오고 공간을 잠근다.  */
+	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
-		{-0.5f, -0.5f, 0.5f}, //7
-		{0.5f, -0.5f, 0.5f},  //6
-		{0.5f, 0.5f, 0.5f},  //5
-		{-0.5f, 0.5f, 0.5f} //4
-	};
+	pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
+	pVertices[0].vTexcoord = pVertices[0].vPosition;
 
-	VTXPOSTEX* pVertices = { nullptr };
+	pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
+	pVertices[1].vTexcoord = pVertices[1].vPosition;
 
-	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
+	pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
+	pVertices[2].vTexcoord = pVertices[2].vPosition;
 
-	//Front 
-	pVertices[0].vPosition = fVertexCube[0];
-	pVertices[0].vTexcoord = {0.f, 0.f};
-	pVertices[1].vPosition = fVertexCube[1];
-	pVertices[1].vTexcoord = { 0.f, 1.f };
-	pVertices[2].vPosition = fVertexCube[2];
-	pVertices[2].vTexcoord = { 1.f, 1.f };
-	pVertices[3].vPosition = fVertexCube[3];
-	pVertices[3].vTexcoord = { 1.f,0.f };
+	pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+	pVertices[3].vTexcoord = pVertices[3].vPosition;
 
-	//Back 
-	pVertices[4].vPosition = fVertexCube[7];
-	pVertices[4].vTexcoord = { 0.f, 0.f };
-	pVertices[5].vPosition = fVertexCube[6];
-	pVertices[5].vTexcoord = { 0.f, 1.f };
-	pVertices[6].vPosition = fVertexCube[5];
-	pVertices[6].vTexcoord = { 1.f, 1.f };
-	pVertices[7].vPosition = fVertexCube[4];
-	pVertices[7].vTexcoord = { 1.f,0.f };
+	pVertices[4].vPosition = _float3(-0.5f, 0.5f, 0.5f);
+	pVertices[4].vTexcoord = pVertices[4].vPosition;
 
-	//Right
-	pVertices[8].vPosition = fVertexCube[1];
-	pVertices[8].vTexcoord = { 0.f, 0.f };
-	pVertices[9].vPosition = fVertexCube[5];
-	pVertices[9].vTexcoord = { 0.f, 1.f };
-	pVertices[10].vPosition = fVertexCube[6];
-	pVertices[10].vTexcoord = { 1.f, 1.f };
-	pVertices[11].vPosition = fVertexCube[2];
-	pVertices[11].vTexcoord = { 1.f,0.f };
+	pVertices[5].vPosition = _float3(0.5f, 0.5f, 0.5f);
+	pVertices[5].vTexcoord = pVertices[5].vPosition;
 
-	//Left
-	pVertices[12].vPosition = fVertexCube[7];
-	pVertices[12].vTexcoord = { 0.f, 0.f };
-	pVertices[13].vPosition = fVertexCube[4];
-	pVertices[13].vTexcoord = { 0.f, 1.f };
-	pVertices[14].vPosition = fVertexCube[0];
-	pVertices[14].vTexcoord = { 1.f, 1.f };
-	pVertices[15].vPosition = fVertexCube[3];
-	pVertices[15].vTexcoord = { 1.f,0.f };
+	pVertices[6].vPosition = _float3(0.5f, -0.5f, 0.5f);
+	pVertices[6].vTexcoord = pVertices[6].vPosition;
 
-	//Up
-	pVertices[16].vPosition = fVertexCube[4];
-	pVertices[16].vTexcoord = { 0.f, 0.f };
-	pVertices[17].vPosition = fVertexCube[5];
-	pVertices[17].vTexcoord = { 0.f, 1.f };
-	pVertices[18].vPosition = fVertexCube[1];
-	pVertices[18].vTexcoord = { 1.f, 1.f };
-	pVertices[19].vPosition = fVertexCube[0];
-	pVertices[19].vTexcoord = { 1.f,0.f };
-
-	//Down
-	pVertices[20].vPosition = fVertexCube[3];
-	pVertices[20].vTexcoord = { 0.f, 0.f };
-	pVertices[21].vPosition = fVertexCube[2];
-	pVertices[21].vTexcoord = { 0.f, 1.f };
-	pVertices[22].vPosition = fVertexCube[6];
-	pVertices[22].vTexcoord = { 1.f, 1.f };
-	pVertices[23].vPosition = fVertexCube[7];
-	pVertices[23].vTexcoord = { 1.f,0.f };
+	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
+	pVertices[7].vTexcoord = pVertices[7].vPosition;
 
 	m_pVB->Unlock();
 
@@ -115,74 +72,42 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	if (FAILED(m_pGraphic_Device->CreateIndexBuffer(m_iIndexStride * m_iNumIndices, 0, m_eIndexFormat, D3DPOOL_MANAGED, &m_pIB, nullptr)))
 		return E_FAIL;
 
-	_uint	iNumCnt = { 0 };
 	_ushort* pIndices = { nullptr };
 
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
+	/* +x */
+	pIndices[0] = 1; pIndices[1] = 5; pIndices[2] = 6;
+	pIndices[3] = 1; pIndices[4] = 6; pIndices[5] = 2;
 
-	//Front 
-	pIndices[iNumCnt++] = 0;
-	pIndices[iNumCnt++] = 1;
-	pIndices[iNumCnt++] = 2;
+	/* -x */
+	pIndices[6] = 4; pIndices[7] = 0; pIndices[8] = 3;
+	pIndices[9] = 4; pIndices[10] = 3; pIndices[11] = 7;
 
-	pIndices[iNumCnt++] = 0;
-	pIndices[iNumCnt++] = 2;
-	pIndices[iNumCnt++] = 3;
+	/* +y */
+	pIndices[12] = 4; pIndices[13] = 5; pIndices[14] = 1;
+	pIndices[15] = 4; pIndices[16] = 1; pIndices[17] = 0;
 
-	//Back 
-	pIndices[iNumCnt++] = 7;
-	pIndices[iNumCnt++] = 6;
-	pIndices[iNumCnt++] = 5;
+	/* -y */
+	pIndices[18] = 3; pIndices[19] = 2; pIndices[20] = 6;
+	pIndices[21] = 3; pIndices[22] = 6; pIndices[23] = 7;
 
-	pIndices[iNumCnt++] = 7;
-	pIndices[iNumCnt++] = 5;
-	pIndices[iNumCnt++] = 4;
+	/* +z */
+	pIndices[24] = 5; pIndices[25] = 4; pIndices[26] = 7;
+	pIndices[27] = 5; pIndices[28] = 7; pIndices[29] = 6;
 
-	//Right
-	pIndices[iNumCnt++] = 1;
-	pIndices[iNumCnt++] = 5;
-	pIndices[iNumCnt++] = 6;
-
-	pIndices[iNumCnt++] = 1;
-	pIndices[iNumCnt++] = 6;
-	pIndices[iNumCnt++] = 2;
-
-	//Left
-	pIndices[iNumCnt++] = 7;
-	pIndices[iNumCnt++] = 4;
-	pIndices[iNumCnt++] = 0;
-
-	pIndices[iNumCnt++] = 7;
-	pIndices[iNumCnt++] = 0;
-	pIndices[iNumCnt++] = 3;
-
-	//Up
-	pIndices[iNumCnt++] = 4;
-	pIndices[iNumCnt++] = 5;
-	pIndices[iNumCnt++] = 1;
-
-	pIndices[iNumCnt++] = 4;
-	pIndices[iNumCnt++] = 1;
-	pIndices[iNumCnt++] = 0;
-
-	//Down
-	pIndices[iNumCnt++] = 3;
-	pIndices[iNumCnt++] = 2;
-	pIndices[iNumCnt++] = 6;
-
-	pIndices[iNumCnt++] = 3;
-	pIndices[iNumCnt++] = 6;
-	pIndices[iNumCnt++] = 7;
+	/* -z */
+	pIndices[30] = 0; pIndices[31] = 1; pIndices[32] = 2;
+	pIndices[33] = 0; pIndices[34] = 2; pIndices[35] = 3;
 
 	m_pIB->Unlock();
 
 
 #pragma endregion 
 
-
 	return S_OK;
 }
+
 
 HRESULT CVIBuffer_Cube::Initialize(void* pArg)
 {
