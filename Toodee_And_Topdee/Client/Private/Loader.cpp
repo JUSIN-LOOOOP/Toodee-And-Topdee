@@ -54,6 +54,9 @@ HRESULT CLoader::Loading()
 	case LEVEL::LEVEL_GAMEPLAY:
 		hr = Loading_For_GamePlay_Level();
 		break;
+	case LEVEL::LEVEL_MAPEDIT:
+		hr = Loading_For_MapEdit_Level();
+		break;
 	}
 
 	if (FAILED(hr))
@@ -190,6 +193,31 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 
 	m_isFinished = true;
 
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_MapEdit_Level()
+{
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_Component_Texture_Tile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Test/Tile.ver/TileSpr_%d.png"), 4))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_MultiViewCamera"),
+		CMultiViewCamera::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_TestCube*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_TestCube"),
+		CTest_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_TestTile*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_Tile"),
+		CBasicTile::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	m_isFinished = true;
 	return S_OK;
 }
 

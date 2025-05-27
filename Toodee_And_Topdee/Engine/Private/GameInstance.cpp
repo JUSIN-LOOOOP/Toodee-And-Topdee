@@ -47,7 +47,8 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pTimer_Manager)
 		return E_FAIL;
 	m_eCurrentDimension = DIMENSION::TOODEE;
-	m_pMap_Manager = CMap_Manager::Create(1);
+
+	m_pMap_Manager = CMap_Manager::Create();
 	if (nullptr == m_pTimer_Manager)
 		return E_FAIL;
 
@@ -69,6 +70,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pCollision_Manager->Update(fTimeDelta);
 
 	m_pLevel_Manager->Update(fTimeDelta);
+
+	m_pMap_Manager->Update(fTimeDelta);
 }
 
 HRESULT CGameInstance::Clear_Resources(_uint iClearLevelID)
@@ -242,7 +245,7 @@ HRESULT CGameInstance::Load_File(const _wstring& filename)
 	return S_OK;
 }
 
-_int CGameInstance::Get_CurrentType()
+BLOCK_INFO CGameInstance::Get_CurrentType()
 {
 	return m_pMap_Manager->Get_CurrentType();
 }
@@ -258,6 +261,16 @@ HRESULT CGameInstance::Add_Tile(CGameObject* tile)
 HRESULT CGameInstance::Get_Tile_Data(_int idx, BLOCK_INFO& block_data)
 {
 	return m_pMap_Manager->Get_Tile_Data(idx, block_data);
+}
+
+HRESULT CGameInstance::Load_Initial_Data(vector<_uint>* blockData)
+{
+	return m_pMap_Manager->Load_Initial_Data(blockData);
+}
+
+_uint CGameInstance::Get_RenderTextureIdx()
+{
+	return m_pMap_Manager->Get_RenderTextureIdx();
 }
 
 void CGameInstance::Release_Engine()

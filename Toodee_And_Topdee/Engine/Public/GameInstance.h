@@ -60,9 +60,11 @@ public:
 	//Map_Manager
 public:
 	HRESULT				Load_File(const _wstring& filename);
-	_int				Get_CurrentType();
-	HRESULT				Add_Tile(CGameObject* tile);
+	BLOCK_INFO			Get_CurrentType();									
+	_uint				Get_RenderTextureIdx();							
+	HRESULT				Add_Tile(CGameObject* tile);						
 	HRESULT				Get_Tile_Data(_int idx, BLOCK_INFO& block_data);
+	HRESULT				Load_Initial_Data(vector<_uint>* blockData);
 
 	//Collision
 public:
