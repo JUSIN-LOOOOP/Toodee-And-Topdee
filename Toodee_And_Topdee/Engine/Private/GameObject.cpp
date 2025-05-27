@@ -12,6 +12,7 @@ CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphic_Device)
 CGameObject::CGameObject(const CGameObject& Prototype)
     : m_pGraphic_Device{ Prototype.m_pGraphic_Device }
     , m_pGameInstance{ CGameInstance::GetInstance() }
+    , name { Prototype.name }
 {
     Safe_AddRef(m_pGraphic_Device);
     Safe_AddRef(m_pGameInstance);

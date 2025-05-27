@@ -36,6 +36,10 @@ HRESULT CObject_Manager::Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _w
 	else
 		pLayer->Add_GameObject(pGameObject);
 
+	//Map Edit 레벨일 때, MapManager가 Tile객체를 관리할 수 있도록 포인터를 넘겨준다.
+	if (strLayerTag == L"Layer_Tile")
+		m_pGameInstance->Add_Tile(pGameObject);
+
 	return S_OK;
 }
 
