@@ -19,6 +19,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
 		return E_FAIL;
 
@@ -86,8 +89,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 			return E_FAIL;
 
 	return S_OK;
-
-	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
@@ -117,6 +118,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Tile(const _wstring& strLayerTag)
 				return E_FAIL;
 		}
 	}
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
+{
+	_float3 vPotalPosition = { 5.f, 0.f, 0.f }; //TEST
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
