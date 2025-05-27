@@ -68,7 +68,10 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 HRESULT CGameInstance::Clear_Resources(_uint iClearLevelID)
 {
+	m_pCollision_Manager->Clear(iClearLevelID);
+
 	m_pPrototype_Manager->Clear(iClearLevelID);
+
 	m_pObject_Manager->Clear(iClearLevelID);
 
     return S_OK;

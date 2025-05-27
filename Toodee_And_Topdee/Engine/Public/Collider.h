@@ -19,6 +19,8 @@ public:
 		class CTransform* pTransform;
 		class CGameObject* pOwner;
 
+		//_float3		vScale;
+
 	}COLLIDER_DESC;
 
 private:
@@ -46,22 +48,34 @@ public:
 		pList = &m_pOthers;
 		return true;
 	}
+
 	/* 충돌 가장 마지막에 들어 온 객체를 꺼내오기.
 	* 빠른 투사체 테스트는 현재 진행할 수 없어서 테스트를 못해봄. 
 	만약 정확하지 않으면 GetOverlapAll에서 꺼내서 이름 비교하며 처리하기*/
 	class CGameObject*	GetOverlapTarget()
 	{
-		return (m_eState == COLLIDERSTATE::NONE) ?  nullptr : m_pOthers.back();
+		return (m_eState == COLLIDERSTATE::NONE) ? nullptr : m_pOthers.back() != nullptr ? m_pOthers.back() : nullptr;
 	}
 	
+	/* Engine 함수 */
 public:
 	COLLIDER_SHAPE		Reference_Collider_Info(class CTransform** pTransform, class CGameObject** pGameObject);
 	void				Set_State(COLLIDERSTATE eState) { m_eState = eState; }
 	void				Add_Other(class CGameObject* pGameObject);
 	void				Remove_Other(class CGameObject* pGameObject);
+	_bool				GetOverlapAll_Copy(list<class CGameObject*>* outList) const	 //복사본
+	{
+		if (m_eState == COLLIDERSTATE::NONE) return false;
+		*outList = m_pOthers; // 복사본 반환
+		return true;
+	}
+	
 
 private:
-	 COLLIDER_SHAPE				m_eShape = {};
+	_float4x4					m_WorldMatrix = { };
+	_float3						m_vScale = { };
+
+	 COLLIDER_SHAPE				m_eShape = { };
 	 COLLIDERSTATE				m_eState = { COLLIDERSTATE::NONE };
 	 _bool						m_bisTrigger = { true }; //충돌 영역 활성/ 비활성
 
@@ -69,8 +83,10 @@ private:
 	 class CTransform*			m_pTransform = { nullptr };//이 컴포넌트를 들고 있는 객체의 트랜스폼
 	 class CGameObject*			m_pOwner = { nullptr }; //순환 참조되므로 카운터를 올리지 않는다.
 
-	 list<class CGameObject*>	m_pOthers; // 충돌중인 객체 모음집.
+	 list<class CGameObject*>	m_pOthers = {}; // 충돌중인 객체 모음집.
 
+private:
+	class CGameObject*		Find_Others(class CGameObject* other);
 
 public:
 	static	CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device, COLLIDER_SHAPE eType);

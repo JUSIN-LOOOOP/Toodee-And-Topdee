@@ -72,6 +72,9 @@
     <ClInclude Include="..\public\Test_Cube.h">
       <Filter>02. GameObject\Test_Cube</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Test_Cube2.h">
+      <Filter>02. GameObject\Test_Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -96,6 +99,9 @@
       <Filter>02. GameObject\Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Test_Cube.cpp">
+      <Filter>02. GameObject\Test_Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Test_Cube2.cpp">
       <Filter>02. GameObject\Test_Cube</Filter>
     </ClCompile>
   </ItemGroup>

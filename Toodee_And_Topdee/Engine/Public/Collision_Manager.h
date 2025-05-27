@@ -36,6 +36,8 @@ private:
 private:
 	void			Check_Deleted();
 	void			Check_Collision();
+	void			UpdateColliderState(COLLIDER_STATE_INFO& info, class CGameObject* owner, 
+										const vector<class CGameObject*>& currentCollisions, bool hasAnyCollision);
 
 public:
 	static CCollision_Manager* Create(_uint iNumLevels);

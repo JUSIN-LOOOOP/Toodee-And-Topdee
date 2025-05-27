@@ -47,9 +47,11 @@ void CCollider::Add_Other(CGameObject* pGameObject)
 {
     if (nullptr == pGameObject)
         return;
-    
-    m_pOthers.emplace_back(pGameObject);
-    Safe_AddRef(m_pOthers.back());
+    if (Find_Others(pGameObject) == nullptr)
+    {
+        m_pOthers.emplace_back(pGameObject);
+        Safe_AddRef(m_pOthers.back());
+    }
 }
 
 void CCollider::Remove_Other(CGameObject* pGameObject)
@@ -58,10 +60,18 @@ void CCollider::Remove_Other(CGameObject* pGameObject)
     if (iter != m_pOthers.end())
     {
         Safe_Release(*iter);
-        m_pOthers.erase(iter);
+        m_pOthers.remove(*iter);
     }
 }
 
+
+CGameObject* CCollider::Find_Others(CGameObject* other)
+{
+    auto iter = find(m_pOthers.begin(), m_pOthers.end(), other);
+    if (iter == m_pOthers.end()) return nullptr;
+
+    return *iter;
+}
 
 CCollider* CCollider::Create(LPDIRECT3DDEVICE9 pGraphic_Device, COLLIDER_SHAPE eType)
 {
