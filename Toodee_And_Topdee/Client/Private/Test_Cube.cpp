@@ -24,8 +24,8 @@ HRESULT CTest_Cube::Initialize(void* pArg)
 
 	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
-	m_pTransformCom->Set_State(STATE::POSITION, pDesc->fPos);
-	m_pTransformCom->Scaling(pDesc->fScale.x, pDesc->fScale.y, 2);
+	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+	m_pTransformCom->Scaling(pDesc->vScale.x, pDesc->vScale.y, 2);
 
 	name = TEXT("1111");
 

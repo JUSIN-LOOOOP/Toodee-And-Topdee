@@ -21,6 +21,7 @@ public:
 	virtual			HRESULT Render() override;
 
 private:
+	_uint			m_iRenderTextureIdx = {};
 
 private: 
 	HRESULT				Ready_Components();
@@ -29,7 +30,7 @@ private:
 public:
 	static CBasicTile*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CBasicTile*		Clone(void* pArg) override;
-	virtual void		Free() override;
+	virtual void			Free() override;
 
 };
 
