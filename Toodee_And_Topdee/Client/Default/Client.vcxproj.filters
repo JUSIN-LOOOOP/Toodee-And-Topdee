@@ -1,100 +1,82 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="00. MainApp">
-      <UniqueIdentifier>{9c46373e-a377-403a-9159-6095957add80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="98. Default">
-      <UniqueIdentifier>{0126b1ee-49f0-4580-9f9c-9314a1ccce12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="99. Defines">
-      <UniqueIdentifier>{7f4d53a8-2b42-4233-b67d-5143d77d3441}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels">
-      <UniqueIdentifier>{684aae44-31c5-4ae5-adfc-f11436402625}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\00. Loading">
-      <UniqueIdentifier>{94c71c99-143c-4e8a-ab31-0a98a2f51e2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\00. Loading\Loader">
-      <UniqueIdentifier>{4d5cf12a-7f5b-4c5c-8ba8-8f8ffb0342a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\01. Logo">
-      <UniqueIdentifier>{5123e4f2-1295-4897-b067-a2ab5900d3b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\02. GamePlay">
-      <UniqueIdentifier>{6f94ae08-02bc-48d4-b172-c61687b0fa60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject">
-      <UniqueIdentifier>{d1c38ff1-cf37-434d-8617-a4096f77e17e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Camera">
-      <UniqueIdentifier>{9fcface3-848a-4204-a409-713e389c3200}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Test_Cube">
-      <UniqueIdentifier>{37c3bb8f-9cba-4bc3-8881-e8fcf8025d0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player">
-      <UniqueIdentifier>{4fd095e4-3237-4122-be3f-53d90416c59d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player\Player_Toodee">
-      <UniqueIdentifier>{e3b25ffd-c3c0-4b6a-a712-0bc59349e5fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player\Player_Topdee">
-      <UniqueIdentifier>{c750e078-5eff-43ca-a90f-4ff498e72c87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\99. MapEdit">
-      <UniqueIdentifier>{b1dee6cb-8428-44ac-8dc0-bc4ae24e182b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Camera\MultiViewCamera">
-      <UniqueIdentifier>{9985cff2-34b6-42ae-98f2-85dc3ffa65a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Tile">
-      <UniqueIdentifier>{509dc297-8ab8-4ecb-847b-9b024c7d0bc8}</UniqueIdentifier>
-	</Filter>
-    <Filter Include="02. GameObject\Camera\MultiViewCamera">
-      <UniqueIdentifier>{c8379611-c60e-4a07-a971-30d6c5ae69b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player\PlayerStates">
-      <UniqueIdentifier>{c3735abc-2ed4-496b-b0a9-88325bce77a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player\PlayerStates\Idle">
-      <UniqueIdentifier>{d0da3cf1-06de-4f89-a3a0-55eec1847c55}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player\PlayerStates\Move">
-      <UniqueIdentifier>{6806defc-9636-4726-8941-0ca71c138ecd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player\PlayerStates\Action">
-      <UniqueIdentifier>{2018c6b0-f0b2-4f3a-8fe8-e09ab5bf214d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player\PlayerStates\Clear">
-      <UniqueIdentifier>{d3d7e5f9-4353-4a6b-ba19-c1c771099d2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player\PlayerStates\Dead">
-      <UniqueIdentifier>{9b3d016c-e6e1-462f-b987-1f803d92aaa8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Player\PlayerStates\Stop">
-      <UniqueIdentifier>{62f65a7f-d5ea-41b0-8d32-c5f5a5e7b381}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="..\Private\BasicTile.cpp">
+      <Filter>02. GameObjects\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Camera.cpp">
+      <Filter>02. GameObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>98. Defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_GamePlay.cpp">
+      <Filter>01. Levels\00 Temp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Loading.cpp">
+      <Filter>01. Levels\00. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loader.cpp">
+      <Filter>01. Levels\00. Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Logo.cpp">
+      <Filter>01. Levels\01. Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MainApp.cpp">
+      <Filter>00. MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MultiViewCamera.cpp">
+      <Filter>02. GameObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player.cpp">
+      <Filter>02. GameObjects\Player\00. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player_Toodee.cpp">
+      <Filter>02. GameObjects\Player\01. Topdee</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player_Topdee.cpp">
+      <Filter>02. GameObjects\Player\02. Toodee</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerState.cpp">
+      <Filter>02. GameObjects\Player\03. State\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Action.cpp">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Clear.cpp">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Idle.cpp">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Move.cpp">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Stop.cpp">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Test_Cube.cpp">
+      <Filter>00. Dummys\J O H</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\public\MainApp.h">
-      <Filter>00. MainApp</Filter>
+    <ClInclude Include="..\Public\BasicTile.h">
+      <Filter>02. GameObjects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Camera.h">
+      <Filter>02. GameObjects\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
-      <Filter>98. Default</Filter>
-    </ClInclude>
-    <ClInclude Include="framework.h">
-      <Filter>98. Default</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>98. Default</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>98. Default</Filter>
+      <Filter>98. Defaults</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Client_Defines.h">
       <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>98. Defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_GamePlay.h">
+      <Filter>01. Levels\00 Temp</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
       <Filter>01. Levels\00. Loading\Loader</Filter>
@@ -105,125 +87,164 @@
     <ClInclude Include="..\public\Level_Logo.h">
       <Filter>01. Levels\01. Logo</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Level_GamePlay.h">
-      <Filter>01. Levels\02. GamePlay</Filter>
+    <ClInclude Include="..\public\MainApp.h">
+      <Filter>00. MainApp</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Camera.h">
-      <Filter>02. GameObject\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Test_Cube.h">
-      <Filter>02. GameObject\Test_Cube</Filter>
+    <ClInclude Include="..\Public\MultiViewCamera.h">
+      <Filter>02. GameObjects\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player.h">
-      <Filter>02. GameObject\Player</Filter>
+      <Filter>02. GameObjects\Player\00. Base</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player_Toodee.h">
-      <Filter>02. GameObject\Player\Player_Toodee</Filter>
+      <Filter>02. GameObjects\Player\01. Topdee</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player_Topdee.h">
-      <Filter>02. GameObject\Player\Player_Topdee</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\MultiViewCamera.h">
-      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\BasicTile.h">
-      <Filter>02. GameObject\Tile</Filter>
-
-    <ClInclude Include="..\Public\MultiViewCamera.h">
-      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
-    <ClInclude Include="..\Public\State_Stop.h">
-      <Filter>02. GameObject\Player\PlayerStates\Stop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_Move.h">
-      <Filter>02. GameObject\Player\PlayerStates\Move</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_Idle.h">
-      <Filter>02. GameObject\Player\PlayerStates\Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_Clear.h">
-      <Filter>02. GameObject\Player\PlayerStates\Clear</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_Action.h">
-      <Filter>02. GameObject\Player\PlayerStates\Action</Filter>
+      <Filter>02. GameObjects\Player\02. Toodee</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PlayerState.h">
-      <Filter>02. GameObject\Player\PlayerStates</Filter>
-
+      <Filter>02. GameObjects\Player\03. State\Base</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\private\MainApp.cpp">
-      <Filter>00. MainApp</Filter>
-    </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>98. Default</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Loader.cpp">
-      <Filter>01. Levels\00. Loading\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Level_Loading.cpp">
-      <Filter>01. Levels\00. Loading</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Level_Logo.cpp">
-      <Filter>01. Levels\01. Logo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Level_GamePlay.cpp">
-      <Filter>01. Levels\02. GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Camera.cpp">
-      <Filter>02. GameObject\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Test_Cube.cpp">
-      <Filter>02. GameObject\Test_Cube</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Player.cpp">
-      <Filter>02. GameObject\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Player_Toodee.cpp">
-      <Filter>02. GameObject\Player\Player_Toodee</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Player_Topdee.cpp">
-      <Filter>02. GameObject\Player\Player_Topdee</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\MultiViewCamera.cpp">
-      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\BasicTile.cpp">
-      <Filter>02. GameObject\Tile</Filter>
-
-    <ClCompile Include="..\Private\MultiViewCamera.cpp">
-      <Filter>02. GameObject\Camera\MultiViewCamera</Filter>
-    <ClCompile Include="..\Private\PlayerState.cpp">
-      <Filter>02. GameObject\Player\PlayerStates</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Action.cpp">
-      <Filter>02. GameObject\Player\PlayerStates\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Clear.cpp">
-      <Filter>02. GameObject\Player\PlayerStates\Clear</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Idle.cpp">
-      <Filter>02. GameObject\Player\PlayerStates\Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Move.cpp">
-      <Filter>02. GameObject\Player\PlayerStates\Move</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Stop.cpp">
-      <Filter>02. GameObject\Player\PlayerStates\Stop</Filter>
-
-    </ClCompile>
+    <ClInclude Include="Resource.h">
+      <Filter>98. Defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_Stop.h">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_Action.h">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_Clear.h">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_Idle.h">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_Move.h">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>98. Defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Test_Cube.h">
+      <Filter>00. Dummys\J O H</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
-      <Filter>98. Default</Filter>
+      <Filter>98. Defaults</Filter>
     </Image>
     <Image Include="small.ico">
-      <Filter>98. Default</Filter>
+      <Filter>98. Defaults</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="00. MainApp">
+      <UniqueIdentifier>{0f441b58-ea10-4ffe-982b-ae6f90d35d85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels">
+      <UniqueIdentifier>{f0d05312-d057-4c93-bad6-101e518e1499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects">
+      <UniqueIdentifier>{04fb3f47-2b35-4d92-85d5-485cac20e0c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Defines">
+      <UniqueIdentifier>{41ead738-aec6-4829-9d7b-247dcee2b05d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Defaults">
+      <UniqueIdentifier>{8305bc86-8d4f-4ca3-a609-207ee3d04d50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00. Loading">
+      <UniqueIdentifier>{93e904e9-7c29-4d97-8713-2d8e1b9685a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00. Loading\Loader">
+      <UniqueIdentifier>{b1399b48-563a-4b35-a3b2-a0b23dc3b306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\02. MainMenu">
+      <UniqueIdentifier>{4f8aa6dc-2885-45cd-8d1e-08a6d49f9e54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. Stage01">
+      <UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\10. Stage_Boss02">
+      <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\04. Stage02">
+      <UniqueIdentifier>{91cee869-d0b8-45dd-8c2f-f05f811abbc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\05. Stage03">
+      <UniqueIdentifier>{e0ce0096-306c-464a-9fb9-6f8f6ca38953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\06. Stage_Boss01">
+      <UniqueIdentifier>{1cdc3b42-bb26-4213-b622-593cde19df3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\07. Stage04">
+      <UniqueIdentifier>{f2a546ae-6241-4fdc-851e-039a5a57d64e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\08. Stage05">
+      <UniqueIdentifier>{2b658529-152c-49b6-962f-8cff1ca2757c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\09. Stage06">
+      <UniqueIdentifier>{4a5272c6-0002-4e42-a084-8d052085742d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\BackGround">
+      <UniqueIdentifier>{d48cf147-ff74-45d8-8875-518f1bd3ee78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Camera">
+      <UniqueIdentifier>{db203932-d8da-418e-9d15-0156dfa16daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player">
+      <UniqueIdentifier>{ebc85dba-e90c-4bb0-afa5-74dca4536921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Terrain">
+      <UniqueIdentifier>{32c74d25-bee7-4d6c-a761-123d106ec8f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Tiles">
+      <UniqueIdentifier>{b1c523dd-ae83-4779-aba9-6def65818c77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00 Temp">
+      <UniqueIdentifier>{1915325c-45b8-4fd5-a371-e250756055de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster">
+      <UniqueIdentifier>{2798810b-4491-47b8-afea-2e5b8b03bac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\00. Base">
+      <UniqueIdentifier>{44d0548e-5849-4712-8d29-097f2cc68465}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\01. Topdee">
+      <UniqueIdentifier>{2050a9ef-a3a4-47d5-a96f-04aa00065bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\02. Toodee">
+      <UniqueIdentifier>{3354450a-230c-4917-a57a-a46deae34de3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\03. State">
+      <UniqueIdentifier>{64bb745b-1c18-4445-8233-598cc6589bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\03. State\Base">
+      <UniqueIdentifier>{382643b9-a149-4899-b0b8-76c6ed5a7855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys">
+      <UniqueIdentifier>{76c0bc8a-0a86-42f2-8b54-42153a45c70b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\J O H">
+      <UniqueIdentifier>{8df98f45-7e0f-441c-8be1-54f1c3ad75bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K J H">
+      <UniqueIdentifier>{9847fa68-1f4d-42a5-b358-7406283635c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K S H">
+      <UniqueIdentifier>{cdee72be-e326-4eed-b3d0-aeb227ef9357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J">
+      <UniqueIdentifier>{86caa7e6-001d-440e-9f9f-94bc55cc9ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\01. Logo">
+      <UniqueIdentifier>{1cf05208-e82a-4710-bb50-f3e786b03444}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
     <ResourceCompile Include="Client.rc">
-      <Filter>98. Default</Filter>
+      <Filter>98. Defaults</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>
