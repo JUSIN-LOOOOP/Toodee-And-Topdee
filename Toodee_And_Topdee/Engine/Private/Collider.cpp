@@ -35,6 +35,93 @@ HRESULT CCollider::Initialize(void* pArg)
     return S_OK;
 }
 
+
+_bool CCollider::GetOverlapAll(list<class CGameObject*>*& pList)
+{
+    if (m_eState == COLLIDERSTATE::NONE) return false;
+    pList = &m_pOthers;
+    return true;
+}
+
+
+CGameObject* CCollider::GetOverlapTarget()
+{
+    /*  충돌 가장 마지막에 들어 온 객체를 꺼내오기.
+        빠른 투사체 테스트는 현재 진행할 수 없어서 테스트를 못해봄.
+        만약 정확하지 않으면 GetOverlapAll에서 꺼내서 이름 비교하며 처리하기*/
+
+    return (m_eState == COLLIDERSTATE::NONE) ? nullptr : m_pOthers.back() != nullptr ? m_pOthers.back() : nullptr;
+}
+
+const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
+{
+    if (m_eState == COLLIDERSTATE::NONE) COLLIDER_DIR::CD_END;
+
+    _float4x4		ViewMatrix{};
+    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &ViewMatrix);
+
+    _float3  myPosition = m_pTransform->Get_State(STATE::POSITION);
+    _float3  myScale = m_pTransform->Get_Scaled();
+
+    CTransform* other = dynamic_cast<CTransform*>(m_pOthers.back()->Get_Component(TEXT("Com_Transform")));
+
+    if (other == nullptr)
+       return  COLLIDER_DIR::CD_END;
+    
+    _float3  otherPosition = other->Get_State(STATE::POSITION);
+    _float3  otherScale = other->Get_Scaled();
+    _float3  vDelta = otherPosition - myPosition;
+
+    D3DXVec3TransformNormal(&vDelta, &vDelta, &ViewMatrix);
+
+    _float absX = fabsf(vDelta.x);
+    _float absY = fabsf(vDelta.y);
+    _float absZ = fabsf(vDelta.z);
+
+    if (absY > absX && absY > absZ)
+    {
+        if (vDelta.y > 0) {
+            *distance = (otherScale.y + myScale.y) * 0.5f - vDelta.y;
+            return COLLIDER_DIR::BOTTOM;
+        }
+        else
+        {
+            *distance = (otherScale.y + myScale.y) * 0.5f + vDelta.y;
+            return COLLIDER_DIR::TOP;
+        }
+    }
+    else if (absX > absZ)
+    {
+        if (vDelta.x > 0)
+        {
+            *distance = (otherScale.x + myScale.x) * 0.5f - vDelta.x;
+            return COLLIDER_DIR::LEFT;
+        }
+        else
+        {
+            *distance = (otherScale.x + myScale.x) * 0.5f + vDelta.x;
+            return COLLIDER_DIR::RIGHT;
+        }
+    }
+    else
+    {
+        if (vDelta.z > 0)
+        {            
+            *distance = (otherScale.z + myScale.z) * 0.5f - vDelta.z;
+            return COLLIDER_DIR::FRONT;
+
+        }
+        else
+        {
+            *distance = (otherScale.z + myScale.z) * 0.5f + vDelta.z;
+            return COLLIDER_DIR::BACK;
+        }
+    }
+
+
+}
+
+
 COLLIDER_SHAPE CCollider::Reference_Collider_Info(CTransform** pTransform, CGameObject** pGameObject)
 {
     *pTransform = m_pTransform;
