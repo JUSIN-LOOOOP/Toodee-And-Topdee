@@ -1,4 +1,5 @@
 #include "ClearTriggerObserver.h"
+#include "SubjectObject.h"
 
 CClearTriggerObserver::CClearTriggerObserver()
 {
@@ -13,13 +14,14 @@ void CClearTriggerObserver::onNotify(EVENT eEvent, CSubjectObject* pSubject)
 		break;
 		
 	case EVENT::EXIT_PORTAL:
-		Subtract_OverlapSubjects(pSubject);
+		Remove_OverlapSubjects(pSubject);
 		break;
 	}
 
 	if (m_OverlapSubjects.size() >= 2) // 포탈에 2명 다 들어왔다면
 	{
 		// Subjects 들에게 CanClear 전달
+		__super::Report(REPORT::REPORT_CANCLEAR);
 	}
 }
 

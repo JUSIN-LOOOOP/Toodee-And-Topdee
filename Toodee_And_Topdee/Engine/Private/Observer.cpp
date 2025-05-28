@@ -14,9 +14,38 @@ HRESULT CObserver::Add_Subjects(CSubjectObject* pSubject)
 	m_Subjects.push_back(pSubject);
 	Safe_AddRef(pSubject);
 
-	pSubject->Add_Observer(this);
-
 	return S_OK;
+}
+
+void CObserver::Remove_Subject(CSubjectObject* pSubject)
+{
+	auto iter = m_Subjects.begin();
+
+	for (iter; iter != m_Subjects.end();)
+	{
+		if (*iter == pSubject)
+		{
+			Safe_Release(*iter);
+			iter = m_Subjects.erase(iter);
+		}
+		else
+			iter++;
+	}
+}
+
+void CObserver::Clear_Subjects()
+{
+	for (auto Subject : m_Subjects)
+	{
+		Subject->Remove_Observer(this);
+		Safe_Release(Subject);
+	}
+}
+
+void CObserver::Report(REPORT eReport)
+{
+	for (auto Subject : m_Subjects)
+		Subject->onReport(eReport);
 }
 
 void CObserver::Free()

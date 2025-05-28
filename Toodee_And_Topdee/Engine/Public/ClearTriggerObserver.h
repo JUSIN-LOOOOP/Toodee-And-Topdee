@@ -3,7 +3,7 @@
 
 BEGIN(Engine)
 
-class CClearTriggerObserver final :public CObserver
+class ENGINE_DLL CClearTriggerObserver final :public CObserver
 {
 private:
 	CClearTriggerObserver();
@@ -13,11 +13,15 @@ public:
 	void onNotify(EVENT eEvent, CSubjectObject* pSubject = nullptr) override;
 
 private:
-	void Add_OverlapSubjects(CSubjectObject* pSubject);
-	void Subtract_OverlapSubjects(CSubjectObject* pSubject);
-	void Clear_OverlapSubjects();
 	unordered_set<CSubjectObject*> m_OverlapSubjects;
+
+private:
+	// Overlap Portal Subjects 추가, 삭제
+	void Add_OverlapSubjects(CSubjectObject* pSubject);
+	void Remove_OverlapSubjects(CSubjectObject* pSubject);
 	
+	void Clear_OverlapSubjects();
+
 public:
 	static CClearTriggerObserver* Create();
 	virtual void Free();
