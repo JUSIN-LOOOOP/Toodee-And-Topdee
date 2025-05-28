@@ -156,12 +156,15 @@
     <ClInclude Include="..\Public\PlayerState.h" />
     <ClInclude Include="..\public\Player_Toodee.h" />
     <ClInclude Include="..\public\Player_Topdee.h" />
+    <ClInclude Include="..\Public\Potal.h" />
     <ClInclude Include="..\Public\State_Action.h" />
     <ClInclude Include="..\Public\State_Clear.h" />
     <ClInclude Include="..\Public\State_Idle.h" />
     <ClInclude Include="..\Public\State_Move.h" />
     <ClInclude Include="..\Public\State_Stop.h" />
     <ClInclude Include="..\public\Test_Cube.h" />
+    <ClInclude Include="..\Public\Test_Cube2.h" />
+    <ClInclude Include="..\Public\Test_TileCube.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -180,12 +183,15 @@
     <ClCompile Include="..\Private\PlayerState.cpp" />
     <ClCompile Include="..\private\Player_Toodee.cpp" />
     <ClCompile Include="..\private\Player_Topdee.cpp" />
+    <ClCompile Include="..\Private\Potal.cpp" />
     <ClCompile Include="..\Private\State_Action.cpp" />
     <ClCompile Include="..\Private\State_Clear.cpp" />
     <ClCompile Include="..\Private\State_Idle.cpp" />
     <ClCompile Include="..\Private\State_Move.cpp" />
     <ClCompile Include="..\Private\State_Stop.cpp" />
     <ClCompile Include="..\private\Test_Cube.cpp" />
+    <ClCompile Include="..\Private\Test_Cube2.cpp" />
+    <ClCompile Include="..\Private\Test_TileCube.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
