@@ -30,6 +30,8 @@ public:
 	virtual void Action() override;
 	virtual void Stop() override;
 
+	//Observer 에서 받은 REPORT 처리
+	virtual void onReport(REPORT eReport) override;
 private:
 	// Texture Index 계산용 방향 보관
 	MOVEDIRECTION m_eCurrentMoveDir = {};
@@ -49,6 +51,8 @@ private:
 
 	HRESULT Ready_Components();
 	HRESULT Ready_States();
+	HRESULT Ready_Observers();
+
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 

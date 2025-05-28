@@ -8,6 +8,7 @@
 #include "Timer_Manager.h"
 #include "Map_Manager.h"
 #include "Collision_Manager.h"
+#include "Observer_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -56,6 +57,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pCollision_Manager)
 		return E_FAIL;
 
+ 	m_pObserver_Manager = CObserver_Manager::Create(EngineDesc.iNumLevels);
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
     return S_OK;
 }
 
@@ -81,6 +86,8 @@ HRESULT CGameInstance::Clear_Resources(_uint iClearLevelID)
 	m_pPrototype_Manager->Clear(iClearLevelID);
 
 	m_pObject_Manager->Clear(iClearLevelID);
+
+	m_pObserver_Manager->Clear(iClearLevelID);
 
     return S_OK;
 }
@@ -236,6 +243,16 @@ HRESULT CGameInstance::Add_Collider(_uint iLevelIndex, COLLIDER_SHAPE etype, CCo
 	return m_pCollision_Manager->Add_Collider(iLevelIndex, etype, pCollider);
 }
 
+HRESULT CGameInstance::Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, CObserver* pObserver)
+{
+	return m_pObserver_Manager->Add_Observer(iObserverLevelndex, strObserverTag, pObserver);
+}
+
+HRESULT CGameInstance::Subscribe_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, CSubjectObject* pSubject)
+{
+	return m_pObserver_Manager->Subscribe_Observer(iObserverLevelndex, strObserverTag, pSubject);
+}
+
 #pragma endregion
 
 #pragma region MAP_MANAGER
@@ -286,6 +303,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pMap_Manager);
+	Safe_Release(m_pObserver_Manager);
 }
 
 void CGameInstance::Free()
