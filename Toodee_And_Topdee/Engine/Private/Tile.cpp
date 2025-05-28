@@ -2,7 +2,7 @@
 #include "GameInstance.h"
 #include "Util.h"
 
-CTile::CTile(LPDIRECT3DDEVICE9 pGraphic_Device) 
+CTile::CTile(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
 {
 }
@@ -24,7 +24,7 @@ HRESULT CTile::Initialize(void* pArg)
 
 void CTile::Priority_Update(_float fTimeDelta)
 {
-   
+
 }
 
 void CTile::Update(_float fTimeDelta)
@@ -40,7 +40,7 @@ HRESULT CTile::Render()
 {
     m_pTransformCom->Bind_Matrix();
 
-    if (FAILED(m_pTextureCom->Bind_Texture(m_bType)))
+    if (FAILED(m_pTextureCom->Bind_Texture(m_iTextureType)))
         return E_FAIL;
 
     m_pVIBufferCom->Bind_Buffers();
@@ -54,9 +54,10 @@ BLOCK_INFO CTile::Get_BlockInfo()
 {
     BLOCK_INFO  rt;
 
-    rt.fPos = m_pTransformCom->Get_State(STATE::POSITION);
-    rt.fScale = m_pTransformCom->Get_Scaled();
-    rt.itype = m_bType;
+    rt.vPos = m_pTransformCom->Get_State(STATE::POSITION);
+    rt.vScale = m_pTransformCom->Get_Scaled();
+    rt.iBlockType = m_iBlockType;
+    rt.iTextureType = m_iTextureType;
 
     return rt;
 }
@@ -75,6 +76,12 @@ HRESULT CTile::IsTileClicked(Picking::Ray ray)
         return S_OK;
 
     return E_FAIL;
+}
+
+void CTile::Set_Type(_int _newBlockType, _int _newTextureType)
+{
+    m_iBlockType = _newBlockType;
+    m_iTextureType = _newTextureType;
 }
 
 void CTile::Free()

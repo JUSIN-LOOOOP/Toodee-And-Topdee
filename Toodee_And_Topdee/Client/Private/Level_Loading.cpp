@@ -4,6 +4,7 @@
 
 #include "Level_Logo.h"
 #include "Level_GamePlay.h"
+#include "Level_MapEdit.h"
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CLevel{ pGraphicDev }
@@ -36,6 +37,11 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			break;
 		case LEVEL::LEVEL_GAMEPLAY:
 			pNewLevel = CLevel_GamePlay::Create(m_pGraphic_Device);
+			break;
+
+		case LEVEL::LEVEL_MAPEDIT:
+
+			pNewLevel = CLevel_Map::Create(m_pGraphic_Device);
 			break;
 		}
 

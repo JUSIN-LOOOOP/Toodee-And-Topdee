@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 #include "Camera.h"
+#include "Level_MapEdit.h"
+#include "Level_Loading.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -30,12 +32,13 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	
 }
 
 HRESULT CLevel_GamePlay::Render()
 {
-	// -- ÀÓ½Ã --
-	SetWindowText(g_hWnd, TEXT("°ÔÀÓÇÃ·¹ÀÌ·¹º§ÀÔ´Ï´Ù."));
+	// -- ï¿½Ó½ï¿½ --
+	SetWindowText(g_hWnd, TEXT("ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½."));
 
 	return S_OK;
 }
@@ -84,8 +87,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 	_uint		idx = {};
 
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
+	{
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube") , &info)))
+			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube"), &info)))
 			return E_FAIL;
 
 	return S_OK;

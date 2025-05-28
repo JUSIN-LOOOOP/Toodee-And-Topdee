@@ -27,9 +27,11 @@ namespace Engine
 
 	typedef struct tagMapEdit
 	{
-		D3DXVECTOR3		fPos;
-		D3DXVECTOR3		fScale;
-		unsigned int	itype;
+		D3DXVECTOR3		vPos;
+		D3DXVECTOR3		vScale;
+		unsigned int	iBlockType;
+		unsigned int	iTextureType;
+		unsigned int	iDir;
 	}BLOCK_INFO;
 
 }
