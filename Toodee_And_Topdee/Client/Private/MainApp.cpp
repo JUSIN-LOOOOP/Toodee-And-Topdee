@@ -3,6 +3,13 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 
+#include "Part_Body.h"
+#include "Part_Eyes.h"
+#include "Part_Nose.h"
+#include "Part_Tail.h"
+#include "Part_Legs.h"
+
+
 Client::CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
 {
@@ -26,6 +33,9 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Prototype_ForStatic()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Prototype_ForStatic_Parts()))
 		return E_FAIL;
 
 	// -- юс╫ц -- 
@@ -82,6 +92,32 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_ForStatic_Parts()
+{
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Eyes"),
+		CPart_Eyes::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Nose"),
+		CPart_Nose::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Tail"),
+		CPart_Tail::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Legs"),
+		CPart_Legs::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Body"),
+		CPart_Body::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;

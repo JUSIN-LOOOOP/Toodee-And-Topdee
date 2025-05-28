@@ -7,6 +7,7 @@
 #include "Player_Toodee.h"
 #include "Player_Topdee.h"
 #include "BasicTile.h"
+#include "Pig.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:m_pGraphic_Device{ pGraphic_Device },
@@ -133,6 +134,10 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Swir%d.png"), 17))))
 		return E_FAIL;
 
+	/* Prototype_Component_Texture_Pig */
+	if (FAILED(Ready_PigTexture()))
+		return E_FAIL;
+
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩중입니다."));
 
 	lstrcpy(m_szLoadingText, TEXT("쉐이더를 로딩중입니다."));
@@ -168,9 +173,49 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CPlayer_Topdee::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_GameObject_Monster_Pig */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"),
+		CPig::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	lstrcpy(m_szLoadingText, TEXT("GamePlay_Level 로딩이 완료되었습니다."));
 
 	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Ready_PigTexture()
+{
+	/* Prototype_Component_Texture_Pig_Body */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Body"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigBodySpr_%d.png"), 10))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Ears */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Ears"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEarsSpr_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Eyes */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Eyes"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEyeSpr_%d.png"), 2))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Legs */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Legs"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigLegsSpr_%d.png"), 9))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Nose */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Nose"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigNoseSpr_0.png"), 1))))
+		return E_FAIL;
+	
+	/* Prototype_Component_Texture_Pig_Tail */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Tail"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigTailSpr_0.png"), 1))))
+		return E_FAIL;
 
 	return S_OK;
 }

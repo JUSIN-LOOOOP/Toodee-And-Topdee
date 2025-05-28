@@ -22,6 +22,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -117,6 +120,20 @@ HRESULT CLevel_GamePlay::Ready_Layer_Tile(const _wstring& strLayerTag)
 				return E_FAIL;
 		}
 	}
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"))))
+		return E_FAIL;
+
+	_float3 vPos = _float3(1.0f, 0.0f, 2.5f);
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"), &vPos)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
