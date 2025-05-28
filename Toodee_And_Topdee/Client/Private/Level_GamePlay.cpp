@@ -2,6 +2,9 @@
 
 #include "GameInstance.h"
 #include "Camera.h"
+#include "Level_MapEdit.h"
+#include "Level_Loading.h"
+#include "ClearTriggerObserver.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -10,29 +13,42 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	if (FAILED(Ready_Observer()))
+		return E_FAIL;
+
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+	//	return E_FAIL;
+
+	//if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
+	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
+	if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 		return E_FAIL;
+
+
+//	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
+//		return E_FAIL;
+
 
 	return S_OK;
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	
 }
 
 HRESULT CLevel_GamePlay::Render()
 {
-	// -- ÀÓ½Ã --
-	SetWindowText(g_hWnd, TEXT("°ÔÀÓÇÃ·¹ÀÌ·¹º§ÀÔ´Ï´Ù."));
+	// -- ï¿½Ó½ï¿½ --
+	SetWindowText(g_hWnd, TEXT("ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½."));
 
 	return S_OK;
 }
@@ -75,18 +91,32 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
+
 	m_pGameInstance->Load_File(TEXT("Map_File"));
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
 
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
+	{
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube") , &info)))
+			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube"), &info)))
 			return E_FAIL;
+	}
 
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube"))))
+		return E_FAIL;
+  
 	return S_OK;
+}
 
+HRESULT CLevel_GamePlay::Ready_Layer_TestCube2(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube2"))))
+		return E_FAIL;
+  
 	return S_OK;
 }
 
@@ -117,6 +147,27 @@ HRESULT CLevel_GamePlay::Ready_Layer_Tile(const _wstring& strLayerTag)
 				return E_FAIL;
 		}
 	}
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
+{
+	_float3 vPotalPosition = { 5.f, 0.f, 0.f }; //TEST
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Observer()
+{
+	// ì˜µì €ë²„ ë§¤ë‹ˆì €ì— Observer_ClearTrigger Keyê°’ì„ ê°€ì§„ CClearTriggerObserver ìƒì„±
+	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"),
+		CClearTriggerObserver::Create())))
+		return E_FAIL;
+
 	return S_OK;
 }
 

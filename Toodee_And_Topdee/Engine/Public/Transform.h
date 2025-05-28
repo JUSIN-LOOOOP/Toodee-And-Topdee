@@ -26,6 +26,10 @@ public:
 		return *reinterpret_cast<const _float3*>(&m_WorldMatrix.m[ENUM_CLASS(eState)][0]);
 	}
 
+	const _float3& Get_State_Ref(STATE eState) const {
+		return *reinterpret_cast<const _float3*>(&m_WorldMatrix.m[ENUM_CLASS(eState)][0]);
+	}
+
 	_float3 Get_Scaled() const {
 		_float3		vRight = Get_State(STATE::RIGHT);
 		_float3		vUp = Get_State(STATE::UP);
@@ -35,6 +39,10 @@ public:
 			D3DXVec3Length(&vUp),
 			D3DXVec3Length(&vLook)
 		);
+	}
+	
+	const _float4x4* Get_WorldMatrix() {
+		return &m_WorldMatrix;
 	}
 
 	const _float4x4* Get_WorldMatrix_Inverse() {

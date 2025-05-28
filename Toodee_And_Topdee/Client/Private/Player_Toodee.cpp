@@ -57,11 +57,14 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (FAILED(Ready_States()))
         return E_FAIL;
 
+    if (FAILED(Ready_Observers()))
+        return E_FAIL;
+
     //Test true = 클리어모션 false = 플레이모션
     m_bCanClear = false;
     m_vPotalPosition = { 0.f, 0.f, 0.f };
 
-    m_pTransformCom->Scaling(5.f, 5.f, 0.f);
+    m_pTransformCom->Scaling(16.f, 16.f, 0.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     
     return S_OK;
@@ -70,6 +73,9 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
 void CPlayer_Toodee::Priority_Update(_float fTimeDelta)
 {     
     Check_Dimension();
+
+    if (GetKeyState('1') & 0x8000)
+        Notify(EVENT::ENTER_PORTAL);
 }
 
 void CPlayer_Toodee::Update(_float fTimeDelta)
@@ -146,14 +152,6 @@ HRESULT CPlayer_Toodee::Render()
 
     m_pVIBufferCom->Render();
 
-    if (m_eCurrentState == PLAYERSTATE::STOP)
-    {
-        m_pTextureComs[ENUM_CLASS(m_ePrevState)]->Bind_Texture(m_iCurrentAnimCount); //Stop Player Texture
-    
-        m_pVIBufferCom->Render();
-    
-    }
-
     End_RenderState();
 
     return S_OK;
@@ -212,6 +210,12 @@ void CPlayer_Toodee::Action()
 void CPlayer_Toodee::Stop()
 {
     m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
+}
+
+void CPlayer_Toodee::onReport(REPORT eReport)
+{
+    if (eReport == REPORT::REPORT_CANCLEAR)
+        m_bCanClear = true;
 }
 
 
@@ -326,6 +330,13 @@ HRESULT CPlayer_Toodee::End_RenderState()
         m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     else
         m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+    return S_OK;
+}
+
+HRESULT CPlayer_Toodee::Ready_Observers()
+{
+    m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"), this);
 
     return S_OK;
 }

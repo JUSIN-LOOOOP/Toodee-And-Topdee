@@ -28,6 +28,7 @@ public:
 	//Level
 public:
 	HRESULT			Open_Level(_uint iLevelID, class CLevel* pNewLevel);
+	const _uint		Get_CurrentLevelID();
 
 	//Prototype
 public:
@@ -56,11 +57,23 @@ public:
 		return m_eCurrentDimension;
 	}
 
+	//Map_Manager
 public:
 	HRESULT				Load_File(const _wstring& filename);
-	_int				Get_CurrentType();
-	HRESULT				Add_Tile(CGameObject* tile);
+	BLOCK_INFO			Get_CurrentType();									
+	_uint				Get_RenderTextureIdx();							
+	HRESULT				Add_Tile(CGameObject* tile);						
 	HRESULT				Get_Tile_Data(_int idx, BLOCK_INFO& block_data);
+	HRESULT				Load_Initial_Data(vector<_uint>* blockData);
+
+	//Collision
+public:
+	HRESULT			Add_Collider(_uint iLevelIndex, COLLIDER_SHAPE etype, class CCollider** pCollider);
+
+	//Observer
+public:
+	HRESULT Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CObserver* pObserver);
+	HRESULT Subscribe_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CSubjectObject* pSubject);
 
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -70,7 +83,9 @@ private:
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CKey_Manager*			m_pKey_Manager = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
+	class CCollision_Manager*	m_pCollision_Manager = { nullptr };
 	class CMap_Manager*			m_pMap_Manager = { nullptr };
+	class CObserver_Manager*	m_pObserver_Manager = { nullptr };
 
 	DIMENSION					m_eCurrentDimension = {};
 

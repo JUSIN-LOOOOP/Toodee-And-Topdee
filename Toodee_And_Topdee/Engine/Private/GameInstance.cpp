@@ -7,6 +7,8 @@
 #include "Key_Manager.h"
 #include "Timer_Manager.h"
 #include "Map_Manager.h"
+#include "Collision_Manager.h"
+#include "Observer_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -46,8 +48,17 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pTimer_Manager)
 		return E_FAIL;
 	m_eCurrentDimension = DIMENSION::TOODEE;
-	m_pMap_Manager = CMap_Manager::Create(1);
+
+	m_pMap_Manager = CMap_Manager::Create();
 	if (nullptr == m_pTimer_Manager)
+		return E_FAIL;
+
+	m_pCollision_Manager = CCollision_Manager::Create(EngineDesc.iNumLevels);
+	if (nullptr == m_pCollision_Manager)
+		return E_FAIL;
+
+ 	m_pObserver_Manager = CObserver_Manager::Create(EngineDesc.iNumLevels);
+	if (nullptr == m_pObject_Manager)
 		return E_FAIL;
 
     return S_OK;
@@ -61,13 +72,22 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Update(fTimeDelta);
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
+	m_pCollision_Manager->Update(fTimeDelta);
+
 	m_pLevel_Manager->Update(fTimeDelta);
+
+	m_pMap_Manager->Update(fTimeDelta);
 }
 
 HRESULT CGameInstance::Clear_Resources(_uint iClearLevelID)
 {
+	m_pCollision_Manager->Clear(iClearLevelID);
+
 	m_pPrototype_Manager->Clear(iClearLevelID);
+
 	m_pObject_Manager->Clear(iClearLevelID);
+
+	m_pObserver_Manager->Clear(iClearLevelID);
 
     return S_OK;
 }
@@ -108,6 +128,11 @@ HRESULT CGameInstance::Open_Level(_uint iLevelID, CLevel* pNewLevel)
 		return E_FAIL;
 
     return m_pLevel_Manager->Open_Level(iLevelID, pNewLevel);
+}
+
+const _uint CGameInstance::Get_CurrentLevelID()
+{
+	return m_pLevel_Manager->Get_CurrentLevelID();
 }
 
 
@@ -206,6 +231,27 @@ void CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
 	m_pTimer_Manager->Compute_TimeDelta(strTimerTag);
 }
 
+#pragma endregion
+
+#pragma region COLLISION_MANAGER
+
+HRESULT CGameInstance::Add_Collider(_uint iLevelIndex, COLLIDER_SHAPE etype, CCollider** pCollider)
+{
+	if (nullptr == m_pCollision_Manager)
+		return E_FAIL;
+
+	return m_pCollision_Manager->Add_Collider(iLevelIndex, etype, pCollider);
+}
+
+HRESULT CGameInstance::Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, CObserver* pObserver)
+{
+	return m_pObserver_Manager->Add_Observer(iObserverLevelndex, strObserverTag, pObserver);
+}
+
+HRESULT CGameInstance::Subscribe_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, CSubjectObject* pSubject)
+{
+	return m_pObserver_Manager->Subscribe_Observer(iObserverLevelndex, strObserverTag, pSubject);
+}
 
 #pragma endregion
 
@@ -216,7 +262,7 @@ HRESULT CGameInstance::Load_File(const _wstring& filename)
 	return S_OK;
 }
 
-_int CGameInstance::Get_CurrentType()
+BLOCK_INFO CGameInstance::Get_CurrentType()
 {
 	return m_pMap_Manager->Get_CurrentType();
 }
@@ -234,10 +280,21 @@ HRESULT CGameInstance::Get_Tile_Data(_int idx, BLOCK_INFO& block_data)
 	return m_pMap_Manager->Get_Tile_Data(idx, block_data);
 }
 
+HRESULT CGameInstance::Load_Initial_Data(vector<_uint>* blockData)
+{
+	return m_pMap_Manager->Load_Initial_Data(blockData);
+}
+
+_uint CGameInstance::Get_RenderTextureIdx()
+{
+	return m_pMap_Manager->Get_RenderTextureIdx();
+}
+
 void CGameInstance::Release_Engine()
 {
 	Release();
 
+	Safe_Release(m_pCollision_Manager);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pKey_Manager);
 	Safe_Release(m_pRenderer);
@@ -246,6 +303,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pMap_Manager);
+	Safe_Release(m_pObserver_Manager);
 }
 
 void CGameInstance::Free()

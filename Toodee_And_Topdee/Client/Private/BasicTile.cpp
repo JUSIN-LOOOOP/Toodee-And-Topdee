@@ -30,8 +30,6 @@ HRESULT CBasicTile::Initialize(void* pArg)
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     m_pTransformCom->Set_State(STATE::POSITION, *pos);
 
-
-
     return S_OK;
 }
 
@@ -40,9 +38,17 @@ void CBasicTile::Priority_Update(_float fTimeDelta)
     if (GetKeyState(VK_LBUTTON) & 0x8000)
     {
         Picking::Ray ray = Picking::GetRayFromMouse(g_iWinSizeX, g_iWinSizeY, g_hWnd, m_pGraphic_Device);
- 
-        /*if (S_OK == (IsTileClicked(ray)))
-            m_bType = m_pGameInstance->Get_CurrentType();*/
+
+        if (S_OK == (IsTileClicked(ray)))
+        {
+            BLOCK_INFO newInfo = m_pGameInstance->Get_CurrentType();
+            m_iRenderTextureIdx = m_pGameInstance->Get_RenderTextureIdx();
+            m_iTextureType = newInfo.iTextureType;
+            m_iBlockType = newInfo.iBlockType;
+            m_iTextureDir = newInfo.iDir;
+            m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+            m_pTransformCom->TurnToRadian(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f) * m_iTextureDir);
+        }
     }
 }
 
@@ -60,16 +66,14 @@ HRESULT CBasicTile::Render()
 {
     m_pTransformCom->Bind_Matrix();
 
-    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-    m_pGraphic_Device->SetTexture(0, nullptr); // 0번 텍스처 슬롯을 해제
+    m_iBlockType = m_iBlockType;
+    m_iTextureType = m_iTextureType;
 
-    /*if (FAILED(m_pTextureCom->Bind_Texture(m_bType)))
-        return E_FAIL;*/
+    if (FAILED(m_pTextureCom->Bind_Texture(m_iRenderTextureIdx)))
+        return E_FAIL;
 
     m_pVIBufferCom->Bind_Buffers();
-
     m_pVIBufferCom->Render();
-    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
     return S_OK;
 }
@@ -83,9 +87,9 @@ HRESULT CBasicTile::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture */
-    /*if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Tile"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_Component_Texture_Tile"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-        return E_FAIL;*/
+        return E_FAIL;
 
     /* For.Com_Transform */
     CTransform::TRANSFORM_DESC		TransformDesc{};

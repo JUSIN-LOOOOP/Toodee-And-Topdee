@@ -149,6 +149,7 @@
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
+    <ClInclude Include="..\Public\Level_MapEdit.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\MultiViewCamera.h" />
@@ -156,12 +157,14 @@
     <ClInclude Include="..\Public\PlayerState.h" />
     <ClInclude Include="..\public\Player_Toodee.h" />
     <ClInclude Include="..\public\Player_Topdee.h" />
+    <ClInclude Include="..\Public\Potal.h" />
     <ClInclude Include="..\Public\State_Action.h" />
     <ClInclude Include="..\Public\State_Clear.h" />
     <ClInclude Include="..\Public\State_Idle.h" />
     <ClInclude Include="..\Public\State_Move.h" />
     <ClInclude Include="..\Public\State_Stop.h" />
     <ClInclude Include="..\public\Test_Cube.h" />
+    <ClInclude Include="..\Public\Test_Cube2.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -173,6 +176,7 @@
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
+    <ClCompile Include="..\Private\Level_MapEdit.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\MultiViewCamera.cpp" />
@@ -180,12 +184,14 @@
     <ClCompile Include="..\Private\PlayerState.cpp" />
     <ClCompile Include="..\private\Player_Toodee.cpp" />
     <ClCompile Include="..\private\Player_Topdee.cpp" />
+    <ClCompile Include="..\Private\Potal.cpp" />
     <ClCompile Include="..\Private\State_Action.cpp" />
     <ClCompile Include="..\Private\State_Clear.cpp" />
     <ClCompile Include="..\Private\State_Idle.cpp" />
     <ClCompile Include="..\Private\State_Move.cpp" />
     <ClCompile Include="..\Private\State_Stop.cpp" />
     <ClCompile Include="..\private\Test_Cube.cpp" />
+    <ClCompile Include="..\Private\Test_Cube2.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

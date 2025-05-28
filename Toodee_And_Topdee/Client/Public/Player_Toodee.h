@@ -27,6 +27,8 @@ public:
 	virtual void Action() override;					
 	virtual void Stop() override;					
 
+	//Observer 에서 받은 REPORT 처리
+	virtual void onReport(REPORT eReport) override;
 private:
 	//Action 점프 변수
 	JUMPSTATE	m_eJumpState = {};
@@ -40,15 +42,15 @@ private:
 
 	HRESULT Ready_Components();
 	HRESULT Ready_States();
+	HRESULT Ready_Observers();
+
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
-
 	void Action_Jump(_float fTimeDelta);	//CurrentState == Action State 일때 실행
 public:
 	static CPlayer_Toodee* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
-
 };
 
 END

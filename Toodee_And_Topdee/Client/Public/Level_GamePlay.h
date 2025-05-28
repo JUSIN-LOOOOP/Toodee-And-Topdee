@@ -19,9 +19,13 @@ public:
 private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_TestCube(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_TestCube2(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Tile(const _wstring& strLayerTag);
-
+	HRESULT Ready_Layer_Potal(const _wstring& strLayerTag);
+	
+	//옵저버 준비
+	HRESULT Ready_Observer();
 
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
