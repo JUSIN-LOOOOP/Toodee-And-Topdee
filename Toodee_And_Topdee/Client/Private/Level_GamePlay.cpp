@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
+#include "ClearTriggerObserver.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -12,11 +13,14 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	if (FAILED(Ready_Observer()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-		return E_FAIL;
+//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
@@ -24,8 +28,10 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
-		return E_FAIL;
+//	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
+//		return E_FAIL;
+
+
 
 	return S_OK;
 }
@@ -91,7 +97,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube"), &info)))
 			return E_FAIL;
-
+	}
 	return S_OK;
 }
 
@@ -131,6 +137,16 @@ HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Observer()
+{
+	// 옵저버 매니저에 Observer_ClearTrigger Key값을 가진 CClearTriggerObserver 생성
+	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"),
+		CClearTriggerObserver::Create())))
 		return E_FAIL;
 
 	return S_OK;

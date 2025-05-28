@@ -53,6 +53,9 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 	
+	if (FAILED(Ready_Observers()))
+		return E_FAIL;
+
 	m_bCanClear = false;
 	m_fTurnDownTime = 0.f;
 	m_fTurnDownDelay = 0.04f;
@@ -67,6 +70,10 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 void CPlayer_Topdee::Priority_Update(_float fTimeDelta)
 {
 	Check_Dimension();
+
+
+	if (GetKeyState('2') & 0x8000)
+		Notify(EVENT::ENTER_PORTAL);
 }
 
 void CPlayer_Topdee::Update(_float fTimeDelta)
@@ -212,6 +219,12 @@ void CPlayer_Topdee::Stop()
 
 }
 
+void CPlayer_Topdee::onReport(REPORT eReport)
+{
+	if (eReport == REPORT::REPORT_CANCLEAR)
+		m_bCanClear = true;
+}
+
 _uint CPlayer_Topdee::KeyInput()
 {
 	_uint iInputData = 0;
@@ -327,6 +340,14 @@ HRESULT CPlayer_Topdee::Ready_States()
 	Safe_AddRef(m_pCurrentState);
 
 	return S_OK;
+}
+
+HRESULT CPlayer_Topdee::Ready_Observers()
+{
+	m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"), this);
+
+	return S_OK;
+	
 }
 
 HRESULT CPlayer_Topdee::Begin_RenderState()
