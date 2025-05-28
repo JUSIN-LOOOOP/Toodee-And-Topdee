@@ -28,6 +28,7 @@ private:
 private:
 	HRESULT Ready_Default_Setting();
 	HRESULT Ready_Prototype_ForStatic();
+	HRESULT Ready_Prototype_ForStatic_Parts();
 	HRESULT Start_Level(LEVEL eStartLevelID);
 
 
