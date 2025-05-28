@@ -97,6 +97,9 @@
     <Filter Include="01. Utility\03. GameObject\Tile">
       <UniqueIdentifier>{cd922f10-5cb5-4062-9f0f-b1d279bb817a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\Parts">
+      <UniqueIdentifier>{fd925870-128e-4b6b-b65b-7981ac831d45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -195,6 +198,9 @@
     <ClInclude Include="..\Public\Tile.h">
       <Filter>01. Utility\03. GameObject\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Parts.h">
+      <Filter>01. Utility\05. Component\Parts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -274,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Tile.cpp">
       <Filter>01. Utility\03. GameObject\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Parts.cpp">
+      <Filter>01. Utility\05. Component\Parts</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
