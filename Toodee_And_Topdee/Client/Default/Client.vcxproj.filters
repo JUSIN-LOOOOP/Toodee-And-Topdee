@@ -64,9 +64,6 @@
     <ClCompile Include="..\Private\Potal.cpp">
       <Filter>00. Dummys\K J H</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Test_TileCube.cpp">
-      <Filter>00. Dummys\T Y J</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -143,9 +140,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Potal.h">
       <Filter>00. Dummys\K J H</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Test_TileCube.h">
-      <Filter>00. Dummys\T Y J</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

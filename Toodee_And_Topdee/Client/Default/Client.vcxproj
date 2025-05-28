@@ -164,7 +164,6 @@
     <ClInclude Include="..\Public\State_Stop.h" />
     <ClInclude Include="..\public\Test_Cube.h" />
     <ClInclude Include="..\Public\Test_Cube2.h" />
-    <ClInclude Include="..\Public\Test_TileCube.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -191,7 +190,6 @@
     <ClCompile Include="..\Private\State_Stop.cpp" />
     <ClCompile Include="..\private\Test_Cube.cpp" />
     <ClCompile Include="..\Private\Test_Cube2.cpp" />
-    <ClCompile Include="..\Private\Test_TileCube.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

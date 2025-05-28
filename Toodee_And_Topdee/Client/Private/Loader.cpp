@@ -10,7 +10,6 @@
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
-#include "Test_TileCube.h";
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:m_pGraphic_Device{ pGraphic_Device },
@@ -177,12 +176,6 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
  	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Tile"),
 		CBasicTile::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
-	/* Prototype_GameObject_TestTileCube*/
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestTileCube"),
-		CTest_TileCube::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 
 	/* Prototype_GameObject_Player_Toodee */
 	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Player_Toodee"),
