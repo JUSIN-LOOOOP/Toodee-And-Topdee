@@ -64,6 +64,9 @@
     <ClCompile Include="..\Private\Potal.cpp">
       <Filter>00. Dummys\K J H</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Level_MapEdit.cpp">
+      <Filter>00. Dummys\T Y J</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Potal.h">
       <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_MapEdit.h">
+      <Filter>00. Dummys\T Y J</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

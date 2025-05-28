@@ -27,8 +27,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
