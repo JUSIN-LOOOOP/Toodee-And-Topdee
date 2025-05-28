@@ -100,6 +100,12 @@
     <Filter Include="01. Utility\05. Component\Parts">
       <UniqueIdentifier>{fd925870-128e-4b6b-b65b-7981ac831d45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\Observer">
+      <UniqueIdentifier>{168bf673-b078-4658-8582-9d3d2a6b8228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\Observer\Manager">
+      <UniqueIdentifier>{158358c4-fc6f-4c10-a568-57be59e52f3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -201,6 +207,18 @@
     <ClInclude Include="..\Public\Parts.h">
       <Filter>01. Utility\05. Component\Parts</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Observer_Manager.h">
+      <Filter>01. Utility\Observer\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Observer.h">
+      <Filter>01. Utility\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SubjectObject.h">
+      <Filter>01. Utility\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ClearTriggerObserver.h">
+      <Filter>01. Utility\Observer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -283,6 +301,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Parts.cpp">
       <Filter>01. Utility\05. Component\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Observer_Manager.cpp">
+      <Filter>01. Utility\Observer\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Observer.cpp">
+      <Filter>01. Utility\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SubjectObject.cpp">
+      <Filter>01. Utility\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ClearTriggerObserver.cpp">
+      <Filter>01. Utility\Observer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

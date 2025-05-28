@@ -10,6 +10,7 @@
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
+#include "Pig.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:m_pGraphic_Device{ pGraphic_Device },
