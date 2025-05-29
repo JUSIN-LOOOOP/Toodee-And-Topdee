@@ -11,11 +11,9 @@ END
 
 BEGIN(Client)
 
-class CBlock : public CGameObject
+class CBlock abstract : public CGameObject
 {
-public:
-
-private:
+protected:
 	CBlock(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CBlock(const CBlock& Prototype);
 	virtual ~CBlock() = default;
@@ -27,21 +25,22 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
+protected:
 
 	CVIBuffer_Cube*		m_pVIBufferCom = { nullptr };
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 
-private:
-	HRESULT Ready_Components();
-	void SetUp_RenderState();
-	void Reset_RenderState();
+protected:
+	virtual	HRESULT Ready_Components();
+	void			SetUp_BlockInfo(void* pArg);
+	virtual void	SetUp_RenderState();
+	virtual void	Reset_RenderState();
 
+	_uint		m_TextureIdx = {};
 
 public:
-	static CBlock* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg) override;
+	virtual CGameObject* Clone(void* pArg) = 0;
 	virtual void Free() override;
 
 };

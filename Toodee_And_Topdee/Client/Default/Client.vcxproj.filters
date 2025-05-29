@@ -65,22 +65,25 @@
       <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Wood.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block_Wood</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Wood</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Wall.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block_Wall</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Wall</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Lock.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block_Lock</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Lock</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Break.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block_Break</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Break</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TextureUI.cpp">
       <Filter>00. Dummys\T Y J\TextureUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Fall.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block_Fall</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block.cpp">
+      <Filter>00. Dummys\T Y J\Block\Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,22 +163,25 @@
       <Filter>00. Dummys\T Y J</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Wood.h">
-      <Filter>00. Dummys\T Y J\Block\Block_Wood</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Wood</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Wall.h">
-      <Filter>00. Dummys\T Y J\Block\Block_Wall</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Wall</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Lock.h">
-      <Filter>00. Dummys\T Y J\Block\Block_Lock</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Lock</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Break.h">
-      <Filter>00. Dummys\T Y J\Block\Block_Break</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Break</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TextureUI.h">
       <Filter>00. Dummys\T Y J\TextureUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Fall.h">
-      <Filter>00. Dummys\T Y J\Block\Block_Fall</Filter>
+      <Filter>00. Dummys\T Y J\Block\Block\Block_Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block.h">
+      <Filter>00. Dummys\T Y J\Block\Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -292,23 +298,26 @@
     <Filter Include="00. Dummys\T Y J\Block">
       <UniqueIdentifier>{a81792ef-e3bc-4f97-a462-e0d132bdecb9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block_Break">
-      <UniqueIdentifier>{2ede29d4-6928-4c94-bfe7-5401fa032033}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block_Wall">
-      <UniqueIdentifier>{d1fa4326-0689-400b-8213-23b2736e3642}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block_Lock">
-      <UniqueIdentifier>{603e8732-2c53-4efb-8a45-eaebd36da937}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block_Wood">
-      <UniqueIdentifier>{d5fdd78c-af59-44b2-ae49-96eec7b7e1e2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Dummys\T Y J\TextureUI">
       <UniqueIdentifier>{20b51f07-f076-4e77-9601-38f0bfda9996}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block_Fall">
+    <Filter Include="00. Dummys\T Y J\Block\Block">
+      <UniqueIdentifier>{6e827a69-f973-4627-bf0a-5335e3a08f36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Break">
+      <UniqueIdentifier>{2ede29d4-6928-4c94-bfe7-5401fa032033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Fall">
       <UniqueIdentifier>{b3969a89-db88-4efa-8a19-6fe0993b1e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Lock">
+      <UniqueIdentifier>{603e8732-2c53-4efb-8a45-eaebd36da937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Wall">
+      <UniqueIdentifier>{d1fa4326-0689-400b-8213-23b2736e3642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Wood">
+      <UniqueIdentifier>{d5fdd78c-af59-44b2-ae49-96eec7b7e1e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

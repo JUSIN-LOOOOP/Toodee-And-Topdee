@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h" />
+    <ClInclude Include="..\Public\Block.h" />
     <ClInclude Include="..\Public\Block_Break.h" />
     <ClInclude Include="..\Public\Block_Fall.h" />
     <ClInclude Include="..\Public\Block_Lock.h" />
@@ -177,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\BasicTile.cpp" />
+    <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\Block_Break.cpp" />
     <ClCompile Include="..\Private\Block_Fall.cpp" />
     <ClCompile Include="..\Private\Block_Lock.cpp" />
