@@ -119,7 +119,22 @@ void CTransform::Move_To(const _float3& vTarget, _float fTimeDelta, _float fLimi
 	}
 }
 
-_bool CTransform::Move_To(const _float3& vTarget, _float fTimeDelta, _float fSpeed, _float fLimitRange)
+_bool CTransform::MoveUntilInRange(const _float3& vTarget, _float fTimeDelta, _float fLimitRange)
+{
+	_float3 vPosition = Get_State(STATE::POSITION);
+	_float3 vMoveDir = vTarget - vPosition;
+
+	if (fLimitRange <= D3DXVec3Length(&vMoveDir))
+	{
+		vPosition += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * m_fSpeedPerSec * fTimeDelta;
+		Set_State(STATE::POSITION, vPosition);
+		return false;
+	}
+	
+	return true;
+}
+
+_bool CTransform::Approach(const _float3& vTarget, _float fTimeDelta, _float fSpeed)
 {
 	_float3 vPosition = Get_State(STATE::POSITION);
 	_float3 vMoveDir = vTarget - vPosition;
@@ -139,7 +154,7 @@ _bool CTransform::Move_To(const _float3& vTarget, _float fTimeDelta, _float fSpe
 
 		if (abs(vMove.z) >= abs(fDistanceZ))
 			vMove.z = fDistanceZ;
-		
+
 		vPosition += vMove;
 
 		Set_State(STATE::POSITION, vPosition);
