@@ -13,6 +13,13 @@ BEGIN(Client)
 
 class CTest_Cube2 final : public CGameObject
 {
+public:
+	typedef struct TestTrans
+	{
+		_float3 Pos;
+
+	}TEST_TRANS;
+
 private:
 	CTest_Cube2(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CTest_Cube2(const CTest_Cube2& Prototype);

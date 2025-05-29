@@ -6,24 +6,21 @@
 /* Prototype_Component_Collider_Rect*/
 /* Prototype_Component_Collider_Cube*/
 
-	/*  :GetOverlapTarget() :
-		충돌 가장 마지막에 들어 온 객체를 꺼내오기.
-		빠른 투사체 테스트는 현재 진행할 수 없어서 테스트를 못해봄.
-		만약 정확하지 않으면 GetOverlapAll에서 꺼내서 이름 비교하며 처리하기*/
-
 BEGIN(Engine)
 
 class ENGINE_DLL CCollider final : public CComponent
 {
 public:
-	enum class COLLIDERSTATE { NONE, ENTRY, STAY, EXIT };
+	enum class COLLIDER_STATE { NONE, ENTRY, STAY, EXIT };
 
 	typedef struct tagColliderDesc
-	{
-		class CTransform* pTransform;
+	{	
 		class CGameObject* pOwner;
-
-		//_float3		vScale;
+		class CTransform* pTransform;
+	
+		_float3		vColliderScale = {};	/* 콜라이더 크기*/
+		_float3		vColliderPosion = {};	/* 콜라이더 고정 위치*/
+		_bool		bIsFixed = { false };	/* 위치 고정 여부 */
 
 	}COLLIDER_DESC;
 
@@ -38,48 +35,59 @@ public:
 
 	/* 사용자가 쓰는 함수들 */
 public:
-	const _bool				OnCollisionEnter() const { return m_eState == COLLIDERSTATE::ENTRY; }
-	const _bool				OnCollisionStay()  const { return m_eState == COLLIDERSTATE::STAY; }
-	const _bool				OnCollisionExit()  const { return m_eState == COLLIDERSTATE::EXIT; }
+	const _bool				OnCollisionEnter() const { return m_eState == COLLIDER_STATE::ENTRY; }
+	const _bool				OnCollisionStay()  const { return m_eState == COLLIDER_STATE::STAY; }
+	const _bool				OnCollisionExit()  const { return m_eState == COLLIDER_STATE::EXIT; }
 
-	const _bool				Collider_IsActive()  const { return m_bisTrigger; }
+	const _bool				Collision_IsActive()  const { return m_bisTrigger; }
 	void					Collision_Off() { m_bisTrigger = false; }
 	void					Collision_On() { m_bisTrigger = true; }
 
-	_bool					GetOverlapAll(list<class CGameObject*>*& pList);
+	_bool					GetOverlapAll(vector<class CGameObject*>*& pList);
 	class CGameObject*		GetOverlapTarget();
 
 	const COLLIDER_DIR		DetectCollisionDirection(_float* distance = nullptr) const;
 
+	HRESULT					Render();
+
 	/* Engine 함수 */
 public:
-	COLLIDER_SHAPE		Reference_Collider_Info(class CTransform** pTransform, class CGameObject** pGameObject);
-	void				Set_State(COLLIDERSTATE eState) { m_eState = eState; }
-	void				Add_Other(class CGameObject* pGameObject);
-	void				Remove_Other(class CGameObject* pGameObject);
-	_bool				GetOverlapAll_Copy(list<class CGameObject*>* outList) const	 //복사본
-	{
-		if (m_eState == COLLIDERSTATE::NONE) return false;
-		*outList = m_pOthers; // 복사본 반환
-		return true;
-	}
+	COLLIDER_SHAPE			Reference_Collider_Info(COLLIDER_DESC& desc);
+	void					Add_Others(const vector<CGameObject*>& currentCollisions);
+	void					Remove_Others();
+	void					Set_State(COLLIDER_STATE eState) { m_eState = eState; }
 
 private:
-	_float4x4					m_WorldMatrix = { };
 	_float3						m_vScale = { };
+	_float3						m_vPosition = { };
+	_bool						m_bIsFixed = { };
 
 	COLLIDER_SHAPE				m_eShape = { };
-	COLLIDERSTATE				m_eState = { COLLIDERSTATE::NONE };
+	COLLIDER_STATE				m_eState = { COLLIDER_STATE::NONE };
 	_bool						m_bisTrigger = { true }; //충돌 영역 활성/ 비활성
 
-	/* 매번 CGameObject를 통해 find로 찾아서 트랜스폼을 찾는 것보다 들고 있는게 낫다. */
-	class CTransform* m_pTransform = { nullptr };//이 컴포넌트를 들고 있는 객체의 트랜스폼
-	class CGameObject* m_pOwner = { nullptr }; //순환 참조되므로 카운터를 올리지 않는다.
+	class CTransform* m_pTransform = { nullptr };	//이 컴포넌트를 들고 있는 객체의 트랜스폼
+	class CGameObject* m_pOwner = { nullptr };		//순환 참조되므로 카운터를 올리지 않는다.
 
-	list<class CGameObject*>	m_pOthers = {}; // 충돌중인 객체 모음집.
+	vector<class CGameObject*>	m_pOthers;		/* 충돌 오브젝트 모음 */
 
+
+	/* Render */
 private:
-	class CGameObject* Find_Others(class CGameObject* other);
+	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
+	LPDIRECT3DINDEXBUFFER9				m_pIB = { nullptr };
+
+	_uint								m_iNumVertices = { };
+	_uint								m_iVertexStride = { }; 
+		_uint								m_iFVF = {};
+	D3DPRIMITIVETYPE					m_ePrimitiveType = {};
+	_uint								m_iNumPrimitive = {};
+
+	_uint								m_iNumIndices = {};
+	_uint								m_iIndexStride = { };
+	D3DFORMAT							m_eIndexFormat = {};
+
+	_float3								m_vPoint[8];
 
 public:
 	static	CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device, COLLIDER_SHAPE eType);

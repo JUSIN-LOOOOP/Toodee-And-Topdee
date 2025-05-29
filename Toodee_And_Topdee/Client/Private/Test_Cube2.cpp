@@ -24,6 +24,11 @@ HRESULT CTest_Cube2::Initialize(void* pArg)
 
 	name = TEXT("2222");
 
+	TEST_TRANS* pDesc = static_cast<TEST_TRANS*>(pArg);
+
+	m_pTransformCom->Set_State(STATE::POSITION, pDesc->Pos);
+	
+	m_pTransformCom->Scaling(1.f , 1.f, 1.f);
     return S_OK;
 }
 
@@ -33,7 +38,7 @@ void CTest_Cube2::Priority_Update(_float fTimeDelta)
 
 void CTest_Cube2::Update(_float fTimeDelta)
 {
-
+	//if (m_pColliderCom->OnCollisionStay()) m_Dead = true;
 }
 
 void CTest_Cube2::Late_Update(_float fTimeDelta)
@@ -56,6 +61,10 @@ HRESULT CTest_Cube2::Render()
 	m_pVIBufferCom->Render();
 
 	Reset_RenderState();
+
+
+	if (FAILED(m_pColliderCom->Render()))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -87,6 +96,9 @@ HRESULT CTest_Cube2::Ready_Components()
 	CCollider::COLLIDER_DESC  ColliderDesc{};
 	ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
 	ColliderDesc.pTransform = m_pTransformCom;
+	//ColliderDesc.bIsFixed = true;
+	//ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.vColliderScale = _float3(1.05f, 1.05f, 2.05f);
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))

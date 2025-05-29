@@ -72,7 +72,6 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Update(fTimeDelta);
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
-	m_pCollision_Manager->Update(fTimeDelta);
 
 	m_pLevel_Manager->Update(fTimeDelta);
 
@@ -162,6 +161,12 @@ CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototype, _uint iPrototpyeLeve
 
 
 
+CComponent* CGameInstance::Find_Component(_uint iLayerLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex)
+{
+	return m_pObject_Manager->Get_Component(iLayerLevelIndex, strLayerTag, strComponentTag, iIndex);
+
+}
+
 HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg)
 {
 	if (nullptr == m_pObject_Manager)
@@ -243,6 +248,26 @@ HRESULT CGameInstance::Add_Collider(_uint iLevelIndex, COLLIDER_SHAPE etype, CCo
 	return m_pCollision_Manager->Add_Collider(iLevelIndex, etype, pCollider);
 }
 
+void CGameInstance::Delete_Collider(_uint iLevelIndex, CCollider** pCollider)
+{
+	if (nullptr == m_pCollision_Manager)
+		return ;
+
+	return m_pCollision_Manager->Delete_Collider(iLevelIndex, pCollider);
+}
+
+void CGameInstance::Check_Collision(CCollider* pCollider)
+{
+	if (nullptr == m_pCollision_Manager)
+		return;
+
+	return m_pCollision_Manager->Check_Collision(Get_CurrentLevelID() - 1, pCollider);
+}
+
+#pragma endregion
+
+#pragma region OBSERVER_MANAGER
+
 HRESULT CGameInstance::Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, CObserver* pObserver)
 {
 	return m_pObserver_Manager->Add_Observer(iObserverLevelndex, strObserverTag, pObserver);
@@ -254,6 +279,7 @@ HRESULT CGameInstance::Subscribe_Observer(_uint iObserverLevelndex, const _wstri
 }
 
 #pragma endregion
+
 
 #pragma region MAP_MANAGER
 HRESULT CGameInstance::Load_File(const _wstring& filename)

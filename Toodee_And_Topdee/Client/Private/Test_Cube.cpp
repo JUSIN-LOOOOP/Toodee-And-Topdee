@@ -3,36 +3,42 @@
 #include <sstream>
 
 CTest_Cube::CTest_Cube(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CGameObject{ pGraphic_Device }
+	: CGameObject{ pGraphic_Device }
 {
 }
 
 CTest_Cube::CTest_Cube(const CTest_Cube& Prototype)
-    : CGameObject{ Prototype }
+	: CGameObject{ Prototype }
 {
 }
 
 HRESULT CTest_Cube::Initialize_Prototype()
 {
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CTest_Cube::Initialize(void* pArg)
 {
-    if (FAILED(Ready_Components()))
-        return E_FAIL;
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
 
 	name = TEXT("1111");
+	_float3 temp = { 0.f,0.f,10.f }; 
+	m_pTransformCom->Set_State(STATE::POSITION, temp);
 
-    return S_OK;
+	return S_OK;
 }
 
 void CTest_Cube::Priority_Update(_float fTimeDelta)
 {
+	m_pGameInstance->Check_Collision(m_pColliderCom);
+	
 }
 
 void CTest_Cube::Update(_float fTimeDelta)
-{
+{	
+	if(m_bGravity)
+		m_pTransformCom->Go_Backward(fTimeDelta*0.8f);
 	
 	if (m_pGameInstance->Key_Pressing(VK_UP))
 		m_pTransformCom->Go_Straight(fTimeDelta);
@@ -46,58 +52,36 @@ void CTest_Cube::Update(_float fTimeDelta)
 	if (m_pGameInstance->Key_Pressing(VK_RIGHT))
 		m_pTransformCom->Go_Right(fTimeDelta);
 
-	_float dis;
 
-	//충돌 진입
-	if (m_pColliderCom->OnCollisionEnter())
+
+	if (m_pColliderCom->OnCollisionStay())
 	{
-		//->Scaling(1.5f, 1.5f, 1.5f);
+		m_Dead = true;
+		_float dis = {};
+		COLLIDER_DIR state = m_pColliderCom->DetectCollisionDirection(&dis);
+		if (state == COLLIDER_DIR::BACK)
+		{
+			_float3 temp = m_pTransformCom->Get_State(STATE::POSITION);
+			temp.z -= dis;
+			m_pTransformCom->Set_State(STATE::POSITION, temp);
 
-		m_pColliderCom->DetectCollisionDirection(&dis);
-		wostringstream woss;
-		woss << dis;
-		_wstring strt = woss.str();
-		MessageBoxW(NULL, woss.str().c_str(), L"알림", MB_OK);
-
-
+			//m_bGravity = false; 
+			int a = 10;
+		}
 	}
-
-	//충돌 끝
 	if (m_pColliderCom->OnCollisionExit())
 	{
-		m_pTransformCom->Scaling(1.f, 1.f, 1.f);
+		int a = 10;
+		//MSG_BOX(TEXT("[ OnCollisionExit ]"));
 	}
 
-	list<CGameObject*>* findAll = { nullptr };
-
-	////충돌 중
-	//if (m_pColliderCom->OnCollisionStay())
-	//{
-	//	//이 게임 오브젝트와 충돌중인 모든 오브젝트 들고 오기
-	//	if (m_pColliderCom->GetOverlapAll(findAll))
-	//	{
-	//		for (auto& other : *findAll)
-	//		{
-	//			if (other->CompareName(TEXT("3333")))
-	//			{
-	//				// 코드
-	//			}
-	//		}
-	//	} 
-
-	//	// 가장 마지막에 들어온 객체 참조하기
-	//	CGameObject* other = m_pColliderCom->GetOverlapTarget();
-	//	_wstring otherName = other->Get_Name();
-	//	
-	//	//코드 
-
-	//}
-	
 }
 
 void CTest_Cube::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+
+
 }
 
 HRESULT CTest_Cube::Render()
@@ -116,6 +100,8 @@ HRESULT CTest_Cube::Render()
 
 	Reset_RenderState();
 
+	if (FAILED(m_pColliderCom->Render()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -135,7 +121,7 @@ HRESULT CTest_Cube::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 20.f;
+	TransformDesc.fSpeedPerSec = 6.f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
@@ -146,6 +132,8 @@ HRESULT CTest_Cube::Ready_Components()
 	CCollider::COLLIDER_DESC  ColliderDesc{};
 	ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
 	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(1.0f, 1.0f, 2.0f);
+	ColliderDesc.bIsFixed = false;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
