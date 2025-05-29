@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
+#include "ClearTriggerObserver.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -12,11 +13,18 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	if (FAILED(Ready_Observer()))
+		return E_FAIL;
+
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+	//	return E_FAIL;
+
+	//if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
+	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
@@ -24,8 +32,10 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 		return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
-		return E_FAIL;*/
+
+//	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
+//		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -61,7 +71,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 		return E_FAIL;*/
 
 	CCamera::CAMERA_DESC			CameraDesc{};
-	CameraDesc.vEye = _float3(0.f, 36.f, 0.f);
+	CameraDesc.vEye = _float3(0.f, 34.f, 0.f);
 	CameraDesc.vAt = _float3(0.f, 0.f, 0.1f);
 	CameraDesc.fFovy = D3DXToRadian(60.0f);
 	CameraDesc.fNear = 0.1f;
@@ -81,7 +91,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Load_File(TEXT("new"));
+
+	m_pGameInstance->Load_File(TEXT("Map_File"));
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
@@ -166,6 +177,16 @@ HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Observer()
+{
+	// 옵저버 매니저에 Observer_ClearTrigger Key값을 가진 CClearTriggerObserver 생성
+	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"),
+		CClearTriggerObserver::Create())))
 		return E_FAIL;
 
 	return S_OK;

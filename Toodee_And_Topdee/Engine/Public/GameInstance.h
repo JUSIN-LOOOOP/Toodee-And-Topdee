@@ -69,6 +69,10 @@ public:
 public:
 	HRESULT			Add_Collider(_uint iLevelIndex, COLLIDER_SHAPE etype, class CCollider** pCollider);
 
+	//Observer
+public:
+	HRESULT Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CObserver* pObserver);
+	HRESULT Subscribe_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CSubjectObject* pSubject);
 
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -80,6 +84,7 @@ private:
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
 	class CCollision_Manager*	m_pCollision_Manager = { nullptr };
 	class CMap_Manager*			m_pMap_Manager = { nullptr };
+	class CObserver_Manager*	m_pObserver_Manager = { nullptr };
 
 	DIMENSION					m_eCurrentDimension = {};
 

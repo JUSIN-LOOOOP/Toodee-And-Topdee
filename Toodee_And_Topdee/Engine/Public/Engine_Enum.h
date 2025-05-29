@@ -13,8 +13,14 @@ namespace Engine
 
 	enum class TEXTURE { RECT, CUBE };
 	enum class COLLIDER_SHAPE { RECT, CUBE };
+	enum class COLLIDER_DIR {LEFT, RIGHT, FRONT, BACK, TOP, BOTTOM, CD_END};
 
 	enum class DIMENSION { TOODEE, TOPDEE };
 
+	enum class EVENT { ENTER_PORTAL, EXIT_PORTAL };
+	enum class REPORT { REPORT_CANCLEAR };
+
 }
 #endif // Engine_Enum_h__
+
+

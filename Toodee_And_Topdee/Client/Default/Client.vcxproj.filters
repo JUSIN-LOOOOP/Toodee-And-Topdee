@@ -58,32 +58,14 @@
     <ClCompile Include="..\private\Test_Cube.cpp">
       <Filter>00. Dummys\J O H</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Level_MapEdit.cpp">
-      <Filter>00. Dummys\T Y J</Filter>
+    <ClCompile Include="..\Private\Test_Cube2.cpp">
+      <Filter>00. Dummys\J O H</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Potal.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_MapEdit.cpp">
       <Filter>00. Dummys\T Y J</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Block_Wood.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Wood</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Block_Wall.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Wall</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Block_Lock.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Lock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Block_Break.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Break</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\TextureUI.cpp">
-      <Filter>00. Dummys\T Y J\TextureUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Block_Fall.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Fall</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Block.cpp">
-      <Filter>00. Dummys\T Y J\Block\Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,32 +138,14 @@
     <ClInclude Include="..\public\Test_Cube.h">
       <Filter>00. Dummys\J O H</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Level_MapEdit.h">
-      <Filter>00. Dummys\T Y J</Filter>
+    <ClInclude Include="..\Public\Test_Cube2.h">
+      <Filter>00. Dummys\J O H</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Potal.h">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_MapEdit.h">
       <Filter>00. Dummys\T Y J</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Block_Wood.h">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Wood</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Block_Wall.h">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Wall</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Block_Lock.h">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Lock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Block_Break.h">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Break</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\TextureUI.h">
-      <Filter>00. Dummys\T Y J\TextureUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Block_Fall.h">
-      <Filter>00. Dummys\T Y J\Block\Block\Block_Fall</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Block.h">
-      <Filter>00. Dummys\T Y J\Block\Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,30 +180,6 @@
     </Filter>
     <Filter Include="01. Levels\02. MainMenu">
       <UniqueIdentifier>{4f8aa6dc-2885-45cd-8d1e-08a6d49f9e54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. Stage01">
-      <UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\10. Stage_Boss02">
-      <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\04. Stage02">
-      <UniqueIdentifier>{91cee869-d0b8-45dd-8c2f-f05f811abbc8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\05. Stage03">
-      <UniqueIdentifier>{e0ce0096-306c-464a-9fb9-6f8f6ca38953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\06. Stage_Boss01">
-      <UniqueIdentifier>{1cdc3b42-bb26-4213-b622-593cde19df3d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\07. Stage04">
-      <UniqueIdentifier>{f2a546ae-6241-4fdc-851e-039a5a57d64e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\08. Stage05">
-      <UniqueIdentifier>{2b658529-152c-49b6-962f-8cff1ca2757c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\09. Stage06">
-      <UniqueIdentifier>{4a5272c6-0002-4e42-a084-8d052085742d}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObjects\BackGround">
       <UniqueIdentifier>{d48cf147-ff74-45d8-8875-518f1bd3ee78}</UniqueIdentifier>
@@ -295,29 +235,32 @@
     <Filter Include="01. Levels\01. Logo">
       <UniqueIdentifier>{1cf05208-e82a-4710-bb50-f3e786b03444}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block">
-      <UniqueIdentifier>{a81792ef-e3bc-4f97-a462-e0d132bdecb9}</UniqueIdentifier>
+    <Filter Include="01. Levels\03. GamePlay">
+      <UniqueIdentifier>{d097451e-f374-4d78-9afa-d15befce4f26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\TextureUI">
-      <UniqueIdentifier>{20b51f07-f076-4e77-9601-38f0bfda9996}</UniqueIdentifier>
+    <Filter Include="01. Levels\03. GamePlay\00 Stage01">
+      <UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block">
-      <UniqueIdentifier>{6e827a69-f973-4627-bf0a-5335e3a08f36}</UniqueIdentifier>
+    <Filter Include="01. Levels\03. GamePlay\01. Stage02">
+      <UniqueIdentifier>{91cee869-d0b8-45dd-8c2f-f05f811abbc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Break">
-      <UniqueIdentifier>{2ede29d4-6928-4c94-bfe7-5401fa032033}</UniqueIdentifier>
+    <Filter Include="01. Levels\03. GamePlay\02. Stage03">
+      <UniqueIdentifier>{e0ce0096-306c-464a-9fb9-6f8f6ca38953}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Fall">
-      <UniqueIdentifier>{b3969a89-db88-4efa-8a19-6fe0993b1e01}</UniqueIdentifier>
+    <Filter Include="01. Levels\03. GamePlay\03. Stage_Boss01">
+      <UniqueIdentifier>{1cdc3b42-bb26-4213-b622-593cde19df3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Lock">
-      <UniqueIdentifier>{603e8732-2c53-4efb-8a45-eaebd36da937}</UniqueIdentifier>
+    <Filter Include="01. Levels\03. GamePlay\04. Stage04">
+      <UniqueIdentifier>{f2a546ae-6241-4fdc-851e-039a5a57d64e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Wall">
-      <UniqueIdentifier>{d1fa4326-0689-400b-8213-23b2736e3642}</UniqueIdentifier>
+    <Filter Include="01. Levels\03. GamePlay\05. Stage05">
+      <UniqueIdentifier>{2b658529-152c-49b6-962f-8cff1ca2757c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Block\Block_Wood">
-      <UniqueIdentifier>{d5fdd78c-af59-44b2-ae49-96eec7b7e1e2}</UniqueIdentifier>
+    <Filter Include="01. Levels\03. GamePlay\06. Stage06">
+      <UniqueIdentifier>{4a5272c6-0002-4e42-a084-8d052085742d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\07. Stage_Boss02">
+      <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

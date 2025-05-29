@@ -1,19 +1,20 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "SubjectObject.h"
 
 BEGIN(Engine)
 class CTransform;
 class CTexture;
 class CVIBuffer_Rect;
+class CObserver;
 END
 
 BEGIN(Client)
 
 class CPlayerState;
 
-class CPlayer abstract : public CGameObject
+class CPlayer abstract : public CSubjectObject
 {
 
 protected:
@@ -47,6 +48,7 @@ public:
 	_bool CanClear() const { return m_bCanClear; }				
 	_bool CanActive() const { return m_bCanActive; }			
 	
+
 protected:
 	void Change_TextureDir(TEXTUREDIRECTION eTextureDirection);
 
@@ -59,6 +61,8 @@ protected:
 
 	//Toodee Topdee Check
 	void Check_Dimension();
+
+	virtual void onReport(REPORT eReport) PURE;
 
 protected:
 	CTransform*						m_pTransformCom = { nullptr };
