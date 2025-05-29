@@ -32,6 +32,7 @@ private:
 	CTexture* m_pTextureCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
 
+	_bool		m_bGravity = { true };
 private: 
 	HRESULT Ready_Components();
 	void	SetUp_RenderState();

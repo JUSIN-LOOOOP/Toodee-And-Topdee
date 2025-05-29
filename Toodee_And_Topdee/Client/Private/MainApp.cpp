@@ -92,11 +92,10 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_Collider_Cube */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		CCollider::Create(m_pGraphic_Device, COLLIDER_SHAPE::CUBE))))
-		return E_FAIL;
-
+ 
 
 	return S_OK;
-}
+} 
 
 HRESULT CMainApp::Start_Level(LEVEL eStartLevelID)
 {
