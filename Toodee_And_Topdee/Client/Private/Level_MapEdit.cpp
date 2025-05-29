@@ -15,7 +15,7 @@ HRESULT CLevel_Map::Initialize()
 	vector<_uint> TextureCount;
 
 	TextureCount.push_back(1);	//NONe
-	TextureCount.push_back(38);	//WALL
+	TextureCount.push_back(48);	//WALL
 	TextureCount.push_back(1);	//WOOD
 	TextureCount.push_back(1);	//BREAK
 	TextureCount.push_back(1);	//LOCK

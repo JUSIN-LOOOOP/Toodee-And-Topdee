@@ -102,7 +102,7 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 
 	/* Prototype_Component_Texture_Wall */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Block_Wall"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Wall/Wall%d.dds"), 38))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Wall/Wall%d.dds"), 48))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_Wall */
@@ -251,7 +251,7 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 HRESULT CLoader::Loading_For_MapEdit_Level()
 {
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_Component_Texture_Tile"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Tile/Tile%d.png"), 43))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Tile/Tile%d.png"), 53))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_MultiViewCamera"),
