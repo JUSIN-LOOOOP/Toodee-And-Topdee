@@ -80,7 +80,7 @@ void CPlayer_Toodee::Priority_Update(_float fTimeDelta)
 
 void CPlayer_Toodee::Update(_float fTimeDelta)
 {
-    if(!m_bCanClear)
+    if (m_eCurrentState != PLAYERSTATE::CLEAR)
     {
         if(m_eCurrentState != PLAYERSTATE::STOP)
         {
@@ -100,24 +100,26 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
     }
     else
     {
-        if(!m_bMoveToPotal)
-        {
-            m_bMoveToPotal = m_pTransformCom->Move_To(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec, 0.f);
+        m_pCurrentState->Update(this, fTimeDelta);
 
-            if (m_bMoveToPotal)
+        if (!m_bMoveToPotal)
+        {
+            if (m_pTransformCom->Approach(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec))
+            {
+                m_bMoveToPotal = true;
                 m_bClearAnimStart = true;
+            }
         }
 
         if (m_bClearAnimStart)
         {
-            m_pCurrentState->Update(this, fTimeDelta);
-
-            if (m_pTransformCom->Spiral(m_vPotalPosition, _float3(0.f,1.f,0.f), 480.f, m_fPotalDistance, fTimeDelta))
+            if (m_pTransformCom->Spiral(m_vPotalPosition, _float3(0.f, 1.f, 0.f), 480.f, m_fPotalDistance, fTimeDelta))
             {
                 m_bClear = true;
             }
         }
     }
+
 }
 
 void CPlayer_Toodee::Late_Update(_float fTimeDelta)
@@ -181,6 +183,10 @@ HRESULT CPlayer_Toodee::Return_PrevState()
     return S_OK;
 }
 
+void CPlayer_Toodee::Idle()
+{
+}
+
 void CPlayer_Toodee::Move(_float fTimeDelta)
 {
     m_pTransformCom->Go_Right(fTimeDelta);
@@ -210,6 +216,21 @@ void CPlayer_Toodee::Action()
 void CPlayer_Toodee::Stop()
 {
     m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
+}
+
+void CPlayer_Toodee::Clear()
+{
+    m_bMoveToPotal = false;
+
+    Change_TextureDir(TEXTUREDIRECTION::RIGHT);
+
+    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+    m_vPotalStartPosition = { m_vPotalPosition.x + m_fPotalDistance, m_vPotalPosition.y, m_vPotalPosition.z };
+
+    _float3 vSpeed = m_vPotalStartPosition - vPosition;
+
+    m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 }
 
 void CPlayer_Toodee::onReport(REPORT eReport)

@@ -7,6 +7,7 @@
 #include "Player_Topdee.h"
 #include "BasicTile.h"
 #include "Potal.h"
+#include "TileOutline.h"
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
@@ -95,6 +96,10 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Test/Test0.dds"), 1))))
 		return E_FAIL;
 
+	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_TileOutline"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Test/TileOutline%d.png"), 4))))
+		return E_FAIL;
+
 #pragma region TEXTURE TOODEE
 	/* Prototype_Component_Texture_Toodee_Idle */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Idle"),
@@ -145,6 +150,8 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		return E_FAIL;
 
 #pragma endregion
+
+	
 
 	/* Prototype_Component_Texture_Potal */
 	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Potal"),
@@ -197,12 +204,21 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CPotal::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
+	/* Prototype_GameObject_TileOutline */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TileOutline"),
+		CTileOutline::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("GamePlay_Level �ε��� �Ϸ�Ǿ����ϴ�."));
+
 	/* Prototype_GameObject_Monster_Pig */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"),
 		CPig::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("GamePlay_Level �ε��� �Ϸ�Ǿ����ϴ�."));
+
 
 	m_isFinished = true;
 
