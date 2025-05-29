@@ -268,11 +268,6 @@ HRESULT CGameInstance::Load_Initial_Data(vector<_uint>* blockData)
 	return m_pMap_Manager->Load_Initial_Data(blockData);
 }
 
-_uint CGameInstance::Get_RenderTextureIdx()
-{
-	return m_pMap_Manager->Get_RenderTextureIdx();
-}
-
 void CGameInstance::Release_Engine()
 {
 	Release();

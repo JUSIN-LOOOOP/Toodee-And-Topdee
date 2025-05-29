@@ -24,8 +24,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -38,7 +38,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 HRESULT CLevel_GamePlay::Render()
 {
 	// -- �ӽ� --
-	SetWindowText(g_hWnd, TEXT("�����÷��̷����Դϴ�."));
+	//SetWindowText(g_hWnd, TEXT("�����÷��̷����Դϴ�."));
 
 	return S_OK;
 }
@@ -61,7 +61,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 		return E_FAIL;*/
 
 	CCamera::CAMERA_DESC			CameraDesc{};
-	CameraDesc.vEye = _float3(0.f, 34.f, 0.f);
+	CameraDesc.vEye = _float3(0.f, 36.f, 0.f);
 	CameraDesc.vAt = _float3(0.f, 0.f, 0.1f);
 	CameraDesc.fFovy = D3DXToRadian(60.0f);
 	CameraDesc.fNear = 0.1f;
@@ -81,17 +81,52 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Load_File(TEXT("Map_File"));
+	m_pGameInstance->Load_File(TEXT("new"));
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
 
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube"), &info)))
-			return E_FAIL;
+		switch (static_cast<BLOCKTYPE>(info.iBlockType))
+		{
+		case BLOCKTYPE::NONE:
+			break;
 
+		case BLOCKTYPE::WALL :
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBlock"), &info)))
+				return E_FAIL;
+			break;
+		case BLOCKTYPE::WOOD :
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallWood"), &info)))
+				return E_FAIL;
+			break;
+
+		case BLOCKTYPE::BREAK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBreak"), &info)))
+				return E_FAIL;
+			break;
+
+		case BLOCKTYPE::LOCK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallLock"), &info)))
+				return E_FAIL;
+			break; 
+
+		case BLOCKTYPE::FALL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallFall"), &info)))
+				return E_FAIL;
+			break;
+
+		default :
+			MSG_BOX(TEXT("Error : Block Index error!"));
+		}
+		
+	}
 	return S_OK;
 }
 

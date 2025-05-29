@@ -30,8 +30,9 @@ namespace Engine
 		D3DXVECTOR3		vPos;
 		D3DXVECTOR3		vScale;
 		unsigned int	iBlockType;
-		unsigned int	iTextureType;
+		unsigned int	iTextureIdx;
 		unsigned int	iDir;
+		unsigned int	iTileTextureIdx;
 	}BLOCK_INFO;
 
 }

@@ -25,10 +25,14 @@ HRESULT CBasicTile::Initialize(void* pArg)
     m_iTileSizeX = 2;
     m_iTileSizeY = 2;
 
-    _float3* pos = static_cast<_float3*>(pArg);
+    BLOCK_INFO* arg = static_cast<BLOCK_INFO*>(pArg);
     m_pTransformCom->Scaling(m_iTileSizeX, m_iTileSizeY, 2);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-    m_pTransformCom->Set_State(STATE::POSITION, *pos);
+    m_pTransformCom->Set_State(STATE::POSITION, arg->vPos);
+    m_tBlockInfo.iBlockType = arg->iBlockType;
+    m_tBlockInfo.iDir = arg->iDir;
+    m_tBlockInfo.iTextureIdx = arg->iTextureIdx;
+    m_tBlockInfo.iTileTextureIdx = arg->iTileTextureIdx;
 
     return S_OK;
 }
@@ -42,12 +46,12 @@ void CBasicTile::Priority_Update(_float fTimeDelta)
         if (S_OK == (IsTileClicked(ray)))
         {
             BLOCK_INFO newInfo = m_pGameInstance->Get_CurrentType();
-            m_iRenderTextureIdx = m_pGameInstance->Get_RenderTextureIdx();
-            m_iTextureType = newInfo.iTextureType;
-            m_iBlockType = newInfo.iBlockType;
-            m_iTextureDir = newInfo.iDir;
+            m_tBlockInfo.iTextureIdx = newInfo.iTextureIdx;
+            m_tBlockInfo.iBlockType = newInfo.iBlockType;
+            m_tBlockInfo.iDir = newInfo.iDir;
+            m_tBlockInfo.iTileTextureIdx = newInfo.iTileTextureIdx;
             m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-            m_pTransformCom->TurnToRadian(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f) * m_iTextureDir);
+            m_pTransformCom->TurnToRadian(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f) * m_tBlockInfo.iDir);
         }
     }
 }
@@ -66,10 +70,7 @@ HRESULT CBasicTile::Render()
 {
     m_pTransformCom->Bind_Matrix();
 
-    m_iBlockType = m_iBlockType;
-    m_iTextureType = m_iTextureType;
-
-    if (FAILED(m_pTextureCom->Bind_Texture(m_iRenderTextureIdx)))
+    if (FAILED(m_pTextureCom->Bind_Texture(m_tBlockInfo.iTileTextureIdx)))
         return E_FAIL;
 
     m_pVIBufferCom->Bind_Buffers();
@@ -81,7 +82,6 @@ HRESULT CBasicTile::Render()
 HRESULT CBasicTile::Ready_Components()
 {
     /* For.Com_VIBuffer*/
-
      if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;

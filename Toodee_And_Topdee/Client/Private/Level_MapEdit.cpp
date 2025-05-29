@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "BasicTile.h"
 #include "Level_Loading.h"
+#include "TextureUI.h"
 
 CLevel_Map::CLevel_Map(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CLevel{ pGraphic_Device }
@@ -13,12 +14,12 @@ HRESULT CLevel_Map::Initialize()
 {
 	vector<_uint> TextureCount;
 
-	TextureCount.push_back(1);
-	TextureCount.push_back(ENUM_CLASS(WALLTYPE::WALL_EMD));
-	TextureCount.push_back(ENUM_CLASS(WOODTEXTURE::WOOD_EMD));
-	TextureCount.push_back(ENUM_CLASS(SPIKETEXTURE::SPIKE_EMD));
-
-
+	TextureCount.push_back(1);	//NONe
+	TextureCount.push_back(38);	//WALL
+	TextureCount.push_back(1);	//WOOD
+	TextureCount.push_back(1);	//BREAK
+	TextureCount.push_back(1);	//LOCK
+	TextureCount.push_back(1);	//FALL
 
 	m_pGameInstance->Load_Initial_Data(&TextureCount);
 
@@ -28,8 +29,8 @@ HRESULT CLevel_Map::Initialize()
     if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tile"))))
         return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_TextureUI(TEXT("Layer_Texture"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_TextureUI(TEXT("Layer_Texture"))))
+		return E_FAIL;
 
     return S_OK;
 }
@@ -68,31 +69,41 @@ HRESULT CLevel_Map::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_Map::Ready_Layer_Tile(const _wstring& strLayerTag)
 {
+	m_pGameInstance->Load_File(TEXT("new"));
+	BLOCK_INFO	info = {};
+	BLOCK_INFO	arg = {};
+	_uint		idx = {};
+
 	_int MapHeight(18), MapWidth(32);
 	for (_int height = 0; height < MapHeight; ++height)
 	{
 		for (_int width = 0; width < MapWidth; ++width)
 		{
+			m_pGameInstance->Get_Tile_Data(idx++, info);
 			_float3 pos{ (FLOAT)((width + 0.5 - (MapWidth / 2)) * 2) , 0.f,  (FLOAT)((height + 0.5 - (MapHeight / 2)) * 2) };
-			
+			arg.iBlockType = info.iBlockType;
+			arg.iDir = info.iDir;
+			arg.iTextureIdx = info.iTextureIdx;
+			arg.iTileTextureIdx = info.iTileTextureIdx;
+			arg.vPos = pos;
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_Tile"), &pos)))
+				ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_Tile"), &arg)))
 				return E_FAIL;
+			arg = {};
 		}
 	}
 	
-
 	return S_OK;
 }
 
-//HRESULT CLevel_Map::Ready_Layer_TextureUI(const _wstring& strLayerTag)
-//{
-//	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), strLayerTag,
-//		ENUM_CLASS(LEVEL::LEVEL_MAP), TEXT("Prototype_GameObject_UI"))))
-//		return E_FAIL;
-//
-//	return S_OK;
-//}
+HRESULT CLevel_Map::Ready_Layer_TextureUI(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_TextureUI"))))
+		return E_FAIL;
+
+	return S_OK;
+}
 
 CLevel_Map* CLevel_Map::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
