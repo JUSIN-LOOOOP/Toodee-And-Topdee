@@ -27,7 +27,7 @@ public:
 	virtual void Move(_float fTimeDelta) override;	
 	virtual void Action() override;					
 	virtual void Stop() override;					
-
+	virtual void Clear() override;
 	//Observer 에서 받은 REPORT 처리
 	virtual void onReport(REPORT eReport) override;
 private:

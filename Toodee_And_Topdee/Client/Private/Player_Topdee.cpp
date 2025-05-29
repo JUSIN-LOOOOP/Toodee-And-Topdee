@@ -84,7 +84,7 @@ void CPlayer_Topdee::Priority_Update(_float fTimeDelta)
 
 void CPlayer_Topdee::Update(_float fTimeDelta)
 {
-	if (!m_bCanClear)
+	if (m_eCurrentState != PLAYERSTATE::CLEAR)
 	{
 		if (m_eCurrentState != PLAYERSTATE::STOP)
 		{
@@ -115,18 +115,19 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 	}
 	else
 	{
+		m_pCurrentState->Update(this, fTimeDelta);
+
 		if (!m_bMoveToPotal)
 		{
-			m_bMoveToPotal = m_pTransformCom->Approach(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec);
-
-			if (m_bMoveToPotal)
+			if (m_pTransformCom->Approach(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec))
+			{
+				m_bMoveToPotal = true;
 				m_bClearAnimStart = true;
+			}
 		}
 
 		if (m_bClearAnimStart)
 		{
-			m_pCurrentState->Update(this, fTimeDelta);
-
 			if (m_pTransformCom->Spiral(m_vPotalPosition, _float3(0.f, 1.f, 0.f), 480.f, m_fPotalDistance, fTimeDelta))
 			{
 				m_bClear = true;
@@ -218,6 +219,22 @@ void CPlayer_Topdee::Stop()
 	m_ePrevMoveDir = m_eCurrentMoveDir;
 	m_bIsTurnDown = false;
 
+}
+
+void CPlayer_Topdee::Clear()
+{
+	m_bMoveToPotal = false;
+
+	Change_TextureDir(TEXTUREDIRECTION::RIGHT);
+	m_eCurrentMoveDir = MOVEDIRECTION::DOWN;
+
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	m_vPotalStartPosition = { m_vPotalPosition.x + m_fPotalDistance, m_vPotalPosition.y, m_vPotalPosition.z };
+
+	_float3 vSpeed = m_vPotalStartPosition - vPosition;
+
+	m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 }
 
 void CPlayer_Topdee::onReport(REPORT eReport)

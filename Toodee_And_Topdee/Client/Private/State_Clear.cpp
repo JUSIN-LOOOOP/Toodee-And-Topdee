@@ -30,8 +30,8 @@ void CState_Clear::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeD
 
 void CState_Clear::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
-
-    UpdateAnim(fTimeDelta);
+    if (pPlayer->ClearAnimStart())
+        UpdateAnim(fTimeDelta);
 }
 
 void CState_Clear::Exit(CPlayer* pPlayer)
