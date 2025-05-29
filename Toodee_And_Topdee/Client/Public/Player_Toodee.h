@@ -23,6 +23,7 @@ public:
 
 	//State 호출 함수
 	virtual HRESULT Return_PrevState() override;	
+	virtual void Idle() override;
 	virtual void Move(_float fTimeDelta) override;	
 	virtual void Action() override;					
 	virtual void Stop() override;					

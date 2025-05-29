@@ -102,7 +102,7 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
     {
         if(!m_bMoveToPotal)
         {
-            m_bMoveToPotal = m_pTransformCom->Move_To(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec, 0.f);
+            m_bMoveToPotal = m_pTransformCom->Approach(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec);
 
             if (m_bMoveToPotal)
                 m_bClearAnimStart = true;
@@ -179,6 +179,10 @@ HRESULT CPlayer_Toodee::Return_PrevState()
         m_pPrevState = nullptr;
 
     return S_OK;
+}
+
+void CPlayer_Toodee::Idle()
+{
 }
 
 void CPlayer_Toodee::Move(_float fTimeDelta)

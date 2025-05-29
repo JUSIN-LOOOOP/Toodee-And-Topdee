@@ -56,14 +56,20 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (FAILED(Ready_Observers()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Outline()))
+		return E_FAIL;
+
 	m_bCanClear = false;
 	m_fTurnDownTime = 0.f;
 	m_fTurnDownDelay = 0.04f;
 	m_vPotalPosition = { 0.f, 0.f, 0.f };
+	m_vNextMovePosition = { 0.f, 0.f, 0.f };
 
 	m_pTransformCom->Scaling(16.f, 16.f, 0.f); 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	
+	ComputeTileCenter();
+
 	return S_OK;
 }
 
@@ -89,6 +95,11 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 			ComputeTextureDirection(iInputData);
 			Change_MoveDir(iInputData);
 
+			if (m_eCurrentState == PLAYERSTATE::IDLE)
+				MoveToTileCenter(fTimeDelta);
+
+
+
 			if (m_bInAction)
 			{
 				m_bInAction = false;
@@ -106,7 +117,7 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 	{
 		if (!m_bMoveToPotal)
 		{
-			m_bMoveToPotal = m_pTransformCom->Move_To(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec, 0.f);
+			m_bMoveToPotal = m_pTransformCom->Approach(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec);
 
 			if (m_bMoveToPotal)
 				m_bClearAnimStart = true;
@@ -181,28 +192,18 @@ HRESULT CPlayer_Topdee::Return_PrevState()
 	return S_OK;
 }
 
+void CPlayer_Topdee::Idle()
+{
+	ComputeTileCenter();
+}
+
 void CPlayer_Topdee::Move(_float fTimeDelta)
 {
-	switch (m_eCurrentMoveDir)
-	{
-	case MOVEDIRECTION::UP:
-		m_pTransformCom->Go_Up(fTimeDelta);
-		break;
-	case MOVEDIRECTION::DOWN:
-		m_pTransformCom->Go_Down(fTimeDelta);
-		break;
-	case MOVEDIRECTION::TRANSVERSE:
-		m_pTransformCom->Go_Right(fTimeDelta);
-		break;
-	case MOVEDIRECTION::DIAGONAL_DOWN:
-		m_pTransformCom->Go_Right(fTimeDelta);
-		m_pTransformCom->Go_Down(fTimeDelta);
-		break;
-	case MOVEDIRECTION::DIAGONAL_UP:
-		m_pTransformCom->Go_Right(fTimeDelta);
-		m_pTransformCom->Go_Up(fTimeDelta);
-		break;
-	}
+	if(false == m_bIsMoving)
+		m_vNextMovePosition = ComputeTileOutlinePosition();
+
+	if (m_pTransformCom->MoveUntilInRange(m_vNextMovePosition, fTimeDelta, 0.1f))
+		m_bIsMoving = true;
 }
 
 void CPlayer_Topdee::Action()
@@ -223,6 +224,56 @@ void CPlayer_Topdee::onReport(REPORT eReport)
 {
 	if (eReport == REPORT::REPORT_CANCLEAR)
 		m_bCanClear = true;
+}
+
+_float3 CPlayer_Topdee::ComputeTileOutlinePosition()
+{
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	const float TILE_SIZE = 2.f;
+
+	_int iCountX = static_cast<_int>(floorf(vPosition.x / TILE_SIZE));
+	_int iCountZ = static_cast<_int>(floorf(vPosition.z / TILE_SIZE));
+
+	_float fCenterX = {};
+	_float fCenterZ = {};
+
+	fCenterX = iCountX * 2.f + (2.f * 0.5);
+	fCenterZ = iCountZ * 2.f + (2.f * 0.5);
+
+	_float fDistanceX = {};
+	_float fDistanceZ = {};
+
+	switch (m_eCurrentMoveDir)
+	{
+	case MOVEDIRECTION::UP:
+		fDistanceZ = 2.f;
+		break;
+	case MOVEDIRECTION::DOWN:
+		fDistanceZ = -2.f;
+		break;
+	case MOVEDIRECTION::TRANSVERSE:
+		fDistanceX = 2.f;
+		break;
+	case MOVEDIRECTION::DIAGONAL_DOWN:
+		fDistanceX = 2.f;
+		fDistanceZ = -2.f;
+		break;
+	case MOVEDIRECTION::DIAGONAL_UP:
+		fDistanceX = 2.f;
+		fDistanceZ = 2.f;
+		break;
+	}
+
+	if (m_eCurrentTextureDir == TEXTUREDIRECTION::LEFT)
+	{
+		fDistanceX *= -1.f;
+	}
+
+
+	_float3 vOutlinePosition = {fCenterX + fDistanceX, vPosition.y, fCenterZ + fDistanceZ};
+
+	return vOutlinePosition;
 }
 
 _uint CPlayer_Topdee::KeyInput()
@@ -282,6 +333,29 @@ MOVEDIRECTION CPlayer_Topdee::ComputeMoveDirection(_uint iInputData)
 	return m_eCurrentMoveDir;
 }
 
+void CPlayer_Topdee::ComputeTileCenter()
+{
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	const float TILE_SIZE = 2.f;
+
+	_int iCountX = static_cast<_int>(floorf(vPosition.x / TILE_SIZE));
+	_int iCountZ = static_cast<_int>(floorf(vPosition.z / TILE_SIZE));
+
+	_float fCenterX = {};
+	_float fCenterZ = {};
+
+	fCenterX = iCountX * 2.f + (2.f * 0.5);
+	fCenterZ = iCountZ * 2.f + (2.f * 0.5);
+
+	m_vCurrentTileCenter = { fCenterX, vPosition.y, fCenterZ };
+}
+
+void CPlayer_Topdee::MoveToTileCenter(_float fTimeDelta)
+{
+	m_pTransformCom->Approach(m_vCurrentTileCenter, fTimeDelta, 10.f);	
+}
+
 HRESULT CPlayer_Topdee::Ready_Components()
 {
 	/* For.Com_VIBuffer*/
@@ -291,7 +365,7 @@ HRESULT CPlayer_Topdee::Ready_Components()
 
 	/* For.Com_Transform*/
 	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 5.f;
+	TransformDesc.fSpeedPerSec = 10.f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.f);
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
@@ -347,7 +421,16 @@ HRESULT CPlayer_Topdee::Ready_Observers()
 	m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"), this);
 
 	return S_OK;
+}
+
+HRESULT CPlayer_Topdee::Ready_Outline()
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Effect"),
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TileOutline"), this)))
+		return E_FAIL;
+
 	
+	return S_OK;
 }
 
 HRESULT CPlayer_Topdee::Begin_RenderState()

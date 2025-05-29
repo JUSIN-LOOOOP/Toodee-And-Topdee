@@ -26,12 +26,17 @@ public:
 
 	//State 호출 함수
 	virtual HRESULT Return_PrevState() override;
+	virtual void Idle() override;
 	virtual void Move(_float fTimeDelta) override;
 	virtual void Action() override;
 	virtual void Stop() override;
 
 	//Observer 에서 받은 REPORT 처리
 	virtual void onReport(REPORT eReport) override;
+
+	_bool IsAttach() const { return m_bIsAttach; }
+	_float3 ComputeTileOutlinePosition();
+
 private:
 	// Texture Index 계산용 방향 보관
 	MOVEDIRECTION m_eCurrentMoveDir = {};
@@ -40,23 +45,34 @@ private:
 	// Stop 시작시 아래 방향 보게하려는 트리거
 	_bool		m_bIsTurnDown = { false };
 	// Action 상자 들기
-	_bool		m_bIsAttach = { false };
+	_bool		m_bIsAttach = { true };
 	//TurnDownOnStop 딜레이용 타이머 입니다.
 	_float		m_fTurnDownTime = {};
 	_float		m_fTurnDownDelay = {};
+
+	//Idle 타일단위
+	_bool		m_bIsMoving = { false };
+	_float3		m_vCurrentTileCenter = {};
+	_float3		m_vNextMovePosition = {};
 private:
 	_uint KeyInput();
 	void Change_MoveDir(_uint iInputData);
 	MOVEDIRECTION ComputeMoveDirection(_uint iInputData);
 
+	void ComputeTileCenter();
+	void MoveToTileCenter(_float fTimeDelta);
+
+	void TurnDownOnStop(_float fTimeDelta);
+	
+
 	HRESULT Ready_Components();
 	HRESULT Ready_States();
 	HRESULT Ready_Observers();
+	HRESULT Ready_Outline();
 
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
-	void TurnDownOnStop(_float fTimeDelta);
 	
 public:
 	static CPlayer_Topdee* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

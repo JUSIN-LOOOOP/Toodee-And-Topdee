@@ -11,7 +11,7 @@ private:
 
 public:
 	void onNotify(EVENT eEvent, CSubjectObject* pSubject = nullptr) override;
-
+	virtual void Remove_Subject(CSubjectObject* pSubject) override;
 private:
 	unordered_set<CSubjectObject*> m_OverlapSubjects;
 
