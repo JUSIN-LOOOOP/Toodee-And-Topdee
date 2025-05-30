@@ -67,9 +67,6 @@
     <ClCompile Include="..\Private\Level_MapEdit.cpp">
       <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Pig.cpp">
-      <Filter>00. Dummys\K S H\Pig</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Part_Body.cpp">
       <Filter>00. Dummys\K S H\Parts\Part_Body</Filter>
     </ClCompile>
@@ -84,6 +81,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Part_Tail.cpp">
       <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TileOutline.cpp">
+      <Filter>02. GameObjects\Tiles\Outline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>02. GameObjects\Monster\00. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Pig.cpp">
+      <Filter>02. GameObjects\Monster\01. Pig</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Ears.cpp">
+      <Filter>00. Dummys\K S H\Parts\Part_Ears</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,8 +189,17 @@
     <ClInclude Include="..\Public\Part_Tail.h">
       <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TileOutline.h">
+      <Filter>02. GameObjects\Tiles\Outline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02. GameObjects\Monster\00. Base</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\Pig.h">
-      <Filter>00. Dummys\K S H\Pig</Filter>
+      <Filter>02. GameObjects\Monster\01. Pig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Ears.h">
+      <Filter>00. Dummys\K S H\Parts\Part_Ears</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,8 +334,17 @@
     <Filter Include="00. Dummys\K S H\Parts\Part_Tail">
       <UniqueIdentifier>{4ee8c276-800e-46d5-a540-b5ee8ee8f56c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Pig">
-      <UniqueIdentifier>{c9e92244-24ce-432f-9622-7c7636e6d8f9}</UniqueIdentifier>
+    <Filter Include="02. GameObjects\Tiles\Outline">
+      <UniqueIdentifier>{74b740cb-dd56-40f2-b918-d53cb26c36ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\01. Pig">
+      <UniqueIdentifier>{dd9b7bdb-151f-4f68-9c17-947a16a34cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\00. Base">
+      <UniqueIdentifier>{6ad51b1a-0e68-4486-bdad-a87e4f6c48f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K S H\Parts\Part_Ears">
+      <UniqueIdentifier>{0b6a9831-5c10-4f01-a77d-c765cb65e7b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

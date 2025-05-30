@@ -155,6 +155,7 @@
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\MultiViewCamera.h" />
     <ClInclude Include="..\Public\Part_Body.h" />
+    <ClInclude Include="..\Public\Part_Ears.h" />
     <ClInclude Include="..\Public\Part_Eyes.h" />
     <ClInclude Include="..\Public\Part_Legs.h" />
     <ClInclude Include="..\Public\Part_Nose.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="..\Public\State_Stop.h" />
     <ClInclude Include="..\public\Test_Cube.h" />
     <ClInclude Include="..\Public\Test_Cube2.h" />
+    <ClInclude Include="..\Public\TileOutline.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -189,6 +191,7 @@
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\MultiViewCamera.cpp" />
     <ClCompile Include="..\Private\Part_Body.cpp" />
+    <ClCompile Include="..\Private\Part_Ears.cpp" />
     <ClCompile Include="..\Private\Part_Eyes.cpp" />
     <ClCompile Include="..\Private\Part_Legs.cpp" />
     <ClCompile Include="..\Private\Part_Nose.cpp" />
@@ -206,6 +209,7 @@
     <ClCompile Include="..\Private\State_Stop.cpp" />
     <ClCompile Include="..\private\Test_Cube.cpp" />
     <ClCompile Include="..\Private\Test_Cube2.cpp" />
+    <ClCompile Include="..\Private\TileOutline.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
