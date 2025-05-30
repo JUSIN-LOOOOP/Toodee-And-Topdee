@@ -372,6 +372,9 @@ Toodee_And_Topdee/Engine/Default/x64
 Toodee_And_Topdee/Client/Bin/Client.exe
 Toodee_And_Topdee/Client/Bin/Client.pdb
 Toodee_And_Topdee/Client/Bin/Engine.dll
-*.dll
 Toodee_And_Topdee/Engine/Bin
 Toodee_And_Topdee/EngineSDK
+
+!fmod.dll
+!fmod_vc.lib
+!Toodee_And_Topdee/Engine/Public/Fmod/

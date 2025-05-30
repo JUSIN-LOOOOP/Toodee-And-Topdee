@@ -9,6 +9,7 @@
 #include "Map_Manager.h"
 #include "Collision_Manager.h"
 #include "Observer_Manager.h"
+#include "Sound_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -59,6 +60,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 
  	m_pObserver_Manager = CObserver_Manager::Create(EngineDesc.iNumLevels);
 	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
+	m_pSound_Manager = CSound_Manager::Create();
+	if (nullptr == m_pSound_Manager)
 		return E_FAIL;
 
     return S_OK;
@@ -280,6 +285,46 @@ HRESULT CGameInstance::Subscribe_Observer(_uint iObserverLevelndex, const _wstri
 
 #pragma endregion
 
+#pragma region SOUND_MANAGER
+
+void CGameInstance::PlayAudio(const TCHAR* pSoundKey, CHANNELID eID, float fVolume)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+	m_pSound_Manager->PlayAudio(pSoundKey, eID, fVolume);
+}
+
+void CGameInstance::PlayBGM(const TCHAR* pSoundKey, float fVolume)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+	m_pSound_Manager->PlayBGM(pSoundKey, fVolume);
+}
+
+void CGameInstance::StopSound(CHANNELID eID)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+	m_pSound_Manager->StopSound(eID);
+}
+
+void CGameInstance::StopAll()
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+	m_pSound_Manager->StopAll();
+}
+
+void CGameInstance::SetChannelVolume(CHANNELID eID, float fVolume)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+	m_pSound_Manager->SetChannelVolume(eID, fVolume);
+
+}
+
+#pragma endregion
+
 
 #pragma region MAP_MANAGER
 HRESULT CGameInstance::Load_File(const _wstring& filename)
@@ -311,15 +356,11 @@ HRESULT CGameInstance::Load_Initial_Data(vector<_uint>* blockData)
 	return m_pMap_Manager->Load_Initial_Data(blockData);
 }
 
-_uint CGameInstance::Get_RenderTextureIdx()
-{
-	return m_pMap_Manager->Get_RenderTextureIdx();
-}
-
 void CGameInstance::Release_Engine()
 {
 	Release();
 
+	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pCollision_Manager);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pKey_Manager);

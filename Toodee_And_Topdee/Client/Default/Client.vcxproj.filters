@@ -67,23 +67,56 @@
     <ClCompile Include="..\Private\Level_MapEdit.cpp">
       <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Block.cpp">
+      <Filter>00. Dummys\T Y J\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Break.cpp">
+      <Filter>00. Dummys\T Y J\Block\Break</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Fall.cpp">
+      <Filter>00. Dummys\T Y J\Block\Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Lock.cpp">
+      <Filter>00. Dummys\T Y J\Block\Lock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Wall.cpp">
+      <Filter>00. Dummys\T Y J\Block\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Wood.cpp">
+      <Filter>00. Dummys\T Y J\Block\Wood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TextureUI.cpp">
+      <Filter>00. Dummys\T Y J</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Metal.cpp">
+      <Filter>00. Dummys\T Y J\Block\Metal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Spark.cpp">
+      <Filter>00. Dummys\T Y J\Block\Spark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hole.cpp">
+      <Filter>00. Dummys\T Y J\Block\Hole</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\Pig.cpp">
-      <Filter>00. Dummys\K S H\Pig</Filter>
+      <Filter>02. GameObjects\Monster\Pig\Pig</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Body.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Body</Filter>
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Eyes.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Eyes</Filter>
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Legs.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Legs</Filter>
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Nose.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Nose</Filter>
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Tail.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TileOutline.cpp">
+      <Filter>02. GameObjects\Player\04. OutLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,23 +198,56 @@
     <ClInclude Include="..\Public\Level_MapEdit.h">
       <Filter>00. Dummys\T Y J</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Part_Body.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Body</Filter>
+    <ClInclude Include="..\Public\Block.h">
+      <Filter>00. Dummys\T Y J\Block</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Part_Eyes.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Eyes</Filter>
+    <ClInclude Include="..\Public\Block_Break.h">
+      <Filter>00. Dummys\T Y J\Block\Break</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Part_Legs.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Legs</Filter>
+    <ClInclude Include="..\Public\Block_Fall.h">
+      <Filter>00. Dummys\T Y J\Block\Fall</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Part_Nose.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Nose</Filter>
+    <ClInclude Include="..\Public\Block_Lock.h">
+      <Filter>00. Dummys\T Y J\Block\Lock</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Part_Tail.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
+    <ClInclude Include="..\Public\Block_Wall.h">
+      <Filter>00. Dummys\T Y J\Block\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Wood.h">
+      <Filter>00. Dummys\T Y J\Block\Wood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TextureUI.h">
+      <Filter>00. Dummys\T Y J</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Metal.h">
+      <Filter>00. Dummys\T Y J\Block\Metal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Spark.h">
+      <Filter>00. Dummys\T Y J\Block\Spark</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hole.h">
+      <Filter>00. Dummys\T Y J\Block\Hole</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Pig.h">
-      <Filter>00. Dummys\K S H\Pig</Filter>
+      <Filter>02. GameObjects\Monster\Pig\Pig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Tail.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Body.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Eyes.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Legs.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Nose.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TileOutline.h">
+      <Filter>02. GameObjects\Player\04. OutLine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -274,9 +340,6 @@
     <Filter Include="01. Levels\03. GamePlay">
       <UniqueIdentifier>{d097451e-f374-4d78-9afa-d15befce4f26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Levels\03. GamePlay\00 Stage01">
-      <UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Levels\03. GamePlay\01. Stage02">
       <UniqueIdentifier>{91cee869-d0b8-45dd-8c2f-f05f811abbc8}</UniqueIdentifier>
     </Filter>
@@ -298,26 +361,47 @@
     <Filter Include="01. Levels\03. GamePlay\07. Stage_Boss02">
       <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts">
-      <UniqueIdentifier>{1056fa25-7284-4368-ad79-ce9da578b750}</UniqueIdentifier>
+    <Filter Include="00. Dummys\T Y J\Block">
+      <UniqueIdentifier>{02a3673b-a045-498b-bdc8-20b7d5eb0a32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Eyes">
-      <UniqueIdentifier>{4a5fddce-c913-4a42-bd54-54f447343fc6}</UniqueIdentifier>
+    <Filter Include="00. Dummys\T Y J\Block\Break">
+      <UniqueIdentifier>{6a0c54f5-3a89-4934-ba1d-19776beaa6cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Body">
-      <UniqueIdentifier>{ca8c02de-b3b3-429c-aa69-80f393969a24}</UniqueIdentifier>
+    <Filter Include="00. Dummys\T Y J\Block\Wood">
+      <UniqueIdentifier>{6ce54d61-43ac-4f1a-a44f-c003d9fdc1ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Legs">
-      <UniqueIdentifier>{f6577903-11df-4676-a607-3de39fb4ca69}</UniqueIdentifier>
+    <Filter Include="00. Dummys\T Y J\Block\Wall">
+      <UniqueIdentifier>{615247ea-a0ea-4cfd-916b-cfa233363194}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Nose">
-      <UniqueIdentifier>{8d53a21f-b68a-4ed7-8fac-699fc15a57ae}</UniqueIdentifier>
+    <Filter Include="00. Dummys\T Y J\Block\Fall">
+      <UniqueIdentifier>{930abd54-aa14-4957-8186-40a603d64e97}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Tail">
-      <UniqueIdentifier>{4ee8c276-800e-46d5-a540-b5ee8ee8f56c}</UniqueIdentifier>
+    <Filter Include="00. Dummys\T Y J\Block\Lock">
+      <UniqueIdentifier>{b22a7b49-a210-4ed2-9198-d2e246c6fb77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Pig">
-      <UniqueIdentifier>{c9e92244-24ce-432f-9622-7c7636e6d8f9}</UniqueIdentifier>
+    <Filter Include="00. Dummys\T Y J\Block\Metal">
+      <UniqueIdentifier>{ec6d845a-a69d-41e5-b796-d9c8c42676b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Spark">
+      <UniqueIdentifier>{0856da92-c18c-47e2-b81c-bc886450ee5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Hole">
+      <UniqueIdentifier>{bd7bd66b-82af-499a-bffe-acc70c5da4b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\Pig">
+      <UniqueIdentifier>{309484a1-6783-4dba-9aab-c44263d81f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\Pig\Pig">
+      <UniqueIdentifier>{e82f53ee-58e6-4a27-8ee0-3c91fee43377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\00 Stage01">
+      <UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\Pig\Parts">
+      <UniqueIdentifier>{154661b2-6634-409f-bd6d-ab50a0001daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\04. OutLine">
+      <UniqueIdentifier>{51fa07f1-f6a5-440d-92fc-70010c4013c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

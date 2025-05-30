@@ -20,15 +20,6 @@ HRESULT CBlock::Initialize_Prototype()
 
 HRESULT CBlock::Initialize(void* pArg)
 {
-
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
-	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
-
-	m_pTransformCom->Set_State(STATE::POSITION, pDesc->fPos);
-	m_pTransformCom->Scaling(pDesc->fScale.x, pDesc->fScale.y, 2);
-
 	return S_OK;
 }
 
@@ -42,77 +33,60 @@ void CBlock::Update(_float fTimeDelta)
 
 void CBlock::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
 
 HRESULT CBlock::Render()
 {
 	m_pTransformCom->Bind_Matrix();
-	m_pGraphic_Device->SetTexture(0, nullptr);
-	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	/*if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		return E_FAIL;*/
-	
+
+	if (FAILED(m_pTextureCom->Bind_Texture(m_TextureIdx)))
+		return E_FAIL;
+
+	/* 그리기위해 이용할 자원과 설정들을 장치에 바인딩한다. */
 	m_pVIBufferCom->Bind_Buffers();
+
+	SetUp_RenderState();
+
 	m_pVIBufferCom->Render();
-	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+	Reset_RenderState();
 
 	return S_OK;
 }
 
 HRESULT CBlock::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Cube"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 5.f;
-	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
-
-	//if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_MAP), TEXT("Prototype_Component_Texture_Cube"),
-	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-	//	return E_FAIL;
-
 	return S_OK;
+}
+
+void CBlock::SetUp_BlockInfo(void* pArg)
+{
+	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
+
+	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+	m_pTransformCom->Scaling(pDesc->vScale.x, pDesc->vScale.y, 2);
+	m_TextureIdx = pDesc->iTextureIdx;
+	m_pTransformCom->TurnToRadian(_float3(0.f, 1.f, 0.f), D3DXToRadian(90 * pDesc->iDir));
 }
 
 void CBlock::SetUp_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 }
 
 void CBlock::Reset_RenderState()
 {
-}
-
-CBlock* CBlock::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
-{
-	CBlock* pInstance = new CBlock(pGraphic_Device);
-
-	if (FAILED(pInstance->Initialize_Prototype()))
-	{
-		MSG_BOX(TEXT("Failed to Created : CBlock"));
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 CGameObject* CBlock::Clone(void* pArg)
 {
-	CBlock* pInstance = new CBlock(*this);
-
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		MSG_BOX(TEXT("Failed to Cloned : CBlock"));
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
+	return nullptr;
 }
 
 void CBlock::Free()

@@ -40,7 +40,7 @@ HRESULT CTile::Render()
 {
     m_pTransformCom->Bind_Matrix();
 
-    if (FAILED(m_pTextureCom->Bind_Texture(m_iTextureType)))
+    if (FAILED(m_pTextureCom->Bind_Texture(m_tBlockInfo.iTileTextureIdx)))
         return E_FAIL;
 
     m_pVIBufferCom->Bind_Buffers();
@@ -56,8 +56,10 @@ BLOCK_INFO CTile::Get_BlockInfo()
 
     rt.vPos = m_pTransformCom->Get_State(STATE::POSITION);
     rt.vScale = m_pTransformCom->Get_Scaled();
-    rt.iBlockType = m_iBlockType;
-    rt.iTextureType = m_iTextureType;
+    rt.iBlockType = m_tBlockInfo.iBlockType;
+    rt.iTextureIdx = m_tBlockInfo.iTextureIdx;
+    rt.iDir = m_tBlockInfo.iDir;
+    rt.iTileTextureIdx = m_tBlockInfo.iTileTextureIdx;
 
     return rt;
 }
@@ -76,12 +78,6 @@ HRESULT CTile::IsTileClicked(Picking::Ray ray)
         return S_OK;
 
     return E_FAIL;
-}
-
-void CTile::Set_Type(_int _newBlockType, _int _newTextureType)
-{
-    m_iBlockType = _newBlockType;
-    m_iTextureType = _newTextureType;
 }
 
 void CTile::Free()
