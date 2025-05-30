@@ -148,10 +148,12 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 #pragma endregion
 
 	/* Prototype_Component_Texture_Potal */
-	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Potal"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Potal/portalSpr_%d.png"),11))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Potal"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Potal/portalSpr_%d.png"), 11))))
+		return E_FAIL;
+
 	/* Prototype_Component_Texture_Pig */
-	if (FAILED(Ready_PigTexture()))
+ 	if (FAILED(Ready_PigTexture()))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("���� �ε����Դϴ�."));

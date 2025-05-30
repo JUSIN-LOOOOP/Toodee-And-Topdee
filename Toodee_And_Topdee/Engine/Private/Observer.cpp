@@ -52,9 +52,9 @@ void CObserver::Free()
 {
 	__super::Free();
 
-	auto iter = m_Subjects.begin();
+	
 
-	for (iter; iter != m_Subjects.end();)
+	for (auto iter = m_Subjects.begin() ; iter != m_Subjects.end();)
 	{
 		Safe_Release(*iter);
 		iter = m_Subjects.erase(iter);

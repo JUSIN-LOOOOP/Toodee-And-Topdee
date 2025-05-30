@@ -38,7 +38,7 @@ HRESULT CPart_Body::Initialize(void* pArg)
 }
 
 
-void CPart_Body::Update(CTransform* pTransform, _float fTimeDelta, _float InputWidth, _float InputDepth)
+void CPart_Body::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
 	Pos_Set(pTransform);
 

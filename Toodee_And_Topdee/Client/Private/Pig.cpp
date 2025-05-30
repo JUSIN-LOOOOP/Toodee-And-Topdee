@@ -3,15 +3,21 @@
 #include "Parts.h"
 
 CPig::CPig(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject {pGraphic_Device}
+	: CMonster {pGraphic_Device}
 {
 }
 
 CPig::CPig(const CPig& Prototype)
-	: CGameObject {Prototype}
+	: CMonster {Prototype}
+	, m_pTransformCom{ Prototype.m_pTransformCom }
+	, m_pVIBufferCom{ Prototype.m_pVIBufferCom }
+	, m_pColliderCom{ Prototype.m_pColliderCom }
+	, m_bLeft{ Prototype.m_bLeft }
 {
+	Safe_AddRef(m_pTransformCom);
+	Safe_AddRef(m_pVIBufferCom);
+	Safe_AddRef(m_pColliderCom);
 }
-
 
 HRESULT CPig::Initialize_Prototype()
 {
@@ -20,26 +26,23 @@ HRESULT CPig::Initialize_Prototype()
 
 HRESULT CPig::Initialize(void* pArg)
 {
+	name = TEXT("Pig");
+	m_bLeft = false;
+
 	m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
+
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if(nullptr != pArg)
-	{
-		_float3* vPos = static_cast<_float3*>(pArg);
-		m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+	PIG_DESC* pDesc = static_cast<PIG_DESC*>(pArg);
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
-		m_pTransformCom->Set_State(STATE::POSITION, *vPos);
-	}
-	else
-	{
-		m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPosSet);
 
-		m_pTransformCom->Set_State(STATE::POSITION, _float3(0.5f, 0.f, 0.5f));
-	}
 	
-	// m_pTransformCom->Scaling(3.f, 3.f, 3.f);
 
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
@@ -56,26 +59,36 @@ void CPig::Priority_Update(_float fTimeDelta)
 
 void CPig::Update(_float fTimeDelta)
 {
-	// if (m_pGameInstance->Key_Pressing(('X')))
-	// {
-	// 	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
-	// 		m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
-	// 	else
-	// 		m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
-	// }
-	
-	
 
-	// if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
-	// 	Move_Patrol(fTimeDelta);
-	// 
-	Test_KeyInput(fTimeDelta);
-
-	for (auto& Pair : m_vParts)
+	switch (m_pGameInstance->Get_CurrentDimension())
 	{
-		if (nullptr != Pair.second)
-			Pair.second->Update(m_pTransformCom, fTimeDelta, m_fWidth, m_fHeight);
+	case::DIMENSION::TOODEE:
+
+		Move_Patrol(fTimeDelta);
+
+		for (auto& Pair : m_vParts)
+		{
+			if (nullptr != Pair.second)
+				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
+		}
+		break;
+
+	case::DIMENSION::TOPDEE:
+
+		if (m_bLeft)
+		{
+			m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
+			m_bLeft = false;
+		}
+		__super::Move_To_Target(m_pTransformCom, fTimeDelta);
+		for (auto& Pair : m_vParts)
+		{
+			if (nullptr != Pair.second)
+				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
+		}
+		break;
 	}
+
 }
 
 void CPig::Late_Update(_float fTimeDelta)
@@ -116,6 +129,17 @@ HRESULT CPig::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	CCollider::COLLIDER_DESC  ColliderDesc{};
+	ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
+	ColliderDesc.pTransform = m_pTransformCom;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Rect"),
+		TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+	{
+		MSG_BOX(TEXT("Failed to Add_Component : Com_Collision"));
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -132,9 +156,9 @@ HRESULT CPig::Ready_Parts()
 	// ¸öÅë Ãß°¡
 	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Body");
 	PartDesc.iTextureIndex = 0;
-	PartDesc.vBodyScale = _float3(2.0f, 2.0f, 0.1f);
-	PartDesc.fFrame = 1;
-	PartDesc.fPhi = 90;
+	PartDesc.vBodyScale = _float3(5.0f, 5.0f, 0.1f);
+	PartDesc.fAngleY= 1.f;
+	PartDesc.fAngleX = 90.f;
 	PartDesc.iTextureMaxIndex = 9;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Body"),
@@ -149,8 +173,8 @@ HRESULT CPig::Ready_Parts()
 
 	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Eyes");
 	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
-	PartDesc.fTheta = -75.f;
-	PartDesc.fPhi = 45.f;
+	PartDesc.fAngleY = -75.f;
+	PartDesc.fAngleX = 45.f;
 	// ¿ÞÂÊ ´« Ãß°¡
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Eyes"),
 		TEXT("Com_PartLeftEye"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
@@ -170,33 +194,33 @@ HRESULT CPig::Ready_Parts()
 	// ÄÚ Ãß°¡
 	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Nose");
 	PartDesc.eState = CParts::PARTSTATE::PARTS_FRONT;
-	PartDesc.fTheta = -90.f;
-	PartDesc.fPhi = 90.f;
+	PartDesc.fAngleY = -90.f;
+	PartDesc.fAngleX = 90.f;
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Nose"),
 		TEXT("Com_PartNose"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
 
 	m_vParts.emplace(TEXT("Nose"), static_cast<CParts*>(pComponent));
-
+		
 	// ²¿¸® Ãß°¡
 	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Tail");
 	PartDesc.eState = CParts::PARTSTATE::PARTS_BACK;
-	PartDesc.fTheta = 90.f;
+	PartDesc.fAngleY = 90.f;
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Tail"),
 		TEXT("Com_PartTail"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
-
+	
 	m_vParts.emplace(TEXT("Tail"), static_cast<CParts*>(pComponent));
 
 	// ´Ù¸® Ãß°¡
 	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Legs");
-	PartDesc.fTheta = 88.f;
-	PartDesc.fPhi = 100.f;
+	PartDesc.fAngleY = 88.f;
+	PartDesc.fAngleX = 100.f;
 	PartDesc.iTextureIndex = 0;
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Legs"),
 		TEXT("Com_PartLegs"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
-
+	
 	m_vParts.emplace(TEXT("Legs"), static_cast<CParts*>(pComponent));
 
 
@@ -233,43 +257,6 @@ void CPig::Render_Parts()
 
 }
 
-void CPig::Test_KeyInput(_float fTimeDelta)
-{
-	if (GetKeyState('W') < 0)
-	{
-		m_pTransformCom->Go_Up(fTimeDelta);
-		m_fWidth = 0;
-		m_fHeight = -10;
-	}
-	else if (GetKeyState('S') < 0)
-	{
-		m_pTransformCom->Go_Down(fTimeDelta);
-		m_fWidth = 0;
-		m_fHeight = 10;
-	}
-	else if (GetKeyState('A') < 0)
-	{
-		m_pTransformCom->Go_Left(fTimeDelta);
-		m_fWidth = -10;
-		m_fHeight = 0;
-	}
-	else if (GetKeyState('D') < 0)
-	{
-		m_pTransformCom->Go_Right(fTimeDelta);
-		m_fWidth = 10;
-		m_fHeight = 0;
-	}
-	else if (GetKeyState('E') < 0)
-	{
-		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(10.f));
-	}
-	else
-	{
-		m_fWidth = 0;
-		m_fHeight = 0;
-	}
-}
-
 void CPig::Move_Patrol(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Right(fTimeDelta);
@@ -278,8 +265,14 @@ void CPig::Move_Patrol(_float fTimeDelta)
 	{
 		m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 		m_fPatrol = 0.f;
+		if (m_bLeft)
+			m_bLeft = false;
+		else
+			m_bLeft = true;
+
 	}
 }
+
 
 CPig* CPig::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
@@ -321,4 +314,5 @@ void CPig::Free()
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pColliderCom);
 }

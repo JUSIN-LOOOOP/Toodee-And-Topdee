@@ -6,6 +6,8 @@
 #include "Level_Loading.h"
 #include "ClearTriggerObserver.h"
 
+#include "Pig.h"
+
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
@@ -32,6 +34,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 		return E_FAIL;
 
+	if(FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
 
 //	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
 //		return E_FAIL;
@@ -166,6 +170,20 @@ HRESULT CLevel_GamePlay::Ready_Observer()
 	// 옵저버 매니저에 Observer_ClearTrigger Key값을 가진 CClearTriggerObserver 생성
 	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"),
 		CClearTriggerObserver::Create())))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
+{
+	CPig::PIG_DESC pDesc{};
+
+	pDesc.TargetTransformCom = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 1));
+	pDesc.vPosSet = _float3(3.5f, 0.f, 10.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"), &pDesc)))
 		return E_FAIL;
 
 	return S_OK;

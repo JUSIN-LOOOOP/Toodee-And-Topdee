@@ -36,11 +36,11 @@ HRESULT CPart_Eyes::Initialize(void* pArg)
 }
 
 
-void CPart_Eyes::Update(CTransform* pTransform, _float fTimeDelta, _float InputWidth, _float InputDepth)
+void CPart_Eyes::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
-	_float Scale = 0.7f;
-	__super::If_Revolved(m_fWidth, m_fDepth, InputWidth, InputDepth);
-	__super::RevolveAround(pTransform, m_fWidth, m_fDepth, Scale);
+	_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION);
+	__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
+	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, 0.7f);
 	
 }
 

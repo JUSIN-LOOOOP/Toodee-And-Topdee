@@ -68,7 +68,7 @@
       <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Pig.cpp">
-      <Filter>00. Dummys\K S H\Pig</Filter>
+      <Filter>00. Dummys\K S H\Monster\Pig</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Body.cpp">
       <Filter>00. Dummys\K S H\Parts\Part_Body</Filter>
@@ -84,6 +84,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Part_Tail.cpp">
       <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>00. Dummys\K S H\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,7 +184,10 @@
       <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Pig.h">
-      <Filter>00. Dummys\K S H\Pig</Filter>
+      <Filter>00. Dummys\K S H\Monster\Pig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>00. Dummys\K S H\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,7 +322,10 @@
     <Filter Include="00. Dummys\K S H\Parts\Part_Tail">
       <UniqueIdentifier>{4ee8c276-800e-46d5-a540-b5ee8ee8f56c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Pig">
+    <Filter Include="00. Dummys\K S H\Monster">
+      <UniqueIdentifier>{424838e7-3937-464b-a694-b6a8314f0817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K S H\Monster\Pig">
       <UniqueIdentifier>{c9e92244-24ce-432f-9622-7c7636e6d8f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
