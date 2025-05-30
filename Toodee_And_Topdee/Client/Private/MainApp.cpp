@@ -102,8 +102,33 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_Collider_Cube */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		CCollider::Create(m_pGraphic_Device, COLLIDER_SHAPE::CUBE))))
+ 
+
+	return S_OK;
+} 
+
+HRESULT CMainApp::Ready_Prototype_ForStatic_Parts()
+{
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Eyes"),
+		CPart_Eyes::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Nose"),
+		CPart_Nose::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Tail"),
+		CPart_Tail::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Legs"),
+		CPart_Legs::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Body"),
+		CPart_Body::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -38,16 +38,17 @@ public:
 	//State
 	HRESULT Change_State(PLAYERSTATE eNewState);	//Stop을 제외한 State 변경시 호출
 	virtual HRESULT Return_PrevState() PURE;		//Stop State 해제시 호출
+	virtual void Idle() PURE;
 	virtual void Move(_float fTimeDelta) PURE;		//움직임
 	virtual void Action() PURE;						//Action 트리거
 	virtual void Stop() PURE;						//GameInstance Change Dimension 호출
-	void Clear();
+	virtual void Clear() PURE;
 
 	_bool CanMoveInAction() const { return m_bMoveInAction; }	
 	_bool InAction() const { return m_bInAction; }				
 	_bool CanClear() const { return m_bCanClear; }				
 	_bool CanActive() const { return m_bCanActive; }			
-	
+	_bool ClearAnimStart() const { return m_bClearAnimStart; }
 
 protected:
 	void Change_TextureDir(TEXTUREDIRECTION eTextureDirection);

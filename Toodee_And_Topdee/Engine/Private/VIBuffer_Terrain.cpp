@@ -35,13 +35,13 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 
 	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	for (size_t i = 0; i < m_iNumVerticesZ; i++)
+	for (_uint i = 0; i < m_iNumVerticesZ; i++)
 	{
-		for (size_t j = 0; j < m_iNumVerticesX; j++)
+		for (_uint j = 0; j < m_iNumVerticesX; j++)
 		{
 			_uint		iIndex = i * m_iNumVerticesX + j;
 
-			pVertices[iIndex].vPosition = _float3(j, 0.f, i);
+			pVertices[iIndex].vPosition = _float3(static_cast<_float>(j), 0.f, static_cast<_float>(i));
 			//x 방향으로 50장 , z방향으로 50장
 			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 50.f, i / (m_iNumVerticesZ - 1.f) * 50.f);
 		}
@@ -61,9 +61,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 
 	_uint			iNumIndices = { 0 };
 
-	for (size_t i = 0; i < m_iNumVerticesZ - 1; i++)
+	for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
 	{
-		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
+		for (_uint j = 0; j < m_iNumVerticesX - 1; j++)
 		{
 			_uint		iIndex = i * m_iNumVerticesX + j;
 
@@ -134,14 +134,14 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 	VTXPOSTEX* pVertices = { nullptr };
 	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	for (size_t i = 0; i < m_iNumVerticesZ; i++)
+	for (_uint i = 0; i < m_iNumVerticesZ; i++)
 	{
-		for (size_t j = 0; j < m_iNumVerticesX; j++)
+		for (_uint j = 0; j < m_iNumVerticesX; j++)
 		{
 			_uint		iIndex = i * m_iNumVerticesX + j;
 
 			//비트맵의 argb 정보 중에서 b 정보를 y값에 넣음 (값이 너무 크므로 적당히 15로 나눔)
-			pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 15.0f, i);
+			pVertices[iIndex].vPosition = _float3(static_cast<_float>(j), (pPixels[iIndex] & 0x000000ff) / 15.0f, static_cast<_float>(i));
 			//x 방향으로 50장 , z방향으로 50장
 			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 50.f, i / (m_iNumVerticesZ - 1.f) * 50.f);
 		}
@@ -161,9 +161,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
 	_uint			iNumIndices = { 0 };
-	for (size_t i = 0; i < m_iNumVerticesZ - 1; i++)
+	for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
 	{
-		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
+		for (_uint j = 0; j < m_iNumVerticesX - 1; j++)
 		{
 			_uint		iIndex = i * m_iNumVerticesX + j;
 

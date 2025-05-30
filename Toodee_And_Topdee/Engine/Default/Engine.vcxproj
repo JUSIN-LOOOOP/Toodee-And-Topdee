@@ -155,7 +155,7 @@ call Copy.bat</Command>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\Private\ClearTriggerObserver.cpp" />
-    <ClCompile Include="..\private\Collider.cpp" />
+    <ClCompile Include="..\Private\Collider.cpp" />
     <ClCompile Include="..\private\Collision.cpp" />
     <ClCompile Include="..\Private\Collision_Manager.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
@@ -168,9 +168,9 @@ call Copy.bat</Command>
     <ClCompile Include="..\private\Layer.cpp" />
     <ClCompile Include="..\private\Level.cpp" />
     <ClCompile Include="..\private\Level_Manager.cpp" />
+    <ClCompile Include="..\Private\Parts.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\Private\Observer_Manager.cpp" />
-    <ClCompile Include="..\Private\Parts.cpp" />
     <ClCompile Include="..\private\Prototype_Manager.cpp" />
     <ClCompile Include="..\private\Renderer.cpp" />
     <ClCompile Include="..\Private\SubjectObject.cpp" />
@@ -188,7 +188,7 @@ call Copy.bat</Command>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\Public\ClearTriggerObserver.h" />
-    <ClInclude Include="..\public\Collider.h" />
+    <ClInclude Include="..\Public\Collider.h" />
     <ClInclude Include="..\public\Collision.h" />
     <ClInclude Include="..\Public\Collision_Manager.h" />
     <ClInclude Include="..\public\Component.h" />
@@ -207,9 +207,9 @@ call Copy.bat</Command>
     <ClInclude Include="..\public\Layer.h" />
     <ClInclude Include="..\public\Level.h" />
     <ClInclude Include="..\public\Level_Manager.h" />
+    <ClInclude Include="..\Public\Parts.h" />
     <ClInclude Include="..\Public\Observer.h" />
     <ClInclude Include="..\Public\Observer_Manager.h" />
-    <ClInclude Include="..\Public\Parts.h" />
     <ClInclude Include="..\public\Prototype_Manager.h" />
     <ClInclude Include="..\public\Renderer.h" />
     <ClInclude Include="..\Public\SubjectObject.h" />

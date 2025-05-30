@@ -21,7 +21,7 @@ public:
 	HRESULT Add_Subjects(CSubjectObject* pSubject);
 	
 	//Subject가 옵저버를 해제할때 호출하는 함수 입니다.
-	void Remove_Subject(CSubjectObject* pSubject);
+	virtual void Remove_Subject(CSubjectObject* pSubject);
 
 	// Subject들을 정리합니다.
 	void Clear_Subjects();

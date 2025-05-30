@@ -1,27 +1,45 @@
 #include "Collision.h"
 
 const _float3 CCollision::CubeCornerSigns[8] = {
-    { -1, -1, -1 },
-    {  1, -1, -1 },
-    { -1,  1, -1 },
-    {  1,  1, -1 },
-    { -1, -1,  1 },
-    {  1, -1,  1 },
-    { -1,  1,  1 },
-    {  1,  1,  1 }
+    { -1.f, -1.f, -1.f },
+    {  1.f, -1.f, -1.f },
+    { -1.f,  1.f, -1.f },
+    {  1.f,  1.f, -1.f },
+    { -1.f, -1.f,  1.f },
+    {  1.f, -1.f,  1.f },
+    { -1.f,  1.f,  1.f },
+    {  1.f,  1.f,  1.f }
 };
 
 const _float3 CCollision::RectCornerSigns[4] = {
-    { -1, 0, -1 }, {  1, 0, -1 },  { -1, 0,  1 }, {  1, 0,  1 }
+    { -1.f, 0.f, -1.f }, {  1.f, 0.f, -1.f },  { -1.f, 0.f,  1.f }, {  1.f, 0.f,  1.f }
 };
 
 CCollision::CCollision()
 {
 }
 
-    // X, Z축만 검사 
+CCollision::AABB CCollision::Create_AABB(const OBB& info)
+{
+    CCollision::AABB box;
+    box.vMin = info.center - info.halfSize;
+    box.vMax = info.center + info.halfSize;
+
+    return box;
+}
+
+_bool CCollision::Collision_AABB(const AABB& a, const AABB& b)
+{
+    return(a.vMin.x <= b.vMax.x && a.vMax.x >= b.vMin.x) &&
+        (a.vMin.y <= b.vMax.y && a.vMax.y >= b.vMin.y) &&
+        (a.vMin.z <= b.vMax.z && a.vMax.z >= b.vMin.z);
+}
+
+// X, Z축만 검사 
 _bool CCollision::Collision_Rect_Rect(const OBB& RectA, const OBB& RectB)
 {
+    if (!Collision_AABB(Create_AABB(RectA), Create_AABB(RectB)))return false;
+
     _float3 CubeA_Edge[4] = { };
     _float3 CubeB_Edge[4] = { };
 
@@ -52,6 +70,7 @@ _bool CCollision::Collision_Rect_Rect(const OBB& RectA, const OBB& RectB)
 
 _bool CCollision::Collision_Rect_Cube(const OBB& RectA, const OBB& CubeB)
 {
+    if (!Collision_AABB(Create_AABB(RectA), Create_AABB(CubeB)))return false;
     _float3 CubeA_Edge[4] = { };
     _float3 CubeB_Edge[8] = { };
 
@@ -103,6 +122,8 @@ _bool CCollision::Collision_Rect_Cube(const OBB& RectA, const OBB& CubeB)
 
 _bool CCollision::Collision_Cube_Cube(const OBB& CubeA, const OBB& CubeB)
 {
+    if (!Collision_AABB(Create_AABB(CubeA), Create_AABB(CubeB)))return false;
+
     _float3 CubeA_Edge[8] = {};
     _float3 CubeB_Edge[8] = {};
 

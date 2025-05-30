@@ -70,6 +70,8 @@ public:
 	//Collision
 public:
 	HRESULT			Add_Collider(_uint iLevelIndex, COLLIDER_SHAPE etype, class CCollider** pCollider);
+	void			Delete_Collider(_uint iLevelIndex, CCollider** pCollider);
+	void			Check_Collision(class CCollider* pCollider);
 
 	//Observer
 public:
@@ -84,7 +86,9 @@ private:
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CKey_Manager*			m_pKey_Manager = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
+	/*class CCollision_Manager*	m_pCollision_Manager = { nullptr };*/
 	class CCollision_Manager*	m_pCollision_Manager = { nullptr };
+
 	class CMap_Manager*			m_pMap_Manager = { nullptr };
 	class CObserver_Manager*	m_pObserver_Manager = { nullptr };
 
