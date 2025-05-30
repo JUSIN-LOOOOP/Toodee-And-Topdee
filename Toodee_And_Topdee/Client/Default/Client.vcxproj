@@ -72,13 +72,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\Bin\</OutDir>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\Bin\</OutDir>
-    <IncludePath>$(DXSDK_DIR)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -115,6 +115,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,6 +133,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -171,6 +173,7 @@
     <ClInclude Include="..\Public\State_Stop.h" />
     <ClInclude Include="..\public\Test_Cube.h" />
     <ClInclude Include="..\Public\Test_Cube2.h" />
+    <ClInclude Include="..\Public\TileOutline.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -204,6 +207,7 @@
     <ClCompile Include="..\Private\State_Stop.cpp" />
     <ClCompile Include="..\private\Test_Cube.cpp" />
     <ClCompile Include="..\Private\Test_Cube2.cpp" />
+    <ClCompile Include="..\Private\TileOutline.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
