@@ -96,8 +96,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 
 	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage6"));
 
-	//BLOCK_INFO	info = {};
-	//_uint		idx = {};
+	BLOCK_INFO	info = {};
+	_uint		idx = {};
 
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
 	{
