@@ -16,6 +16,7 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+
 	if (FAILED(Ready_Observer()))
 		return E_FAIL;
 
@@ -23,8 +24,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 	//	return E_FAIL;
@@ -96,22 +97,70 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
 
-	//m_pGameInstance->Load_File(TEXT("Map_File"));
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage6"));
 
-	//BLOCK_INFO	info = {};
-	//_uint		idx = {};
+	BLOCK_INFO	info = {};
+	_uint		idx = {};
 
-	//while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
-	//{
-	//	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-	//		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube"), &info)))
-	//		return E_FAIL;
-	//}
+	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
+	{
+		switch (static_cast<MAPOBJECT>(info.iBlockType))
+		{
+		case MAPOBJECT::NONE:
+			break;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube"))))
-		return E_FAIL;
-  
+		case MAPOBJECT::WALL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBlock"), &info)))
+				return E_FAIL;
+			break;
+		case MAPOBJECT::WOOD:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallWood"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::BREAK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBreak"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::LOCK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallLock"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::FALL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallFall"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::SPARK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Spark"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::METAL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Metal"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::HOLE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Hole"), &info)))
+				return E_FAIL;
+			break;
+
+		default :
+			MSG_BOX(TEXT("Error : Block Index error!"));
+		}
+		
+	}
 	return S_OK;
 }
 

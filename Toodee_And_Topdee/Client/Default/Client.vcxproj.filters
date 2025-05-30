@@ -1,355 +1,358 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <ClCompile Include="..\Private\BasicTile.cpp">
-      <Filter>02. GameObjects\Tiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Camera.cpp">
-      <Filter>02. GameObjects\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>98. Defaults</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Level_GamePlay.cpp">
-      <Filter>01. Levels\00 Temp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Level_Loading.cpp">
-      <Filter>01. Levels\00. Loading</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Loader.cpp">
-      <Filter>01. Levels\00. Loading\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Level_Logo.cpp">
-      <Filter>01. Levels\01. Logo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\MainApp.cpp">
-      <Filter>00. MainApp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\MultiViewCamera.cpp">
-      <Filter>02. GameObjects\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Player.cpp">
-      <Filter>02. GameObjects\Player\00. Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Player_Toodee.cpp">
-      <Filter>02. GameObjects\Player\01. Topdee</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Player_Topdee.cpp">
-      <Filter>02. GameObjects\Player\02. Toodee</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\PlayerState.cpp">
-      <Filter>02. GameObjects\Player\03. State\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Action.cpp">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Clear.cpp">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Idle.cpp">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Move.cpp">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_Stop.cpp">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Test_Cube.cpp">
-      <Filter>00. Dummys\J O H</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Test_Cube2.cpp">
-      <Filter>00. Dummys\J O H</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Potal.cpp">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_MapEdit.cpp">
-      <Filter>00. Dummys\T Y J</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Part_Body.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Body</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Part_Eyes.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Eyes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Part_Legs.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Legs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Part_Nose.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Nose</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Part_Tail.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\TileOutline.cpp">
-      <Filter>02. GameObjects\Tiles\Outline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Monster.cpp">
-      <Filter>02. GameObjects\Monster\00. Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Pig.cpp">
-      <Filter>02. GameObjects\Monster\01. Pig</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Part_Ears.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Ears</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Public\BasicTile.h">
-      <Filter>02. GameObjects\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Camera.h">
-      <Filter>02. GameObjects\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Client.h">
-      <Filter>98. Defaults</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Client_Defines.h">
-      <Filter>99. Defines</Filter>
-    </ClInclude>
-    <ClInclude Include="framework.h">
-      <Filter>98. Defaults</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Level_GamePlay.h">
-      <Filter>01. Levels\00 Temp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Loader.h">
-      <Filter>01. Levels\00. Loading\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Level_Loading.h">
-      <Filter>01. Levels\00. Loading</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Level_Logo.h">
-      <Filter>01. Levels\01. Logo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\MainApp.h">
-      <Filter>00. MainApp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\MultiViewCamera.h">
-      <Filter>02. GameObjects\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Player.h">
-      <Filter>02. GameObjects\Player\00. Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Player_Toodee.h">
-      <Filter>02. GameObjects\Player\01. Topdee</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Player_Topdee.h">
-      <Filter>02. GameObjects\Player\02. Toodee</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\PlayerState.h">
-      <Filter>02. GameObjects\Player\03. State\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>98. Defaults</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_Stop.h">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_Action.h">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_Clear.h">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_Idle.h">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_Move.h">
-      <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>98. Defaults</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Test_Cube.h">
-      <Filter>00. Dummys\J O H</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Test_Cube2.h">
-      <Filter>00. Dummys\J O H</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Potal.h">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Level_MapEdit.h">
-      <Filter>00. Dummys\T Y J</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Part_Body.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Body</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Part_Eyes.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Eyes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Part_Legs.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Legs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Part_Nose.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Nose</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Part_Tail.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\TileOutline.h">
-      <Filter>02. GameObjects\Tiles\Outline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Monster.h">
-      <Filter>02. GameObjects\Monster\00. Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Pig.h">
-      <Filter>02. GameObjects\Monster\01. Pig</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Part_Ears.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Ears</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Client.ico">
-      <Filter>98. Defaults</Filter>
-    </Image>
-    <Image Include="small.ico">
-      <Filter>98. Defaults</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="00. MainApp">
-      <UniqueIdentifier>{0f441b58-ea10-4ffe-982b-ae6f90d35d85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels">
-      <UniqueIdentifier>{f0d05312-d057-4c93-bad6-101e518e1499}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects">
-      <UniqueIdentifier>{04fb3f47-2b35-4d92-85d5-485cac20e0c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="99. Defines">
-      <UniqueIdentifier>{41ead738-aec6-4829-9d7b-247dcee2b05d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="98. Defaults">
-      <UniqueIdentifier>{8305bc86-8d4f-4ca3-a609-207ee3d04d50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\00. Loading">
-      <UniqueIdentifier>{93e904e9-7c29-4d97-8713-2d8e1b9685a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\00. Loading\Loader">
-      <UniqueIdentifier>{b1399b48-563a-4b35-a3b2-a0b23dc3b306}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\02. MainMenu">
-      <UniqueIdentifier>{4f8aa6dc-2885-45cd-8d1e-08a6d49f9e54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\BackGround">
-      <UniqueIdentifier>{d48cf147-ff74-45d8-8875-518f1bd3ee78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Camera">
-      <UniqueIdentifier>{db203932-d8da-418e-9d15-0156dfa16daf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Player">
-      <UniqueIdentifier>{ebc85dba-e90c-4bb0-afa5-74dca4536921}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Terrain">
-      <UniqueIdentifier>{32c74d25-bee7-4d6c-a761-123d106ec8f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Tiles">
-      <UniqueIdentifier>{b1c523dd-ae83-4779-aba9-6def65818c77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\00 Temp">
-      <UniqueIdentifier>{1915325c-45b8-4fd5-a371-e250756055de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Monster">
-      <UniqueIdentifier>{2798810b-4491-47b8-afea-2e5b8b03bac7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Player\00. Base">
-      <UniqueIdentifier>{44d0548e-5849-4712-8d29-097f2cc68465}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Player\01. Topdee">
-      <UniqueIdentifier>{2050a9ef-a3a4-47d5-a96f-04aa00065bac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Player\02. Toodee">
-      <UniqueIdentifier>{3354450a-230c-4917-a57a-a46deae34de3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Player\03. State">
-      <UniqueIdentifier>{64bb745b-1c18-4445-8233-598cc6589bf2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Player\03. State\Base">
-      <UniqueIdentifier>{382643b9-a149-4899-b0b8-76c6ed5a7855}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys">
-      <UniqueIdentifier>{76c0bc8a-0a86-42f2-8b54-42153a45c70b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\J O H">
-      <UniqueIdentifier>{8df98f45-7e0f-441c-8be1-54f1c3ad75bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K J H">
-      <UniqueIdentifier>{9847fa68-1f4d-42a5-b358-7406283635c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K S H">
-      <UniqueIdentifier>{cdee72be-e326-4eed-b3d0-aeb227ef9357}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J">
-      <UniqueIdentifier>{86caa7e6-001d-440e-9f9f-94bc55cc9ec9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\01. Logo">
-      <UniqueIdentifier>{1cf05208-e82a-4710-bb50-f3e786b03444}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay">
-      <UniqueIdentifier>{d097451e-f374-4d78-9afa-d15befce4f26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\00 Stage01">
-      <UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\01. Stage02">
-      <UniqueIdentifier>{91cee869-d0b8-45dd-8c2f-f05f811abbc8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\02. Stage03">
-      <UniqueIdentifier>{e0ce0096-306c-464a-9fb9-6f8f6ca38953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\03. Stage_Boss01">
-      <UniqueIdentifier>{1cdc3b42-bb26-4213-b622-593cde19df3d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\04. Stage04">
-      <UniqueIdentifier>{f2a546ae-6241-4fdc-851e-039a5a57d64e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\05. Stage05">
-      <UniqueIdentifier>{2b658529-152c-49b6-962f-8cff1ca2757c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\06. Stage06">
-      <UniqueIdentifier>{4a5272c6-0002-4e42-a084-8d052085742d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\07. Stage_Boss02">
-      <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K S H\Parts">
-      <UniqueIdentifier>{1056fa25-7284-4368-ad79-ce9da578b750}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Eyes">
-      <UniqueIdentifier>{4a5fddce-c913-4a42-bd54-54f447343fc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Body">
-      <UniqueIdentifier>{ca8c02de-b3b3-429c-aa69-80f393969a24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Legs">
-      <UniqueIdentifier>{f6577903-11df-4676-a607-3de39fb4ca69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Nose">
-      <UniqueIdentifier>{8d53a21f-b68a-4ed7-8fac-699fc15a57ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Tail">
-      <UniqueIdentifier>{4ee8c276-800e-46d5-a540-b5ee8ee8f56c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Tiles\Outline">
-      <UniqueIdentifier>{74b740cb-dd56-40f2-b918-d53cb26c36ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Monster\01. Pig">
-      <UniqueIdentifier>{dd9b7bdb-151f-4f68-9c17-947a16a34cd0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\Monster\00. Base">
-      <UniqueIdentifier>{6ad51b1a-0e68-4486-bdad-a87e4f6c48f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Ears">
-      <UniqueIdentifier>{0b6a9831-5c10-4f01-a77d-c765cb65e7b5}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Client.rc">
-      <Filter>98. Defaults</Filter>
-    </ResourceCompile>
-  </ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\Private\BasicTile.cpp">
+			<Filter>02. GameObjects\Tiles</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\Camera.cpp">
+			<Filter>02. GameObjects\Camera</Filter>
+		</ClCompile>
+		<ClCompile Include="Client.cpp">
+			<Filter>98. Defaults</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\Level_GamePlay.cpp">
+			<Filter>01. Levels\00 Temp</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\Level_Loading.cpp">
+			<Filter>01. Levels\00. Loading</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\Loader.cpp">
+			<Filter>01. Levels\00. Loading\Loader</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\Level_Logo.cpp">
+			<Filter>01. Levels\01. Logo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\MainApp.cpp">
+			<Filter>00. MainApp</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\MultiViewCamera.cpp">
+			<Filter>02. GameObjects\Camera</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\Player.cpp">
+			<Filter>02. GameObjects\Player\00. Base</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\Player_Toodee.cpp">
+			<Filter>02. GameObjects\Player\01. Topdee</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\Player_Topdee.cpp">
+			<Filter>02. GameObjects\Player\02. Toodee</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\PlayerState.cpp">
+			<Filter>02. GameObjects\Player\03. State\Base</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\State_Action.cpp">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\State_Clear.cpp">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\State_Idle.cpp">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\State_Move.cpp">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\State_Stop.cpp">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClCompile>
+		<ClCompile Include="..\private\Test_Cube.cpp">
+			<Filter>00. Dummys\J O H</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Test_Cube2.cpp">
+			<Filter>00. Dummys\J O H</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Potal.cpp">
+			<Filter>00. Dummys\K J H</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Level_MapEdit.cpp">
+			<Filter>00. Dummys\T Y J</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Block.cpp">
+			<Filter>00. Dummys\T Y J\Block</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Block_Break.cpp">
+			<Filter>00. Dummys\T Y J\Block\Break</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Block_Fall.cpp">
+			<Filter>00. Dummys\T Y J\Block\Fall</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Block_Lock.cpp">
+			<Filter>00. Dummys\T Y J\Block\Lock</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Block_Wall.cpp">
+			<Filter>00. Dummys\T Y J\Block\Wall</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Block_Wood.cpp">
+			<Filter>00. Dummys\T Y J\Block\Wood</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\TextureUI.cpp">
+			<Filter>00. Dummys\T Y J</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Block_Metal.cpp">
+			<Filter>00. Dummys\T Y J\Block\Metal</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Block_Spark.cpp">
+			<Filter>00. Dummys\T Y J\Block\Spark</Filter>
+		</ClCompile>
+		<ClCompile Include="..\Private\Hole.cpp">
+			<Filter>00. Dummys\T Y J\Block\Hole</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\Public\BasicTile.h">
+			<Filter>02. GameObjects\Tiles</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\Camera.h">
+			<Filter>02. GameObjects\Camera</Filter>
+		</ClInclude>
+		<ClInclude Include="Client.h">
+			<Filter>98. Defaults</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Client_Defines.h">
+			<Filter>99. Defines</Filter>
+		</ClInclude>
+		<ClInclude Include="framework.h">
+			<Filter>98. Defaults</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\Level_GamePlay.h">
+			<Filter>01. Levels\00 Temp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\Loader.h">
+			<Filter>01. Levels\00. Loading\Loader</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\Level_Loading.h">
+			<Filter>01. Levels\00. Loading</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\Level_Logo.h">
+			<Filter>01. Levels\01. Logo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\MainApp.h">
+			<Filter>00. MainApp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\MultiViewCamera.h">
+			<Filter>02. GameObjects\Camera</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\Player.h">
+			<Filter>02. GameObjects\Player\00. Base</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\Player_Toodee.h">
+			<Filter>02. GameObjects\Player\01. Topdee</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\Player_Topdee.h">
+			<Filter>02. GameObjects\Player\02. Toodee</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\PlayerState.h">
+			<Filter>02. GameObjects\Player\03. State\Base</Filter>
+		</ClInclude>
+		<ClInclude Include="Resource.h">
+			<Filter>98. Defaults</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\State_Stop.h">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\State_Action.h">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\State_Clear.h">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\State_Idle.h">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\State_Move.h">
+			<Filter>02. GameObjects\Player\03. State</Filter>
+		</ClInclude>
+		<ClInclude Include="targetver.h">
+			<Filter>98. Defaults</Filter>
+		</ClInclude>
+		<ClInclude Include="..\public\Test_Cube.h">
+			<Filter>00. Dummys\J O H</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Test_Cube2.h">
+			<Filter>00. Dummys\J O H</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Potal.h">
+			<Filter>00. Dummys\K J H</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Level_MapEdit.h">
+			<Filter>00. Dummys\T Y J</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Block.h">
+			<Filter>00. Dummys\T Y J\Block</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Block_Break.h">
+			<Filter>00. Dummys\T Y J\Block\Break</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Block_Fall.h">
+			<Filter>00. Dummys\T Y J\Block\Fall</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Block_Lock.h">
+			<Filter>00. Dummys\T Y J\Block\Lock</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Block_Wall.h">
+			<Filter>00. Dummys\T Y J\Block\Wall</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Block_Wood.h">
+			<Filter>00. Dummys\T Y J\Block\Wood</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\TextureUI.h">
+			<Filter>00. Dummys\T Y J</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Block_Metal.h">
+			<Filter>00. Dummys\T Y J\Block\Metal</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Block_Spark.h">
+			<Filter>00. Dummys\T Y J\Block\Spark</Filter>
+		</ClInclude>
+		<ClInclude Include="..\Public\Hole.h">
+			<Filter>00. Dummys\T Y J\Block\Hole</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Image Include="Client.ico">
+			<Filter>98. Defaults</Filter>
+		</Image>
+		<Image Include="small.ico">
+			<Filter>98. Defaults</Filter>
+		</Image>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="00. MainApp">
+			<UniqueIdentifier>{0f441b58-ea10-4ffe-982b-ae6f90d35d85}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels">
+			<UniqueIdentifier>{f0d05312-d057-4c93-bad6-101e518e1499}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects">
+			<UniqueIdentifier>{04fb3f47-2b35-4d92-85d5-485cac20e0c8}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="99. Defines">
+			<UniqueIdentifier>{41ead738-aec6-4829-9d7b-247dcee2b05d}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="98. Defaults">
+			<UniqueIdentifier>{8305bc86-8d4f-4ca3-a609-207ee3d04d50}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\00. Loading">
+			<UniqueIdentifier>{93e904e9-7c29-4d97-8713-2d8e1b9685a1}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\00. Loading\Loader">
+			<UniqueIdentifier>{b1399b48-563a-4b35-a3b2-a0b23dc3b306}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\02. MainMenu">
+			<UniqueIdentifier>{4f8aa6dc-2885-45cd-8d1e-08a6d49f9e54}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\BackGround">
+			<UniqueIdentifier>{d48cf147-ff74-45d8-8875-518f1bd3ee78}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Camera">
+			<UniqueIdentifier>{db203932-d8da-418e-9d15-0156dfa16daf}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Player">
+			<UniqueIdentifier>{ebc85dba-e90c-4bb0-afa5-74dca4536921}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Terrain">
+			<UniqueIdentifier>{32c74d25-bee7-4d6c-a761-123d106ec8f2}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Tiles">
+			<UniqueIdentifier>{b1c523dd-ae83-4779-aba9-6def65818c77}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\00 Temp">
+			<UniqueIdentifier>{1915325c-45b8-4fd5-a371-e250756055de}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Monster">
+			<UniqueIdentifier>{2798810b-4491-47b8-afea-2e5b8b03bac7}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Player\00. Base">
+			<UniqueIdentifier>{44d0548e-5849-4712-8d29-097f2cc68465}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Player\01. Topdee">
+			<UniqueIdentifier>{2050a9ef-a3a4-47d5-a96f-04aa00065bac}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Player\02. Toodee">
+			<UniqueIdentifier>{3354450a-230c-4917-a57a-a46deae34de3}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Player\03. State">
+			<UniqueIdentifier>{64bb745b-1c18-4445-8233-598cc6589bf2}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="02. GameObjects\Player\03. State\Base">
+			<UniqueIdentifier>{382643b9-a149-4899-b0b8-76c6ed5a7855}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys">
+			<UniqueIdentifier>{76c0bc8a-0a86-42f2-8b54-42153a45c70b}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\J O H">
+			<UniqueIdentifier>{8df98f45-7e0f-441c-8be1-54f1c3ad75bc}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\K J H">
+			<UniqueIdentifier>{9847fa68-1f4d-42a5-b358-7406283635c8}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\K S H">
+			<UniqueIdentifier>{cdee72be-e326-4eed-b3d0-aeb227ef9357}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J">
+			<UniqueIdentifier>{86caa7e6-001d-440e-9f9f-94bc55cc9ec9}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\01. Logo">
+			<UniqueIdentifier>{1cf05208-e82a-4710-bb50-f3e786b03444}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\03. GamePlay">
+			<UniqueIdentifier>{d097451e-f374-4d78-9afa-d15befce4f26}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\03. GamePlay\00 Stage01">
+			<UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\03. GamePlay\01. Stage02">
+			<UniqueIdentifier>{91cee869-d0b8-45dd-8c2f-f05f811abbc8}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\03. GamePlay\02. Stage03">
+			<UniqueIdentifier>{e0ce0096-306c-464a-9fb9-6f8f6ca38953}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\03. GamePlay\03. Stage_Boss01">
+			<UniqueIdentifier>{1cdc3b42-bb26-4213-b622-593cde19df3d}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\03. GamePlay\04. Stage04">
+			<UniqueIdentifier>{f2a546ae-6241-4fdc-851e-039a5a57d64e}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\03. GamePlay\05. Stage05">
+			<UniqueIdentifier>{2b658529-152c-49b6-962f-8cff1ca2757c}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\03. GamePlay\06. Stage06">
+			<UniqueIdentifier>{4a5272c6-0002-4e42-a084-8d052085742d}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="01. Levels\03. GamePlay\07. Stage_Boss02">
+			<UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J\Block">
+			<UniqueIdentifier>{02a3673b-a045-498b-bdc8-20b7d5eb0a32}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J\Block\Break">
+			<UniqueIdentifier>{6a0c54f5-3a89-4934-ba1d-19776beaa6cb}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J\Block\Wood">
+			<UniqueIdentifier>{6ce54d61-43ac-4f1a-a44f-c003d9fdc1ab}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J\Block\Wall">
+			<UniqueIdentifier>{615247ea-a0ea-4cfd-916b-cfa233363194}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J\Block\Fall">
+			<UniqueIdentifier>{930abd54-aa14-4957-8186-40a603d64e97}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J\Block\Lock">
+			<UniqueIdentifier>{b22a7b49-a210-4ed2-9198-d2e246c6fb77}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J\Block\Metal">
+			<UniqueIdentifier>{ec6d845a-a69d-41e5-b796-d9c8c42676b1}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J\Block\Spark">
+			<UniqueIdentifier>{0856da92-c18c-47e2-b81c-bc886450ee5b}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="00. Dummys\T Y J\Block\Hole">
+			<UniqueIdentifier>{bd7bd66b-82af-499a-bffe-acc70c5da4b2}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="Client.rc">
+			<Filter>98. Defaults</Filter>
+		</ResourceCompile>
+	</ItemGroup>
 </Project>

@@ -29,10 +29,7 @@ protected:
 
 protected:
 	HRESULT						IsTileClicked(Picking::Ray ray);
-	void						Set_Type(_int _newBlockType, _int _newTextureType);
-	_int						m_iTextureType = 0;
-	_int						m_iBlockType = 0;
-	_int						m_iTextureDir = 0;
+	BLOCK_INFO					m_tBlockInfo = {};
 
 public:
 	virtual CTile* Clone(void* pArg) = 0;
