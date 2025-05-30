@@ -25,6 +25,7 @@ HRESULT CHole::Initialize(void* pArg)
 	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
 	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+	m_pTransformCom->Go_Up(0.1f);
 	m_pTransformCom->Scaling(2, 2, 2);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
