@@ -63,7 +63,7 @@ private:
 	_float						m_fCurrentAngle = {};
 	_float						m_fCurrentPos = {};
 	_float						m_OffsetLength;
-	_float						m_ChangeSpeed = 15.f;
+	_float						m_ChangeSpeed = 13.f;
 	CAM_TYPE					m_bType = CAM_TYPE::TOP;
 
 private:

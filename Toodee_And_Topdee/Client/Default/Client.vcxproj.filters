@@ -84,6 +84,35 @@
     </ClCompile>
     <ClCompile Include="..\Private\Part_Tail.cpp">
       <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
+    <ClCompile Include="..\Private\Block.cpp">
+      <Filter>00. Dummys\T Y J\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Break.cpp">
+      <Filter>00. Dummys\T Y J\Block\Break</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Fall.cpp">
+      <Filter>00. Dummys\T Y J\Block\Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Lock.cpp">
+      <Filter>00. Dummys\T Y J\Block\Lock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Wall.cpp">
+      <Filter>00. Dummys\T Y J\Block\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Wood.cpp">
+      <Filter>00. Dummys\T Y J\Block\Wood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TextureUI.cpp">
+      <Filter>00. Dummys\T Y J</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Metal.cpp">
+      <Filter>00. Dummys\T Y J\Block\Metal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block_Spark.cpp">
+      <Filter>00. Dummys\T Y J\Block\Spark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hole.cpp">
+      <Filter>00. Dummys\T Y J\Block\Hole</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +211,35 @@
     </ClInclude>
     <ClInclude Include="..\Public\Pig.h">
       <Filter>00. Dummys\K S H\Pig</Filter>
+    <ClInclude Include="..\Public\Block.h">
+      <Filter>00. Dummys\T Y J\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Break.h">
+      <Filter>00. Dummys\T Y J\Block\Break</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Fall.h">
+      <Filter>00. Dummys\T Y J\Block\Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Lock.h">
+      <Filter>00. Dummys\T Y J\Block\Lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Wall.h">
+      <Filter>00. Dummys\T Y J\Block\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Wood.h">
+      <Filter>00. Dummys\T Y J\Block\Wood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TextureUI.h">
+      <Filter>00. Dummys\T Y J</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Metal.h">
+      <Filter>00. Dummys\T Y J\Block\Metal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Block_Spark.h">
+      <Filter>00. Dummys\T Y J\Block\Spark</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hole.h">
+      <Filter>00. Dummys\T Y J\Block\Hole</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -318,6 +376,32 @@
     </Filter>
     <Filter Include="00. Dummys\K S H\Pig">
       <UniqueIdentifier>{c9e92244-24ce-432f-9622-7c7636e6d8f9}</UniqueIdentifier>
+    <Filter Include="00. Dummys\T Y J\Block">
+      <UniqueIdentifier>{02a3673b-a045-498b-bdc8-20b7d5eb0a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Break">
+      <UniqueIdentifier>{6a0c54f5-3a89-4934-ba1d-19776beaa6cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Wood">
+      <UniqueIdentifier>{6ce54d61-43ac-4f1a-a44f-c003d9fdc1ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Wall">
+      <UniqueIdentifier>{615247ea-a0ea-4cfd-916b-cfa233363194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Fall">
+      <UniqueIdentifier>{930abd54-aa14-4957-8186-40a603d64e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Lock">
+      <UniqueIdentifier>{b22a7b49-a210-4ed2-9198-d2e246c6fb77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Metal">
+      <UniqueIdentifier>{ec6d845a-a69d-41e5-b796-d9c8c42676b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Spark">
+      <UniqueIdentifier>{0856da92-c18c-47e2-b81c-bc886450ee5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Hole">
+      <UniqueIdentifier>{bd7bd66b-82af-499a-bffe-acc70c5da4b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
