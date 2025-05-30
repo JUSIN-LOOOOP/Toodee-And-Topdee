@@ -20,8 +20,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 	//	return E_FAIL;
@@ -47,8 +47,6 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 
 HRESULT CLevel_GamePlay::Render()
 {
-	// -- �ӽ� --
-	//SetWindowText(g_hWnd, TEXT("�����÷��̷����Դϴ�."));
 
 	return S_OK;
 }
@@ -92,44 +90,62 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
 
-	m_pGameInstance->Load_File(TEXT("Map_File"));
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage6"));
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
 
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
 	{
-		switch (static_cast<BLOCKTYPE>(info.iBlockType))
+		switch (static_cast<MAPOBJECT>(info.iBlockType))
 		{
-		case BLOCKTYPE::NONE:
+		case MAPOBJECT::NONE:
 			break;
 
-		case BLOCKTYPE::WALL :
+		case MAPOBJECT::WALL:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBlock"), &info)))
 				return E_FAIL;
 			break;
-		case BLOCKTYPE::WOOD :
+		case MAPOBJECT::WOOD:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallWood"), &info)))
 				return E_FAIL;
 			break;
 
-		case BLOCKTYPE::BREAK:
+		case MAPOBJECT::BREAK:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBreak"), &info)))
 				return E_FAIL;
 			break;
 
-		case BLOCKTYPE::LOCK:
+		case MAPOBJECT::LOCK:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallLock"), &info)))
 				return E_FAIL;
-			break; 
+			break;
 
-		case BLOCKTYPE::FALL:
+		case MAPOBJECT::FALL:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallFall"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::SPARK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Spark"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::METAL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Metal"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::HOLE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Hole"), &info)))
 				return E_FAIL;
 			break;
 

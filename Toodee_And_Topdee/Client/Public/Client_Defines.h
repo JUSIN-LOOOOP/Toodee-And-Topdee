@@ -21,7 +21,7 @@ namespace Client
 
 	enum JUMPSTATE { JUMPING, HANGSTART, HANGING, HANGEND, FALLING };
 
-	enum class BLOCKTYPE { NONE, WALL, WOOD, BREAK, LOCK, FALL, BLOCK_END };
+	enum class MAPOBJECT { NONE, WALL, WOOD, BREAK, LOCK, FALL, SPARK, METAL, HOLE, BLOCK_END };
 
 	typedef struct tagStateDesc {
 		PLAYERSTATE					eState;

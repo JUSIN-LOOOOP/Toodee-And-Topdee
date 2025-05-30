@@ -15,11 +15,14 @@ HRESULT CLevel_Map::Initialize()
 	vector<_uint> TextureCount;
 
 	TextureCount.push_back(1);	//NONe
-	TextureCount.push_back(48);	//WALL
+	TextureCount.push_back(93);	//WALL
 	TextureCount.push_back(1);	//WOOD
 	TextureCount.push_back(1);	//BREAK
 	TextureCount.push_back(1);	//LOCK
 	TextureCount.push_back(1);	//FALL
+	TextureCount.push_back(1);	//SPARK
+	TextureCount.push_back(1);	//METAL
+	TextureCount.push_back(1);	//Hole
 
 	m_pGameInstance->Load_Initial_Data(&TextureCount);
 
@@ -69,7 +72,7 @@ HRESULT CLevel_Map::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_Map::Ready_Layer_Tile(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Load_File(TEXT("new"));
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage2"));
 	BLOCK_INFO	info = {};
 	BLOCK_INFO	arg = {};
 	_uint		idx = {};

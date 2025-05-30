@@ -144,8 +144,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h" />
+    <ClInclude Include="..\Public\Block.h" />
+    <ClInclude Include="..\Public\Block_Break.h" />
+    <ClInclude Include="..\Public\Block_Fall.h" />
+    <ClInclude Include="..\Public\Block_Lock.h" />
+    <ClInclude Include="..\Public\Block_Metal.h" />
+    <ClInclude Include="..\Public\Block_Spark.h" />
+    <ClInclude Include="..\Public\Block_Wall.h" />
+    <ClInclude Include="..\Public\Block_Wood.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
@@ -165,6 +174,7 @@
     <ClInclude Include="..\Public\State_Stop.h" />
     <ClInclude Include="..\public\Test_Cube.h" />
     <ClInclude Include="..\Public\Test_Cube2.h" />
+    <ClInclude Include="..\Public\TextureUI.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -172,7 +182,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\BasicTile.cpp" />
+    <ClCompile Include="..\Private\Block.cpp" />
+    <ClCompile Include="..\Private\Block_Break.cpp" />
+    <ClCompile Include="..\Private\Block_Fall.cpp" />
+    <ClCompile Include="..\Private\Block_Lock.cpp" />
+    <ClCompile Include="..\Private\Block_Metal.cpp" />
+    <ClCompile Include="..\Private\Block_Spark.cpp" />
+    <ClCompile Include="..\Private\Block_Wall.cpp" />
+    <ClCompile Include="..\Private\Block_Wood.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
+    <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
@@ -192,6 +211,7 @@
     <ClCompile Include="..\Private\State_Stop.cpp" />
     <ClCompile Include="..\private\Test_Cube.cpp" />
     <ClCompile Include="..\Private\Test_Cube2.cpp" />
+    <ClCompile Include="..\Private\TextureUI.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

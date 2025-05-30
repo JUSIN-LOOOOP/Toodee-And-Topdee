@@ -33,6 +33,7 @@ HRESULT CBasicTile::Initialize(void* pArg)
     m_tBlockInfo.iDir = arg->iDir;
     m_tBlockInfo.iTextureIdx = arg->iTextureIdx;
     m_tBlockInfo.iTileTextureIdx = arg->iTileTextureIdx;
+    m_pTransformCom->TurnToRadian(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f) * m_tBlockInfo.iDir);
 
     return S_OK;
 }
