@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Cube;
+class CCollider;
 END
 
 BEGIN(Client)

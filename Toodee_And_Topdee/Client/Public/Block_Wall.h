@@ -2,13 +2,6 @@
 #include "Client_Defines.h"
 #include "Block.h"
 
-BEGIN(Engine)
-class CVIBuffer_Cube;
-class CTransform;
-class CTexture;
-class CCollider;
-END
-
 BEGIN(Client)
 
 class CBlock_Wall final : public CBlock
