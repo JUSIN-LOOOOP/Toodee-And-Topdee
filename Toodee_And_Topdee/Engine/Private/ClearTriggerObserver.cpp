@@ -25,6 +25,32 @@ void CClearTriggerObserver::onNotify(EVENT eEvent, CSubjectObject* pSubject)
 	}
 }
 
+void CClearTriggerObserver::Remove_Subject(CSubjectObject* pSubject)
+{
+	auto iter = m_Subjects.begin();
+
+	for (iter; iter != m_Subjects.end();)
+	{
+		if (*iter == pSubject)
+		{
+			Safe_Release(*iter);
+			iter = m_Subjects.erase(iter);
+		}
+		else
+			iter++;
+	}
+
+	if (nullptr == pSubject)
+		return;
+
+	_uint iErase = m_OverlapSubjects.erase(pSubject);
+
+	if (iErase == 0)
+		return;
+
+	Safe_Release(pSubject);
+}
+
 void CClearTriggerObserver::Add_OverlapSubjects(CSubjectObject* pSubject)
 {
 	if (nullptr == pSubject)

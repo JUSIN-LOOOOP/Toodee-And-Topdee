@@ -25,6 +25,9 @@ public:
 	void Late_Update(_float fTimeDelta);
 	void Clear(_uint iLevelIndex);
 
+public:
+	class CComponent* Get_Component(_uint iLayerLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
+
 private:
 	class CGameInstance*					m_pGameInstance = { nullptr };
 	_uint									m_iNumLevels = {};

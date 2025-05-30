@@ -40,6 +40,7 @@ void CObserver::Clear_Subjects()
 		Subject->Remove_Observer(this);
 		Safe_Release(Subject);
 	}
+	m_Subjects.clear();
 }
 
 void CObserver::Report(REPORT eReport)
@@ -51,13 +52,4 @@ void CObserver::Report(REPORT eReport)
 void CObserver::Free()
 {
 	__super::Free();
-
-	auto iter = m_Subjects.begin();
-
-	for (iter; iter != m_Subjects.end();)
-	{
-		Safe_Release(*iter);
-		iter = m_Subjects.erase(iter);
-	}
-
 }

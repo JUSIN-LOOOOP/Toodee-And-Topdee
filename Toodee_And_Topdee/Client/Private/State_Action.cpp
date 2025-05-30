@@ -49,8 +49,11 @@ void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTime
     if (iInputData == 0)
     {
         if (!pPlayer->InAction())
+        {
+            pPlayer->Idle();
             if (FAILED(pPlayer->Change_State(PLAYERSTATE::IDLE)))
                 MSG_BOX(TEXT("Failed Change State : IDLE"));
+        }
     }
 
 }

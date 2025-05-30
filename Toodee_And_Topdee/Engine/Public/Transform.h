@@ -67,7 +67,8 @@ public:
 
 	void Look_At(const _float3& vTarget);
 	void Move_To(const _float3& vTarget, _float fTimeDelta, _float fLimitRange = 0.f);
-	_bool Move_To(const _float3& vTarget, _float fTimeDelta, _float fSpeed, _float fLimitRange = 0.f);
+	_bool MoveUntilInRange(const _float3& vTarget, _float fTimeDelta, _float fLimitRange);
+	_bool Approach(const _float3& vTarget, _float fTimeDelta, _float fSpeed);
 
 	void Rotation(const _float3& vAxis, _float fRadian);
 	void Turn(const _float3& vAxis, _float fTimeDelta);

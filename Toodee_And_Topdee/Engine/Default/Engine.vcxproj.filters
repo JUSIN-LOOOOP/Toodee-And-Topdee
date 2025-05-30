@@ -79,9 +79,6 @@
     <Filter Include="01. Utility\05. Component\Collider">
       <UniqueIdentifier>{b5cfef89-715a-4a04-b00c-db68c244d7b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Utility\05. Component\Collider\Base">
-      <UniqueIdentifier>{f8609e5b-4c57-458f-93d1-46ab150e3573}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Utility\06 Collision">
       <UniqueIdentifier>{793ff29f-2031-4b16-8beb-dc53fc38e200}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,24 @@
     </Filter>
     <Filter Include="01. Utility\03. GameObject\Tile">
       <UniqueIdentifier>{cd922f10-5cb5-4062-9f0f-b1d279bb817a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys">
+      <UniqueIdentifier>{0c21a478-c6bf-4b26-b8fa-297055cc0b63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. GameObject\Subject">
+      <UniqueIdentifier>{c1d2ba68-b1bd-4591-be36-c8ad55687aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\07. Observer">
+      <UniqueIdentifier>{75b2561b-499a-4eb4-9b9d-888e33686a33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\07. Observer\Base">
+      <UniqueIdentifier>{1942243e-990c-4d1d-b0e2-69a1688890d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\07. Observer\Manager">
+      <UniqueIdentifier>{9e18b38a-5140-4aa1-be3c-529f16a6b283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\Parts">
+      <UniqueIdentifier>{fd925870-128e-4b6b-b65b-7981ac831d45}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,14 +189,8 @@
     <ClInclude Include="..\public\Key_Manager.h">
       <Filter>00. System\00. Device\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Collider.h">
-      <Filter>01. Utility\05. Component\Collider\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Collision.h">
       <Filter>01. Utility\06 Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Collision_Manager.h">
-      <Filter>01. Utility\06 Collision\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Object_Manager.h">
       <Filter>01. Utility\03. GameObject\Manager</Filter>
@@ -194,6 +203,27 @@
     </ClInclude>
     <ClInclude Include="..\Public\Tile.h">
       <Filter>01. Utility\03. GameObject\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SubjectObject.h">
+      <Filter>01. Utility\03. GameObject\Subject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Observer.h">
+      <Filter>01. Utility\07. Observer\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Observer_Manager.h">
+      <Filter>01. Utility\07. Observer\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ClearTriggerObserver.h">
+      <Filter>01. Utility\07. Observer\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collision_Manager.h">
+      <Filter>01. Utility\06 Collision\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collider.h">
+      <Filter>01. Utility\05. Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Parts.h">
+      <Filter>01. Utility\05. Component\Parts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,14 +287,8 @@
     <ClCompile Include="..\private\Key_Manager.cpp">
       <Filter>00. System\00. Device\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Collider.cpp">
-      <Filter>01. Utility\05. Component\Collider\Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Collision.cpp">
       <Filter>01. Utility\06 Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Collision_Manager.cpp">
-      <Filter>01. Utility\06 Collision\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Util.cpp">
       <Filter>01. Utility\99. Util</Filter>
@@ -274,6 +298,27 @@
     </ClCompile>
     <ClCompile Include="..\Private\Tile.cpp">
       <Filter>01. Utility\03. GameObject\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SubjectObject.cpp">
+      <Filter>01. Utility\03. GameObject\Subject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Observer.cpp">
+      <Filter>01. Utility\07. Observer\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ClearTriggerObserver.cpp">
+      <Filter>01. Utility\07. Observer\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Observer_Manager.cpp">
+      <Filter>01. Utility\07. Observer\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider.cpp">
+      <Filter>01. Utility\05. Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collision_Manager.cpp">
+      <Filter>01. Utility\06 Collision\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Parts.cpp">
+      <Filter>01. Utility\05. Component\Parts</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
