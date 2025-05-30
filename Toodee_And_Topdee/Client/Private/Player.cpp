@@ -62,25 +62,6 @@ HRESULT CPlayer::Change_State(PLAYERSTATE eNewState)
 	return S_OK;
 }
 
-
-
-void CPlayer::Clear()
-{
-	m_bCanClear = true; //Test
-
-	m_bMoveToPotal = false;
-
-	Change_TextureDir(TEXTUREDIRECTION::RIGHT);
-
-	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-
-	m_vPotalStartPosition = { m_vPotalPosition.x + m_fPotalDistance, m_vPotalPosition.y, m_vPotalPosition.z };
-
-	_float3 vSpeed = m_vPotalStartPosition - vPosition;
-
-	m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
-}
-
 void CPlayer::Change_TextureDir(TEXTUREDIRECTION eTextureDirection)
 {
 	if (m_eCurrentTextureDir == eTextureDirection)

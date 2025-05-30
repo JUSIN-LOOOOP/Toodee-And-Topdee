@@ -40,6 +40,8 @@ private:
 	HRESULT Loading_For_GamePlay_Level();
 	HRESULT Loading_For_MapEdit_Level();
 
+	HRESULT Ready_PigTexture();
+
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphicDev, LEVEL eNextLevelID);
 	virtual void Free() override;

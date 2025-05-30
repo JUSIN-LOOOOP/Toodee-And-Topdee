@@ -9,12 +9,10 @@ BEGIN(Engine)
 
 class CCollision_Manager final :  public CBase
 {
-	struct COLLIDER_STATE_INFO
+	struct COLLISION_INFO
 	{
-		class CCollider*	pCollider;
+		COLLIDER_SHAPE		eType;
 		_bool				bPreState;
-		_bool				bCurState;
-		
 	};
 
 private:
@@ -23,21 +21,19 @@ private:
 
 public:
 	HRESULT			Initialize(_uint iNumLevels);
-	void			Update(_float fTimeDelta);
 	
 public:
-	HRESULT			Add_Collider(_uint iLevelIndex, COLLIDER_SHAPE etype, class CCollider** pCollider);
-	void			Clear(_uint iLevelIndex);
+	HRESULT			Add_Collider(_uint iLevelIndex, COLLIDER_SHAPE etype, class CCollider** ppCollider); 
+	void			Delete_Collider(_uint iLevelIndex, class CCollider** ppCollider); /* 1개의 오브젝트 삭제 */
+	void			Clear(_uint iLevelIndex);	/* 현재 레벨의 오브젝트 전부 삭제 */
+	void			Check_Collision(_uint iLevelIndex, class CCollider* pCollider);
 
 private:
 	_uint										m_iNumLevels = {};
-	multimap<COLLIDER_SHAPE, COLLIDER_STATE_INFO>*	m_pColliders = { nullptr };
+	map<class CCollider*, COLLISION_INFO>*		m_pColliders = { nullptr };
 
 private:
-	void			Check_Deleted();
-	void			Check_Collision();
-	void			UpdateColliderState(COLLIDER_STATE_INFO& info, class CGameObject* owner, 
-										const vector<class CGameObject*>& currentCollisions, bool hasAnyCollision);
+	void			Check_Deleted();	/* nullptr가 아니면 삭제  */
 
 public:
 	static CCollision_Manager* Create(_uint iNumLevels);

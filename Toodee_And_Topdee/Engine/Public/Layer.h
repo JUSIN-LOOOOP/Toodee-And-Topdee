@@ -21,16 +21,18 @@ public:
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 
-	HRESULT Add_GameObject(class CGameObject* pGameObject) {
+public:
+	class CComponent*	Get_Component(const _wstring& strComponentTag, _uint iIndex);
+	HRESULT				Add_GameObject(class CGameObject* pGameObject) {
 		m_GameObjects.push_back(pGameObject);
 		return S_OK;
 	}
 
 
+
 private:
 	list<class CGameObject*> m_GameObjects;
-
-	//map<const _wstring, class CGameObject*> m_GameObjects;
+	class CGameInstance* m_pGameInstance = { nullptr };
 
 public:
 	static CLayer* Create();

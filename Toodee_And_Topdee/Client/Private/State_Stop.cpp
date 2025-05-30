@@ -35,6 +35,13 @@ void CState_Stop::Update(CPlayer* pPlayer, _float fTimeDelta)
         if (FAILED(pPlayer->Return_PrevState()))
             MSG_BOX(TEXT("Failed Return PrevState"));
     }
+
+    if (pPlayer->CanClear())
+    {
+        pPlayer->Clear();
+        if (FAILED(pPlayer->Change_State(PLAYERSTATE::CLEAR)))
+            MSG_BOX(TEXT("Failed Change State : CLEAR"));
+    }
 }
 
 void CState_Stop::Exit(CPlayer* pPlayer)

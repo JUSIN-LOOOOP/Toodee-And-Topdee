@@ -24,8 +24,10 @@ private:
 	HRESULT Ready_Layer_Tile(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Potal(const _wstring& strLayerTag);
 	
-	//¿ÉÀú¹ö ÁØºñ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½
 	HRESULT Ready_Observer();
+	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
+
 
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -16,6 +16,7 @@
 #include "Block_Metal.h"
 #include "Hole.h"
 #include "TextureUI.h"
+#include "TileOutline.h"
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
@@ -110,6 +111,10 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Wall/Wall%d.dds"), 93))))
 		return E_FAIL;
 
+	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_TileOutline"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Test/TileOutline%d.png"), 4))))
+		return E_FAIL;
+
 
 	/* Prototype_Component_Texture_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Block_Wood"),
@@ -199,9 +204,13 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 
 #pragma endregion
 
+	
+
 	/* Prototype_Component_Texture_Potal */
 	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Potal"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Potal/portalSpr_%d.png"),11))))
+	/* Prototype_Component_Texture_Pig */
+	if (FAILED(Ready_PigTexture()))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("���� �ε����Դϴ�."));
@@ -275,7 +284,21 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CPotal::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
+	/* Prototype_GameObject_TileOutline */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TileOutline"),
+		CTileOutline::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	lstrcpy(m_szLoadingText, TEXT("GamePlay_Level �ε��� �Ϸ�Ǿ����ϴ�."));
+
+	/* Prototype_GameObject_Monster_Pig */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"),
+		CPig::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("GamePlay_Level �ε��� �Ϸ�Ǿ����ϴ�."));
+
 
 	m_isFinished = true;
 
@@ -308,6 +331,41 @@ HRESULT CLoader::Loading_For_MapEdit_Level()
 
 
 	m_isFinished = true;
+	
+		return S_OK;
+}
+
+HRESULT CLoader::Ready_PigTexture()
+{
+	/* Prototype_Component_Texture_Pig_Body */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Body"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigBodySpr_%d.png"), 10))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Ears */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Ears"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEarsSpr_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Eyes */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Eyes"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEyeSpr_%d.png"), 2))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Legs */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Legs"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigLegsSpr_%d.png"), 9))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Nose */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Nose"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigNoseSpr_0.png"), 1))))
+		return E_FAIL;
+	
+	/* Prototype_Component_Texture_Pig_Tail */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Tail"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigTailSpr_0.png"), 1))))
+		return E_FAIL;
 
 	return S_OK;
 }

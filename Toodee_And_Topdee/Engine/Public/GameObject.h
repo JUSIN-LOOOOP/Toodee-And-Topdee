@@ -29,8 +29,10 @@ public:
 	class CComponent* Get_Component(const _wstring& strComponentTag);
 	const _wstring&	  Get_Name() const { return name; }
 	const _bool		  CompareName(const _wstring& strName) { return strName == name; }
+	const _bool		  IsDead() const { return m_Dead; }
 
 protected:
+	_bool						m_Dead = { false };
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
 	class CGameInstance*		m_pGameInstance = { nullptr };
 

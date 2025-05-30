@@ -162,6 +162,12 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\MultiViewCamera.h" />
+    <ClInclude Include="..\Public\Part_Body.h" />
+    <ClInclude Include="..\Public\Part_Eyes.h" />
+    <ClInclude Include="..\Public\Part_Legs.h" />
+    <ClInclude Include="..\Public\Part_Nose.h" />
+    <ClInclude Include="..\Public\Part_Tail.h" />
+    <ClInclude Include="..\Public\Pig.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\Public\PlayerState.h" />
     <ClInclude Include="..\public\Player_Toodee.h" />
@@ -199,6 +205,12 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\MultiViewCamera.cpp" />
+    <ClCompile Include="..\Private\Part_Body.cpp" />
+    <ClCompile Include="..\Private\Part_Eyes.cpp" />
+    <ClCompile Include="..\Private\Part_Legs.cpp" />
+    <ClCompile Include="..\Private\Part_Nose.cpp" />
+    <ClCompile Include="..\Private\Part_Tail.cpp" />
+    <ClCompile Include="..\Private\Pig.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\Private\PlayerState.cpp" />
     <ClCompile Include="..\private\Player_Toodee.cpp" />

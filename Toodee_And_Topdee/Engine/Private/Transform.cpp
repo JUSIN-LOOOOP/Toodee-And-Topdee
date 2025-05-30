@@ -119,7 +119,22 @@ void CTransform::Move_To(const _float3& vTarget, _float fTimeDelta, _float fLimi
 	}
 }
 
-_bool CTransform::Move_To(const _float3& vTarget, _float fTimeDelta, _float fSpeed, _float fLimitRange)
+_bool CTransform::MoveUntilInRange(const _float3& vTarget, _float fTimeDelta, _float fLimitRange)
+{
+	_float3 vPosition = Get_State(STATE::POSITION);
+	_float3 vMoveDir = vTarget - vPosition;
+
+	if (fLimitRange <= D3DXVec3Length(&vMoveDir))
+	{
+		vPosition += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * m_fSpeedPerSec * fTimeDelta;
+		Set_State(STATE::POSITION, vPosition);
+		return false;
+	}
+	
+	return true;
+}
+
+_bool CTransform::Approach(const _float3& vTarget, _float fTimeDelta, _float fSpeed)
 {
 	_float3 vPosition = Get_State(STATE::POSITION);
 	_float3 vMoveDir = vTarget - vPosition;
@@ -139,7 +154,7 @@ _bool CTransform::Move_To(const _float3& vTarget, _float fTimeDelta, _float fSpe
 
 		if (abs(vMove.z) >= abs(fDistanceZ))
 			vMove.z = fDistanceZ;
-		
+
 		vPosition += vMove;
 
 		Set_State(STATE::POSITION, vPosition);
@@ -221,25 +236,28 @@ _bool CTransform::Spiral(const _float3& vTarget, const _float3 vAxis, _float fRo
 
 
 	_float4x4 rotationMatrix{};
-	
+
 	//회전 속도
 	_float fRotationPerSec = D3DXToRadian(fRotationDegree);
 
 	//지금까지 회전한 각도
 	m_fTotalRotation += fRotationPerSec * fTimeDelta;
-	
+
+	//회전할 위치벡터
+	_float3 vRotatePosition = vPosition - vTarget;
 
 	//위치벡터 회전
 	D3DXMatrixRotationAxis(&rotationMatrix, &vAxis, fRotationPerSec * fTimeDelta);
-	D3DXVec3TransformNormal(&vPosition, &vPosition, &rotationMatrix);
-	
+	D3DXVec3TransformNormal(&vRotatePosition, &vRotatePosition, &rotationMatrix);
 
-	//회전한 위치에서의 방향 벡터 구하기
+	//원래 위치벡터를 회전한 위치벡터로 갱신
+	vPosition = vTarget + vRotatePosition;
+
+	//방향벡터 구하기
 	_float3 vMoveDir = vTarget - vPosition;
 
 	//타겟과의 거리와 회전할 각도를 통해 스피드 구하기 , Distance Toodee가 음수 들어가서 abs
 	_float fSpeedPerSec = abs(fDistance) * (fRotationPerSec / (2.f * D3DX_PI));
-
 
 	_float3 vMove = *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * fSpeedPerSec * fTimeDelta;
 
@@ -252,7 +270,6 @@ _bool CTransform::Spiral(const _float3& vTarget, const _float3 vAxis, _float fRo
 		return true;
 
 	return false;
-
 }
 
 
