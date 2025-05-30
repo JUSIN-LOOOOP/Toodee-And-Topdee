@@ -1,9 +1,9 @@
 #pragma once
 #include "Client_Defines.h"
-#include "Block.h"
+#include "Gameobject.h"
 
 BEGIN(Engine)
-class CVIBuffer_Cube;
+class CVIBuffer_Rect;
 class CTransform;
 class CTexture;
 class CCollider;
@@ -11,12 +11,12 @@ END
 
 BEGIN(Client)
 
-class CBlock_Wall final : public CBlock
+class CHole final : public CGameObject
 {
 private:
-	CBlock_Wall(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CBlock_Wall(const CBlock_Wall& Prototype);
-	virtual ~CBlock_Wall() = default;
+	CHole(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CHole(const CHole& Prototype);
+	virtual ~CHole() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -28,12 +28,16 @@ public:
 
 private: 
 	HRESULT Ready_Components();
-	void	SetUp_RenderState();
-	void	Reset_RenderState();
-	_uint	tmpIdx = {};
-	_uint	key[2] = {};
+
+private: 
+	class CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+	class CTexture* m_pTextureCom = { nullptr };
+	class CTransform* m_pTransformCom = { nullptr };
+
+	_uint	m_iTextureIdx = {};
+
 public:
-	static CBlock_Wall* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CHole* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 

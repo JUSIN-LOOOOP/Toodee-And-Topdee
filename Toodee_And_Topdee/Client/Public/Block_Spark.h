@@ -11,12 +11,12 @@ END
 
 BEGIN(Client)
 
-class CBlock_Wall final : public CBlock
+class CBlock_Spark final : public CBlock
 {
 private:
-	CBlock_Wall(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CBlock_Wall(const CBlock_Wall& Prototype);
-	virtual ~CBlock_Wall() = default;
+	CBlock_Spark(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CBlock_Spark(const CBlock_Spark& Prototype);
+	virtual ~CBlock_Spark() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -30,10 +30,9 @@ private:
 	HRESULT Ready_Components();
 	void	SetUp_RenderState();
 	void	Reset_RenderState();
-	_uint	tmpIdx = {};
-	_uint	key[2] = {};
+
 public:
-	static CBlock_Wall* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CBlock_Spark* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 

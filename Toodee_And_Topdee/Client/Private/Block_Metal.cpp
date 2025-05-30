@@ -1,23 +1,23 @@
-#include "Block_Wall.h"
+#include "Block_Metal.h"
 #include "GameInstance.h"
 
 
-CBlock_Wall::CBlock_Wall(LPDIRECT3DDEVICE9 pGraphic_Device)
+CBlock_Metal::CBlock_Metal(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CBlock{ pGraphic_Device }
 {
 }
 
-CBlock_Wall::CBlock_Wall(const CBlock_Wall& Prototype)
+CBlock_Metal::CBlock_Metal(const CBlock_Metal& Prototype)
     : CBlock{ Prototype }
 {
 }
 
-HRESULT CBlock_Wall::Initialize_Prototype()
+HRESULT CBlock_Metal::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CBlock_Wall::Initialize(void* pArg)
+HRESULT CBlock_Metal::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -29,38 +29,28 @@ HRESULT CBlock_Wall::Initialize(void* pArg)
     return S_OK;
 }
 
-void CBlock_Wall::Priority_Update(_float fTimeDelta)
+void CBlock_Metal::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CBlock_Wall::Update(_float fTimeDelta)
+void CBlock_Metal::Update(_float fTimeDelta)
 {
-
-	/*_bool newkey = GetKeyState(VK_RIGHT) & 0x8000;
-	if (!key[0] && newkey)
-		tmpIdx++;
-	key[0] = newkey;
-
-	newkey = GetKeyState(VK_LEFT) & 0x8000;
-	if (!key[1] && newkey)
-		tmpIdx--;
-	key[1] = newkey;*/
 
 }
 
-void CBlock_Wall::Late_Update(_float fTimeDelta)
+void CBlock_Metal::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CBlock_Wall::Render()
+HRESULT CBlock_Metal::Render()
 {
 	__super::Render();
 
 	return S_OK;
 }
 
-HRESULT CBlock_Wall::Ready_Components()
+HRESULT CBlock_Metal::Ready_Components()
 {
 
 	/* For.Com_VIBuffer*/
@@ -69,7 +59,7 @@ HRESULT CBlock_Wall::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Block_Wall"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Block_Metal"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -86,43 +76,43 @@ HRESULT CBlock_Wall::Ready_Components()
 	return S_OK;
 }
 
-void CBlock_Wall::SetUp_RenderState()
+void CBlock_Metal::SetUp_RenderState()
 {
 	__super::SetUp_RenderState();
 }
 
-void CBlock_Wall::Reset_RenderState()
+void CBlock_Metal::Reset_RenderState()
 {
 	__super::Reset_RenderState();
 }
 
-CBlock_Wall* CBlock_Wall::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CBlock_Metal* CBlock_Metal::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CBlock_Wall* pInstance = new CBlock_Wall(pGraphic_Device);
+	CBlock_Metal* pInstance = new CBlock_Metal(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CBlock_Wall"));
+		MSG_BOX(TEXT("Failed to Created : CBlock_Metal"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CBlock_Wall::Clone(void* pArg)
+CGameObject* CBlock_Metal::Clone(void* pArg)
 {
-	CBlock_Wall* pInstance = new CBlock_Wall(*this);
+	CBlock_Metal* pInstance = new CBlock_Metal(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CBlock_Wall"));
+		MSG_BOX(TEXT("Failed to Cloned : CBlock_Metal"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CBlock_Wall::Free()
+void CBlock_Metal::Free()
 {
 	__super::Free();
 

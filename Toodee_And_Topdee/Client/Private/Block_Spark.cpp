@@ -1,23 +1,23 @@
-#include "Block_Wall.h"
+#include "Block_Spark.h"
 #include "GameInstance.h"
 
 
-CBlock_Wall::CBlock_Wall(LPDIRECT3DDEVICE9 pGraphic_Device)
+CBlock_Spark::CBlock_Spark(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CBlock{ pGraphic_Device }
 {
 }
 
-CBlock_Wall::CBlock_Wall(const CBlock_Wall& Prototype)
+CBlock_Spark::CBlock_Spark(const CBlock_Spark& Prototype)
     : CBlock{ Prototype }
 {
 }
 
-HRESULT CBlock_Wall::Initialize_Prototype()
+HRESULT CBlock_Spark::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CBlock_Wall::Initialize(void* pArg)
+HRESULT CBlock_Spark::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -29,38 +29,27 @@ HRESULT CBlock_Wall::Initialize(void* pArg)
     return S_OK;
 }
 
-void CBlock_Wall::Priority_Update(_float fTimeDelta)
+void CBlock_Spark::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CBlock_Wall::Update(_float fTimeDelta)
+void CBlock_Spark::Update(_float fTimeDelta)
 {
-
-	/*_bool newkey = GetKeyState(VK_RIGHT) & 0x8000;
-	if (!key[0] && newkey)
-		tmpIdx++;
-	key[0] = newkey;
-
-	newkey = GetKeyState(VK_LEFT) & 0x8000;
-	if (!key[1] && newkey)
-		tmpIdx--;
-	key[1] = newkey;*/
-
 }
 
-void CBlock_Wall::Late_Update(_float fTimeDelta)
+void CBlock_Spark::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CBlock_Wall::Render()
+HRESULT CBlock_Spark::Render()
 {
 	__super::Render();
 
 	return S_OK;
 }
 
-HRESULT CBlock_Wall::Ready_Components()
+HRESULT CBlock_Spark::Ready_Components()
 {
 
 	/* For.Com_VIBuffer*/
@@ -69,7 +58,7 @@ HRESULT CBlock_Wall::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Block_Wall"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Block_Spark"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -86,43 +75,43 @@ HRESULT CBlock_Wall::Ready_Components()
 	return S_OK;
 }
 
-void CBlock_Wall::SetUp_RenderState()
+void CBlock_Spark::SetUp_RenderState()
 {
 	__super::SetUp_RenderState();
 }
 
-void CBlock_Wall::Reset_RenderState()
+void CBlock_Spark::Reset_RenderState()
 {
 	__super::Reset_RenderState();
 }
 
-CBlock_Wall* CBlock_Wall::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CBlock_Spark* CBlock_Spark::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CBlock_Wall* pInstance = new CBlock_Wall(pGraphic_Device);
+	CBlock_Spark* pInstance = new CBlock_Spark(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CBlock_Wall"));
+		MSG_BOX(TEXT("Failed to Created : CBlock_Spark"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CBlock_Wall::Clone(void* pArg)
+CGameObject* CBlock_Spark::Clone(void* pArg)
 {
-	CBlock_Wall* pInstance = new CBlock_Wall(*this);
+	CBlock_Spark* pInstance = new CBlock_Spark(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CBlock_Wall"));
+		MSG_BOX(TEXT("Failed to Cloned : CBlock_Spark"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CBlock_Wall::Free()
+void CBlock_Spark::Free()
 {
 	__super::Free();
 
