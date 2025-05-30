@@ -17,6 +17,7 @@
 #include "Hole.h"
 #include "TextureUI.h"
 #include "TileOutline.h"
+#include "Pig.h"
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"

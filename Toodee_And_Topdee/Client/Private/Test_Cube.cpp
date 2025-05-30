@@ -26,6 +26,8 @@ HRESULT CTest_Cube::Initialize(void* pArg)
 	_float3 temp = { 0.f,0.f,10.f }; 
 	m_pTransformCom->Set_State(STATE::POSITION, temp);
 
+	m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
+
 	return S_OK;
 }
 
@@ -52,8 +54,14 @@ void CTest_Cube::Update(_float fTimeDelta)
 	if (m_pGameInstance->Key_Pressing(VK_RIGHT))
 		m_pTransformCom->Go_Right(fTimeDelta);
 
-
-
+	if (m_pGameInstance->Key_Down(VK_RETURN)) {
+		m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+		m_pGameInstance->PlayAudio(TEXT("Test1.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+	}
+	if (m_pGameInstance->Key_Down(VK_SPACE)) {
+		m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+		m_pGameInstance->PlayAudio(TEXT("Test2.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+	}
 	if (m_pColliderCom->OnCollisionStay())
 	{
 		m_Dead = true;

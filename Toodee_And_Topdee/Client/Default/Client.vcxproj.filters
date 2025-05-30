@@ -61,28 +61,32 @@
     <ClCompile Include="..\Private\Test_Cube2.cpp">
       <Filter>00. Dummys\J O H</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Potal.cpp">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Level_MapEdit.cpp">
       <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Pig.cpp">
-      <Filter>00. Dummys\K S H\Pig</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Pig</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Body.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Body</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Body</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Eyes.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Eyes</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Eyes</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Legs.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Legs</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Legs</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Nose.cpp">
-      <Filter>00. Dummys\K S H\Parts\Part_Nose</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Nose</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Tail.cpp">
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Tail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Potal.cpp">
+      <Filter>02. GameObjects\Player\04. Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TileOutline.cpp">
+      <Filter>02. GameObjects\Player\05. OutLine</Filter>
       <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
     <ClCompile Include="..\Private\Block.cpp">
       <Filter>00. Dummys\T Y J\Block</Filter>
@@ -188,28 +192,32 @@
     <ClInclude Include="..\Public\Test_Cube2.h">
       <Filter>00. Dummys\J O H</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Potal.h">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Level_MapEdit.h">
       <Filter>00. Dummys\T Y J</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Part_Body.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Body</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Body</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Part_Eyes.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Eyes</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Eyes</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Part_Legs.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Legs</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Legs</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Part_Nose.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Nose</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Nose</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Part_Tail.h">
-      <Filter>00. Dummys\K S H\Parts\Part_Tail</Filter>
+      <Filter>02. GameObjects\Monster\00. Pig\Parts\Part_Tail</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Pig.h">
+      <Filter>02. GameObjects\Monster\00. Pig\Pig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Potal.h">
+      <Filter>02. GameObjects\Player\04. Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TileOutline.h">
+      <Filter>02. GameObjects\Player\05. OutLine</Filter>
       <Filter>00. Dummys\K S H\Pig</Filter>
     <ClInclude Include="..\Public\Block.h">
       <Filter>00. Dummys\T Y J\Block</Filter>
@@ -356,22 +364,34 @@
     <Filter Include="01. Levels\03. GamePlay\07. Stage_Boss02">
       <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts">
+    <Filter Include="02. GameObjects\Player\04. Portal">
+      <UniqueIdentifier>{dc790aa6-52fa-4e25-a242-a6d25d2a241d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\05. OutLine">
+      <UniqueIdentifier>{2468039b-9186-4e94-bd92-b4df2a2518cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\00. Pig">
+      <UniqueIdentifier>{ac288391-aaf3-4dd4-8c02-e16ec22f434c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\00. Pig\Pig">
+      <UniqueIdentifier>{c9e92244-24ce-432f-9622-7c7636e6d8f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\00. Pig\Parts">
       <UniqueIdentifier>{1056fa25-7284-4368-ad79-ce9da578b750}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Eyes">
+    <Filter Include="02. GameObjects\Monster\00. Pig\Parts\Part_Eyes">
       <UniqueIdentifier>{4a5fddce-c913-4a42-bd54-54f447343fc6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Body">
+    <Filter Include="02. GameObjects\Monster\00. Pig\Parts\Part_Body">
       <UniqueIdentifier>{ca8c02de-b3b3-429c-aa69-80f393969a24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Legs">
+    <Filter Include="02. GameObjects\Monster\00. Pig\Parts\Part_Legs">
       <UniqueIdentifier>{f6577903-11df-4676-a607-3de39fb4ca69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Nose">
+    <Filter Include="02. GameObjects\Monster\00. Pig\Parts\Part_Nose">
       <UniqueIdentifier>{8d53a21f-b68a-4ed7-8fac-699fc15a57ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Parts\Part_Tail">
+    <Filter Include="02. GameObjects\Monster\00. Pig\Parts\Part_Tail">
       <UniqueIdentifier>{4ee8c276-800e-46d5-a540-b5ee8ee8f56c}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. Dummys\K S H\Pig">
