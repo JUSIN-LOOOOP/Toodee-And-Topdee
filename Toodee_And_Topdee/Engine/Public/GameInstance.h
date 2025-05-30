@@ -62,7 +62,6 @@ public:
 public:
 	HRESULT				Load_File(const _wstring& filename);
 	BLOCK_INFO			Get_CurrentType();									
-	_uint				Get_RenderTextureIdx();							
 	HRESULT				Add_Tile(CGameObject* tile);						
 	HRESULT				Get_Tile_Data(_int idx, BLOCK_INFO& block_data);
 	HRESULT				Load_Initial_Data(vector<_uint>* blockData);
@@ -78,6 +77,14 @@ public:
 	HRESULT Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CObserver* pObserver);
 	HRESULT Subscribe_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CSubjectObject* pSubject);
 
+	//Sound
+public:
+	void		 PlayAudio(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);
+	void		 PlayBGM(const TCHAR* pSoundKey, float fVolume);
+	void		 StopSound(CHANNELID eID);
+	void		 StopAll();
+	void		 SetChannelVolume(CHANNELID eID, float fVolume);
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
@@ -86,11 +93,11 @@ private:
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CKey_Manager*			m_pKey_Manager = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
-	/*class CCollision_Manager*	m_pCollision_Manager = { nullptr };*/
 	class CCollision_Manager*	m_pCollision_Manager = { nullptr };
 
 	class CMap_Manager*			m_pMap_Manager = { nullptr };
 	class CObserver_Manager*	m_pObserver_Manager = { nullptr };
+	class CSound_Manager*		m_pSound_Manager = { nullptr };
 
 	DIMENSION					m_eCurrentDimension = {};
 
