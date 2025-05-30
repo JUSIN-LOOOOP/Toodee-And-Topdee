@@ -15,29 +15,30 @@ protected:
 
 public:
 	virtual HRESULT Initialize(void* pArg) PURE;
-	virtual void Enter(CPlayer* pPlayer) PURE;
-	virtual void HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta) PURE;
-	virtual void Update(CPlayer* pPlayer, _float fTimeDelta) PURE;
-	virtual void Exit(CPlayer* pPlayer) PURE;
-	virtual void UpdateAnim(_float fTimeDelta) PURE;
+	virtual void Enter(CPlayer* pPlayer) PURE;														// State 변경 시 State 초기화 목적
+	virtual void HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta) PURE;			// Player Key Input
+	virtual void Update(CPlayer* pPlayer, _float fTimeDelta) PURE;									
+	virtual void Exit(CPlayer* pPlayer) PURE;														// State 변경 전 마지막
+	virtual void UpdateAnim(_float fTimeDelta) PURE;												// AnimCount Update
+
+	void Request_ChangeState(CPlayer* pPlayer, PLAYERSTATE eState);									// Player에서 State 변경 요청
 
 public:
-	PLAYERSTATE GetTextureKey() {
+	PLAYERSTATE GetTextureKey() {																	
 		return m_eState;
 	}
 
-	_uint GetAnimCount() {
+	_uint GetAnimCount() {																			
 		return m_iCurrentAnimCount;
 	}
 
-	_uint GetMaxAnimCount() {
+	_uint GetMaxAnimCount() {																		
 		return m_iMaxAnimCount;
 	}
 
 
 protected:
-	PLAYERSTATE				m_eState = {};
-	MOVEDIRECTION			m_eMoveDir = {};
+	PLAYERSTATE				m_eState = {};															// Player State													// 
 	_uint					m_iMaxAnimCount = {};
 	_uint					m_iCurrentAnimCount = {};
 	_float					m_fAnimDelay = {};
