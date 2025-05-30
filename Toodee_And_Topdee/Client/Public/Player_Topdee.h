@@ -6,11 +6,6 @@ BEGIN(Client)
 class CPlayer_Topdee final : public CPlayer
 {
 private:
-	/* 순서대로 리소스 번호 찾아감 (아래, 횡, 아래 대각선, 위 대각선, 위) */
-	/* 비트 연산용 input enum class */
-
-
-private:
 	CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer_Topdee(const CPlayer_Topdee& Prototype);
 	virtual ~CPlayer_Topdee() = default;
@@ -60,11 +55,14 @@ private:
 	void Change_MoveDir(_uint iInputData);
 	MOVEDIRECTION ComputeMoveDirection(_uint iInputData);
 
+	//타일 중앙 Position 계산
 	void ComputeTileCenter();
+	//타일 중앙으로 이동시킴
 	void MoveToTileCenter(_float fTimeDelta);
-
+	//Stop 상태로 변했을때 아래 바라보기
 	void TurnDownOnStop(_float fTimeDelta);
-	
+
+	void Check_CollisionState();
 
 	HRESULT Ready_Components();
 	HRESULT Ready_States();

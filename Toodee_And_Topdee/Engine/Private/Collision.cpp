@@ -122,7 +122,7 @@ _bool CCollision::Collision_Rect_Cube(const OBB& RectA, const OBB& CubeB)
 
 _bool CCollision::Collision_Cube_Cube(const OBB& CubeA, const OBB& CubeB)
 {
-    if (!Collision_AABB(Create_AABB(CubeA), Create_AABB(CubeB)))return false;
+    if (!Collision_AABB(Create_AABB(CubeA), Create_AABB(CubeB)))return true;
 
     _float3 CubeA_Edge[8] = {};
     _float3 CubeB_Edge[8] = {};

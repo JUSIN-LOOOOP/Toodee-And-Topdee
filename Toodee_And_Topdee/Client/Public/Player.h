@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CTransform;
 class CTexture;
 class CVIBuffer_Rect;
+class CCollider;
 class CObserver;
 END
 
@@ -69,7 +70,7 @@ protected:
 	CTransform*						m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*					m_pVIBufferCom = { nullptr };
 	CTexture*						m_pTextureComs[ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END)] = { nullptr };
-	
+	CCollider*						m_pColliderCom = { nullptr };
 	//Player ป๓ลย
 	PLAYERSTATE_DESC				m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END)];
 	

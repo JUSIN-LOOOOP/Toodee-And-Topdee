@@ -21,6 +21,8 @@ public:
 	virtual void Exit(CPlayer* pPlayer) PURE;
 	virtual void UpdateAnim(_float fTimeDelta) PURE;
 
+	void Request_ChangeState(CPlayer* pPlayer, PLAYERSTATE eState);
+
 public:
 	PLAYERSTATE GetTextureKey() {
 		return m_eState;
