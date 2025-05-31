@@ -40,16 +40,19 @@ private:
 
 private:
 	map<const _wstring, CParts*>  m_vParts;
-	_bool m_bLeft{};
+	_bool		m_bLeft{};
+	_bool		m_bMotion{};
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_Parts();
-	void Render_Parts();
+	void	Render_Parts();
+	void	Parts_Update(_float fTimeDelta);
 
 private : // Test¿ë
 	void Move_Patrol(_float fTimeDelta);
 	_float m_fMaxPat{}, m_fPatrol{};
+	_float3 m_vScale{};
 
 public:
 	static CPig* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

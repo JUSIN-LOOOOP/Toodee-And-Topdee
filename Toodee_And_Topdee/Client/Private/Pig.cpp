@@ -13,6 +13,7 @@ CPig::CPig(const CPig& Prototype)
 	, m_pVIBufferCom{ Prototype.m_pVIBufferCom }
 	, m_pColliderCom{ Prototype.m_pColliderCom }
 	, m_bLeft{ Prototype.m_bLeft }
+	, m_bMotion{ Prototype.m_bMotion }
 {
 	Safe_AddRef(m_pTransformCom);
 	Safe_AddRef(m_pVIBufferCom);
@@ -38,6 +39,7 @@ HRESULT CPig::Initialize(void* pArg)
 		return E_FAIL;
 
 	PIG_DESC* pDesc = static_cast<PIG_DESC*>(pArg);
+
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
 	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPosSet);
@@ -48,6 +50,7 @@ HRESULT CPig::Initialize(void* pArg)
 		return E_FAIL;
 	
 	m_fMaxPat = 300.f;
+	m_vScale = _float3(1.0f, 1.0f, 1.0f);
 	return S_OK;
 }
 
@@ -59,35 +62,24 @@ void CPig::Priority_Update(_float fTimeDelta)
 
 void CPig::Update(_float fTimeDelta)
 {
-
-	switch (m_pGameInstance->Get_CurrentDimension())
+	if(GetKeyState('W') & 0x8000)
 	{
-	case::DIMENSION::TOODEE:
-
-		Move_Patrol(fTimeDelta);
-
-		for (auto& Pair : m_vParts)
-		{
-			if (nullptr != Pair.second)
-				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
-		}
-		break;
-
-	case::DIMENSION::TOPDEE:
-
-		if (m_bLeft)
-		{
-			m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
-			m_bLeft = false;
-		}
-		__super::Move_To_Target(m_pTransformCom, fTimeDelta);
-		for (auto& Pair : m_vParts)
-		{
-			if (nullptr != Pair.second)
-				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
-		}
-		break;
+		m_vScale *= 1.1f;
+		m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
 	}
+	if (GetKeyState('S') & 0x8000)
+	{
+		m_vScale *= 0.9f;
+		m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
+	}
+
+	if (m_pColliderCom->OnCollisionEnter())
+		m_vScale *= 2.0f;
+
+	if (m_pColliderCom->OnCollisionExit())
+		m_vScale *= 0.5f;
+
+	Parts_Update(fTimeDelta);
 
 }
 
@@ -132,6 +124,8 @@ HRESULT CPig::Ready_Components()
 	CCollider::COLLIDER_DESC  ColliderDesc{};
 	ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
 	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(1.0f, 1.0f, 1.0f);
+	ColliderDesc.bIsFixed = true;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Rect"),
 		TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
@@ -273,26 +267,59 @@ void CPig::Render_Parts()
 	
 	if(m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
 	{
+		m_bMotion = true;
 		for (auto& Pair : m_vParts)
 		{
 			if (TEXT("Body") == Pair.first && nullptr != Pair.second)
 			{
-				_float3 vVec3 = _float3(0.f, 0.f, 0.f);
-				Pair.second->Render(&vVec3);
+				Pair.second->Render(&m_bMotion);
 			}
 			return;
 		}
 	}
 	else
 	{
+		m_bMotion = false;
 		for (auto& Pair : m_vParts)
 		{
 			if (nullptr != Pair.second)
-				Pair.second->Render();
+				Pair.second->Render(&m_bMotion);
 		}
 	}
 
 
+}
+
+void CPig::Parts_Update(_float fTimeDelta)
+{
+	switch (m_pGameInstance->Get_CurrentDimension())
+	{
+	case::DIMENSION::TOODEE:
+
+		Move_Patrol(fTimeDelta);
+
+		for (auto& Pair : m_vParts)
+		{
+			if (nullptr != Pair.second)
+				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
+		}
+		break;
+
+	case::DIMENSION::TOPDEE:
+
+		if (m_bLeft)
+		{
+			m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
+			m_bLeft = false;
+		}
+		__super::Move_To_Target(m_pTransformCom, fTimeDelta);
+		for (auto& Pair : m_vParts)
+		{
+			if (nullptr != Pair.second)
+				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
+		}
+		break;
+	}
 }
 
 void CPig::Move_Patrol(_float fTimeDelta)

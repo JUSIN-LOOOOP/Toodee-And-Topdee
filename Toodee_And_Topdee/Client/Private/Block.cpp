@@ -84,11 +84,6 @@ void CBlock::Reset_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
-CGameObject* CBlock::Clone(void* pArg)
-{
-	return nullptr;
-}
-
 void CBlock::Free()
 {
 	__super::Free();

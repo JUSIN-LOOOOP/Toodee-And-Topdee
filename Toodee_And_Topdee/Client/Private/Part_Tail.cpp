@@ -38,7 +38,7 @@ void CPart_Tail::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocu
 {
 	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
 	__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
-	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, 0.1f);
+	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, 0.2f);
 
 	if (m_iDeltaAngleX < 0)
 		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
@@ -86,5 +86,7 @@ void CPart_Tail::Free()
 {
 	__super::Free();
 
-
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTextureCom);
 }

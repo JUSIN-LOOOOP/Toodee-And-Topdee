@@ -21,7 +21,8 @@
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
-#include "Pig.h"
+#include "Collider_Cube.h"
+
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:m_pGraphic_Device{ pGraphic_Device },
@@ -240,6 +241,12 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube2"),
 		CTest_Cube2::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* Prototype_GameObject_ColliderCube*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_ColliderCube"),
+		CCollider_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma region BLOCK
 	/* Prototype_GameObject_Block*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBlock"),
