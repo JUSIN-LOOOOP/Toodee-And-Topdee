@@ -5,11 +5,11 @@
 
 BEGIN(Client)
 
-class CLevel_GamePlay final : public CLevel
+class CLevel_Stage3 final : public CLevel
 {
 private:
-	CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual ~CLevel_GamePlay() = default;
+	CLevel_Stage3(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual ~CLevel_Stage3() = default;
 
 public:
 	virtual HRESULT Initialize() override;
@@ -18,19 +18,16 @@ public:
 
 private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_TestCube(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_TestCube2(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_MapObject(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Potal(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Back(const _wstring& strLayerTag);
-	
-	//������ �غ�
-	HRESULT Ready_Observer();
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
+	HRESULT Ready_Observer();
 
 
 public:
-	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CLevel_Stage3* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
 };
 

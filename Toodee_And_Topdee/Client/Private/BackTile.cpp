@@ -64,16 +64,6 @@ HRESULT CBackTile::Render()
 HRESULT CBackTile::Begin_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-   /* m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-    m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-    m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);*/
-
-    
-
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -98,7 +88,7 @@ HRESULT CBackTile::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_BackTile"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackTile"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 

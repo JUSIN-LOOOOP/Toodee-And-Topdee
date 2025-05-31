@@ -63,7 +63,7 @@ HRESULT CLevel_Map::Ready_Layer_Camera(const _wstring& strLayerTag)
 	CameraDesc.fMouseSensor = 0.3f;
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), strLayerTag,
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STATIC), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_MultiViewCamera"), &CameraDesc)))
 		return E_FAIL;
 

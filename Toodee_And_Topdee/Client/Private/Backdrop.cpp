@@ -23,10 +23,10 @@ HRESULT CBackdrop::Initialize(void* pArg)
         return E_FAIL;
 
     m_iThemeIdx = *(static_cast<_uint*>(pArg));
-    m_pTransformCom->Set_State(STATE::POSITION, { 0.f, - .1f, 0.f });
+    m_pTransformCom->Set_State(STATE::POSITION, { 0.f, - .5f, 0.f });
     m_pTransformCom->Scaling(128.f * 0.7f, 72.f * 0.7f, 1.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-    
+
     //사이즈 설정하기
     return S_OK;
 }
@@ -67,7 +67,7 @@ HRESULT CBackdrop::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Backdrop"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Backdrop"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 

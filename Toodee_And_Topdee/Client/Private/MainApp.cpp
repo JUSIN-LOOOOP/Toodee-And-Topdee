@@ -2,6 +2,12 @@
 #include "MainApp.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "MultiViewCamera.h"
+
+#include "Backdrop.h"
+#include "BackWall.h"
+#include "BackTile.h"
+#include "Block_Wall.h"
 
 #include "Part_Body.h"
 #include "Part_Eyes.h"
@@ -9,6 +15,11 @@
 #include "Part_Tail.h"
 #include "Part_Legs.h"
 
+#include "Player_Toodee.h"
+#include "Player_Topdee.h"
+
+#include "Potal.h"
+#include "TileOutline.h"
 
 Client::CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
@@ -35,11 +46,17 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_ForStatic()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Prototype_ForStatic_Background()))
+		return E_FAIL;
+	
+	if (FAILED(Ready_Prototype_ForStatic_Player()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Prototype_ForStatic_Parts()))
 		return E_FAIL;
 
 	// -- юс╫ц -- 
-	if (FAILED(Start_Level(LEVEL::LEVEL_LOGO)))
+	if (FAILED(Start_Level(LEVEL::LEVEL_MAPEDIT)))
 		return E_FAIL;
 
 	return S_OK;
@@ -102,10 +119,185 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_Collider_Cube */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		CCollider::Create(m_pGraphic_Device, COLLIDER_SHAPE::CUBE))))
- 
+		return E_FAIL;
+
+	/* Prototype_GameObject_Camera*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MultiViewCamera"),
+		CMultiViewCamera::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Potal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Potal"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Potal/portalSpr_%d.png"), 11))))
+
+	/* Prototype_GameObject_Potal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"),
+		CPotal::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototypee_Component_Texture_TileOutline */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_TileOutline"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Test/TileOutline%d.png"), 4))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_TileOutline */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"),
+		CTileOutline::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	return S_OK;
-} 
+}
+HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
+{
+	/* Prototype_Texture_Block_Wall */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Wall"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Wall/Wall%d.dds"), 93))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Break */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Break"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Breakable.dds"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Lock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Lock"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Lock.dds"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Fall */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Fall"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Fall.dds"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Spark"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Spark%d.dds"), 2))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Metal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Metal"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Metal.dds"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Hole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Hole"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Block/Hole.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_BackWall */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackWall"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Backtile%d.png"), 2))))
+		return E_FAIL;
+	/* Prototype_Component_Texture_Wood */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Wood"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/WoodBox.dds"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Backdrop */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Backdrop"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Backdrop%d.png"), 3))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_BackTile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackTile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Background_Tile.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_BackDrop */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"),
+		CBackdrop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_BackWall */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackWall"),
+		CBackWall::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_BackTile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"),
+		CBackTile::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_WallBlock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"),
+		CBlock_Wall::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_BackCloud */
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackCloud"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/BackCloud.png"), 1))))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
+{
+#pragma region TEXTURE TOODEE
+	/* Prototype_Component_Texture_Toodee_Idle */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Idle"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Toodee/toodee_Idle%d.png"), 21))))
+		return E_FAIL;
+	/* Prototype_Component_Texture_Toodee_Move */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Move"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Toodee/toodee_Move%d.png"), 12))))
+		return E_FAIL;
+	/* Prototype_Component_Texture_Toodee_Action */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Action"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Toodee/toodee_Action%d.png"), 5))))
+		return E_FAIL;
+	/* Prototype_Component_Texture_Toodee_Stop */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Stop"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Toodee/toodee_Outline%d.png"), 46))))
+		return E_FAIL;
+	/* Prototype_Component_Texture_Toodee_Clear */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Clear"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Toodee/toodeeSwirl%d.png"), 17))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region TEXTURE TOPDEE
+	/* Prototype_Component_Texture_Topdee_Idle */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Idle"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Idle%d.png"), 5))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Topdee_Move */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Move"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Move%d.png"), 40))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Topdee_Action */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Action"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Idle%d.png"), 5))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Topdee_Stop */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Stop"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Outline%d.png"), 5))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Topdee_Clear */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Clear"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Swir%d.png"), 17))))
+		return E_FAIL;
+#pragma endregion
+
+	/* Prototype_GameObject_Player_Toodee */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"),
+		CPlayer_Toodee::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Player_Topdee */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"),
+		CPlayer_Topdee::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 HRESULT CMainApp::Ready_Prototype_ForStatic_Parts()
 {
