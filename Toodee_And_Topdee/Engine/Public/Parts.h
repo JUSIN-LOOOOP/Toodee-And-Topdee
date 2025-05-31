@@ -50,8 +50,8 @@ protected: // 각 파츠에서 공통적으로 필요한 컴포넌트들
 
 protected:
 	// 파츠가 객체를 중심으로 공전(궤도공전)
-	// fPartsScale값은 기본 값 1 파츠별로 크기변경 (몸통Scale * 입력값 기본은 1.f)
-	void RevolveAround(class CTransform* pTransform, _int iAngleX, _int iAngleY, _float fPartsScale = 1.f);
+	// fPartsScale값은 기본 값 1 파츠별로 크기변경 (몸통Scale)
+	void RevolveAround(class CTransform* pTransform, _int iAngleX, _int iAngleY, _float fRadius = 0.f);
 	void Check_To_FocusDelta(_int* pOutX, _int* pOutY, _float3 vFocusPos, _float3 vMyPos);
 
 

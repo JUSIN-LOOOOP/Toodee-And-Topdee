@@ -54,7 +54,7 @@ HRESULT CPig::Initialize(void* pArg)
 void CPig::Priority_Update(_float fTimeDelta)
 {
 
-	int a = 10;
+	m_pGameInstance->Check_Collision(m_pColliderCom);
 }
 
 void CPig::Update(_float fTimeDelta)
@@ -145,37 +145,64 @@ HRESULT CPig::Ready_Components()
 
 HRESULT CPig::Ready_Parts()
 {
-	// Phi 90 = 가로(객체기준 좌우)기준 중앙 / Theta 90 = 뒤쪽 (객체 기준) , -90 = 앞쪽 (객체 기준)
 	CComponent* pComponent = { nullptr };
-
 	CParts::PART_DESC PartDesc = {};
-	// 공통 사항
-	PartDesc.iTexLevelIndex = ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY);
 
-	
-	// 몸통 추가
-	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Body");
-	PartDesc.iTextureIndex = 0;
-	PartDesc.vBodyScale = _float3(5.0f, 5.0f, 0.1f);
-	PartDesc.fAngleY= 1.f;
+#pragma region Parts_Body
+
+	PartDesc.iTexLevelIndex = ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY);			// 텍스쳐 컴포넌트 추가시 필요한 LevelIndex
+	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Body");		// 텍스쳐 컴포넌트 추가시 필요한 Tag
+	PartDesc.iTextureIndex = 0;												// 텍스쳐 이미지 번호 (고정과 스프라이트 둘 다 하나의 텍스쳐 컴포넌트라면 고정이미지 0 그 이후 fFrame을 1로 설정)
+	PartDesc.fFrame = 1.f;													// 텍스쳐 번호(스프라이트로 활용될 고정이미지 다음번호)
+	PartDesc.iTextureMaxIndex = 9;											// 스프라이트(애니메이션)일 경우 마지막 이미지번호 fFrame <-> MaxIndex 순회하면서 이미지출력
+	PartDesc.vBodyScale = _float3(3.0f, 3.0f, 0.1f);						// 이미지 기준 스케일 (객체의 콜리전박스와 다르게 지정하여 충돌체,이미지 구분가능)
+	PartDesc.fAngleY = 1.f;													// 파츠들의 기본 배치 위치 (객체의 정중앙 = AngleX = 90 , AngleY = 90(후면), -90(전면)
 	PartDesc.fAngleX = 90.f;
-	PartDesc.iTextureMaxIndex = 9;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Body"),
 		TEXT("Com_PartBody"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
 
 	m_vParts.emplace(TEXT("Body"), static_cast<CParts*>(pComponent));
+
+#pragma endregion
+
+#pragma region Parts_Ear
+
+	// Left_Ear
 	PartDesc.fFrame = 0;
+	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Ears");
+	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
+	PartDesc.fAngleY = -70.f;
+	PartDesc.fAngleX = 60.f;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Ears"),
+		TEXT("Com_PartLeftEar"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
+		return E_FAIL;
+
+	m_vParts.emplace(TEXT("Left_Ear"), static_cast<CParts*>(pComponent));
 
 
+	// Right_Ear
 
+	PartDesc.eState = CParts::PARTSTATE::PARTS_RIGHT;
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Ears"),
+		TEXT("Com_PartRightEar"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
+		return E_FAIL;
 
+	m_vParts.emplace(TEXT("Right_Ear"), static_cast<CParts*>(pComponent));
+
+#pragma endregion
+
+#pragma region Parts_Eye
+
+	// Left_Eye
+	PartDesc.fFrame = 0;
 	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Eyes");
 	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
 	PartDesc.fAngleY = -75.f;
 	PartDesc.fAngleX = 45.f;
-	// 왼쪽 눈 추가
+
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Eyes"),
 		TEXT("Com_PartLeftEye"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
@@ -183,13 +210,18 @@ HRESULT CPig::Ready_Parts()
 	m_vParts.emplace(TEXT("Left_Eye"), static_cast<CParts*>(pComponent));
 
 
-	// 오른쪽 눈 추가
+	// Right_Eye
+
 	PartDesc.eState = CParts::PARTSTATE::PARTS_RIGHT;
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Eyes"),
 		TEXT("Com_PartRightEye"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
 
 	m_vParts.emplace(TEXT("Right_Eye"), static_cast<CParts*>(pComponent));
+
+#pragma endregion
+
+#pragma region Parts_Nose
 
 	// 코 추가
 	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Nose");
@@ -201,7 +233,11 @@ HRESULT CPig::Ready_Parts()
 		return E_FAIL;
 
 	m_vParts.emplace(TEXT("Nose"), static_cast<CParts*>(pComponent));
-		
+
+#pragma endregion
+
+#pragma region Parts_Tail
+
 	// 꼬리 추가
 	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Tail");
 	PartDesc.eState = CParts::PARTSTATE::PARTS_BACK;
@@ -209,8 +245,12 @@ HRESULT CPig::Ready_Parts()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Tail"),
 		TEXT("Com_PartTail"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
-	
+
 	m_vParts.emplace(TEXT("Tail"), static_cast<CParts*>(pComponent));
+
+#pragma endregion
+
+#pragma region Parts_Legs
 
 	// 다리 추가
 	PartDesc.strTexTag = TEXT("Prototype_Component_Texture_Pig_Legs");
@@ -220,12 +260,10 @@ HRESULT CPig::Ready_Parts()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Legs"),
 		TEXT("Com_PartLegs"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
-	
+
 	m_vParts.emplace(TEXT("Legs"), static_cast<CParts*>(pComponent));
 
-
-	
-
+#pragma endregion
 
 	return S_OK;
 }

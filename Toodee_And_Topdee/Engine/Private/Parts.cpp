@@ -66,7 +66,7 @@ HRESULT CParts::Render(void* pArg)
 	return S_OK;
 }
 
-void CParts::RevolveAround(class CTransform* pTransform, _int iAngleX, _int iAngleY, _float fPartsScale)
+void CParts::RevolveAround(class CTransform* pTransform, _int iAngleX, _int iAngleY, _float fRadius)
 {
 
 	_float3 vWorldPos = pTransform->Get_State(STATE::POSITION);
@@ -88,28 +88,24 @@ void CParts::RevolveAround(class CTransform* pTransform, _int iAngleX, _int iAng
 	// 객체의 방향벡터를 이용하여 회전된 객체의 축을 중심으로 계산하게끔 설계, 방향벡터 변경해도 유지되게
 	_float fX{}, fY{}, fZ{};
 	_float3 vPos = {};
-	_float3 vScale = m_vBodyScale * fPartsScale;
+	_float3 vRadius = m_vBodyScale * 0.7f * 0.5f;
 
 	if (m_eState == PARTSTATE::PARTS_RIGHT)
 	{
-		fX = (vScale.x / 2.f) * sinf(D3DXToRadian(m_fAngleY - iAngleY)) * cosf(D3DXToRadian(m_fAngleX + iAngleX));
-		fY = (vScale.y / 2.f) * cosf(D3DXToRadian(m_fAngleY - iAngleY));
-		fZ = (vScale.z / 2.f) * sinf(D3DXToRadian(m_fAngleY - iAngleY)) * sinf(D3DXToRadian(m_fAngleX + iAngleX) );
-
-		vPos = vWorldPos + vRight * fX + vUp * fY + vLook * fZ;
-
+		fX = ((vRadius.x + fRadius)) * sinf(D3DXToRadian(m_fAngleY - iAngleY)) * cosf(D3DXToRadian(m_fAngleX + iAngleX));
+		fY = ((vRadius.y + fRadius)) * cosf(D3DXToRadian(m_fAngleY - iAngleY));
+		fZ = vRadius.z  * sinf(D3DXToRadian(m_fAngleY - iAngleY)) * sinf(D3DXToRadian(m_fAngleX + iAngleX));
 	}
 	else
 	{
-		fX = (vScale.x / 2.f) * sinf(D3DXToRadian(m_fAngleY + iAngleY)) * cosf(D3DXToRadian(m_fAngleX + iAngleX));
-		fY = (vScale.y / 2.f) * cosf(D3DXToRadian(m_fAngleY + iAngleY));
-		fZ = (vScale.z / 2.f) * sinf(D3DXToRadian(m_fAngleY + iAngleY)) * sinf(D3DXToRadian(m_fAngleX + iAngleX));
-
-		vPos = vWorldPos + vRight * fX + vUp * fY + vLook * fZ;
+		fX = (vRadius.x + fRadius) * sinf(D3DXToRadian(m_fAngleY + iAngleY)) * cosf(D3DXToRadian(m_fAngleX + iAngleX));
+		fY = (vRadius.y + fRadius) * cosf(D3DXToRadian(m_fAngleY + iAngleY));
+		fZ = vRadius.z * sinf(D3DXToRadian(m_fAngleY + iAngleY)) * sinf(D3DXToRadian(m_fAngleX + iAngleX));
 	}
-	
 
-	m_pTransformCom->Scaling(vScale.x, vScale.y, vScale.z);
+	vPos = vWorldPos + vRight * fX + vUp * fY + vLook * fZ;
+
+	m_pTransformCom->Scaling(m_vBodyScale.x, m_vBodyScale.y, m_vBodyScale.z);
 	m_pTransformCom->Set_State(STATE::POSITION, vPos);
 
 }
@@ -120,9 +116,9 @@ void CParts::Check_To_FocusDelta(_int* pOutX, _int* pOutY, _float3 vFocusPos, _f
 	_int iX = *pOutX + static_cast<int>(vDelta.x);
 	_int iY = *pOutY + static_cast<int>(vDelta.z);
 
-	if (vDelta.x + vDelta.z > 0.3f) // 우측 상단삼각형
+	if (vDelta.x + vDelta.z > 0.1f) // 우측 상단삼각형
 	{
-		if (vDelta.x - vDelta.z < -0.3f) // 위쪽 삼각형 
+		if (vDelta.x - vDelta.z < -0.1f) // 위쪽 삼각형 
 		{
 			if (*pOutX - static_cast<int>(vDelta.x) > 45)
 				*pOutX = 45;
@@ -134,7 +130,7 @@ void CParts::Check_To_FocusDelta(_int* pOutX, _int* pOutY, _float3 vFocusPos, _f
 
 			*pOutY = 135;
 		}
-		else if (vDelta.x - vDelta.z > 0.3f) //우측 삼각형
+		else if (vDelta.x - vDelta.z > 0.1f) //우측 삼각형
 		{
 			if (iX > 90)
 				*pOutX = 90;
@@ -143,17 +139,17 @@ void CParts::Check_To_FocusDelta(_int* pOutX, _int* pOutY, _float3 vFocusPos, _f
 			else
 				*pOutX = iX;
 
-			if (iY > 20)
-				*pOutY = 20;
+			if (iY > 5)
+				*pOutY = 5;
 			else if (iY < -20)
 				*pOutY = -20;
 			else
 				*pOutY = iY;
 		}
 	}
-	else if (vDelta.x + vDelta.z < -0.3f) // 좌측 하단 삼각형
+	else if (vDelta.x + vDelta.z < -0.1f) // 좌측 하단 삼각형
 	{
-		if (vDelta.x + vDelta.z < -0.3) // 아래쪽 삼각형
+		if (vDelta.x + vDelta.z < -0.1) // 아래쪽 삼각형
 		{
 			if (iX > 45)
 				*pOutX = 45;
@@ -162,14 +158,14 @@ void CParts::Check_To_FocusDelta(_int* pOutX, _int* pOutY, _float3 vFocusPos, _f
 			else
 				*pOutX = iX;
 
-			if (iY > 20)
-				*pOutY = 20;
+			if (iY > 5)
+				*pOutY = 5;
 			else if (iY < -20)
 				*pOutY = -20;
 			else
 				*pOutY = iY;
 		}
-		else if (vDelta.x + vDelta.z > 0.3)  // 좌측 삼각형
+		else if (vDelta.x + vDelta.z > 0.1)  // 좌측 삼각형
 		{
 			if (iX > 90)
 				*pOutX = 90;
@@ -178,8 +174,8 @@ void CParts::Check_To_FocusDelta(_int* pOutX, _int* pOutY, _float3 vFocusPos, _f
 			else
 				*pOutX = iX;
 
-			if (iY > 20)
-				*pOutY = 20;
+			if (iY > 5)
+				*pOutY = 5;
 			else if (iY < -20)
 				*pOutY = -20;
 			else

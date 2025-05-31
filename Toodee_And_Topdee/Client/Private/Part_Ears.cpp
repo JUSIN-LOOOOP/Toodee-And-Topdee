@@ -38,8 +38,14 @@ HRESULT CPart_Ears::Initialize(void* pArg)
 
 void CPart_Ears::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
-	__super::RevolveAround(pTransform, 0, 0, 0.7f);
-	
+	//이 조건문은 Pig기준이라 혹시 Bat배치시 변경이 있으면 상황에 맞는 방향으로 예외처리 수정할게
+	_float3 vPos = pTransform->Get_State(STATE::POSITION);
+	Turn_To_Ears(vFocusPos.x, vPos.x, fTimeDelta);
+
+	__super::RevolveAround(pTransform, static_cast<_int>(m_fDeltaAngleX), 0);
+
+	if (m_fDeltaAngleX < 0)
+		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
 }
 
 HRESULT CPart_Ears::Render(void* pArg)
@@ -55,6 +61,15 @@ HRESULT CPart_Ears::Render(void* pArg)
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CPart_Ears::Turn_To_Ears(_float fFocusPosX, _float fMyPosX, _float fTimeDelta)
+{
+	_float fRadiusX = m_vBodyScale.x * 0.5f;
+	if (fMyPosX + fRadiusX > fFocusPosX && m_fDeltaAngleX > -5)
+		m_fDeltaAngleX += -0.1f;
+	else if (fMyPosX - fRadiusX < fFocusPosX && m_fDeltaAngleX < 5)
+		m_fDeltaAngleX += 0.1f;
 }
 
 CPart_Ears* CPart_Ears::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

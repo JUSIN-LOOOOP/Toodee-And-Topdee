@@ -38,9 +38,12 @@ HRESULT CPart_Eyes::Initialize(void* pArg)
 
 void CPart_Eyes::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
-	_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION);
+	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
 	__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
-	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, 0.7f);
+	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, -0.3f);
+
+	if (m_eState == PARTSTATE::PARTS_RIGHT)
+		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
 	
 }
 

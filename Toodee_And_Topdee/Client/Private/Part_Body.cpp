@@ -29,7 +29,6 @@ HRESULT CPart_Body::Initialize(void* pArg)
 	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
 	m_iTextureIndex = pDesc->iTextureIndex;
 
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -79,9 +78,9 @@ void CPart_Body::Pos_Set(CTransform* pTransform)
 	_float3 vRight = pTransform->Get_State(STATE::RIGHT);
 	_float3 vUp = pTransform->Get_State(STATE::UP);
 	_float3 vLook = pTransform->Get_State(STATE::LOOK);
-	D3DXVec3Normalize(&vRight, &vRight);
-	D3DXVec3Normalize(&vUp, &vUp);
-	D3DXVec3Normalize(&vLook, &vLook);
+	// D3DXVec3Normalize(&vRight, &vRight);
+	// D3DXVec3Normalize(&vUp, &vUp);
+	// D3DXVec3Normalize(&vLook, &vLook);
 	vRight *= m_vBodyScale.x;
 	vUp *= m_vBodyScale.y;
 	vLook *= m_vBodyScale.z;

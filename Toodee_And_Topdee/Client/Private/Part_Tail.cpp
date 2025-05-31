@@ -36,9 +36,9 @@ HRESULT CPart_Tail::Initialize(void* pArg)
 
 void CPart_Tail::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
-	_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION);
+	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
 	__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
-	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, 0.8f);
+	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, 0.1f);
 
 	if (m_iDeltaAngleX < 0)
 		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
