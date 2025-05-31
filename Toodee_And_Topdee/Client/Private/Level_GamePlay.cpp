@@ -7,6 +7,7 @@
 #include "ClearTriggerObserver.h"
 
 #include "Test_Cube2.h"
+#include "Cannon.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -39,6 +40,9 @@ HRESULT CLevel_GamePlay::Initialize()
 //	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
 //		return E_FAIL;
 
+
+	if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -211,6 +215,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Cannon(const _wstring& strLayerTag)
+{
+	CCannon::CANNON_DIRECTION eDir = CCannon::CANNON_DIRECTION::LEFT;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cannon"), &eDir)))
 		return E_FAIL;
 
 	return S_OK;

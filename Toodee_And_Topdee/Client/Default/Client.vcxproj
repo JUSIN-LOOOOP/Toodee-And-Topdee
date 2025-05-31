@@ -156,6 +156,7 @@
     <ClInclude Include="..\Public\Block_Wood.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\public\Cannon.h" />
     <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="..\Private\Block_Wall.cpp" />
     <ClCompile Include="..\Private\Block_Wood.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
+    <ClCompile Include="..\private\Cannon.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />

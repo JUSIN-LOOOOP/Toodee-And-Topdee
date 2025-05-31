@@ -172,7 +172,7 @@ void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 
 	_float4x4 rotationMatrix{};
 	
-	D3DXMatrixRotationAxis(&rotationMatrix, &vAxis, m_fRotationPerSec);
+	D3DXMatrixRotationAxis(&rotationMatrix, &vAxis, fRadian);
 
 	D3DXVec3TransformNormal(&vRight, &vRight, &rotationMatrix);
 	D3DXVec3TransformNormal(&vUp, &vUp, &rotationMatrix);

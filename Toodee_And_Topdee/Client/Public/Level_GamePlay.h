@@ -23,7 +23,9 @@ private:
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Tile(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Potal(const _wstring& strLayerTag);
-	
+
+	HRESULT Ready_Layer_Cannon(const _wstring& strLayerTag);
+
 	//������ �غ�
 	HRESULT Ready_Observer();
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
