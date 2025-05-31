@@ -23,11 +23,9 @@ HRESULT CBackWall::Initialize(void* pArg)
         return E_FAIL;
 
     m_iThemeIdx = *(static_cast<_uint*>(pArg));
-    m_pTransformCom->Set_State(STATE::POSITION, { 0.f, 0.1f , 0.f });
-    m_pTransformCom->Scaling(128.f * 0.5f, 72.f * 0.5f, 1.f);
-    m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-    
-    //사이즈 설정하기
+    m_pTransformCom->Set_State(STATE::POSITION, { .5f, - 0.005f , 1.f });
+    m_pTransformCom->Scaling((31.f * 2) - .5f, 17.f * 2, 1.f);
+    m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));    
     return S_OK;
 }
 
@@ -43,7 +41,7 @@ void CBackWall::Update(_float fTimeDelta)
 
 void CBackWall::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
 
 HRESULT CBackWall::Render()

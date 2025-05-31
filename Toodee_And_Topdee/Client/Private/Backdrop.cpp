@@ -23,7 +23,7 @@ HRESULT CBackdrop::Initialize(void* pArg)
         return E_FAIL;
 
     m_iThemeIdx = *(static_cast<_uint*>(pArg));
-    m_pTransformCom->Set_State(STATE::POSITION, { 0.f, 0.f , 0.f });
+    m_pTransformCom->Set_State(STATE::POSITION, { 0.f, - .1f, 0.f });
     m_pTransformCom->Scaling(128.f * 0.7f, 72.f * 0.7f, 1.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     
@@ -43,7 +43,7 @@ void CBackdrop::Update(_float fTimeDelta)
 
 void CBackdrop::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_PRIORITY, this);
 }
 
 HRESULT CBackdrop::Render()

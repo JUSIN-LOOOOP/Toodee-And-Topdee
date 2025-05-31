@@ -20,6 +20,7 @@
 #include "Pig.h"
 #include "Backdrop.h"
 #include "BackWall.h"
+#include "BackTile.h"
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
@@ -159,14 +160,17 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 #pragma region TEXTURE Back
 	/* Prototype_Component_Texture_Backdrop */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Backdrop"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Map/Backdrop%d.png"), 3))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Backdrop%d.png"), 3))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackWall */
- 
-	 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_BackWall"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Map/Backtile%d.png"), 2))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Backtile%d.png"), 2))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_BackWTile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_BackTile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Background_Tile.png"), 1))))
 		return E_FAIL;
 
 #pragma endregion
@@ -325,6 +329,11 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_BackWall"),
 		CBackWall::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_BackTile"),
+		CBackTile::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	lstrcpy(m_szLoadingText, TEXT("GamePlay_Level �ε��� �Ϸ�Ǿ����ϴ�."));
 

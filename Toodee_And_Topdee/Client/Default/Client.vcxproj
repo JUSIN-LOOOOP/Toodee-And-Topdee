@@ -145,6 +145,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\Backdrop.h" />
+    <ClInclude Include="..\Public\BackTile.h" />
+    <ClInclude Include="..\Public\BackWall.h" />
     <ClInclude Include="..\Public\BasicTile.h" />
     <ClInclude Include="..\Public\Block.h" />
     <ClInclude Include="..\Public\Block_Break.h" />
@@ -190,6 +193,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\Backdrop.cpp" />
+    <ClCompile Include="..\Private\BackTile.cpp" />
+    <ClCompile Include="..\Private\BackWall.cpp" />
     <ClCompile Include="..\Private\BasicTile.cpp" />
     <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\Block_Break.cpp" />
