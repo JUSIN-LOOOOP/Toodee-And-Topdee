@@ -42,12 +42,14 @@ private:
 	map<const _wstring, CParts*>  m_vParts;
 	_bool		m_bLeft{};
 	_bool		m_bMotion{};
+	_bool		m_bGravity{};
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_Parts();
 	void	Render_Parts();
-	void	Parts_Update(_float fTimeDelta);
+
+	_bool	Check_Gravity(_float fTimeDelta);
 
 private : // Test¿ë
 	void Move_Patrol(_float fTimeDelta);

@@ -225,10 +225,10 @@ HRESULT CLevel_Test::Ready_Layer_Potal(const _wstring& strLayerTag)
 
 HRESULT CLevel_Test::Ready_Layer_ColliderCube(const _wstring& strLayerTag)
 {
-	for (_uint i = 0; i < 3; i++)
+	for (_uint i = 0; i < 5; i++)
 	{
 		BLOCK_INFO Block_Desc{};
-		Block_Desc.vPos = _float3(i*3, 0.f, -5.f);
+		Block_Desc.vPos = _float3(i * 2.f, 0.f, -5.f);
 		Block_Desc.vScale = _float3(2.f, 2.f, 2.f);
 		Block_Desc.iTextureIdx = 0;
 		Block_Desc.iDir = 0;

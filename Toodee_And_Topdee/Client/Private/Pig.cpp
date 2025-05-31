@@ -51,6 +51,7 @@ HRESULT CPig::Initialize(void* pArg)
 	
 	m_fMaxPat = 300.f;
 	m_vScale = _float3(1.0f, 1.0f, 1.0f);
+	
 	return S_OK;
 }
 
@@ -62,24 +63,71 @@ void CPig::Priority_Update(_float fTimeDelta)
 
 void CPig::Update(_float fTimeDelta)
 {
-	if(GetKeyState('W') & 0x8000)
+
+	switch (m_pGameInstance->Get_CurrentDimension())
 	{
-		m_vScale *= 1.1f;
-		m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
+	case::DIMENSION::TOODEE:
+	
+		if (!Check_Gravity(fTimeDelta))
+			Move_Patrol(fTimeDelta);
+
+		for (auto& Pair : m_vParts)
+		{
+			if (nullptr != Pair.second)
+				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
+		}
+		break;
+
+	case::DIMENSION::TOPDEE:
+
+		if (m_bLeft) // TOPDEE로 전환시 혹시라도 TOODEE에서 방향이 뒤집혔다면 돌리는 작업
+		{
+			m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
+			m_bLeft = false;
+		}
+
+
+
+		m_vFocusTargetPos = m_pTargetTransformCom->Get_State(STATE::POSITION);
+
+		m_pTransformCom->Move_To(m_vFocusTargetPos, fTimeDelta / 2.f);
+
+		for (auto& Pair : m_vParts)
+		{
+			if (nullptr != Pair.second)
+				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
+		}
+		break;
 	}
-	if (GetKeyState('S') & 0x8000)
-	{
-		m_vScale *= 0.9f;
-		m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
-	}
 
-	if (m_pColliderCom->OnCollisionEnter())
-		m_vScale *= 2.0f;
 
-	if (m_pColliderCom->OnCollisionExit())
-		m_vScale *= 0.5f;
 
-	Parts_Update(fTimeDelta);
+
+
+
+
+
+
+
+	// if(GetKeyState('W') & 0x8000)
+	// {
+	// 	m_vScale *= 1.1f;
+	// }
+	// if (GetKeyState('S') & 0x8000)
+	// {
+	// 	m_vScale *= 0.9f;
+	// 	
+	// }
+	// 
+	// if (m_pColliderCom->OnCollisionEnter())
+	// 	m_vScale *= 2.0f;
+	// 
+	// 
+	// 	m_vScale *= 1.1 * fTimeDelta;
+	// 
+	// 
+	// m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
+	// Parts_Update(fTimeDelta);
 
 }
 
@@ -90,6 +138,9 @@ void CPig::Late_Update(_float fTimeDelta)
 
 HRESULT CPig::Render()
 {
+	if (FAILED(m_pColliderCom->Render()))
+		return E_FAIL;
+
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 
@@ -121,18 +172,16 @@ HRESULT CPig::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	CCollider::COLLIDER_DESC  ColliderDesc{};
-	ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
+	CCollider::COLLIDER_DESC ColliderDesc{};
+	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(1.0f, 1.0f, 1.0f);
-	ColliderDesc.bIsFixed = true;
+	ColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
+	// ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.bIsFixed = false;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Rect"),
-		TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-	{
-		MSG_BOX(TEXT("Failed to Add_Component : Com_Collision"));
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
-	}
 
 	return S_OK;
 }
@@ -290,52 +339,84 @@ void CPig::Render_Parts()
 
 }
 
-void CPig::Parts_Update(_float fTimeDelta)
+
+_bool CPig::Check_Gravity(_float fTimeDelta)
 {
-	switch (m_pGameInstance->Get_CurrentDimension())
+	_float fDelta = {};
+	COLLIDER_DIR eDir = m_pColliderCom->DetectCollisionDirection(&fDelta);
+	if (m_bGravity) // 중력있음
 	{
-	case::DIMENSION::TOODEE:
-
-		Move_Patrol(fTimeDelta);
-
-		for (auto& Pair : m_vParts)
+		if (COLLIDER_DIR::CD_END == eDir && COLLIDER_DIR::BACK != eDir) // 충돌중이 아니거나 바닥에 충돌체가 없는경우 중력유지
 		{
-			if (nullptr != Pair.second)
-				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
-		}
-		break;
+			_float3 vPos = m_pTransformCom->Get_State(STATE::POSITION);
 
-	case::DIMENSION::TOPDEE:
-
-		if (m_bLeft)
-		{
-			m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
-			m_bLeft = false;
+			vPos.z -= GRAVITY * fTimeDelta;
+			m_pTransformCom->Set_State(STATE::POSITION, vPos);
 		}
-		__super::Move_To_Target(m_pTransformCom, fTimeDelta);
-		for (auto& Pair : m_vParts)
+		else //충돌중이면서 그 충돌이 하단인 경우 대해서만 처리 중력 꺼버림
 		{
-			if (nullptr != Pair.second)
-				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vFocusTargetPos);
+			m_bGravity = false;
+			return false;
 		}
-		break;
+		
+		return true;
 	}
+	else // 중력 없음 TooDee <-> TopDee 전환시 이 값일 수 있으므로
+	{
+		if (COLLIDER_DIR::CD_END == eDir && COLLIDER_DIR::BACK != eDir) // 시점전환시 생길 문제에 대한 예외처리
+		{
+ 			m_bGravity = true;
+			return true;
+		}
+
+		return false;
+	}	
 }
 
 void CPig::Move_Patrol(_float fTimeDelta)
 {
-	m_pTransformCom->Go_Right(fTimeDelta);
-	m_fPatrol += 100.f * fTimeDelta;
-	if (m_fPatrol >= m_fMaxPat)
+	_float fX{};
+	COLLIDER_DIR eDir = m_pColliderCom->DetectCollisionDirection(&fX);
+	
+	
+	if(eDir == COLLIDER_DIR::RIGHT && fX > 0.1f)
 	{
 		m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
-		m_fPatrol = 0.f;
+		m_bLeft = true;
+	}
+	else if (eDir == COLLIDER_DIR::LEFT && fX > 0.1f)
+	{
+		m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
+		m_bLeft = false;
+	}
+	else if (m_pColliderCom->OnCollisionExit())
+	{
+		m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 		if (m_bLeft)
 			m_bLeft = false;
 		else
 			m_bLeft = true;
-
 	}
+
+	m_pTransformCom->Go_Right(fTimeDelta);
+
+
+
+
+
+
+	// m_pTransformCom->Go_Right(fTimeDelta);
+	// m_fPatrol += 100.f * fTimeDelta;
+	// if (m_fPatrol >= m_fMaxPat)
+	// {
+	// 	m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
+	// 	m_fPatrol = 0.f;
+	// 	if (m_bLeft)
+	// 		m_bLeft = false;
+	// 	else
+	// 		m_bLeft = true;
+	// 
+	// }
 }
 
 

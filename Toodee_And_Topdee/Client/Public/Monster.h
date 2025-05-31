@@ -36,11 +36,7 @@ public:
 protected:
 	CTransform* m_pTargetTransformCom = { nullptr };
 
-	_float	m_fMoveX{}, m_fMoveZ{}, m_fMoveY{};
 	_float3	m_vFocusTargetPos{};
-
-protected:
-	void Move_To_Target(CTransform* pTransform, _float fTimeDelta);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

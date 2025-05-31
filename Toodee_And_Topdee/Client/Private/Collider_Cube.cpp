@@ -58,7 +58,9 @@ void CCollider_Cube::Late_Update(_float fTimeDelta)
 
 HRESULT CCollider_Cube::Render()
 {
-	__super::Render();
+	if (FAILED(m_pColliderCom->Render()))
+		return E_FAIL;
+	// __super::Render();
 
 	return S_OK;
 }
@@ -88,7 +90,7 @@ HRESULT CCollider_Cube::Ready_Components()
 	CCollider::COLLIDER_DESC		ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(1.f, 1.f, 1.f);
+	ColliderDesc.vColliderScale = _float3(2.f, 2.f, 2.f);
 	ColliderDesc.bIsFixed = false ;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
