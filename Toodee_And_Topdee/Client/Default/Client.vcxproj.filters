@@ -97,6 +97,26 @@
     <ClCompile Include="..\Private\Hole.cpp">
       <Filter>00. Dummys\T Y J\Block\Hole</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Pig.cpp">
+      <Filter>02. GameObjects\Monster\Pig\Pig</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Body.cpp">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Eyes.cpp">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Legs.cpp">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Nose.cpp">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Tail.cpp">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TileOutline.cpp">
+      <Filter>02. GameObjects\Player\04. OutLine</Filter>
     <ClCompile Include="..\Private\Part_Body.cpp" />
     <ClCompile Include="..\Private\Part_Eyes.cpp" />
     <ClCompile Include="..\Private\Part_Legs.cpp" />
@@ -223,6 +243,26 @@
     <ClInclude Include="..\Public\Hole.h">
       <Filter>00. Dummys\T Y J\Block\Hole</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Pig.h">
+      <Filter>02. GameObjects\Monster\Pig\Pig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Tail.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Body.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Eyes.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Legs.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Nose.h">
+      <Filter>02. GameObjects\Monster\Pig\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TileOutline.h">
+      <Filter>02. GameObjects\Player\04. OutLine</Filter>
     <ClInclude Include="..\Public\Part_Body.h" />
     <ClInclude Include="..\Public\Part_Eyes.h" />
     <ClInclude Include="..\Public\Part_Legs.h" />
@@ -381,6 +421,20 @@
     <Filter Include="00. Dummys\T Y J\Block\Hole">
       <UniqueIdentifier>{bd7bd66b-82af-499a-bffe-acc70c5da4b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\Monster\Pig">
+      <UniqueIdentifier>{309484a1-6783-4dba-9aab-c44263d81f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\Pig\Pig">
+      <UniqueIdentifier>{e82f53ee-58e6-4a27-8ee0-3c91fee43377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\00 Stage01">
+      <UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\Pig\Parts">
+      <UniqueIdentifier>{154661b2-6634-409f-bd6d-ab50a0001daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\04. OutLine">
+      <UniqueIdentifier>{51fa07f1-f6a5-440d-92fc-70010c4013c9}</UniqueIdentifier>
     <Filter Include="00. Dummys\T Y J\BackGroundObj">
       <UniqueIdentifier>{96055de1-5330-42e8-85aa-b908c8d83573}</UniqueIdentifier>
     </Filter>

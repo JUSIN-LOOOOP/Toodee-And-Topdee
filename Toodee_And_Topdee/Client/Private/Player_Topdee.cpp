@@ -63,9 +63,9 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	m_fTurnDownTime = 0.f;
 	m_fTurnDownDelay = 0.04f;
 	m_vPotalPosition = { 0.f, 0.f, 0.f };
-	m_vNextMovePosition = { 0.f, 0.f, 0.f };
+	m_vNextMovePosition = { -1.f, 0.f, -1.f };
 
-	m_pTransformCom->Scaling(16.f, 16.f, 0.f); 
+	m_pTransformCom->Scaling(12.f, 12.f, 0.f); 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	
 	ComputeTileCenter();
@@ -94,11 +94,13 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 
 			ComputeTextureDirection(iInputData);
 			Change_MoveDir(iInputData);
-
+			
 			if (m_eCurrentState == PLAYERSTATE::IDLE)
 				MoveToTileCenter(fTimeDelta);
 
+			m_pGameInstance->Check_Collision(m_pColliderCom);
 
+			Check_CollisionState();
 
 			if (m_bInAction)
 			{
@@ -110,6 +112,7 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 			if (!m_bIsTurnDown)
 				TurnDownOnStop(fTimeDelta);
 		}
+
 		m_pCurrentState->Update(this, fTimeDelta);
 
 	}
@@ -150,6 +153,9 @@ void CPlayer_Topdee::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer_Topdee::Render()
 {
+	if (FAILED(m_pColliderCom->Render()))
+		return E_FAIL;
+
 	m_pTransformCom->Bind_Matrix();
 
 	if (m_eCurrentState == PLAYERSTATE::STOP)
@@ -171,6 +177,8 @@ HRESULT CPlayer_Topdee::Return_PrevState()
 {
 	if (m_pPrevState == nullptr)
 		return E_FAIL;
+
+	m_pColliderCom->Collision_On();
 
 	if (m_pCurrentState)
 	{
@@ -200,11 +208,13 @@ void CPlayer_Topdee::Idle()
 
 void CPlayer_Topdee::Move(_float fTimeDelta)
 {
-	if(false == m_bIsMoving)
-		m_vNextMovePosition = ComputeTileOutlinePosition();
+	if (m_pColliderCom->OnCollisionExit())
+		return;
 
-	if (m_pTransformCom->MoveUntilInRange(m_vNextMovePosition, fTimeDelta, 0.1f))
-		m_bIsMoving = true;
+	m_vNextMovePosition = ComputeTileOutlinePosition();
+	 
+	m_pTransformCom->MoveUntilInRange(m_vNextMovePosition, fTimeDelta, 0.1f);
+
 }
 
 void CPlayer_Topdee::Action()
@@ -214,11 +224,11 @@ void CPlayer_Topdee::Action()
 
 void CPlayer_Topdee::Stop()
 {
+	m_pColliderCom->Collision_Off();
 	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
 
 	m_ePrevMoveDir = m_eCurrentMoveDir;
 	m_bIsTurnDown = false;
-
 }
 
 void CPlayer_Topdee::Clear()
@@ -247,7 +257,7 @@ _float3 CPlayer_Topdee::ComputeTileOutlinePosition()
 {
 	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
-	const float TILE_SIZE = 2.f;
+	const _float TILE_SIZE = 2.f;
 
 	_int iCountX = static_cast<_int>(floorf(vPosition.x / TILE_SIZE));
 	_int iCountZ = static_cast<_int>(floorf(vPosition.z / TILE_SIZE));
@@ -255,8 +265,8 @@ _float3 CPlayer_Topdee::ComputeTileOutlinePosition()
 	_float fCenterX = {};
 	_float fCenterZ = {};
 
-	fCenterX = iCountX * 2.f + (2.f * 0.5);
-	fCenterZ = iCountZ * 2.f + (2.f * 0.5);
+	fCenterX = iCountX * TILE_SIZE + (TILE_SIZE * 0.5);
+	fCenterZ = iCountZ * TILE_SIZE + (TILE_SIZE * 0.5);
 
 	_float fDistanceX = {};
 	_float fDistanceZ = {};
@@ -264,21 +274,21 @@ _float3 CPlayer_Topdee::ComputeTileOutlinePosition()
 	switch (m_eCurrentMoveDir)
 	{
 	case MOVEDIRECTION::UP:
-		fDistanceZ = 2.f;
+		fDistanceZ = TILE_SIZE;
 		break;
 	case MOVEDIRECTION::DOWN:
-		fDistanceZ = -2.f;
+		fDistanceZ = -TILE_SIZE;
 		break;
 	case MOVEDIRECTION::TRANSVERSE:
-		fDistanceX = 2.f;
+		fDistanceX = TILE_SIZE;
 		break;
 	case MOVEDIRECTION::DIAGONAL_DOWN:
-		fDistanceX = 2.f;
-		fDistanceZ = -2.f;
+		fDistanceX = TILE_SIZE;
+		fDistanceZ = -TILE_SIZE;
 		break;
 	case MOVEDIRECTION::DIAGONAL_UP:
-		fDistanceX = 2.f;
-		fDistanceZ = 2.f;
+		fDistanceX = TILE_SIZE;
+		fDistanceZ = TILE_SIZE;
 		break;
 	}
 
@@ -354,7 +364,7 @@ void CPlayer_Topdee::ComputeTileCenter()
 {
 	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
-	const float TILE_SIZE = 2.f;
+	const _float TILE_SIZE = 2.f;
 
 	_int iCountX = static_cast<_int>(floorf(vPosition.x / TILE_SIZE));
 	_int iCountZ = static_cast<_int>(floorf(vPosition.z / TILE_SIZE));
@@ -362,8 +372,8 @@ void CPlayer_Topdee::ComputeTileCenter()
 	_float fCenterX = {};
 	_float fCenterZ = {};
 
-	fCenterX = iCountX * 2.f + (2.f * 0.5);
-	fCenterZ = iCountZ * 2.f + (2.f * 0.5);
+	fCenterX = iCountX * TILE_SIZE + (TILE_SIZE * 0.5);
+	fCenterZ = iCountZ * TILE_SIZE + (TILE_SIZE * 0.5);
 
 	m_vCurrentTileCenter = { fCenterX, vPosition.y, fCenterZ };
 }
@@ -410,6 +420,17 @@ HRESULT CPlayer_Topdee::Ready_Components()
 		TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::CLEAR)]))))
 		return E_FAIL;
 
+	CCollider::COLLIDER_DESC ColliderDesc{};
+	ColliderDesc.pOwner = this;
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
+	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.bIsFixed = false;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+	
 	return S_OK;
 }
 
@@ -493,6 +514,40 @@ void CPlayer_Topdee::TurnDownOnStop(_float fTimeDelta)
 	}
 
 	m_bIsTurnDown = m_eCurrentMoveDir == MOVEDIRECTION::DOWN;
+}
+
+void CPlayer_Topdee::Check_CollisionState()
+{
+	if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
+	{
+		_float fDist = {};
+		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
+		
+		switch(eCollider_Dir)
+		{
+		case COLLIDER_DIR::LEFT:
+			vPosition.x -= fDist;
+			break;
+		case COLLIDER_DIR::RIGHT:
+			vPosition.x += fDist;
+			break;
+		case COLLIDER_DIR::TOP:
+			vPosition.y += fDist;
+			break;
+		case COLLIDER_DIR::BOTTOM:
+			vPosition.y -= fDist;
+			break;
+		case COLLIDER_DIR::FRONT:
+			vPosition.z -= fDist;
+			break;
+		case COLLIDER_DIR::BACK:
+			vPosition.z += fDist;
+			break;
+		}
+		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+		m_vNextMovePosition = vPosition;
+	}
 }
 
 CPlayer_Topdee* CPlayer_Topdee::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
