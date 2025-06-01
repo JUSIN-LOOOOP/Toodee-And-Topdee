@@ -129,12 +129,13 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 
 				Interaction();
 			}
-
 		}
 		else
 		{
 			if (!m_bIsTurnDown)
 				TurnDownOnStop(fTimeDelta);
+
+			m_bInAction = false;
 		}
 
 		m_pCurrentState->Update(this, fTimeDelta);
@@ -298,10 +299,13 @@ void CPlayer_Topdee::Interaction()
 		{	
 			if (m_pFocuseBlock)
 			{
-				m_pFocuseBlock->Request_Change_State(BLOCKSTATE::ATTACH);
-				m_pFocuseBlock->Attach(m_pTransformCom, 20.f);
-				m_pAttachBlock = m_pFocuseBlock;
-				m_bIsAttach = true;
+				if(m_pFocuseBlock->IsStop())
+				{
+					m_pFocuseBlock->Request_Change_State(BLOCKSTATE::ATTACH);
+					m_pFocuseBlock->Attach(m_pTransformCom, 20.f);
+					m_pAttachBlock = m_pFocuseBlock;
+					m_bIsAttach = true;
+				}
 				m_pFocuseBlock = nullptr;
 			}
 		}
@@ -778,38 +782,6 @@ void CPlayer_Topdee::Check_CollisionState()
 {
 	if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
 	{
-		//충돌체가 Wall 이라면
-		if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Wall")) != string::npos)
-		{
-			_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-
-			_float fDist = {};
-			COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
-
-			switch (eCollider_Dir)
-			{
-			case COLLIDER_DIR::LEFT:
-				vPosition.x -= fDist;
-				break;
-			case COLLIDER_DIR::RIGHT:
-				vPosition.x += fDist;
-				break;
-			case COLLIDER_DIR::TOP:
-				vPosition.y += fDist;
-				break;
-			case COLLIDER_DIR::BOTTOM:
-				vPosition.y -= fDist;
-				break;
-			case COLLIDER_DIR::FRONT:
-				vPosition.z -= fDist;
-				break;
-			case COLLIDER_DIR::BACK:
-				vPosition.z += fDist;
-				break;
-			}
-			m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-		}
-		//충돌체가 Block 이라면
 		if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Block")) != string::npos)
 		{
 			CBlock* pBlock = dynamic_cast<CBlock*>(m_pColliderCom->GetOverlapTarget());
@@ -819,11 +791,12 @@ void CPlayer_Topdee::Check_CollisionState()
 				pBlock->Push(m_eCurrentMoveDir, m_eCurrentTextureDir, 8.f);
 			}
 		}
+
 		_float fDist = {};
 		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 		COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
-		
-		switch(eCollider_Dir)
+
+		switch (eCollider_Dir)
 		{
 		case COLLIDER_DIR::LEFT:
 			vPosition.x -= fDist;
