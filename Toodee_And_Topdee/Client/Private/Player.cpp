@@ -144,10 +144,17 @@ _uint CPlayer::ComputeStopAnimCount(PLAYERSTATE eCurrentState)
 void CPlayer::Check_Dimension()
 {
 	if (m_eActivateDimension == m_pGameInstance->Get_CurrentDimension())
+	{
+		m_pColliderCom->Collision_On();
 		m_bCanActive = true;
+	}
 	else
+	{
+		m_pColliderCom->Collision_Off();
 		m_bCanActive = false;
+	}
 }
+
 void CPlayer::Free()
 {
 	__super::Free();

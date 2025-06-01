@@ -34,7 +34,6 @@ namespace Client
 		PLAYERSTATE					eState;
 		unsigned int				iMaxAnimCount;
 	}PLAYERSTATE_DESC;
-
 }
 
 extern HWND g_hWnd;

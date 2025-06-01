@@ -24,7 +24,7 @@ HRESULT CBlock_Wall::Initialize(void* pArg)
 
 	__super::SetUp_BlockInfo(pArg);
 
-	name = TEXT("Block_Wall");
+	name = TEXT("Wall");
 
     return S_OK;
 }

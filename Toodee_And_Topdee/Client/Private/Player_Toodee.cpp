@@ -49,6 +49,8 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
 
 HRESULT CPlayer_Toodee::Initialize(void* pArg)
 {
+
+
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
@@ -58,10 +60,21 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (FAILED(Ready_Observers()))
         return E_FAIL;
 
+    if (nullptr == pArg)
+    {
+        m_vPotalPosition = { 0.f, 0.f, 0.f };
+        m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, 1.f, 10.f));
+    }
+    else
+    {
+        PLAYERDESC* pDesc = static_cast<PLAYERDESC*>(pArg);
+
+        m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPlayerStartPosition);
+        m_vPotalPosition = pDesc->vPotalPosition;
+    }
+  
     //Test true = 클리어모션 false = 플레이모션
     m_bCanClear = false;
-    m_vPotalPosition = { 0.f, 0.f, 0.f };
-
     m_fCurrentJumpPower = 0.f;
     m_fAccumulationJumpPower = 0.f;
     m_fIncreaseJumpPower = 4.f;
@@ -69,7 +82,6 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     m_fGravityPower = 0.f;
 
     m_pTransformCom->Scaling(12.f, 12.f, 0.f);
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, 0.f, 10.f));
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
     
@@ -330,7 +342,7 @@ HRESULT CPlayer_Toodee::Ready_Components()
     CCollider::COLLIDER_DESC GroundCheckColliderDesc{};
     GroundCheckColliderDesc.pOwner = this;
     GroundCheckColliderDesc.pTransform = m_pGroundCheckTransformCom;
-    GroundCheckColliderDesc.vColliderScale = _float3(0.1f, 0.1f, 0.2f);
+    GroundCheckColliderDesc.vColliderScale = _float3(1.f, 0.1f, 0.2f);
     GroundCheckColliderDesc.vColliderPosion = m_pGroundCheckTransformCom->Get_State(STATE::POSITION);
     GroundCheckColliderDesc.bIsFixed = false;
 

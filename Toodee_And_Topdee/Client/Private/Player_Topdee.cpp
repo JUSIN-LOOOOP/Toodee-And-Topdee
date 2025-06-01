@@ -60,6 +60,19 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (FAILED(Ready_Outline()))
 		return E_FAIL;
 
+	if (nullptr == pArg)
+	{
+		m_vPotalPosition = { 0.f, 0.f, 0.f };
+		m_pTransformCom->Set_State(STATE::POSITION, _float3(1.f, 1.f, 1.f));
+	}
+	else
+	{
+		PLAYERDESC* pDesc = static_cast<PLAYERDESC*>(pArg);
+
+		m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPlayerStartPosition);
+		m_vPotalPosition = pDesc->vPotalPosition;
+	}
+
 	m_bCanClear = false;
 	m_fTurnDownTime = 0.f;
 	m_fTurnDownDelay = 0.04f;
@@ -107,6 +120,8 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 
 			if (m_bInAction)
 			{
+				MoveToTileCenter(fTimeDelta);
+
 				if (m_pAttachBlock)
 					Check_DetachCollisionState();
 				else
@@ -241,6 +256,8 @@ void CPlayer_Topdee::Stop()
 
 	m_ePrevMoveDir = m_eCurrentMoveDir;
 	m_bIsTurnDown = false;
+
+	m_bInAction = false;
 }
 
 void CPlayer_Topdee::Clear()
@@ -704,7 +721,7 @@ HRESULT CPlayer_Topdee::Ready_Observers()
 
 HRESULT CPlayer_Topdee::Ready_Outline()
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Effect"),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Effect"),
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"), this)))
 		return E_FAIL;
 
@@ -762,7 +779,38 @@ void CPlayer_Topdee::Check_CollisionState()
 	if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
 	{
 		//충돌체가 Wall 이라면
-		if (m_pColliderCom->GetOverlapTarget()->Get_Name() == TEXT("Block_Wood"))
+		if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Wall")) != string::npos)
+		{
+			_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+			_float fDist = {};
+			COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
+
+			switch (eCollider_Dir)
+			{
+			case COLLIDER_DIR::LEFT:
+				vPosition.x -= fDist;
+				break;
+			case COLLIDER_DIR::RIGHT:
+				vPosition.x += fDist;
+				break;
+			case COLLIDER_DIR::TOP:
+				vPosition.y += fDist;
+				break;
+			case COLLIDER_DIR::BOTTOM:
+				vPosition.y -= fDist;
+				break;
+			case COLLIDER_DIR::FRONT:
+				vPosition.z -= fDist;
+				break;
+			case COLLIDER_DIR::BACK:
+				vPosition.z += fDist;
+				break;
+			}
+			m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+		}
+		//충돌체가 Block 이라면
+		if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Block")) != string::npos)
 		{
 			CBlock* pBlock = dynamic_cast<CBlock*>(m_pColliderCom->GetOverlapTarget());
 			if (false == pBlock->IsPush())

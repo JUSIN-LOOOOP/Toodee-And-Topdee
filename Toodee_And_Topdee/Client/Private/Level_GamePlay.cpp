@@ -23,11 +23,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+		return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
-		return E_FAIL;*/
+	//if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
+	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
@@ -35,11 +35,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Back(TEXT("Layer_Back"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Back(TEXT("Layer_Back"))))
+	//	return E_FAIL;
 
-	if(FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;
+	//if(FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	//	return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
 	//	return E_FAIL;
@@ -226,7 +226,7 @@ _float3(2.f,2.f,2.f),
 	};
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBlock"), &info2)))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"), &info2)))
 		return E_FAIL;
 
 	BLOCK_INFO info3= {

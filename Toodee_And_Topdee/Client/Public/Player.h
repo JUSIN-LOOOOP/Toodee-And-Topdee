@@ -17,6 +17,12 @@ class CPlayerState;
 
 class CPlayer abstract : public CSubjectObject
 {
+public:
+	typedef struct tagPlayerDesc {
+		_float3 vPlayerStartPosition;
+		_float3 vPotalPosition;
+	}PLAYERDESC;
+
 protected:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
