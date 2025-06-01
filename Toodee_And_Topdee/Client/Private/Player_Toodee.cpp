@@ -1,6 +1,7 @@
 #include "Player_Toodee.h"
 #include "GameInstance.h"
 #include "PlayerState.h"
+#include "Block.h"
 
 
 CPlayer_Toodee::CPlayer_Toodee(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -293,6 +294,7 @@ HRESULT CPlayer_Toodee::Ready_Components()
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
 
+#pragma region Transform
     /* For.Com_Transform*/
     CTransform::TRANSFORM_DESC		TransformDesc{};
     TransformDesc.fSpeedPerSec = 5.f;
@@ -301,6 +303,47 @@ HRESULT CPlayer_Toodee::Ready_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
         return E_FAIL;
+
+    CTransform::TRANSFORM_DESC		GroundCheckTransformDesc{};
+    GroundCheckTransformDesc.fSpeedPerSec = 0.f;
+    GroundCheckTransformDesc.fRotationPerSec = D3DXToRadian(90.f);
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
+        TEXT("Com_GroundCheckTransform"), reinterpret_cast<CComponent**>(&m_pGroundCheckTransformCom), &GroundCheckTransformDesc)))
+        return E_FAIL;
+
+#pragma endregion
+
+#pragma region Collider
+    CCollider::COLLIDER_DESC PlayerColliderDesc{};
+    PlayerColliderDesc.pOwner = this;
+    PlayerColliderDesc.pTransform = m_pTransformCom;
+    PlayerColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
+    PlayerColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+    PlayerColliderDesc.bIsFixed = false;
+    m_fGroundCheckPosZ = (PlayerColliderDesc.vColliderScale.z * 0.5f);
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &PlayerColliderDesc)))
+        return E_FAIL;
+
+    CCollider::COLLIDER_DESC GroundCheckColliderDesc{};
+    GroundCheckColliderDesc.pOwner = this;
+    GroundCheckColliderDesc.pTransform = m_pGroundCheckTransformCom;
+    GroundCheckColliderDesc.vColliderScale = _float3(0.1f, 0.1f, 0.2f);
+    GroundCheckColliderDesc.vColliderPosion = m_pGroundCheckTransformCom->Get_State(STATE::POSITION);
+    GroundCheckColliderDesc.bIsFixed = false;
+
+    m_fGroundCheckPosZ += GroundCheckColliderDesc.vColliderScale.z;
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+        TEXT("Com_GroundCheckCollider"), reinterpret_cast<CComponent**>(&m_pGroundCheckColliderCom), &GroundCheckColliderDesc)))
+        return E_FAIL;
+
+#pragma endregion
+
+#pragma region Toodee Texture
+
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Idle"),
         TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::IDLE)]))))
@@ -320,42 +363,6 @@ HRESULT CPlayer_Toodee::Ready_Components()
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Clear"),
         TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::CLEAR)]))))
-        return E_FAIL;
-
-    CCollider::COLLIDER_DESC PlayerColliderDesc {};
-    PlayerColliderDesc.pOwner = this;
-    PlayerColliderDesc.pTransform = m_pTransformCom;
-    PlayerColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
-    PlayerColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
-    PlayerColliderDesc.bIsFixed = false;
-    m_fGroundCheckPosZ = (PlayerColliderDesc.vColliderScale.z * 0.5f);
-
-    if(FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
-        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &PlayerColliderDesc)))
-        return E_FAIL;
-
-#pragma region GroundCheckComp
-
-    CTransform::TRANSFORM_DESC		GroundCheckTransformDesc{};
-    GroundCheckTransformDesc.fSpeedPerSec = 0.f;
-    GroundCheckTransformDesc.fRotationPerSec = D3DXToRadian(90.f);
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
-        TEXT("Com_GroundCheckTransform"), reinterpret_cast<CComponent**>(&m_pGroundCheckTransformCom), &GroundCheckTransformDesc)))
-        return E_FAIL;
-
-
-    CCollider::COLLIDER_DESC GroundCheckColliderDesc{};
-    GroundCheckColliderDesc.pOwner = this;
-    GroundCheckColliderDesc.pTransform = m_pGroundCheckTransformCom;
-    GroundCheckColliderDesc.vColliderScale = _float3(0.1f, 0.1f, 0.2f);
-    GroundCheckColliderDesc.vColliderPosion = m_pGroundCheckTransformCom->Get_State(STATE::POSITION);
-    GroundCheckColliderDesc.bIsFixed = false;
-
-    m_fGroundCheckPosZ += GroundCheckColliderDesc.vColliderScale.z;
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
-        TEXT("Com_GroundCheckCollider"), reinterpret_cast<CComponent**>(&m_pGroundCheckColliderCom), &GroundCheckColliderDesc)))
         return E_FAIL;
 
 #pragma endregion
@@ -476,8 +483,6 @@ void CPlayer_Toodee::Check_CollisionState()
 
     if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
     {
-        //충돌체가 Wall 이라면
-
         _float fDist = {};
         COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
 

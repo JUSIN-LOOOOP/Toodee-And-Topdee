@@ -29,8 +29,7 @@ public:
 	virtual void Clear() override;									
 	
 	virtual void onReport(REPORT eReport) override;					
-private:															   
-																	   
+private:															   								   
 	/* Ground Check Collider */										   
 	CCollider*  m_pGroundCheckColliderCom = { nullptr };			// 지면 체크용 Collider
 	CTransform* m_pGroundCheckTransformCom = { nullptr };			// 지면 체크용 Collider에게 붙일 Transform
