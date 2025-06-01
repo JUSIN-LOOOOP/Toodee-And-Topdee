@@ -23,8 +23,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 		return E_FAIL;
@@ -163,35 +163,77 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube2(const _wstring& strLayerTag)
 {
-	//for (_uint i = 0; i < 3; i++) 
-	//	{
-	//		CTest_Cube2::TEST_TRANS desc{};
-	//		_float3 temp = { static_cast<_float>(i*2.f)+1.f,0.f, 1.f };
-	//		desc.Pos = temp;
-	//		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-	//			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube2"), &desc)))
-	//			return E_FAIL;
-	//	}
+	//CTest_Cube2::TEST_TRANS desc{};
+	//_float3 temp = { 1.f,0.f, 1.f };
+	//desc.Pos = temp;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+	//	ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube2"), &desc)))
+	//	return E_FAIL;
 
-	CTest_Cube2::TEST_TRANS desc{};
-	_float3 temp = { 1.f,0.f, 1.f };
-	desc.Pos = temp;
+	//CTest_Cube2::TEST_TRANS desc2{};
+	//_float3 temp2 = { 3.f,0.f, 3.f };
+	//desc2.Pos = temp2;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+	//	ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube2"), &desc2)))
+	//	return E_FAIL;
+
+	//CTest_Cube2::TEST_TRANS desc3{};
+	//_float3 temp3 = { 3.f,0.f, 1.f };
+	//desc3.Pos = temp3;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+	//	ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube2"), &desc3)))
+	//	return E_FAIL;
+
+	BLOCK_INFO info = {
+		_float3(3.f, 0.f, 1.f),
+		_float3(2.f,2.f,2.f),
+		0,
+		0,
+		0,
+		0
+	};
+	
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube2"), &desc)))
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Block_Wood"), &info)))
 		return E_FAIL;
 
-	CTest_Cube2::TEST_TRANS desc2{};
-	_float3 temp2 = { 3.f,0.f, 3.f };
-	desc2.Pos = temp2;
+	BLOCK_INFO info1 = {
+	_float3(5.f, 0.f, 1.f),
+	_float3(2.f,2.f,2.f),
+	0,
+	0,
+	0,
+	0
+	};
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube2"), &desc2)))
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Block_Wood"), &info1)))
 		return E_FAIL;
 
-	CTest_Cube2::TEST_TRANS desc3{};
-	_float3 temp3 = { 3.f,0.f, 1.f };
-	desc3.Pos = temp3;
+	BLOCK_INFO info2 = {
+_float3(9.f, 0.f, 1.f),
+_float3(2.f,2.f,2.f),
+0,
+0,
+0,
+0
+	};
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TestCube2"), &desc3)))
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBlock"), &info2)))
+		return E_FAIL;
+
+	BLOCK_INFO info3= {
+_float3(1.f, 0.f, 1.f),
+_float3(2.f,2.f,2.f),
+0,
+0,
+0,
+0
+	};
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Block_Wood"), &info3)))
 		return E_FAIL;
 
 	return S_OK;

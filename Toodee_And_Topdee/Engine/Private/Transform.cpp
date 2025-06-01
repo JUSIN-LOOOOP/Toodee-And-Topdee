@@ -142,6 +142,7 @@ _bool CTransform::Approach(const _float3& vTarget, _float fTimeDelta, _float fSp
 	//if (fLimitRange <= D3DXVec3Length(&vMoveDir))
 	{
 		_float fDistanceX = vMoveDir.x;
+		_float fDistanceY = vMoveDir.y;
 		_float fDistanceZ = vMoveDir.z;
 
 		_float3 vMove = *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * fSpeed * fTimeDelta;
@@ -151,6 +152,9 @@ _bool CTransform::Approach(const _float3& vTarget, _float fTimeDelta, _float fSp
 
 		if (abs(vMove.x) >= abs(fDistanceX))
 			vMove.x = fDistanceX;
+
+		if (abs(vMove.y) >= abs(fDistanceY))
+			vMove.y = fDistanceY;
 
 		if (abs(vMove.z) >= abs(fDistanceZ))
 			vMove.z = fDistanceZ;
@@ -230,7 +234,7 @@ void CTransform::Scaling(_float fScaleX, _float fScaleY, _float fScaleZ)
 	Set_State(STATE::LOOK, *D3DXVec3Normalize(&vLook, &vLook) * fScaleZ);
 }
 
-_bool CTransform::Spiral(const _float3& vTarget, const _float3 vAxis, _float fRotationDegree, _float fDistance,_float fTimeDelta)
+_bool CTransform::Spiral(const _float3& vTarget, const _float3& vAxis, _float fRotationDegree, _float fDistance,_float fTimeDelta)
 {
 	_float3 vPosition = Get_State(STATE::POSITION);
 
@@ -271,7 +275,6 @@ _bool CTransform::Spiral(const _float3& vTarget, const _float3 vAxis, _float fRo
 
 	return false;
 }
-
 
 void CTransform::Bind_Matrix()
 {
