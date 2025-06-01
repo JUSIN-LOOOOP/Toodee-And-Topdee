@@ -46,9 +46,14 @@ public:
 	const _bool				OnCollisionStay()  const { return m_eState == COLLIDER_STATE::STAY; }
 	const _bool				OnCollisionExit()  const { return m_eState == COLLIDER_STATE::EXIT; }
 
-	const _bool				Collision_IsActive()  const { return m_bisTrigger; }
-	void					Collision_Off() { m_bisTrigger = false; }
-	void					Collision_On() { m_bisTrigger = true; }
+	const _bool				Collision_IsActive()  const {
+		return m_bisTrigger;
+	}
+	void					Collision_Off() {
+		Remove_Others();
+		m_bisTrigger = false;
+	}
+	void					Collision_On() { Remove_Others(); m_bisTrigger = true; }
 
 	_bool					GetOverlapAll(vector<class CGameObject*>*& pList);
 	class CGameObject*		GetOverlapTarget();
