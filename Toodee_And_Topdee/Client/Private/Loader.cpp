@@ -19,6 +19,7 @@
 #include "TileOutline.h"
 #include "Pig.h"
 #include "Cannon.h"
+#include "Fire_Projectile.h"
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
@@ -219,6 +220,12 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Cannon"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Cannon/Cannon%d.png"), 4))))
 		return E_FAIL;
+
+	/* Prototype_Component_Texture_Projectile_Fire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Projectile_Fire"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Projectile/Fire/Projectile_Fire%d.png"), 40))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region TEXTURE_MONSTER
@@ -311,11 +318,22 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CPig::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+#pragma region GameObject_Cannon
 	/* Prototype_GameObject_Cannon*/
  	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cannon"),
 		CCannon::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_GameObject_Projectile_Fire*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Fire"),
+		CFire_Projectile::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+#pragma endregion
+
+
+
+	
 
 	lstrcpy(m_szLoadingText, TEXT("The Gameplay_Level has finished loading."));
 

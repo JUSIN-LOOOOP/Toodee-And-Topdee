@@ -25,6 +25,7 @@ private:
 	HRESULT Ready_Layer_Potal(const _wstring& strLayerTag);
 
 	HRESULT Ready_Layer_Cannon(const _wstring& strLayerTag);
+	
 
 	//������ �غ�
 	HRESULT Ready_Observer();

@@ -1,13 +1,15 @@
 #pragma once
 #include "Client_Defines.h"
+
 #include "GameObject.h"
 
 BEGIN(Engine)
+
 class CTexture;
 class CTransform;
 class CVIBuffer_Cube;
-END
 
+END
 
 BEGIN(Client)
 
@@ -16,6 +18,13 @@ class CCannon final : public CGameObject
 public:
 	/* 쏘는 방향 기준 */
 	enum class CANNON_DIRECTION { RGIHT, LEFT, UP, DOWN, NONE };
+	enum class CANNON_TYPE { FIRE, LASER, NONE };
+
+	struct CANNON_INFO
+	{
+		CANNON_DIRECTION eDir;
+		CANNON_TYPE  eType;
+	};
 
 private:
 	CCannon(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -35,13 +44,15 @@ private:
 	CTransform*			m_pTransformCom = { nullptr };
 	CTexture*			m_pTextureCom = { nullptr };
 
+	CANNON_TYPE			m_eType {};
 	_uint				m_iCannonDir = { };
-	_float				m_iIntervalShooting = {0.f};
-	_float				m_iAccumulateShootingTime = {0.f};
+
+	_float				m_fIntervalShooting = {0.f};
+	_float				m_fAccumulateShootingTime = {0.f};
 
 	_bool				m_bMotion = { false };
-	_float				m_iIntervalMotion = { 0.f };
-	_float				m_iAccumulateMotionTime = { 0.f };
+	_float				m_fIntervalMotion = { 0.f };
+	_float				m_fAccumulateMotionTime = { 0.f };
 
 	_float3				m_vOriginalPosition = {};
 

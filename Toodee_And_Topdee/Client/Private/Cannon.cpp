@@ -1,5 +1,7 @@
 #include "Cannon.h"
 #include "GameInstance.h"
+#include "PoolableObject.h"
+#include "Fire_Projectile.h"
 
 CCannon::CCannon(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
@@ -13,6 +15,7 @@ CCannon::CCannon(const CCannon& Prototype)
 
 HRESULT CCannon::Initialize_Prototype()
 {
+
     return S_OK;
 }
 
@@ -23,12 +26,12 @@ HRESULT CCannon::Initialize(void* pArg)
 
     name = TEXT("Cannon");
 
-    CANNON_DIRECTION* eDir = reinterpret_cast<CANNON_DIRECTION*>(pArg);
-    m_iCannonDir = ENUM_CLASS(*eDir);
-    m_iCannonDir = 2;
+    CANNON_INFO* info = reinterpret_cast<CANNON_INFO*>(pArg);
+    m_iCannonDir = ENUM_CLASS(info->eDir);
+    m_eType = info->eType;
 
-    m_iIntervalShooting = 0.5f;
-    m_iIntervalMotion = 0.2f;
+    m_fIntervalShooting = 0.5f;
+    m_fIntervalMotion = 0.2f;
 
     m_pTransformCom->Set_State(STATE::POSITION, _float3(-20.f, 1.1f, 0.f ));
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
@@ -114,27 +117,63 @@ HRESULT CCannon::Render()
 
 void CCannon::Shooting(_float fTimeDelta)
 {
-    if (m_iIntervalShooting <= m_iAccumulateShootingTime + fTimeDelta)
+    if (0.4f <= m_fAccumulateShootingTime + fTimeDelta)
     {
-        m_iAccumulateShootingTime = 0.f;
+        m_fAccumulateShootingTime = 0.f;
 
         m_bMotion = true;
 
-        // todo ¹ß»çÃ¼ ÅõÃ´
+        CFire_Projectile::Protectile_Info info{};
 
+        info.eDir = static_cast<CANNON_DIRECTION>(m_iCannonDir);
+        info.vPosition = m_vOriginalPosition;
+
+        CPoolableObject* pProjectile {nullptr};
+
+        // todo ¹ß»çÃ¼ ÅõÃ´
+        switch (m_iCannonDir)
+        {
+        case 0:                 /* Right */
+            if (m_eType == CANNON_TYPE::FIRE)
+                 pProjectile =  m_pGameInstance->Pop(TEXT("Layer_Projectile_Fire"));
+             if (m_eType == CANNON_TYPE::LASER)
+                  pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Laser"));
+            break;
+        case 1:                 /* Left */
+            if (m_eType == CANNON_TYPE::FIRE)
+                 pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Fire"));
+             if (m_eType == CANNON_TYPE::LASER)
+                  pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Laser"));
+            break;
+        case 2:                 /* Up */
+            if (m_eType == CANNON_TYPE::FIRE)
+                 pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Fire"));
+            if (m_eType == CANNON_TYPE::LASER)
+                pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Laser"));
+            break;
+        case 3:                 /* Down */
+            if (m_eType == CANNON_TYPE::FIRE)
+                pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Fire"));
+            if (m_eType == CANNON_TYPE::LASER)
+               pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Laser"));
+            break;
+        }
+
+        if(pProjectile != nullptr)
+            pProjectile->Initialize_Pool(&info);
     }
     else
-        m_iAccumulateShootingTime += fTimeDelta;
+        m_fAccumulateShootingTime += fTimeDelta;
 }
 
 void CCannon::Motion(_float fTimeDelta)
 {
     if (!m_bMotion) return;
 
-    if (m_iIntervalMotion <= m_iAccumulateMotionTime + fTimeDelta)
+    if (m_fIntervalMotion <= m_fAccumulateMotionTime + fTimeDelta)
     {
         m_bMotion = false;
-        m_iAccumulateMotionTime = 0.f;
+        m_fAccumulateMotionTime = 0.f;
         
         if (m_iCannonDir <= 1)
             m_pTransformCom->Scaling(1.f, 1.9f, 1.f);
@@ -145,33 +184,31 @@ void CCannon::Motion(_float fTimeDelta)
     }
     else
     {
-        m_iAccumulateMotionTime += fTimeDelta;
+        m_fAccumulateMotionTime += fTimeDelta;
 
-        _float fFlag = (m_iAccumulateMotionTime >= m_iIntervalMotion * 0.5f ? -1.f : 1.f);
+        _float fFlag = (m_fAccumulateMotionTime >= m_fIntervalMotion * 0.5f ? -1.f : 1.f);
 
         switch (m_iCannonDir)
         {
         case 0:
-            m_pTransformCom->Scaling(1.f + m_iAccumulateMotionTime * 1.4f, 1.9f, 1.f);
-            m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vOriginalPosition.x + m_iAccumulateMotionTime * 1.3f, m_vOriginalPosition.y, m_vOriginalPosition.z });
+            m_pTransformCom->Scaling(1.f + m_fAccumulateMotionTime * 1.4f, 1.9f, 1.f);
+            m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vOriginalPosition.x + m_fAccumulateMotionTime * 1.3f, m_vOriginalPosition.y, m_vOriginalPosition.z });
             break;
+
         case 1:
-			m_pTransformCom->Scaling(1.f + m_iAccumulateMotionTime * 1.4f, 1.9f, 1.f);
-			m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vOriginalPosition.x - m_iAccumulateMotionTime * 1.3f, m_vOriginalPosition.y, m_vOriginalPosition.z });
-
+			m_pTransformCom->Scaling(1.f + m_fAccumulateMotionTime * 1.4f, 1.9f, 1.f);
+			m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vOriginalPosition.x - m_fAccumulateMotionTime * 1.3f, m_vOriginalPosition.y, m_vOriginalPosition.z });
 			break;
+
 		case 2:
-			m_pTransformCom->Scaling(1.9f, 1.f + m_iAccumulateMotionTime * 1.4f, 1.f);
-			m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vOriginalPosition.x , m_vOriginalPosition.y, m_vOriginalPosition.z + m_iAccumulateMotionTime * 1.3f });
-
+			m_pTransformCom->Scaling(1.9f, 1.f + m_fAccumulateMotionTime * 1.4f, 1.f);
+			m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vOriginalPosition.x , m_vOriginalPosition.y, m_vOriginalPosition.z + m_fAccumulateMotionTime * 1.3f });
 			break;
+
 		case 3:
-			m_pTransformCom->Scaling(1.9f, 1.f + m_iAccumulateMotionTime * 1.4f, 1.f);
-			m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vOriginalPosition.x, m_vOriginalPosition.y , m_vOriginalPosition.z - m_iAccumulateMotionTime * 1.3f });
-
+			m_pTransformCom->Scaling(1.9f, 1.f + m_fAccumulateMotionTime * 1.4f, 1.f);
+			m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vOriginalPosition.x, m_vOriginalPosition.y , m_vOriginalPosition.z - m_fAccumulateMotionTime * 1.3f });
 			break;
-        default:
-            break;
         }
     }
 }
