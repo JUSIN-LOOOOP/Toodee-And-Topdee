@@ -183,58 +183,22 @@ const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
     _float overlapY = (myScale.y + otherScale.y) * 0.5f - absY;
     _float overlapZ = (myScale.z + otherScale.z) * 0.5f - absZ;
 
-    if (overlapX <= overlapY && overlapX <= overlapZ) {
-        *distance = overlapX * 0.5f;
+    if (overlapX <= overlapY && overlapX <= overlapZ)
+    {
+        if(distance != nullptr) *distance = overlapX * 0.5f;
         return (vDelta.x > 0) ? COLLIDER_DIR::LEFT : COLLIDER_DIR::RIGHT;
     }
-    else if (overlapY <= overlapZ) {
-        *distance = overlapY * 0.5f;
+    else if (overlapY <= overlapZ) 
+    {
+        if (distance != nullptr) *distance = overlapY * 0.5f;
         return (vDelta.y > 0) ? COLLIDER_DIR::BOTTOM : COLLIDER_DIR::TOP;
     }
-    else {
-        *distance = overlapZ;
+    else 
+    {
+        if (distance != nullptr)*distance = overlapZ;
         return (vDelta.z > 0) ? COLLIDER_DIR::FRONT : COLLIDER_DIR::BACK;
     }
     
-
-    //if (absY > absX && absY > absZ)
-    //{
-    //    if (vDelta.y > 0) {
-    //        *distance = (otherScale.y + myScale.y) * 0.5f - vDelta.y;
-    //        return COLLIDER_DIR::BOTTOM;
-    //    }
-    //    else
-    //    {
-    //        *distance = (otherScale.y + myScale.y) * 0.5f + vDelta.y;
-    //        return COLLIDER_DIR::TOP;
-    //    }
-    //}
-    //else if (absX > absZ)
-    //{
-    //    if (vDelta.x > 0)
-    //    {
-    //        *distance = (otherScale.x + myScale.x) * 0.5f - vDelta.x;
-    //        return COLLIDER_DIR::LEFT;
-    //    }
-    //    else
-    //    {
-    //        *distance = (otherScale.x + myScale.x) * 0.5f + vDelta.x;
-    //        return COLLIDER_DIR::RIGHT;
-    //    }
-    //}
-    //else
-    //{
-    //    if (vDelta.z > 0)
-    //    {            
-    //        *distance = (otherScale.z + myScale.z) * 0.5f - vDelta.z;
-    //        return COLLIDER_DIR::FRONT;
-    //    }
-    //    else
-    //    {
-    //        *distance = (otherScale.z + myScale.z) * 0.5f + vDelta.z;
-    //        return COLLIDER_DIR::BACK;
-    //    }
-    //}
 }
 
 HRESULT CCollider::Render()
