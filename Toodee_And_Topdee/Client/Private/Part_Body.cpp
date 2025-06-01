@@ -29,7 +29,6 @@ HRESULT CPart_Body::Initialize(void* pArg)
 	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
 	m_iTextureIndex = pDesc->iTextureIndex;
 
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -38,7 +37,7 @@ HRESULT CPart_Body::Initialize(void* pArg)
 }
 
 
-void CPart_Body::Update(CTransform* pTransform, _float fTimeDelta, _float InputWidth, _float InputDepth)
+void CPart_Body::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
 	Pos_Set(pTransform);
 
@@ -49,7 +48,8 @@ void CPart_Body::Update(CTransform* pTransform, _float fTimeDelta, _float InputW
 
 HRESULT CPart_Body::Render(void* pArg)
 {
-	if (nullptr != pArg)
+	_bool* pMotion = static_cast<_bool*>(pArg);
+	if (*pMotion)
 	{
 		m_pTransformCom->Bind_Matrix();
 
@@ -76,18 +76,9 @@ HRESULT CPart_Body::Render(void* pArg)
 
 void CPart_Body::Pos_Set(CTransform* pTransform)
 {
-	_float3 vRight = pTransform->Get_State(STATE::RIGHT);
-	_float3 vUp = pTransform->Get_State(STATE::UP);
-	_float3 vLook = pTransform->Get_State(STATE::LOOK);
-	D3DXVec3Normalize(&vRight, &vRight);
-	D3DXVec3Normalize(&vUp, &vUp);
-	D3DXVec3Normalize(&vLook, &vLook);
-	vRight *= m_vBodyScale.x;
-	vUp *= m_vBodyScale.y;
-	vLook *= m_vBodyScale.z;
-	m_pTransformCom->Set_State(STATE::RIGHT, vRight);
-	m_pTransformCom->Set_State(STATE::UP, vUp);
-	m_pTransformCom->Set_State(STATE::LOOK, vLook);
+	m_pTransformCom->Set_State(STATE::RIGHT, pTransform->Get_State(STATE::RIGHT));
+	m_pTransformCom->Set_State(STATE::UP, pTransform->Get_State(STATE::UP));
+	m_pTransformCom->Set_State(STATE::LOOK, pTransform->Get_State(STATE::LOOK));
 	m_pTransformCom->Set_State(STATE::POSITION, pTransform->Get_State(STATE::POSITION));
 }
 
@@ -118,5 +109,7 @@ void CPart_Body::Free()
 {
 	__super::Free();
 
-
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTextureCom);
 }
