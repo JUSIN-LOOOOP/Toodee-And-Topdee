@@ -39,6 +39,14 @@ private:
 	HRESULT Loading_For_Logo_Level();
 	HRESULT Loading_For_GamePlay_Level();
 	HRESULT Loading_For_MapEdit_Level();
+	HRESULT Loading_For_Stage1();
+	HRESULT Loading_For_Stage2();
+	HRESULT Loading_For_Stage3();
+	HRESULT Loading_For_Stage4();
+	HRESULT Loading_For_Stage5();
+	HRESULT Loading_For_Stage6();
+	HRESULT Loading_For_StageBoss();
+	HRESULT Loading_For_FinalBoss();
 
 	HRESULT Ready_PigTexture();
 

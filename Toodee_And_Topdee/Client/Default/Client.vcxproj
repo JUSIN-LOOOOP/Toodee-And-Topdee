@@ -145,6 +145,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\BackCloud.h" />
+    <ClInclude Include="..\Public\Backdrop.h" />
+    <ClInclude Include="..\Public\BackTile.h" />
+    <ClInclude Include="..\Public\BackWall.h" />
     <ClInclude Include="..\Public\BasicTile.h" />
     <ClInclude Include="..\Public\Block.h" />
     <ClInclude Include="..\Public\Block_Break.h" />
@@ -162,6 +166,12 @@
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\Public\Level_MapEdit.h" />
+    <ClInclude Include="..\Public\Level_Stage1.h" />
+    <ClInclude Include="..\Public\Level_Stage2.h" />
+    <ClInclude Include="..\Public\Level_Stage3.h" />
+    <ClInclude Include="..\Public\Level_Stage4.h" />
+    <ClInclude Include="..\Public\Level_Stage5.h" />
+    <ClInclude Include="..\Public\Level_Stage6.h" />
     <ClInclude Include="..\Public\Level_Test.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
@@ -194,6 +204,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\BackCloud.cpp" />
+    <ClCompile Include="..\Private\Backdrop.cpp" />
+    <ClCompile Include="..\Private\BackTile.cpp" />
+    <ClCompile Include="..\Private\BackWall.cpp" />
     <ClCompile Include="..\Private\BasicTile.cpp" />
     <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\Block_Break.cpp" />
@@ -210,6 +224,12 @@
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
     <ClCompile Include="..\Private\Level_MapEdit.cpp" />
+    <ClCompile Include="..\Private\Level_Stage1.cpp" />
+    <ClCompile Include="..\Private\Level_Stage2.cpp" />
+    <ClCompile Include="..\Private\Level_Stage3.cpp" />
+    <ClCompile Include="..\Private\Level_Stage4.cpp" />
+    <ClCompile Include="..\Private\Level_Stage5.cpp" />
+    <ClCompile Include="..\Private\Level_Stage6.cpp" />
     <ClCompile Include="..\Private\Level_Test.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />

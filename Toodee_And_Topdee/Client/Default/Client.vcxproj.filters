@@ -97,6 +97,36 @@
     <ClCompile Include="..\Private\Hole.cpp">
       <Filter>00. Dummys\T Y J\Block\Hole</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Backdrop.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackWall.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackTile.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage1.cpp">
+      <Filter>01. Levels\03. GamePlay\00 Stage01</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackCloud.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage2.cpp">
+      <Filter>01. Levels\03. GamePlay\01. Stage02</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage3.cpp">
+      <Filter>01. Levels\03. GamePlay\02. Stage03</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage4.cpp">
+      <Filter>01. Levels\03. GamePlay\04. Stage04</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage5.cpp">
+      <Filter>01. Levels\03. GamePlay\05. Stage05</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage6.cpp">
+      <Filter>01. Levels\03. GamePlay\06. Stage06</Filter>
+     </ClCompile>
     <ClCompile Include="..\Private\TileOutline.cpp" />
     <ClCompile Include="..\Private\Pig.cpp">
       <Filter>02. GameObjects\Monster\Pig</Filter>
@@ -237,6 +267,36 @@
     </ClInclude>
     <ClInclude Include="..\Public\Hole.h">
       <Filter>00. Dummys\T Y J\Block\Hole</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Backdrop.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackWall.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackTile.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage1.h">
+      <Filter>01. Levels\03. GamePlay\00 Stage01</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackCloud.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage2.h">
+      <Filter>01. Levels\03. GamePlay\01. Stage02</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage3.h">
+      <Filter>01. Levels\03. GamePlay\02. Stage03</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage4.h">
+      <Filter>01. Levels\03. GamePlay\04. Stage04</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage5.h">
+      <Filter>01. Levels\03. GamePlay\05. Stage05</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage6.h">
+      <Filter>01. Levels\03. GamePlay\06. Stage06</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TileOutline.h" />
     <ClInclude Include="..\Public\Pig.h">
@@ -410,6 +470,9 @@
     </Filter>
     <Filter Include="00. Dummys\T Y J\Block\Hole">
       <UniqueIdentifier>{bd7bd66b-82af-499a-bffe-acc70c5da4b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\BackGroundObj">
+      <UniqueIdentifier>{96055de1-5330-42e8-85aa-b908c8d83573}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObjects\Monster\Pig">
       <UniqueIdentifier>{86693a8f-a6f9-4b8c-9911-aae56790beef}</UniqueIdentifier>

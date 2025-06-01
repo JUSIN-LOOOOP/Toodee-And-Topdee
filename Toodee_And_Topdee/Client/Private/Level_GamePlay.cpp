@@ -16,7 +16,6 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize()
 {
-
 	if (FAILED(Ready_Observer()))
 		return E_FAIL;
 
@@ -27,8 +26,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
+		return E_FAIL;*/
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
@@ -36,12 +35,14 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 	//	return E_FAIL;
 
+	if (FAILED(Ready_Layer_Back(TEXT("Layer_Back"))))
+		return E_FAIL;
+
 	if(FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
 	//	return E_FAIL;
-
 
 	return S_OK;
 }
@@ -85,9 +86,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 	CameraDesc.fRotationPerSec = D3DXToRadian(90.0f);
 	CameraDesc.fMouseSensor = 0.1f;
 
-
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_MultiViewCamera"), &CameraDesc)))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MultiViewCamera"), &CameraDesc)))
 		return E_FAIL;
 
 
@@ -97,7 +97,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
 
-	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage6"));
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
@@ -111,7 +111,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 
 		case MAPOBJECT::WALL:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallBlock"), &info)))
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"), &info)))
 				return E_FAIL;
 			break;
 		case MAPOBJECT::WOOD:
@@ -203,30 +203,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube2(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Player_Toodee"))))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Player_Topdee"))))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"))))
 		return E_FAIL;
 
-	return S_OK;
-}
-
-HRESULT CLevel_GamePlay::Ready_Layer_Tile(const _wstring& strLayerTag)
-{
-	_int MapHeight(18), MapWidth(32);
-	for (_int height = 0; height < MapHeight; ++height)
-	{
-		for (_int width = 0; width < MapWidth; ++width)
-		{
-			_float3 pos{ (FLOAT)((width + 0.5 - (MapWidth / 2)) * 2) , 0.f,  (FLOAT)((height + 0.5 - (MapHeight / 2)) * 2) };
-
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Tile"), &pos)))
-				return E_FAIL;
-		}
-	}
 	return S_OK;
 }
 
@@ -235,7 +218,32 @@ HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
 	_float3 vPotalPosition = { 5.f, 0.f, 0.f }; //TEST
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Back(const _wstring& strLayerTag)
+{
+	_uint BackdropThemeIdx = 0;
+	_uint BackWallThemeIdx = 1;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"), &BackdropThemeIdx)))
+		return E_FAIL;
+
+	/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackWall"), &BackWallThemeIdx)))
+		return E_FAIL;*/
+
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_BackCloud"))))
 		return E_FAIL;
 
 	return S_OK;
