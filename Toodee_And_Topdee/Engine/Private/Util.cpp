@@ -1,6 +1,6 @@
 ﻿#include "Util.h"
 
-Picking::Ray Picking::GetRayFromMouse(const unsigned int WinX, const unsigned int WinY, HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device)
+Picking::Ray Picking::GetRayFromMouse(HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	POINT			ptMouse{};
 	GetCursorPos(&ptMouse);

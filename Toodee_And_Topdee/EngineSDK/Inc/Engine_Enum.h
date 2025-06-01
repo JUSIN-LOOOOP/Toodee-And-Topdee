@@ -21,6 +21,7 @@ namespace Engine
 	enum class REPORT { REPORT_CANCLEAR };
 
 	enum class CHANNELID { SOUND_MENU, SOUND_BOSS, SOUND_PLAYER , SOUND_RESOURCE, SOUND_EFFECT, SOUND_BGM, SOUND_END };
+
 }
 #endif // Engine_Enum_h__
 

@@ -125,9 +125,10 @@ CGameObject* CCollider::GetOverlapTarget()
 const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
 {
     if (m_eState == COLLIDER_STATE::NONE) return COLLIDER_DIR::CD_END;
-
+    if (m_pOthers.size() == 0) return COLLIDER_DIR::CD_END;
     _float3  myPosition = m_pTransform->Get_State(STATE::POSITION);
-    _float3  myScale = m_pTransform->Get_Scaled();
+    //_float3  myScale = m_pTransform->Get_Scaled();
+    _float3 myScale = m_vScale;
 
     CTransform* other = nullptr;
     if(!m_pOthers.empty() && m_pOthers.back() != nullptr)
@@ -158,7 +159,7 @@ const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
         return (vDelta.y > 0) ? COLLIDER_DIR::BOTTOM : COLLIDER_DIR::TOP;
     }
     else {
-        *distance = overlapZ * 0.5f;
+        *distance = overlapZ;
         return (vDelta.z > 0) ? COLLIDER_DIR::FRONT : COLLIDER_DIR::BACK;
     }
     

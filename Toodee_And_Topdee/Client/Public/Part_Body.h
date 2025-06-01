@@ -21,13 +21,14 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-	virtual void	Update(CTransform* pTransform, _float fTimeDelta, _float InputWidth, _float InputDepth) override;
+	virtual void	Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos) override;
 	virtual HRESULT Render(void* pArg) override;
 
 private:
 	_int   m_iTextureIndex = {};
-	_float m_fWidth {},m_fDepth {}, m_fFrame{};
-	
+	_float m_fFrame{};
+
+
 private:
 	void Pos_Set(class CTransform* pTransform);
 public:

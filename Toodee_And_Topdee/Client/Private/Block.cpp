@@ -66,6 +66,7 @@ void CBlock::SetUp_BlockInfo(void* pArg)
 
 	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
 	m_pTransformCom->Scaling(pDesc->vScale.x, pDesc->vScale.y, 2);
+	m_pTransformCom->Go_Up(0.2f);
 	m_TextureIdx = pDesc->iTextureIdx;
 	m_pTransformCom->TurnToRadian(_float3(0.f, 1.f, 0.f), D3DXToRadian(90 * pDesc->iDir));
 }
@@ -82,11 +83,6 @@ void CBlock::Reset_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-}
-
-CGameObject* CBlock::Clone(void* pArg)
-{
-	return nullptr;
 }
 
 void CBlock::Free()

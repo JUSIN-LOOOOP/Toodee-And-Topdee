@@ -13,7 +13,7 @@ HRESULT CState_Action::Initialize(void* pArg)
     m_eState = pDesc->eState;
 
     m_iMaxAnimCount = pDesc->iMaxAnimCount;
-    m_fAnimDelay = 0.02f;
+    m_fAnimDelay = 0.01f;
 
     return S_OK;
 }
@@ -60,6 +60,13 @@ void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTime
 
 void CState_Action::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
+    if (!pPlayer->InAction())
+    {
+        pPlayer->Idle();
+        if (FAILED(pPlayer->Change_State(PLAYERSTATE::IDLE)))
+            MSG_BOX(TEXT("Failed Change State : IDLE"));
+    }
+
     if (pPlayer->CanClear())
     {
         pPlayer->Clear();
