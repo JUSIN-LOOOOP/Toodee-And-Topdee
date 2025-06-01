@@ -36,11 +36,14 @@ HRESULT CPart_Eyes::Initialize(void* pArg)
 }
 
 
-void CPart_Eyes::Update(CTransform* pTransform, _float fTimeDelta, _float InputWidth, _float InputDepth)
+void CPart_Eyes::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
-	_float Scale = 0.7f;
-	__super::If_Revolved(m_fWidth, m_fDepth, InputWidth, InputDepth);
-	__super::RevolveAround(pTransform, m_fWidth, m_fDepth, Scale);
+	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
+	__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
+	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, -0.3f);
+
+	if (m_eState == PARTSTATE::PARTS_RIGHT)
+		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
 	
 }
 
@@ -86,5 +89,7 @@ void CPart_Eyes::Free()
 {
 	__super::Free();
 
-
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTextureCom);
 }

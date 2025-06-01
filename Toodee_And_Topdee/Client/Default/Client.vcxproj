@@ -160,6 +160,7 @@
     <ClInclude Include="..\Public\Block_Wood.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
@@ -171,10 +172,13 @@
     <ClInclude Include="..\Public\Level_Stage4.h" />
     <ClInclude Include="..\Public\Level_Stage5.h" />
     <ClInclude Include="..\Public\Level_Stage6.h" />
+    <ClInclude Include="..\Public\Level_Test.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
+    <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\MultiViewCamera.h" />
     <ClInclude Include="..\Public\Part_Body.h" />
+    <ClInclude Include="..\Public\Part_Ears.h" />
     <ClInclude Include="..\Public\Part_Eyes.h" />
     <ClInclude Include="..\Public\Part_Legs.h" />
     <ClInclude Include="..\Public\Part_Nose.h" />
@@ -214,6 +218,7 @@
     <ClCompile Include="..\Private\Block_Wall.cpp" />
     <ClCompile Include="..\Private\Block_Wood.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
+    <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
@@ -225,10 +230,13 @@
     <ClCompile Include="..\Private\Level_Stage4.cpp" />
     <ClCompile Include="..\Private\Level_Stage5.cpp" />
     <ClCompile Include="..\Private\Level_Stage6.cpp" />
+    <ClCompile Include="..\Private\Level_Test.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
+    <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\MultiViewCamera.cpp" />
     <ClCompile Include="..\Private\Part_Body.cpp" />
+    <ClCompile Include="..\Private\Part_Ears.cpp" />
     <ClCompile Include="..\Private\Part_Eyes.cpp" />
     <ClCompile Include="..\Private\Part_Legs.cpp" />
     <ClCompile Include="..\Private\Part_Nose.cpp" />

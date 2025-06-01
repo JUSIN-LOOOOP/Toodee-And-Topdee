@@ -97,13 +97,6 @@
     <ClCompile Include="..\Private\Hole.cpp">
       <Filter>00. Dummys\T Y J\Block\Hole</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Part_Body.cpp" />
-    <ClCompile Include="..\Private\Part_Eyes.cpp" />
-    <ClCompile Include="..\Private\Part_Legs.cpp" />
-    <ClCompile Include="..\Private\Part_Nose.cpp" />
-    <ClCompile Include="..\Private\Part_Tail.cpp" />
-    <ClCompile Include="..\Private\Pig.cpp" />
-    <ClCompile Include="..\Private\TileOutline.cpp" />
     <ClCompile Include="..\Private\Backdrop.cpp">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
     </ClCompile>
@@ -133,6 +126,37 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Stage6.cpp">
       <Filter>01. Levels\03. GamePlay\06. Stage06</Filter>
+     </ClCompile>
+    <ClCompile Include="..\Private\TileOutline.cpp" />
+    <ClCompile Include="..\Private\Pig.cpp">
+      <Filter>02. GameObjects\Monster\Pig</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>02. GameObjects\Monster\00. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Body.cpp">
+      <Filter>02. GameObjects\Monster\99. Parts\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Ears.cpp">
+      <Filter>02. GameObjects\Monster\99. Parts\Ears</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Eyes.cpp">
+      <Filter>02. GameObjects\Monster\99. Parts\Eyes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Legs.cpp">
+      <Filter>02. GameObjects\Monster\99. Parts\Legs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Nose.cpp">
+      <Filter>02. GameObjects\Monster\99. Parts\Nose</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Tail.cpp">
+      <Filter>02. GameObjects\Monster\99. Parts\Tail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Test.cpp">
+      <Filter>00. Dummys\K S H\Level_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider_Cube.cpp">
+      <Filter>00. Dummys\K S H\Level_Test\Collider_Cube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,13 +268,6 @@
     <ClInclude Include="..\Public\Hole.h">
       <Filter>00. Dummys\T Y J\Block\Hole</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Part_Body.h" />
-    <ClInclude Include="..\Public\Part_Eyes.h" />
-    <ClInclude Include="..\Public\Part_Legs.h" />
-    <ClInclude Include="..\Public\Part_Nose.h" />
-    <ClInclude Include="..\Public\Part_Tail.h" />
-    <ClInclude Include="..\Public\Pig.h" />
-    <ClInclude Include="..\Public\TileOutline.h" />
     <ClInclude Include="..\Public\Backdrop.h">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
     </ClInclude>
@@ -280,6 +297,37 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_Stage6.h">
       <Filter>01. Levels\03. GamePlay\06. Stage06</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TileOutline.h" />
+    <ClInclude Include="..\Public\Pig.h">
+      <Filter>02. GameObjects\Monster\Pig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02. GameObjects\Monster\00. Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Body.h">
+      <Filter>02. GameObjects\Monster\99. Parts\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Ears.h">
+      <Filter>02. GameObjects\Monster\99. Parts\Ears</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Eyes.h">
+      <Filter>02. GameObjects\Monster\99. Parts\Eyes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Legs.h">
+      <Filter>02. GameObjects\Monster\99. Parts\Legs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Nose.h">
+      <Filter>02. GameObjects\Monster\99. Parts\Nose</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Tail.h">
+      <Filter>02. GameObjects\Monster\99. Parts\Tail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Test.h">
+      <Filter>00. Dummys\K S H\Level_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collider_Cube.h">
+      <Filter>00. Dummys\K S H\Level_Test\Collider_Cube</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -425,6 +473,39 @@
     </Filter>
     <Filter Include="00. Dummys\T Y J\BackGroundObj">
       <UniqueIdentifier>{96055de1-5330-42e8-85aa-b908c8d83573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\Pig">
+      <UniqueIdentifier>{86693a8f-a6f9-4b8c-9911-aae56790beef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\00. Base">
+      <UniqueIdentifier>{1089356b-ed67-44e5-a1aa-296608b29758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\99. Parts">
+      <UniqueIdentifier>{78887add-cf93-4826-986a-ef4756b9db3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\99. Parts\Body">
+      <UniqueIdentifier>{f6cc892c-1b91-451b-b15b-b2abc6224bfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\99. Parts\Ears">
+      <UniqueIdentifier>{358e3cdb-ea75-4c99-9ad1-393daf18e1e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\99. Parts\Eyes">
+      <UniqueIdentifier>{c17bc4f3-3e28-462c-b0fe-dbffb4f3d736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\99. Parts\Nose">
+      <UniqueIdentifier>{4a7eb5a1-6c33-4699-a872-828ce6c96345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\99. Parts\Tail">
+      <UniqueIdentifier>{0164fc26-85ee-4056-b4d7-4efe493ff5b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\99. Parts\Legs">
+      <UniqueIdentifier>{66c3e759-8847-41a2-a74a-e6b4647fe842}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K S H\Level_Test">
+      <UniqueIdentifier>{fa53b99f-20ec-4ab9-9e77-b5847208079d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K S H\Level_Test\Collider_Cube">
+      <UniqueIdentifier>{2bcb6edc-4b44-425d-826a-60c1848ebc01}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

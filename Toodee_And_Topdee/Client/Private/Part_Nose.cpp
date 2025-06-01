@@ -34,10 +34,11 @@ HRESULT CPart_Nose::Initialize(void* pArg)
 }
 
 
-void CPart_Nose::Update(CTransform* pTransform, _float fTimeDelta, _float InputWidth, _float InputDepth)
+void CPart_Nose::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
-	__super::If_Revolved(m_fWidth, m_fDepth, InputWidth, InputDepth);
-	__super::RevolveAround(pTransform, m_fWidth, m_fDepth, 0.8f);
+	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
+	__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
+	 __super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, 0.3f);
 }
 
 HRESULT CPart_Nose::Render(void* pArg)
@@ -86,5 +87,7 @@ void CPart_Nose::Free()
 {
 	__super::Free();
 
-
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTextureCom);
 }

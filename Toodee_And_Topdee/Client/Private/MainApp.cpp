@@ -14,6 +14,7 @@
 #include "Part_Nose.h"
 #include "Part_Tail.h"
 #include "Part_Legs.h"
+#include "Part_Ears.h"
 
 #include "Player_Toodee.h"
 #include "Player_Topdee.h"
@@ -55,8 +56,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_ForStatic_Parts()))
 		return E_FAIL;
 
-	// -- ÀÓ½Ã -- 
-	if (FAILED(Start_Level(LEVEL::LEVEL_MAPEDIT)))
+	if (FAILED(Start_Level(LEVEL::LEVEL_LOGO)))
 		return E_FAIL;
 
 	return S_OK;
@@ -82,7 +82,7 @@ HRESULT CMainApp::Ready_Default_Setting()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	/* ÅØ½ºÃÄ 1 ÃÊ°ú½Ã 0À¸·Î ´Ù½Ã ½ÃÀÛ*/
+	/* í…ìŠ¤ì³ 1 ì´ˆê³¼ì‹œ 0ìœ¼ë¡œ ë‹¤ì‹œ ì‹œìž‘*/
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
@@ -120,7 +120,7 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		CCollider::Create(m_pGraphic_Device, COLLIDER_SHAPE::CUBE))))
 		return E_FAIL;
-
+  
 	/* Prototype_GameObject_Camera*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MultiViewCamera"),
 		CMultiViewCamera::Create(m_pGraphic_Device))))
@@ -144,7 +144,7 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"),
 		CTileOutline::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
+ 
 	return S_OK;
 }
 HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
@@ -321,6 +321,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Parts()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Body"),
 		CPart_Body::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Ears"),
+		CPart_Ears::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
