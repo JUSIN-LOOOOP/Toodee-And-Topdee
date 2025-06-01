@@ -541,7 +541,7 @@ void CPlayer_Topdee::Check_DetachCollisionState()
 
 		for (auto iter : *Overlaps)
 		{
-			if ((iter->Get_Name() == TEXT("Block_Wood")))
+			if ((iter->Get_Name().find(TEXT("Block")) != string::npos || iter->Get_Name().find(TEXT("Wall")) != string::npos))
 			{
 				CBlock* pBlock = dynamic_cast<CBlock*>(iter);
 
