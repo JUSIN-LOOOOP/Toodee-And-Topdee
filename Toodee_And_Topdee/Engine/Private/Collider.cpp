@@ -131,7 +131,7 @@ const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
     _float3 myScale = m_vScale;
 
     CTransform* other = nullptr;
-    if(m_pOthers.back() != nullptr)
+    if(!m_pOthers.empty() && m_pOthers.back() != nullptr)
         other = dynamic_cast<CTransform*>(m_pOthers.back()->Get_Component(TEXT("Com_Transform")));
 
     if (other == nullptr)

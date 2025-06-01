@@ -5,8 +5,8 @@
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
 #include "ClearTriggerObserver.h"
-
 #include "Test_Cube2.h"
+#include "Cannon.h"
 #include "Pig.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -23,8 +23,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+	//	return E_FAIL;
 
 	/*if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 		return E_FAIL;*/
@@ -42,6 +42,9 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
+	//	return E_FAIL;
+
+	//if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
 	//	return E_FAIL;
 
 	return S_OK;
@@ -245,6 +248,27 @@ HRESULT CLevel_GamePlay::Ready_Layer_Back(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_BackCloud"))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Cannon(const _wstring& strLayerTag)
+{
+	/* Prototype_GameObject_Cannon */
+	CCannon::CANNON_INFO info{};
+	info.eDir = CCannon::CANNON_DIRECTION::RGIHT;
+	info.eType = CCannon::CANNON_TYPE::FIRE;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cannon"), &info)))
+		return E_FAIL;
+
+		/* Prototype_GameObject_Projectile */
+	for (_uint i = 0; i < 20; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"),
+			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Fire"))))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

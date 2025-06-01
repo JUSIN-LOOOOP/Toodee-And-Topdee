@@ -10,6 +10,7 @@
 #include "Collision_Manager.h"
 #include "Observer_Manager.h"
 #include "Sound_Manager.h"
+#include "Pool_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -66,6 +67,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pSound_Manager)
 		return E_FAIL;
 
+	m_pPool_Manager = CPool_Manager::Create(EngineDesc.iNumLevels);
+	if (nullptr == m_pPool_Manager)
+		return E_FAIL;
+
     return S_OK;
 }
 
@@ -92,6 +97,8 @@ HRESULT CGameInstance::Clear_Resources(_uint iClearLevelID)
 	m_pObject_Manager->Clear(iClearLevelID);
 
 	m_pObserver_Manager->Clear(iClearLevelID);
+
+	m_pPool_Manager->Clear(iClearLevelID);
 
     return S_OK;
 }
@@ -120,6 +127,16 @@ void CGameInstance::Render_End(HWND hWnd)
 {
 	if (nullptr != m_pGraphic_Device)
 		m_pGraphic_Device->Render_End(hWnd);
+}
+
+_float CGameInstance::Rand_Normal()
+{
+	return static_cast<_float>(rand()) / RAND_MAX;
+}
+
+_float CGameInstance::Rand(_float fMin, _float fMax)
+{
+	return fMin + Rand_Normal() * (fMax - fMin);
 }
 
 #pragma endregion
@@ -324,6 +341,34 @@ void CGameInstance::SetChannelVolume(CHANNELID eID, float fVolume)
 
 #pragma endregion
 
+#pragma region POOL_MANAGER
+
+void CGameInstance::First_Push(const _wstring& strPoolTag, class CPoolableObject* pGameObject)
+{
+	if (nullptr == m_pPool_Manager)
+		return;
+
+	m_pPool_Manager->Push(Get_CurrentLevelID() + 1, strPoolTag, pGameObject);
+}
+
+void CGameInstance::Push(const _wstring& strPoolTag, CPoolableObject* pGameObject)
+{
+	if (nullptr == m_pPool_Manager)
+		return;
+
+	m_pPool_Manager->Push(Get_CurrentLevelID() - 1,strPoolTag, pGameObject);
+}
+
+CPoolableObject* CGameInstance::Pop(const _wstring& strPoolTag)
+{
+	if (nullptr == m_pPool_Manager)
+		return nullptr;
+
+	return m_pPool_Manager->Pop(Get_CurrentLevelID() - 1, strPoolTag);
+}
+
+#pragma endregion
+
 
 #pragma region MAP_MANAGER
 HRESULT CGameInstance::Load_File(const _wstring& filename)
@@ -359,17 +404,20 @@ void CGameInstance::Release_Engine()
 {
 	Release();
 
+	/*오브젝트가 사용하는 의존성들 먼저 유지하고 오브젝트 먼저 해제할게요*/
+	Safe_Release(m_pObject_Manager);
+
 	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pCollision_Manager);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pKey_Manager);
 	Safe_Release(m_pRenderer);
-	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pPrototype_Manager);
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pMap_Manager);
 	Safe_Release(m_pObserver_Manager);
+	Safe_Release(m_pPool_Manager);
 }
 
 void CGameInstance::Free()

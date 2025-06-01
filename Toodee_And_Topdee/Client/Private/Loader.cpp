@@ -13,7 +13,10 @@
 #include "TextureUI.h"
 #include "TileOutline.h"
 #include "Pig.h"
+#include "Cannon.h"
+#include "Fire_Projectile.h"
 #include "BackCloud.h"
+
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
 #include "Collider_Cube.h"
@@ -62,7 +65,7 @@ HRESULT CLoader::Loading()
 		hr = Loading_For_Logo_Level();
 		break;
 	case LEVEL::LEVEL_GAMEPLAY:
-		hr = Loading_For_GamePlay_Level();
+ 		hr = Loading_For_GamePlay_Level();
 		break;
 	case LEVEL::LEVEL_MAPEDIT:
 		hr = Loading_For_MapEdit_Level();
@@ -97,15 +100,15 @@ HRESULT CLoader::Loading()
 
 HRESULT CLoader::Loading_For_Logo_Level()
 {
-	lstrcpy(m_szLoadingText, TEXT("�ؽ��ĸ� �ε����Դϴ�."));
+	lstrcpy(m_szLoadingText, TEXT("Now Loading Texture..."));
 
-	lstrcpy(m_szLoadingText, TEXT("���� �ε����Դϴ�."));
+	lstrcpy(m_szLoadingText, TEXT("Now Loading Model..."));
 
-	lstrcpy(m_szLoadingText, TEXT("���̴��� �ε����Դϴ�."));
+	lstrcpy(m_szLoadingText, TEXT("Now Loading Shader..."));
 
-	lstrcpy(m_szLoadingText, TEXT("���ӿ�����Ʈ������ �ε����Դϴ�."));
+	lstrcpy(m_szLoadingText, TEXT("Now Loading GameObejct..."));
 
-	lstrcpy(m_szLoadingText, TEXT("Logo_Level �ε��� �Ϸ�Ǿ����ϴ�."));
+	lstrcpy(m_szLoadingText, TEXT("The Logo_Level has finished loading."));
 
 	m_isFinished = true;
 
@@ -114,7 +117,7 @@ HRESULT CLoader::Loading_For_Logo_Level()
 
 HRESULT CLoader::Loading_For_GamePlay_Level()
 {
-	lstrcpy(m_szLoadingText, TEXT("�ؽ��ĸ� �ε����Դϴ�."));
+	lstrcpy(m_szLoadingText, TEXT("Now Loading Texture..."));
 
 #pragma region TEXTURE BLOCK
 	/* Prototype_Component_Texture_TestCube */
@@ -124,15 +127,33 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 
 #pragma endregion
 
+
+#pragma region TEXTURE_CANNON
+	/* Prototype_Component_Texture_Cannon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Cannon"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Cannon/Cannon%d.png"), 4))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Projectile_Fire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Projectile_Fire"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Projectile/Fire/Projectile_Fire%d.png"), 40))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region TEXTURE_MONSTER
+  
 	/* Prototype_Component_Texture_Pig */
  	if (FAILED(Ready_PigTexture()))
 		return E_FAIL;
+  
+#pragma endregion
 
-	lstrcpy(m_szLoadingText, TEXT("���� �ε����Դϴ�."));
+	lstrcpy(m_szLoadingText, TEXT("Now Loading Model..."));
 
-	lstrcpy(m_szLoadingText, TEXT("���̴��� �ε����Դϴ�."));
+	lstrcpy(m_szLoadingText, TEXT("Now Loading Shader..."));
 
-	lstrcpy(m_szLoadingText, TEXT("���ӿ�����Ʈ������ �ε����Դϴ�."));
+	lstrcpy(m_szLoadingText, TEXT("Now Loading GameObejct..."));
 	/* Prototype_GameObject_Camera*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Camera"),
 		CCamera::Create(m_pGraphic_Device))))
@@ -154,6 +175,7 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		return E_FAIL;
 
 #pragma region BLOCK
+  
 	/* Prototype_GameObject_Block*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))
@@ -176,25 +198,39 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
+  
 #pragma endregion
+  
 	/* Prototype_GameObject_TestTile*/
  	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Tile"),
 		CBasicTile::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	lstrcpy(m_szLoadingText, TEXT("GamePlay_Level �ε��� �Ϸ�Ǿ����ϴ�."));
-
 	/* Prototype_GameObject_Monster_Pig */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"),
 		CPig::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
-
+  /* Prototype_GameObject_BackCloud */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_BackCloud"),
 		CBackCloud::Create(m_pGraphic_Device))))
 		return E_FAIL;
+  
 
-	lstrcpy(m_szLoadingText, TEXT("GamePlay_Level �ε��� �Ϸ�Ǿ����ϴ�."));
+#pragma region GameObject_Cannon
+  
+	/* Prototype_GameObject_Cannon*/
+ 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cannon"),
+		CCannon::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Projectile_Fire*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Fire"),
+		CFire_Projectile::Create(m_pGraphic_Device))))
+		return E_FAIL;
+  
+#pragma endregion
+
+	lstrcpy(m_szLoadingText, TEXT("The Gameplay_Level has finished loading."));
 
 	m_isFinished = true;
 

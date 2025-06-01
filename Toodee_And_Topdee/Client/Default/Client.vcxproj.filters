@@ -158,6 +158,12 @@
     <ClCompile Include="..\Private\Collider_Cube.cpp">
       <Filter>00. Dummys\K S H\Level_Test\Collider_Cube</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Cannon.cpp">
+      <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Fire_Projectile.cpp">
+      <Filter>00. Dummys\J O H\Cannon\Projectile\Fire</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -328,6 +334,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Collider_Cube.h">
       <Filter>00. Dummys\K S H\Level_Test\Collider_Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Cannon.h">
+      <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Fire_Projectile.h">
+      <Filter>00. Dummys\J O H\Cannon\Projectile\Fire</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -506,6 +518,21 @@
     </Filter>
     <Filter Include="00. Dummys\K S H\Level_Test\Collider_Cube">
       <UniqueIdentifier>{2bcb6edc-4b44-425d-826a-60c1848ebc01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\J O H\Cannon">
+      <UniqueIdentifier>{f2f223d0-a7f3-4475-a569-709c683fda0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\J O H\Cannon\Cannon">
+      <UniqueIdentifier>{cda58e75-f076-4ee9-a5d4-3346eb6510ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\J O H\Cannon\Projectile">
+      <UniqueIdentifier>{b865314d-6f87-4d4d-8641-ac43833280c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\J O H\Cannon\Projectile\Fire">
+      <UniqueIdentifier>{960fd352-9956-4f1a-9d05-68dddf593f53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\J O H\Cannon\Projectile\Laser">
+      <UniqueIdentifier>{e7f456fe-e6b4-4e0e-bed7-0ba4538dc7cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
