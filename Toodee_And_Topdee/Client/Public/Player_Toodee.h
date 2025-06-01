@@ -37,6 +37,7 @@ private:
 																	   
 	/* Jump */														   
 	JUMPSTATE	m_eJumpState = {};									// 점프 상태
+	_float		m_fStartJumpPower = {};
 	_float		m_fCurrentJumpPower = {};							// 점프 높이를 조절 POWER
 	_float		m_fAccumulationJumpPower = {};						// 현재 증가된 점프량
 	_float		m_fIncreaseJumpPower = {};							// 한프레임당 증가할수 있는 점프파워

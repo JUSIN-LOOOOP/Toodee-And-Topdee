@@ -13,7 +13,7 @@ HRESULT CState_Action::Initialize(void* pArg)
     m_eState = pDesc->eState;
 
     m_iMaxAnimCount = pDesc->iMaxAnimCount;
-    m_fAnimDelay = 0.01f;
+    m_fAnimDelay = 0.02f;
 
     return S_OK;
 }

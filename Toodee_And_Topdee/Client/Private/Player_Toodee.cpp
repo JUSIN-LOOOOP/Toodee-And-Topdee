@@ -49,8 +49,6 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
 
 HRESULT CPlayer_Toodee::Initialize(void* pArg)
 {
-
-
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
@@ -76,9 +74,10 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     //Test true = 클리어모션 false = 플레이모션
     m_bCanClear = false;
     m_fCurrentJumpPower = 0.f;
+    m_fStartJumpPower = 10.f;
     m_fAccumulationJumpPower = 0.f;
-    m_fIncreaseJumpPower = 4.f;
-    m_fMaxIncreaseJumpPower = 20.f; //임시
+    m_fIncreaseJumpPower = 5.f;
+    m_fMaxIncreaseJumpPower = 25.f; //임시
     m_fGravityPower = 0.f;
 
     m_pTransformCom->Scaling(12.f, 12.f, 0.f);
@@ -244,7 +243,7 @@ void CPlayer_Toodee::Action()
         m_bInAction = true;
         m_eJumpState = JUMPSTATE::JUMPING;
         //점프 최소 높이
-        m_fCurrentJumpPower = 5.f;
+        m_fCurrentJumpPower = m_fStartJumpPower;
         //초기화
         m_fGravityPower = 0.f;
         m_fAccumulationJumpPower = 0.f;
@@ -309,7 +308,7 @@ HRESULT CPlayer_Toodee::Ready_Components()
 #pragma region Transform
     /* For.Com_Transform*/
     CTransform::TRANSFORM_DESC		TransformDesc{};
-    TransformDesc.fSpeedPerSec = 5.f;
+    TransformDesc.fSpeedPerSec = 10.f;
     TransformDesc.fRotationPerSec = D3DXToRadian(90.f);
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
@@ -330,10 +329,10 @@ HRESULT CPlayer_Toodee::Ready_Components()
     CCollider::COLLIDER_DESC PlayerColliderDesc{};
     PlayerColliderDesc.pOwner = this;
     PlayerColliderDesc.pTransform = m_pTransformCom;
-    PlayerColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
+    PlayerColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.8f);
     PlayerColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
     PlayerColliderDesc.bIsFixed = false;
-    m_fGroundCheckPosZ = (PlayerColliderDesc.vColliderScale.z * 0.5f);
+    m_fGroundCheckPosZ = (PlayerColliderDesc.vColliderScale.z * 0.6f);
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &PlayerColliderDesc)))
@@ -345,8 +344,6 @@ HRESULT CPlayer_Toodee::Ready_Components()
     GroundCheckColliderDesc.vColliderScale = _float3(1.f, 0.1f, 0.2f);
     GroundCheckColliderDesc.vColliderPosion = m_pGroundCheckTransformCom->Get_State(STATE::POSITION);
     GroundCheckColliderDesc.bIsFixed = false;
-
-    m_fGroundCheckPosZ += GroundCheckColliderDesc.vColliderScale.z;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
         TEXT("Com_GroundCheckCollider"), reinterpret_cast<CComponent**>(&m_pGroundCheckColliderCom), &GroundCheckColliderDesc)))
@@ -476,7 +473,7 @@ void CPlayer_Toodee::Gravity(_float fTimeDelta)
 
 void CPlayer_Toodee::Compute_Gravity(_float fTimeDelta)
 {
-    m_fGravityPower -= GRAVITY * fTimeDelta;
+    m_fGravityPower -= (GRAVITY * fTimeDelta) * 0.6f;
 
     if (m_fGravityPower <= -10.f)
         m_fGravityPower = -10.f;
@@ -494,39 +491,51 @@ void CPlayer_Toodee::Check_CollisionState()
 
     if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
     {
-        _float fDist = {};
-        COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
+        //vector<CGameObject*>* Overlaps = { nullptr };
+        //if (false == m_pColliderCom->GetOverlapAll(Overlaps))
+        //    return;
+        //
+        //for (auto iter : *Overlaps)
+        //{
+            _float fDist = {};
+            COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
 
-        switch (eCollider_Dir)
-        {
-        case COLLIDER_DIR::LEFT:
-            vPosition.x -= fDist;
-            break;
-        case COLLIDER_DIR::RIGHT:
-            vPosition.x += fDist;
-            break;
-        case COLLIDER_DIR::TOP:
-            vPosition.y += fDist;
-            break;
-        case COLLIDER_DIR::BOTTOM:
-            vPosition.y -= fDist;
-            break;
-        case COLLIDER_DIR::FRONT:
-            vPosition.z -= fDist;
-            break;
-        case COLLIDER_DIR::BACK:
-        {
-            if (m_bInAction && m_eJumpState != JUMPSTATE::JUMPING)
+            switch (eCollider_Dir)
             {
-                m_bInAction = false;
-                m_fAccumulationJumpPower = 0.f;
-                m_fGravityPower = 0.f;
-                vPosition.z += fDist;
+            case COLLIDER_DIR::LEFT:
+                vPosition.x -= fDist;
+                break;
+            case COLLIDER_DIR::RIGHT:
+                vPosition.x += fDist;
+                break;
+            case COLLIDER_DIR::TOP:
+                vPosition.y += fDist;
+                break;
+            case COLLIDER_DIR::BOTTOM:
+                vPosition.y -= fDist;
+                break;
+            case COLLIDER_DIR::FRONT:
+            {
+                vPosition.z -= fDist;
+                m_fCurrentJumpPower = 0.f;
+
+                break;
             }
-            break;
-        }
-        }
-        m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+            case COLLIDER_DIR::BACK:
+            {
+                if (m_bInAction && m_eJumpState != JUMPSTATE::JUMPING)
+                {
+                    m_bInAction = false;
+                    m_fAccumulationJumpPower = 0.f;
+                    m_fGravityPower = 0.f;
+                    vPosition.z += fDist;
+                }
+                break;
+            }
+            }
+            m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+        //}
+       
     }
 }
 
@@ -534,6 +543,7 @@ void CPlayer_Toodee::Check_Grounded()
 {
     _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
     vPosition = { vPosition.x, vPosition.y, vPosition.z - m_fGroundCheckPosZ };
+
     m_pGroundCheckTransformCom->Set_State(STATE::POSITION, vPosition);
 
     m_pGroundCheckColliderCom->Collision_On();
