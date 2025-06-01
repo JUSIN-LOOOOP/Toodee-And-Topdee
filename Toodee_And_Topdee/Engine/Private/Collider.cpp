@@ -122,6 +122,39 @@ CGameObject* CCollider::GetOverlapTarget()
     return (m_eState == COLLIDER_STATE::NONE|| m_pOthers.empty()) ? nullptr : m_pOthers.back() != nullptr ? m_pOthers.back() : nullptr;
 }
 
+CCollider::TARGET_RESULT  CCollider::FindNearestTarget(_wstring strName)
+{
+    TARGET_RESULT result;
+    
+    _float3 myPos = m_pTransform->Get_State(STATE::POSITION);
+    _float fMinDist = FLT_MAX;
+
+    for (auto pOther : m_pOthers)
+    {
+		if (pOther == nullptr) continue;
+        if (strName != TEXT("") && !pOther->CompareName(strName)) continue;
+
+        CTransform* pOtherTransform = static_cast<CTransform*>(pOther->Get_Component(TEXT("Com_Transform")));
+        if (pOtherTransform == nullptr) continue;
+
+        _float3 otherPos = pOtherTransform->Get_State(STATE::POSITION);
+		_float3 toOther = otherPos - myPos;
+		_float dist = D3DXVec3LengthSq(&toOther);
+
+		if (dist < fMinDist)
+		{
+			fMinDist = dist;
+            result.pGameObject = pOther;
+            result.fDist = D3DXVec3Length(&toOther);
+            D3DXVec3Normalize(&toOther, &toOther);
+            result.vDirection = toOther;
+            result.vTargetPosition = otherPos;
+		}
+	}
+
+    return result;
+}
+
 const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
 {
     if (m_eState == COLLIDER_STATE::NONE) return COLLIDER_DIR::CD_END;
