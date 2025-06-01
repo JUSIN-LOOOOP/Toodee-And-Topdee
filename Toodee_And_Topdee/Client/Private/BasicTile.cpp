@@ -42,7 +42,7 @@ void CBasicTile::Priority_Update(_float fTimeDelta)
 {
     if (GetKeyState(VK_LBUTTON) & 0x8000)
     {
-        Picking::Ray ray = Picking::GetRayFromMouse(g_iWinSizeX, g_iWinSizeY, g_hWnd, m_pGraphic_Device);
+        Picking::Ray ray = Picking::GetRayFromMouse(g_hWnd, m_pGraphic_Device);
 
         if (S_OK == (IsTileClicked(ray)))
         {
@@ -59,7 +59,7 @@ void CBasicTile::Priority_Update(_float fTimeDelta)
 
 void CBasicTile::Update(_float fTimeDelta)
 {
-
+    
 }
 
 void CBasicTile::Late_Update(_float fTimeDelta)

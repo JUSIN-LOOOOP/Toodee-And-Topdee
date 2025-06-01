@@ -122,16 +122,49 @@ CGameObject* CCollider::GetOverlapTarget()
     return (m_eState == COLLIDER_STATE::NONE|| m_pOthers.empty()) ? nullptr : m_pOthers.back() != nullptr ? m_pOthers.back() : nullptr;
 }
 
+CCollider::TARGET_RESULT  CCollider::FindNearestTarget(_wstring strName)
+{
+    TARGET_RESULT result;
+    
+    _float3 myPos = m_pTransform->Get_State(STATE::POSITION);
+    _float fMinDist = FLT_MAX;
+
+    for (auto pOther : m_pOthers)
+    {
+		if (pOther == nullptr) continue;
+        if (strName != TEXT("") && !pOther->CompareName(strName)) continue;
+
+        CTransform* pOtherTransform = static_cast<CTransform*>(pOther->Get_Component(TEXT("Com_Transform")));
+        if (pOtherTransform == nullptr) continue;
+
+        _float3 otherPos = pOtherTransform->Get_State(STATE::POSITION);
+		_float3 toOther = otherPos - myPos;
+		_float dist = D3DXVec3LengthSq(&toOther);
+
+		if (dist < fMinDist)
+		{
+			fMinDist = dist;
+            result.pGameObject = pOther;
+            result.fDist = D3DXVec3Length(&toOther);
+            D3DXVec3Normalize(&toOther, &toOther);
+            result.vDirection = toOther;
+            result.vTargetPosition = otherPos;
+		}
+	}
+
+    return result;
+}
+
 const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
 {
     if (m_eState == COLLIDER_STATE::NONE) return COLLIDER_DIR::CD_END;
-
+    if (m_pOthers.size() == 0) return COLLIDER_DIR::CD_END;
     _float3  myPosition = m_pTransform->Get_State(STATE::POSITION);
     //_float3  myScale = m_pTransform->Get_Scaled();
     _float3 myScale = m_vScale;
 
     CTransform* other = nullptr;
-    if(m_pOthers.back() != nullptr)
+    if(!m_pOthers.empty() && m_pOthers.back() != nullptr)
         other = dynamic_cast<CTransform*>(m_pOthers.back()->Get_Component(TEXT("Com_Transform")));
 
     if (other == nullptr)
@@ -150,58 +183,22 @@ const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
     _float overlapY = (myScale.y + otherScale.y) * 0.5f - absY;
     _float overlapZ = (myScale.z + otherScale.z) * 0.5f - absZ;
 
-    if (overlapX <= overlapY && overlapX <= overlapZ) {
-        *distance = overlapX * 0.5f;
+    if (overlapX <= overlapY && overlapX <= overlapZ)
+    {
+        if(distance != nullptr) *distance = overlapX * 0.5f;
         return (vDelta.x > 0) ? COLLIDER_DIR::LEFT : COLLIDER_DIR::RIGHT;
     }
-    else if (overlapY <= overlapZ) {
-        *distance = overlapY * 0.5f;
+    else if (overlapY <= overlapZ) 
+    {
+        if (distance != nullptr) *distance = overlapY * 0.5f;
         return (vDelta.y > 0) ? COLLIDER_DIR::BOTTOM : COLLIDER_DIR::TOP;
     }
-    else {
-        *distance = overlapZ;
+    else 
+    {
+        if (distance != nullptr)*distance = overlapZ;
         return (vDelta.z > 0) ? COLLIDER_DIR::FRONT : COLLIDER_DIR::BACK;
     }
     
-
-    //if (absY > absX && absY > absZ)
-    //{
-    //    if (vDelta.y > 0) {
-    //        *distance = (otherScale.y + myScale.y) * 0.5f - vDelta.y;
-    //        return COLLIDER_DIR::BOTTOM;
-    //    }
-    //    else
-    //    {
-    //        *distance = (otherScale.y + myScale.y) * 0.5f + vDelta.y;
-    //        return COLLIDER_DIR::TOP;
-    //    }
-    //}
-    //else if (absX > absZ)
-    //{
-    //    if (vDelta.x > 0)
-    //    {
-    //        *distance = (otherScale.x + myScale.x) * 0.5f - vDelta.x;
-    //        return COLLIDER_DIR::LEFT;
-    //    }
-    //    else
-    //    {
-    //        *distance = (otherScale.x + myScale.x) * 0.5f + vDelta.x;
-    //        return COLLIDER_DIR::RIGHT;
-    //    }
-    //}
-    //else
-    //{
-    //    if (vDelta.z > 0)
-    //    {            
-    //        *distance = (otherScale.z + myScale.z) * 0.5f - vDelta.z;
-    //        return COLLIDER_DIR::FRONT;
-    //    }
-    //    else
-    //    {
-    //        *distance = (otherScale.z + myScale.z) * 0.5f + vDelta.z;
-    //        return COLLIDER_DIR::BACK;
-    //    }
-    //}
 }
 
 HRESULT CCollider::Render()

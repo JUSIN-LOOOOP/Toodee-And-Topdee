@@ -12,6 +12,13 @@ class ENGINE_DLL CCollider final : public CComponent
 {
 public:
 	enum class COLLIDER_STATE { NONE, ENTRY, STAY, EXIT };
+	typedef struct tagTargetResult
+	{
+		class CGameObject*	pGameObject = { nullptr };
+		_float				fDist = { 0.f };
+		_float3				vDirection = { 0.f,0.f,0.f };
+		_float3				vTargetPosition = { 0.f,0.f,0.f };
+	}TARGET_RESULT;
 
 	typedef struct tagColliderDesc
 	{	
@@ -50,9 +57,9 @@ public:
 
 	_bool					GetOverlapAll(vector<class CGameObject*>*& pList);
 	class CGameObject*		GetOverlapTarget();
-
 	const COLLIDER_DIR		DetectCollisionDirection(_float* distance = nullptr) const;
-
+	
+	TARGET_RESULT			FindNearestTarget(const _wstring strName = TEXT(""));
 	HRESULT					Render();
 
 	/* Engine ÇÔ¼ö */

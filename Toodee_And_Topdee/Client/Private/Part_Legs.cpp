@@ -37,9 +37,9 @@ HRESULT CPart_Legs::Initialize(void* pArg)
 }
 
 
-void CPart_Legs::Update(CTransform* pTransform, _float fTimeDelta, _float InputWidth, _float InputDepth)
+void CPart_Legs::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
-	__super::RevolveAround(pTransform, m_fWidth, m_fDepth);
+	__super::RevolveAround(pTransform, 0, 0);
 	m_fFrame += 9 * fTimeDelta;
 	if (m_fFrame >= 8)
 		m_fFrame = 0;
@@ -48,10 +48,7 @@ void CPart_Legs::Update(CTransform* pTransform, _float fTimeDelta, _float InputW
 HRESULT CPart_Legs::Render(void* pArg)
 {
 	m_pTransformCom->Bind_Matrix();
-	// switch (m_eTexState)
-	// {
-	// 	TEXTUREDIRECTION
-	// }
+
 	if (FAILED(m_pTextureCom->Bind_Texture(static_cast<_uint>(m_fFrame))))
 		return E_FAIL;
 
@@ -89,5 +86,7 @@ void CPart_Legs::Free()
 {
 	__super::Free();
 
-
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTextureCom);
 }

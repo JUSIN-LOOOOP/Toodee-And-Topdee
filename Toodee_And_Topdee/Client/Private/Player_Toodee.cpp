@@ -18,9 +18,9 @@ CPlayer_Toodee::CPlayer_Toodee(const CPlayer_Toodee& Prototype)
 
 HRESULT CPlayer_Toodee::Initialize_Prototype()
 {
-    m_fPotalDistance = -5.f;    //¿”Ω√
+    m_fPotalDistance = -5.f;    //ÏûÑÏãú
 
-    m_bMoveInAction = true;     //Action ¡ﬂ øÚ¡˜¿œºˆ ¿÷¥¬∞°
+    m_bMoveInAction = true;     //Action Ï§ë ÏõÄÏßÅÏùºÏàò ÏûàÎäîÍ∞Ä
 
     m_eActivateDimension = DIMENSION::TOODEE;
 
@@ -58,14 +58,14 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (FAILED(Ready_Observers()))
         return E_FAIL;
 
-    //Test true = ≈¨∏ÆæÓ∏º« false = «√∑π¿Ã∏º«
+    //Test true = ÌÅ¥Î¶¨Ïñ¥Î™®ÏÖò false = ÌîåÎ†àÏù¥Î™®ÏÖò
     m_bCanClear = false;
     m_vPotalPosition = { 0.f, 0.f, 0.f };
 
     m_fCurrentJumpPower = 0.f;
     m_fAccumulationJumpPower = 0.f;
     m_fIncreaseJumpPower = 4.f;
-    m_fMaxIncreaseJumpPower = 20.f; //¿”Ω√
+    m_fMaxIncreaseJumpPower = 20.f; //ÏûÑÏãú
     m_fGravityPower = 0.f;
 
     m_pTransformCom->Scaling(12.f, 12.f, 0.f);
@@ -140,7 +140,7 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
 
 void CPlayer_Toodee::Late_Update(_float fTimeDelta)
 {
-    /* æ÷¥œ∏ﬁ¿Ãº« ƒ´øÓ∆Æ µÙ∑π¿Ã */
+    /* Ïï†ÎãàÎ©îÏù¥ÏÖò Ïπ¥Ïö¥Ìä∏ ÎîúÎ†àÏù¥ */
 
     if (m_eCurrentState == PLAYERSTATE::STOP)
         m_iCurrentAnimCount = m_pPrevState->GetAnimCount();
@@ -218,7 +218,7 @@ void CPlayer_Toodee::Move(_float fTimeDelta)
 
 void CPlayer_Toodee::Action()
 {
-    if (m_bInAction && m_eJumpState == JUMPSTATE::JUMPING) // ¡°«¡ ¡ﬂ ¿Ã∂Û∏È ¡°«¡ ∆ƒøˆ ªÛΩ¬
+    if (m_bInAction && m_eJumpState == JUMPSTATE::JUMPING) // Ï†êÌîÑ Ï§ë Ïù¥ÎùºÎ©¥ Ï†êÌîÑ ÌååÏõå ÏÉÅÏäπ
     {
         if (m_fAccumulationJumpPower + m_fIncreaseJumpPower <= m_fMaxIncreaseJumpPower)
         {
@@ -226,14 +226,14 @@ void CPlayer_Toodee::Action()
             m_fCurrentJumpPower += m_fIncreaseJumpPower;
         }
     }
-    else if(!m_bInAction)   // √π ¡°«¡
+    else if(!m_bInAction)   // Ï≤´ Ï†êÌîÑ
     {
-        //Action ∆Æ∏Æ∞≈ On
+        //Action Ìä∏Î¶¨Í±∞ On
         m_bInAction = true;
         m_eJumpState = JUMPSTATE::JUMPING;
-        //¡°«¡ √÷º“ ≥Ù¿Ã
+        //Ï†êÌîÑ ÏµúÏÜå ÎÜíÏù¥
         m_fCurrentJumpPower = 5.f;
-        //√ ±‚»≠
+        //Ï¥àÍ∏∞Ìôî
         m_fGravityPower = 0.f;
         m_fAccumulationJumpPower = 0.f;
     }
@@ -344,27 +344,26 @@ HRESULT CPlayer_Toodee::Ready_Components()
 
 #pragma region Toodee Texture
 
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Idle"),
+   if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Idle"),
         TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::IDLE)]))))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Move"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Move"),
         TEXT("Com_Move_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::MOVE)]))))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Action"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Action"),
         TEXT("Com_Action_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::ACTION)]))))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Stop"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Stop"),
         TEXT("Com_Stop_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::STOP)]))))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Toodee_Clear"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Clear"),
         TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::CLEAR)]))))
         return E_FAIL;
-
+  
 #pragma endregion
 
     return S_OK;
@@ -434,20 +433,20 @@ HRESULT CPlayer_Toodee::Ready_Observers()
 
 void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
 {
-    //¡ﬂ∑¬ ∞ËªÍ
+    //Ï§ëÎ†• Í≥ÑÏÇ∞
     if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
     {
         Compute_Gravity(fTimeDelta);
     }
 
-    //√÷∞Ì¡°ø°º≠ ¿·±Ò ∏”π´∏£±‚
+    //ÏµúÍ≥†Ï†êÏóêÏÑú Ïû†Íπê Î®∏Î¨¥Î•¥Í∏∞
     if (m_fCurrentJumpPower < 0.f && m_eJumpState != JUMPSTATE::FALLING)
     {
         m_pCurrentState->UpdateAnim(fTimeDelta);
         m_eJumpState = static_cast<JUMPSTATE>(m_pCurrentState->GetAnimCount());
     }
 
-    //¡°«¡ ≥Ù¿Ã ¿˚øÎ
+    //Ï†êÌîÑ ÎÜíÏù¥ Ï†ÅÏö©
     if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
     {
         Gravity(fTimeDelta);

@@ -9,7 +9,10 @@ namespace Client
 	const unsigned int			g_iWinSizeX = 1280;
 	const unsigned int			g_iWinSizeY = 720;
 
-	enum class LEVEL { LEVEL_STATIC, LEVEL_LOADING, LEVEL_LOGO, LEVEL_GAMEPLAY, LEVEL_MAPEDIT, LEVEL_END };
+	enum class LEVEL { LEVEL_STATIC, LEVEL_LOADING, LEVEL_LOGO, LEVEL_GAMEPLAY,
+						LEVEL_STAGE1, LEVEL_STAGE2, LEVEL_STAGE3, LEVEL_STAGEBOSS,
+						LEVEL_STAGE4, LEVEL_STAGE5, LEVEL_STAGE6, LEVEL_FINALBOSS,
+						LEVEL_MAPEDIT, LEVEL_END };
 
 	enum class KEYINPUT { NONE = 0, KEY_UP = 1, KEY_DOWN = 1 << 1, KEY_LEFT = 1 << 2, KEY_RIGHT = 1 << 3, KEY_Z = 1 <<4, KEY_X = 1 << 5, KEY_MOVES = 15};
 
@@ -39,20 +42,3 @@ using namespace Client;
 
 
 #define GRAVITY 9.8f
-
-
-/* 0. 정치속에 여러분들의 생존법.  */
-/* 1. 똥싼놈(남). */
-/* 1. 피해의식갑.(여) */
-/* 1. 추천빌런.(여) */
-/* 1. 여미새, 남미새 */
-/* 1. 변태범죄자새끼 1, 2 .(남) */
-/* 1. 야겜만든중2병.(남) */
-/* 1. 착한쁘락지.(남) */
-/* 1. 여왕벌과 아이들(남들) */
-/* 1. 게이.(남) */
-/* 1. 코스프레.(남, 여) */
-/* 1. 어소트락. */
-/* 1. 서울게임아카데미 */
-/* 1. 쥬신의 과거 */
-/* 1. 쥬신의 탈피. (펜션, 애견 놀이터, 애견 카페, ) */
