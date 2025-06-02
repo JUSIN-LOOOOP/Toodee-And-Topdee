@@ -28,6 +28,9 @@ HRESULT CBlock_Wood::Initialize(void* pArg)
 
 	__super::SetUp_BlockInfo(pArg);
 
+
+	m_fMaxFallHeight = 2.f;
+
 	name = TEXT("Interaction_Block_Wood");
 
     return S_OK;
@@ -51,6 +54,7 @@ void CBlock_Wood::Update(_float fTimeDelta)
 
 void CBlock_Wood::Late_Update(_float fTimeDelta)
 {
+	
 	if(m_eCurrentState == BLOCKSTATE::PUSH)
 		__super::Update_PushState(this);
 
@@ -61,7 +65,6 @@ void CBlock_Wood::Late_Update(_float fTimeDelta)
 HRESULT CBlock_Wood::Render()
 {
 	m_pColliderCom->Render();
-
 	__super::Render();
 
 	return S_OK;
@@ -95,7 +98,6 @@ HRESULT CBlock_Wood::Ready_Components()
 	ColliderDesc.vColliderScale = _float3(1.8f, 1.8f, 1.8f);
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
-
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))

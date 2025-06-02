@@ -20,6 +20,8 @@ void CBlockState_Stop::Enter(CInteractionBlock* pBlock)
 
 void CBlockState_Stop::Update(CInteractionBlock* pBlock, _float fTimeDelta)
 {
+	if (pBlock->IsFall())
+		pBlock->FallIntoHole(fTimeDelta);
 }
 
 void CBlockState_Stop::Exit(CInteractionBlock* pBlock)
