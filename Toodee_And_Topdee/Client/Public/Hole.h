@@ -26,6 +26,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void Set_Dead() { m_bDead = true; }
 private: 
 	HRESULT Ready_Components();
 
@@ -37,6 +38,7 @@ private:
 
 	_uint	m_iTextureIdx = {};
 
+	_bool m_bDead = {};
 public:
 	static CHole* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -39,35 +39,42 @@ public:
 	/* State Detach */
 	void Detach(const _float3& vPosition, _float fSpeed);
 	_bool Detached(_float fTimeDelta);									// 놓기
+	
+	/* State Stop */
 	void FallIntoHole(_float fTimeDelta);																		// 구멍 빠지기
 
 	/* State Push */
+	_bool IsFall() { return m_bFalling; }
 	_bool IsPush() { return m_eCurrentState == BLOCKSTATE::PUSH; }
 	_bool IsStop() { return m_eCurrentState == BLOCKSTATE::STOP; }
 
 protected:
 #pragma region STATE PARAMETER
 	/* State */
-	map<BLOCKSTATE, CBlockState*> m_States;																	// CPlayerStates 보관 맵
-	CBlockState* m_pCurrentState = { nullptr };
-	BLOCKSTATE			m_eCurrentState = {};
-
+	map<BLOCKSTATE, CBlockState*>	m_States;																	// CPlayerStates 보관 맵
+	CBlockState*					m_pCurrentState = { nullptr };
+	BLOCKSTATE						m_eCurrentState = {};
+	/* State Stop */
+	_bool						m_bFalling = {};
+	_float						m_fMaxFallHeight = {};
+	_float						m_fTotalFallHeight = {};
 	/* State Push */
-	CInteractionBlock*  m_pPushBlock = { nullptr };
-	MOVEDIRECTION		m_eOwnerMoveDir = {};
-	TEXTUREDIRECTION	m_eOnwerTextureDir = {};
-	_float				m_fOwnerPushPower = {};
-	_float3				m_vMoveTargetPosition = {};
-	_float3				m_vPrevPosition = {};
-	_bool				m_bMoving = {};
-	_bool				m_bBlock = {};
+	CInteractionBlock*			m_pPushBlock = { nullptr };
+	MOVEDIRECTION				m_eOwnerMoveDir = {};
+	TEXTUREDIRECTION			m_eOnwerTextureDir = {};
+	_float						m_fOwnerPushPower = {};
+	_float3						m_vMoveTargetPosition = {};
+	_float3						m_vPrevPosition = {};
+	_bool						m_bMoving = {};
+	_bool						m_bBlock = {};
 	/* State Attach */
-	CTransform* m_pOwnerTransform = { nullptr };
-	_bool				m_bAttach = {};																		// 플레이어 머리 위에 있는가
+	CTransform*					m_pOwnerTransform = { nullptr };
+	_bool						m_bAttach = {};																		// 플레이어 머리 위에 있는가
 	/* State Attach + State Detach*/
-	_float3				m_vTargetPosition = {};
-	_float				m_fMoveSpeed = {};
+	_float3						m_vTargetPosition = {};
+	_float						m_fMoveSpeed = {};
 
+	
 #pragma endregion
 
 protected:

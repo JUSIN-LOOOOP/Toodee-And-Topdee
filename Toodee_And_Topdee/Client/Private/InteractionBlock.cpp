@@ -1,10 +1,10 @@
 #include "InteractionBlock.h"
 #include "GameInstance.h"
-
 #include "BlockState_Stop.h"
 #include "BlockState_Push.h"
 #include "BlockState_Attach.h"
 #include "BlockState_Detach.h"
+#include "Hole.h"
 
 CInteractionBlock::CInteractionBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CBlock{ pGraphic_Device }
@@ -211,37 +211,49 @@ void CInteractionBlock::CheckCollisionState()
 {
 	if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
 	{
-		if (m_eCurrentState == BLOCKSTATE::PUSH)
-		{
-			vector<CGameObject*>* pObjects = { nullptr };
-			m_pColliderCom->GetOverlapAll(pObjects);
+		vector<CGameObject*>* pObjects = { nullptr };
+		m_pColliderCom->GetOverlapAll(pObjects);
 
-			if (pObjects)
+		if (pObjects)
+		{
+			for (auto iter : *pObjects)
 			{
-				for (auto iter : *pObjects)
+				if (m_eCurrentState == BLOCKSTATE::PUSH)
 				{
+
 					if (iter->Get_Name() == TEXT("Wall"))
 					{
 						m_pTransformCom->Set_State(STATE::POSITION, m_vPrevPosition);
 						m_pCurrentState->Request_ChangeState(this, BLOCKSTATE::STOP);
 						m_bBlock = true;
 					}
-					else if (iter->Get_Name().find(TEXT("Interaction")) !=string::npos)
+					else if (iter->Get_Name().find(TEXT("Interaction")) != string::npos)
 					{
 						CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(iter);
 
-						if (false == pBlock->IsPush() && false == pBlock->IsBlock())
+						if (false == pBlock->IsPush() && false == pBlock->IsBlock() && false == pBlock->IsFall())
 						{
 							m_pPushBlock = pBlock;
 							pBlock->Request_Change_State(BLOCKSTATE::PUSH);
 							pBlock->Push(m_eOwnerMoveDir, m_eOnwerTextureDir, m_fOwnerPushPower);
 						}
-						else if (pBlock->IsBlock())
+						else if (pBlock->IsBlock() || pBlock->IsFall())
 						{
 							m_pTransformCom->Set_State(STATE::POSITION, m_vPrevPosition);
 							m_pCurrentState->Request_ChangeState(this, BLOCKSTATE::STOP);
 							m_bBlock = true;
 						}
+
+					}
+				}
+				else if(m_eCurrentState == BLOCKSTATE::STOP && false == m_bFalling)
+				{
+					if (iter->Get_Name().find(TEXT("Hole")) != string::npos)
+					{
+						CHole* pHole = dynamic_cast<CHole*>(iter);
+						pHole->Set_Dead();
+						m_fTotalFallHeight = 0.f;
+						m_bFalling = true;
 					}
 				}
 			}
@@ -341,6 +353,21 @@ _bool CInteractionBlock::Detached(_float fTimeDelta)
 
 void CInteractionBlock::FallIntoHole(_float fTimeDelta)
 {
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	
+	_float fGravity = GRAVITY * fTimeDelta;
+	
+	m_fTotalFallHeight += fGravity;
+
+	if (m_fTotalFallHeight >= m_fMaxFallHeight)
+	{
+		fGravity = m_fTotalFallHeight - m_fMaxFallHeight;
+		m_bFalling = false;
+	}
+
+	vPosition.y -= fGravity;
+
+	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 }
 
 void CInteractionBlock::Free()
