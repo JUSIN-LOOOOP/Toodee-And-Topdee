@@ -61,9 +61,6 @@
     <ClCompile Include="..\Private\Test_Cube2.cpp">
       <Filter>00. Dummys\J O H</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Level_MapEdit.cpp">
-      <Filter>00. Dummys\T Y J</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Block.cpp">
       <Filter>00. Dummys\T Y J\Block</Filter>
     </ClCompile>
@@ -180,6 +177,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\TileOutline.cpp">
       <Filter>02. GameObjects\Player\05. OutLine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InteractionBlock.cpp">
+      <Filter>00. Dummys\T Y J\Block\Interaction Block</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_MapEdit.cpp">
+      <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +377,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\TileOutline.h">
       <Filter>02. GameObjects\Player\05. OutLine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\InteractionBlock.h">
+      <Filter>00. Dummys\T Y J\Block\Interaction Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -576,6 +582,9 @@
     </Filter>
     <Filter Include="02. GameObjects\Player\05. OutLine">
       <UniqueIdentifier>{72cbcedb-e020-4fa9-92ae-8bbfc095e0a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Block\Interaction Block">
+      <UniqueIdentifier>{9f74cfd1-169c-448b-a154-a0a7a5a9d08f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
