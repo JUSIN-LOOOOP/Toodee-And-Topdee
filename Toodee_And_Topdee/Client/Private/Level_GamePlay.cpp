@@ -39,8 +39,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Back"))))
 		return E_FAIL;
 
-	if(FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;
+	//if(FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	//	return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
 	//	return E_FAIL;
