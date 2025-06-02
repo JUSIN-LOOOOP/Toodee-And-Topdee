@@ -169,6 +169,7 @@
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\Hole.h" />
+    <ClInclude Include="..\Public\InteractionBlock.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
+    <ClCompile Include="..\Private\InteractionBlock.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
