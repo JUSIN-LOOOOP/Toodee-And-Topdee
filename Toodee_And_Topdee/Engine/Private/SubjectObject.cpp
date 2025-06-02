@@ -49,7 +49,7 @@ void CSubjectObject::Notify_Dead()
 		Observer->Remove_Subject(this);
 }
 
-void CSubjectObject::Free()
+void CSubjectObject::SubjectFree()
 {
 	auto iter = m_Observers.begin();
 

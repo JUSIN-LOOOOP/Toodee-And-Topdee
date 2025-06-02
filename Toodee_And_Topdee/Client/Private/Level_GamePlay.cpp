@@ -328,9 +328,9 @@ HRESULT CLevel_GamePlay::Ready_Observer()
 		CClearTriggerObserver::Create())))
 		return E_FAIL;
 
-	//if (FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"),
-	//	CBreakTriggerObserver::Create())))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"),
+		CBreakTriggerObserver::Create())))
+		return E_FAIL;
 
 	return S_OK;
 }

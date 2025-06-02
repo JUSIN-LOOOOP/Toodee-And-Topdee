@@ -12,10 +12,6 @@ private:
 public:
 	void onNotify(EVENT eEvent, CSubjectObject* pSubject = nullptr) override;
 
-private:
-	
-private:
-
 public:
 	static CBreakTriggerObserver* Create();
 	virtual void Free() override;

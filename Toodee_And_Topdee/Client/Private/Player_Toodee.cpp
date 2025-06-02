@@ -2,7 +2,7 @@
 #include "GameInstance.h"
 #include "PlayerState.h"
 #include "Block.h"
-
+#include "Block_Break.h"
 
 CPlayer_Toodee::CPlayer_Toodee(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CPlayer { pGraphic_Device }
@@ -437,6 +437,8 @@ HRESULT CPlayer_Toodee::Ready_Observers()
 {
     m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"), this);
 
+    m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"), this);
+
     return S_OK;
 }
 
@@ -491,12 +493,21 @@ void CPlayer_Toodee::Check_CollisionState()
 
     if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
     {
-        //vector<CGameObject*>* Overlaps = { nullptr };
-        //if (false == m_pColliderCom->GetOverlapAll(Overlaps))
-        //    return;
-        //
-        //for (auto iter : *Overlaps)
-        //{
+        vector<CGameObject*>* Overlaps = { nullptr };
+        if (false == m_pColliderCom->GetOverlapAll(Overlaps))
+            return;
+        
+        for (auto iter : *Overlaps)
+        {
+            if (iter->Get_Name().find(TEXT("Break")) != string::npos)
+            {
+                _float fDist = {};
+                COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
+
+                if(eCollider_Dir == COLLIDER_DIR::BACK)
+                    Notify(EVENT::BLOCK_BREAK);
+            }
+        }
             _float fDist = {};
             COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
 

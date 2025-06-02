@@ -159,7 +159,7 @@ void CPlayer::Check_Dimension()
 void CPlayer::Free()
 {
 	CGameObject::Free();
-	CSubjectObject::Free();
+	CSubjectObject::SubjectFree();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
