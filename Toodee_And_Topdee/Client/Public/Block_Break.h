@@ -1,5 +1,6 @@
 #pragma once
 #include "Client_Defines.h"
+#include "SubjectObject.h"
 #include "Block.h"
 
 BEGIN(Client)
@@ -23,7 +24,6 @@ private:
 	HRESULT Ready_Components();
 	void	SetUp_RenderState();
 	void	Reset_RenderState();
-
 
 public:
 	static CBlock_Break* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

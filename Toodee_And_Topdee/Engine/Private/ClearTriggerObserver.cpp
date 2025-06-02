@@ -7,12 +7,14 @@ CClearTriggerObserver::CClearTriggerObserver()
 
 void CClearTriggerObserver::onNotify(EVENT eEvent, CSubjectObject* pSubject)
 {
+	if (nullptr == pSubject)
+		return;
+
 	switch (eEvent)
 	{
 	case EVENT::ENTER_PORTAL:
 		Add_OverlapSubjects(pSubject);
 		break;
-		
 	case EVENT::EXIT_PORTAL:
 		Remove_OverlapSubjects(pSubject);
 		break;

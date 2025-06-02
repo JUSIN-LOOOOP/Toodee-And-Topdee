@@ -30,9 +30,10 @@ private:
 	HRESULT Ready_Components();
 
 private: 
-	class CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	class CTexture* m_pTextureCom = { nullptr };
-	class CTransform* m_pTransformCom = { nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
 
 	_uint	m_iTextureIdx = {};
 

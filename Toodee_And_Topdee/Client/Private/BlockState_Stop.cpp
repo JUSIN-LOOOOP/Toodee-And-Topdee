@@ -14,15 +14,15 @@ HRESULT CBlockState_Stop::Initialize(BLOCKSTATE eState)
 	return S_OK;
 }
 
-void CBlockState_Stop::Enter(CBlock* pBlock)
+void CBlockState_Stop::Enter(CInteractionBlock* pBlock)
 {
 }
 
-void CBlockState_Stop::Update(CBlock* pBlock, _float fTimeDelta)
+void CBlockState_Stop::Update(CInteractionBlock* pBlock, _float fTimeDelta)
 {
 }
 
-void CBlockState_Stop::Exit(CBlock* pBlock)
+void CBlockState_Stop::Exit(CInteractionBlock* pBlock)
 {
 }
 

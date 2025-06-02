@@ -5,19 +5,19 @@ CBlockState::CBlockState()
 {
 }
 
-void CBlockState::Enter(CBlock* pBlcok)
+void CBlockState::Enter(CInteractionBlock* pBlcok)
 {
 }
 
-void CBlockState::Update(CBlock* pBlcok, _float fTimeDelta)
+void CBlockState::Update(CInteractionBlock* pBlcok, _float fTimeDelta)
 {
 }
 
-void CBlockState::Exit(CBlock* pBlcok)
+void CBlockState::Exit(CInteractionBlock* pBlcok)
 {
 }
 
-void CBlockState::Request_ChangeState(CBlock* pBlcok, BLOCKSTATE eState)
+void CBlockState::Request_ChangeState(CInteractionBlock* pBlcok, BLOCKSTATE eState)
 {
 	if (eState == m_eState)
 		return;

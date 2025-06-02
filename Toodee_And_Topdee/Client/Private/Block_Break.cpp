@@ -8,7 +8,7 @@ CBlock_Break::CBlock_Break(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CBlock_Break::CBlock_Break(const CBlock_Break& Prototype)
-    : CBlock{ Prototype }
+    : CBlock { Prototype }
 {
 }
 
@@ -24,7 +24,7 @@ HRESULT CBlock_Break::Initialize(void* pArg)
 
 	__super::SetUp_BlockInfo(pArg);
 
-	name = TEXT("Block_Break");
+	name = TEXT("Wall_Break");
 
     return S_OK;
 }
@@ -72,6 +72,16 @@ HRESULT CBlock_Break::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	CCollider::COLLIDER_DESC ColliderDesc{};
+	ColliderDesc.pOwner = this;
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(1.8f, 1.8f, 1.8f);
+	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.bIsFixed = false;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -86,6 +96,7 @@ void CBlock_Break::Reset_RenderState()
 {
 	__super::Reset_RenderState();
 }
+
 
 CBlock_Break* CBlock_Break::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

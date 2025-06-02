@@ -3,7 +3,7 @@
 
 BEGIN(Client)
 
-class CBlock;
+class CInteractionBlock;
 
 class CPlayer_Topdee final : public CPlayer
 {
@@ -29,7 +29,7 @@ public:
 	virtual void Clear() override;									// Clear State 트리거
 
 	/* Observer */
-	virtual void onReport(REPORT eReport) override;					// Observer가 주는 REPORT 처리
+	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) override;					// Observer가 주는 REPORT 처리
 
 	/* State Action */
 	_bool IsAttach() const { return m_bIsAttach; }					// Box 들고 있는지 Check
@@ -39,7 +39,7 @@ private:
 	/* Attach Check Collider */
 	CCollider*		m_pActionCheckColliderCom = { nullptr };
 	CTransform*		m_pActionCheckTransformCom = { nullptr };
-	CBlock*			m_pFocuseBlock = { nullptr };						// 현재 보는 방향에 가장 가까운 블럭
+	CInteractionBlock*			m_pFocuseBlock = { nullptr };						// 현재 보는 방향에 가장 가까운 블럭
 	_float			m_fMaxDot = {};
 
 	/* Detach */
@@ -55,7 +55,7 @@ private:
 
 	/* State Action */
 	_bool			m_bIsAttach = { false };								// Block 들고 있는지
-	CBlock*			m_pAttachBlock = { nullptr };						// 들고있는 Block
+	CInteractionBlock*			m_pAttachBlock = { nullptr };						// 들고있는 Block
 	/* Stop Movement */
 	_bool			m_bIsTurnDown = { false };							// Stop 시작시 아래 방향 보게하려는 트리거
 	_float			m_fTurnDownTime = {};								//TurnDownOnStop 딜레이용 타이머 입니다.
