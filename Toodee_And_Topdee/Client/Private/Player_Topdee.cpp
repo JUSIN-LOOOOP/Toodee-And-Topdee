@@ -786,7 +786,7 @@ void CPlayer_Topdee::Check_CollisionState()
 			m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Interaction")) != string::npos)
 		{
 			CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(m_pColliderCom->GetOverlapTarget());
-			if (false == pBlock->IsPush())
+			if (false == pBlock->IsPush() && false == pBlock->IsFall())
 			{
 				pBlock->Request_Change_State(BLOCKSTATE::PUSH);
 				pBlock->Push(m_eCurrentMoveDir, m_eCurrentTextureDir, 8.f);

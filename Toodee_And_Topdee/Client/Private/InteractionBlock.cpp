@@ -362,6 +362,7 @@ void CInteractionBlock::FallIntoHole(_float fTimeDelta)
 	if (m_fTotalFallHeight >= m_fMaxFallHeight)
 	{
 		fGravity = m_fTotalFallHeight - m_fMaxFallHeight;
+		m_pColliderCom->Collision_Off();
 		m_bFalling = false;
 	}
 

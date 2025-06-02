@@ -26,7 +26,7 @@ HRESULT CHole::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
 	m_pTransformCom->Go_Up(0.1f);
-	m_pTransformCom->Scaling(2, 2, 2);
+	m_pTransformCom->Scaling(2.f, 2.f, 2.f);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
 	name = TEXT("Hole");
@@ -90,7 +90,7 @@ HRESULT CHole::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(2.f, 0.1f, 2.f);
+	ColliderDesc.vColliderScale = _float3(2.f, 2.f, 2.f);
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
 

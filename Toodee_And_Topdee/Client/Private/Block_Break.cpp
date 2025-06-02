@@ -30,7 +30,7 @@ HRESULT CBlock_Break::Initialize(void* pArg)
 	m_bIsStepOn = false;
 	m_fBreakDelay = 2.f;
 	m_fCurrentBreakTime = 0.f;
-	m_fShakingPower = 0.5f;
+	m_fShakingPower = 0.25f;
 
 	name = TEXT("Wall_Break");
 
@@ -118,8 +118,8 @@ void CBlock_Break::Shaking()
 {
 	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 	
-	vPosition.x = m_vCenterPosition.x + (rand() % 100 / 100.f - m_fShakingPower);
-	vPosition.z = m_vCenterPosition.z + (rand() % 100 / 100.f - m_fShakingPower);
+	vPosition.x = m_vCenterPosition.x + (rand() % 50 / 100.f - m_fShakingPower);
+	vPosition.z = m_vCenterPosition.z + (rand() % 50 / 100.f - m_fShakingPower);
 
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 }
