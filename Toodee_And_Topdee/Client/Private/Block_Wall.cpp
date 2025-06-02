@@ -24,6 +24,8 @@ HRESULT CBlock_Wall::Initialize(void* pArg)
 
 	__super::SetUp_BlockInfo(pArg);
 
+	m_pColliderCom->Collision_Off();
+
 	name = TEXT("Wall");
 
     return S_OK;

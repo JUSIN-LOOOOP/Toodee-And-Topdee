@@ -127,6 +127,9 @@
     <Filter Include="01. Utility\03. GameObject\Poolable">
       <UniqueIdentifier>{90158ab4-e5f9-414e-8f4d-89f1c9d7b3da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. GameObject\00. Base">
+      <UniqueIdentifier>{d4f551a2-3747-4662-8797-f40338341a3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -170,9 +173,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Renderer.h">
       <Filter>01. Utility\04. Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\GameObject.h">
-      <Filter>01. Utility\03. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Layer.h">
       <Filter>01. Utility\03. GameObject\Manager\Layer</Filter>
@@ -252,6 +252,9 @@
     <ClInclude Include="..\Public\ClearTriggerObserver.h">
       <Filter>01. Utility\07. Observer\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\GameObject.h">
+      <Filter>01. Utility\03. GameObject\00. Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -277,9 +280,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Renderer.cpp">
       <Filter>01. Utility\04. Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\GameObject.cpp">
-      <Filter>01. Utility\03. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Layer.cpp">
       <Filter>01. Utility\03. GameObject\Manager\Layer</Filter>
@@ -358,6 +358,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ClearTriggerObserver.cpp">
       <Filter>01. Utility\07. Observer\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject.cpp">
+      <Filter>01. Utility\03. GameObject\00. Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

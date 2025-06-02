@@ -23,7 +23,7 @@
       <Filter>01. Levels\01. Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\MainApp.cpp">
-      <Filter>00. MainApp</Filter>
+      <Filter>01. Levels\00. MainApp</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MultiViewCamera.cpp">
       <Filter>02. GameObjects\Camera</Filter>
@@ -54,12 +54,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_Stop.cpp">
       <Filter>02. GameObjects\Player\03. State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Test_Cube.cpp">
-      <Filter>00. Dummys\J O H</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Test_Cube2.cpp">
-      <Filter>00. Dummys\J O H</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_MapEdit.cpp">
       <Filter>00. Dummys\T Y J</Filter>
@@ -181,6 +175,15 @@
     <ClCompile Include="..\Private\TileOutline.cpp">
       <Filter>02. GameObjects\Player\05. OutLine</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Test_Cube.cpp">
+      <Filter>00. Dummys\J O H\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Test_Cube2.cpp">
+      <Filter>00. Dummys\J O H\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderMap_Object.cpp">
+      <Filter>02. GameObjects\MapCollider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -211,7 +214,7 @@
       <Filter>01. Levels\01. Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\MainApp.h">
-      <Filter>00. MainApp</Filter>
+      <Filter>01. Levels\00. MainApp</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MultiViewCamera.h">
       <Filter>02. GameObjects\Camera</Filter>
@@ -248,12 +251,6 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>98. Defaults</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Test_Cube.h">
-      <Filter>00. Dummys\J O H</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Test_Cube2.h">
-      <Filter>00. Dummys\J O H</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_MapEdit.h">
       <Filter>00. Dummys\T Y J</Filter>
@@ -375,6 +372,18 @@
     <ClInclude Include="..\Public\TileOutline.h">
       <Filter>02. GameObjects\Player\05. OutLine</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Test_Cube2.h">
+      <Filter>00. Dummys\J O H\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Test_Cube.h">
+      <Filter>00. Dummys\J O H\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColliderMap_Object.h">
+      <Filter>02. GameObjects\MapCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Extension.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -385,9 +394,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="00. MainApp">
-      <UniqueIdentifier>{0f441b58-ea10-4ffe-982b-ae6f90d35d85}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Levels">
       <UniqueIdentifier>{f0d05312-d057-4c93-bad6-101e518e1499}</UniqueIdentifier>
     </Filter>
@@ -577,13 +583,19 @@
     <Filter Include="02. GameObjects\Player\05. OutLine">
       <UniqueIdentifier>{72cbcedb-e020-4fa9-92ae-8bbfc095e0a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\MapCollider">
+      <UniqueIdentifier>{4ec7828d-4369-4de3-aea3-fa63a074217b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\J O H\Test">
+      <UniqueIdentifier>{6905adee-041c-4d33-892b-b3b8bda44b24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00. MainApp">
+      <UniqueIdentifier>{0f441b58-ea10-4ffe-982b-ae6f90d35d85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
       <Filter>98. Defaults</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
