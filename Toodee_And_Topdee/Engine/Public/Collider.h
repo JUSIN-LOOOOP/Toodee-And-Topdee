@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-
+#include <array>
 /* 원형 컴포넌트 만들 때 아래와 같이 나누기*/
 /* Prototype_Component_Collider_Rect*/
 /* Prototype_Component_Collider_Cube*/
@@ -54,10 +54,14 @@ public:
 		m_bisTrigger = false;
 	}
 	void					Collision_On() { Remove_Others(); m_bisTrigger = true; }
+	void					ApplyFixedPosition(_float3 vPosition) { m_vPosition = vPosition; m_bIsFixed = true; }
+	void					SyncWithOwner() { m_bIsFixed = false; }
 
 	_bool					GetOverlapAll(vector<class CGameObject*>*& pList);
 	class CGameObject*		GetOverlapTarget();
+
 	const COLLIDER_DIR		DetectCollisionDirection(_float* distance = nullptr) const;
+	const _bool				GetCollisionsOffset(_float3* distance) const;
 	
 	TARGET_RESULT			FindNearestTarget(const _wstring strName = TEXT(""));
 	HRESULT					Render();
@@ -70,6 +74,8 @@ public:
 	void					Set_State(COLLIDER_STATE eState) { m_eState = eState; }
 
 private:
+	array<_wstring, 2>			strCompare = { TEXT("Interaction"), TEXT("Wall") };
+
 	_float3						m_vScale = { };
 	_float3						m_vPosition = { };
 	_bool						m_bIsFixed = { };

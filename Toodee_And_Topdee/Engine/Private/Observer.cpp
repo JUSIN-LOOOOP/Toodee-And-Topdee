@@ -43,10 +43,10 @@ void CObserver::Clear_Subjects()
 	m_Subjects.clear();
 }
 
-void CObserver::Report(REPORT eReport)
+void CObserver::Report(REPORT eReport, CSubjectObject* pSubject)
 {
 	for (auto Subject : m_Subjects)
-		Subject->onReport(eReport);
+		Subject->onReport(eReport, pSubject);
 }
 
 void CObserver::Free()

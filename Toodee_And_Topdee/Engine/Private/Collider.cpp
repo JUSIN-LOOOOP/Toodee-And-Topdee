@@ -160,7 +160,6 @@ const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
     if (m_eState == COLLIDER_STATE::NONE) return COLLIDER_DIR::CD_END;
     if (m_pOthers.size() == 0) return COLLIDER_DIR::CD_END;
     _float3  myPosition = m_pTransform->Get_State(STATE::POSITION);
-    //_float3  myScale = m_pTransform->Get_Scaled();
     _float3 myScale = m_vScale;
 
     CTransform* other = nullptr;
@@ -201,6 +200,84 @@ const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
     
 }
 
+const _bool CCollider::GetCollisionsOffset(_float3* distance) const
+{
+    if (m_eState == COLLIDER_STATE::NONE || m_pOthers.size() == 0 || distance == nullptr ) return false;
+
+    _float3  result = { 0.f, 0.f, 0.f };
+    _float3  myPosition = m_pTransform->Get_State(STATE::POSITION);
+    _float3  myScale = m_vScale;
+
+    _float3  vMinCompare = { FLT_MAX,FLT_MAX ,FLT_MAX };
+	_bool    bFlag[3] = { false,false,false };
+    _float minMagnitude = FLT_MAX;
+
+    for (auto& iter : m_pOthers)
+    {
+        if (iter == nullptr) continue;
+
+        _wstring strOtherName = iter->Get_Name();
+
+        /* 이름이 strCompare가 아닌 오브젝트는 패스 */
+        for (_uint i = 0; i < strCompare.size(); ++i)
+            if ((strOtherName.size() >= strCompare[i].size() && strOtherName.substr(0, strCompare[i].size()).compare(strCompare[i]) != 0))
+                continue;
+
+        CTransform* otherTransform = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")));
+
+        if (otherTransform == nullptr) continue;
+
+
+        _float3  otherPosition = otherTransform->Get_State(STATE::POSITION);
+        _float3  otherScale = otherTransform->Get_Scaled();
+        _float3  vDelta = myPosition - otherPosition;
+
+        _float absX = fabsf(vDelta.x);
+        _float absY = fabsf(vDelta.y);
+        _float absZ = fabsf(vDelta.z);
+
+        _float overlapX = (myScale.x + otherScale.x) * 0.5f - absX;
+        _float overlapY = (myScale.y + otherScale.y) * 0.5f - absY;
+        _float overlapZ = (myScale.z + otherScale.z) * 0.5f - absZ;
+
+        if (overlapX < 0 || overlapY < 0 || overlapZ < 0) continue;
+
+        /* 충돌중인 모든 콜라이더에서 가장 작은 축들을 더함 */
+        if (overlapX <= overlapY && overlapX <= overlapZ)
+            result += { (vDelta.x > 0 ? overlapX : -overlapX), 0.f, 0.f };
+        else if (overlapY <= overlapX && overlapY <= overlapZ)
+            result += { 0.f, (vDelta.y > 0 ? overlapY : -overlapY), 0.f };
+        else
+            result += { 0.f, 0.f, (vDelta.z > 0 ? overlapZ : -overlapZ) };
+
+        /* 가장 가까운 콜라이더 1개에서 가장 작은 축 하나 고름 */
+       /* _float3 offset = { 0.f, 0.f, 0.f };
+
+        if (overlapX <= overlapY && overlapX <= overlapZ)
+            offset.x = (vDelta.x > 0) ? overlapX : -overlapX;
+        else if (overlapY <= overlapX && overlapY <= overlapZ)
+            offset.y = (vDelta.y > 0) ? overlapY : -overlapY;
+        else
+            offset.z = (vDelta.z > 0) ? overlapZ : -overlapZ;
+
+        _float magnitude = offset.x * offset.x + offset.y * offset.y + offset.z * offset.z;
+        if (magnitude < minMagnitude)
+        {
+            minMagnitude = magnitude;
+            result = offset;
+        }*/
+    }
+
+    //if (minMagnitude == FLT_MAX)
+    //    return false;
+
+    *distance = result;
+    return true;
+
+
+}
+
+
 HRESULT CCollider::Render()
 {
 
@@ -211,6 +288,10 @@ HRESULT CCollider::Render()
     matWorld._11 = 1.0f; matWorld._12 = 0.0f; matWorld._13 = 0.0f;
     matWorld._21 = 0.0f; matWorld._22 = 1.0f; matWorld._23 = 0.0f;
     matWorld._31 = 0.0f; matWorld._32 = 0.0f; matWorld._33 = 1.0f;
+
+    if (m_bIsFixed)
+        memcpy(&matWorld.m[ENUM_CLASS(STATE::POSITION)][0], &m_vPosition, sizeof(_float3));
+
 
     // 변환 행렬 적용
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);

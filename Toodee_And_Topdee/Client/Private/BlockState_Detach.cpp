@@ -14,17 +14,17 @@ HRESULT CBlockState_Detach::Initialize(BLOCKSTATE eState)
 	return S_OK;
 }
 
-void CBlockState_Detach::Enter(CBlock* pBlock)
+void CBlockState_Detach::Enter(CInteractionBlock* pBlock)
 {
 }
 
-void CBlockState_Detach::Update(CBlock* pBlock, _float fTimeDelta)
+void CBlockState_Detach::Update(CInteractionBlock* pBlock, _float fTimeDelta)
 {
 	if (pBlock->Detached(fTimeDelta))
 		pBlock->Change_State(BLOCKSTATE::STOP);
 }
 
-void CBlockState_Detach::Exit(CBlock* pBlock)
+void CBlockState_Detach::Exit(CInteractionBlock* pBlock)
 {
 }
 

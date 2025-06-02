@@ -1,10 +1,10 @@
 #pragma once
 #include "Client_Defines.h"
-#include "Block.h"
+#include "InteractionBlock.h"
 
 BEGIN(Client)
 
-class CBlock_Wood final : public CBlock
+class CBlock_Wood final : public CInteractionBlock
 {
 private:
 	CBlock_Wood(LPDIRECT3DDEVICE9 pGraphic_Device);

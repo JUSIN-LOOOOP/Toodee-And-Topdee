@@ -24,7 +24,7 @@ private:
 
 public:
 	static CClearTriggerObserver* Create();
-	virtual void Free();
+	virtual void Free() override;
 
 };
 

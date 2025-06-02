@@ -255,6 +255,9 @@
     <ClInclude Include="..\public\GameObject.h">
       <Filter>01. Utility\03. GameObject\00. Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BreakTriggerObserver.h">
+      <Filter>01. Utility\07. Observer\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -359,8 +362,12 @@
     <ClCompile Include="..\Private\ClearTriggerObserver.cpp">
       <Filter>01. Utility\07. Observer\Base</Filter>
     </ClCompile>
+
     <ClCompile Include="..\private\GameObject.cpp">
       <Filter>01. Utility\03. GameObject\00. Base</Filter>
+ </ClCompile>
+    <ClCompile Include="..\Private\BreakTriggerObserver.cpp">
+      <Filter>01. Utility\07. Observer\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

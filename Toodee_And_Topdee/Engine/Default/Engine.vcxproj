@@ -159,6 +159,7 @@ call Copy.bat
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\Private\BreakTriggerObserver.cpp" />
     <ClCompile Include="..\Private\ClearTriggerObserver.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
     <ClCompile Include="..\private\Collision.cpp" />
@@ -196,6 +197,7 @@ call Copy.bat
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\Public\BreakTriggerObserver.h" />
     <ClInclude Include="..\Public\ClearTriggerObserver.h" />
     <ClInclude Include="..\Public\Collider.h" />
     <ClInclude Include="..\public\Collision.h" />
