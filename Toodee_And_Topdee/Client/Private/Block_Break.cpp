@@ -22,7 +22,15 @@ HRESULT CBlock_Break::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Observer()))
+		return E_FAIL;
+
 	__super::SetUp_BlockInfo(pArg);
+
+	m_bIsStepOn = false;
+	m_fBreakDelay = 2.f;
+	m_fCurrentBreakTime = 0.f;
+	m_fShakingPower = 0.5f;
 
 	name = TEXT("Wall_Break");
 
@@ -35,12 +43,25 @@ void CBlock_Break::Priority_Update(_float fTimeDelta)
 
 void CBlock_Break::Update(_float fTimeDelta)
 {
-
+	if (m_bIsStepOn)
+	{
+		if (m_fCurrentBreakTime >= m_fBreakDelay)
+		{
+			m_pColliderCom->Collision_Off();
+			m_Dead = true;
+		}
+		else
+		{
+			m_fCurrentBreakTime += fTimeDelta;
+			Shaking();
+		}
+	}
 }
 
 void CBlock_Break::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	if(false == m_Dead)
+		__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CBlock_Break::Render()
@@ -48,6 +69,59 @@ HRESULT CBlock_Break::Render()
 	__super::Render();
 
 	return S_OK;
+}
+
+void CBlock_Break::onReport(REPORT eReport, CSubjectObject* pSubject)
+{
+	if (nullptr == pSubject || this == pSubject)
+		return;
+
+	if (m_bIsStepOn)
+		return;
+
+	if (IsNearBlock(pSubject))
+	{
+		StepOn();
+	}
+}
+
+void CBlock_Break::StepOn()
+{
+	m_bIsStepOn = true;
+	m_vCenterPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	Notify(EVENT::BLOCK_BREAK);
+}
+
+_bool CBlock_Break::Compute_Near(const _float3& vOtherPosition)
+{
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	_float3 vDistance = vPosition - vOtherPosition;
+
+	_float fLength = D3DXVec3Length(&vDistance);
+
+	return fLength <= 3.5f; //오차 범위 0.5f
+}
+
+_bool CBlock_Break::IsNearBlock(CSubjectObject* pSubject)
+{
+	CGameObject* pGameObject = dynamic_cast<CGameObject*>(pSubject);
+
+	CTransform* pTransform = static_cast<CTransform*>(pGameObject->Get_Component(TEXT("Com_Transform")));
+
+	_float3 vPosition = pTransform->Get_State(STATE::POSITION);
+
+	return Compute_Near(vPosition);
+}
+
+void CBlock_Break::Shaking()
+{
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	
+	vPosition.x = m_vCenterPosition.x + (rand() % 100 / 100.f - m_fShakingPower);
+	vPosition.z = m_vCenterPosition.z + (rand() % 100 / 100.f - m_fShakingPower);
+
+	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 }
 
 HRESULT CBlock_Break::Ready_Components()
@@ -86,6 +160,13 @@ HRESULT CBlock_Break::Ready_Components()
 	return S_OK;
 }
 
+HRESULT CBlock_Break::Ready_Observer()
+{
+	m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"), this);
+
+	return S_OK;
+}
+
 void CBlock_Break::SetUp_RenderState()
 {
 	__super::SetUp_RenderState();
@@ -96,7 +177,6 @@ void CBlock_Break::Reset_RenderState()
 {
 	__super::Reset_RenderState();
 }
-
 
 CBlock_Break* CBlock_Break::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
