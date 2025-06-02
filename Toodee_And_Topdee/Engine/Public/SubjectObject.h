@@ -34,7 +34,7 @@ protected:
 	void Notify_Dead();
 
 public:
-	void Free();
+	void SubjectFree();
 };
 
 END
