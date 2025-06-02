@@ -166,6 +166,8 @@
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\public\Cannon.h" />
+    <ClInclude Include="..\Public\Client_Extension.h" />
+    <ClInclude Include="..\Public\ColliderMap_Object.h" />
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\Hole.h" />
@@ -232,6 +234,7 @@
     <ClCompile Include="..\Private\Block_Wood.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\private\Cannon.cpp" />
+    <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
@@ -280,9 +283,6 @@
   <ItemGroup>
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

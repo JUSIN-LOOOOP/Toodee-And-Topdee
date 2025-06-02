@@ -1,4 +1,5 @@
 #include "Level_GamePlay.h"
+#include "Client_Extension.h"
 
 #include "GameInstance.h"
 #include "Camera.h"
@@ -9,6 +10,7 @@
 #include "Test_Cube2.h"
 #include "Cannon.h"
 #include "Pig.h"
+#include "ColliderMap_Object.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -24,8 +26,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+		//return E_FAIL;
 
 	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 		return E_FAIL;
@@ -46,6 +48,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
+		return E_FAIL;
+	
+	if(FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -345,6 +350,25 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"), &pDesc)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
+{
+	CColliderMap_Object::COLLIDER_MAP_DESC desc{};
+
+	for (_uint i = 0; i < Stage_ColliderCount(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY)); ++i)
+	{
+		auto Pair = MapCollider_Builder(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), i);
+		desc.vPosition = Pair.first;
+		desc.vScale = Pair.second;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
+			return E_FAIL;
+	}
+
 
 	return S_OK;
 }

@@ -22,6 +22,8 @@
 #include "Potal.h"
 #include "TileOutline.h"
 
+#include "ColliderMap_Object.h"
+
 Client::CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
 {
@@ -144,7 +146,12 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"),
 		CTileOutline::Create(m_pGraphic_Device))))
 		return E_FAIL;
- 
+
+	/* Prototype_GameObject_Collider_Map */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"),
+		CColliderMap_Object::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	return S_OK;
 }
 HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
