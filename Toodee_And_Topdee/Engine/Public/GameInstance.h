@@ -21,8 +21,9 @@ public:
 	void			Render_End(HWND hWnd = 0);
 
 public:
-	_float Rand_Normal();
-	_float Rand(_float fMin, _float fMax);
+	_float			Rand_Normal();
+	_float			Rand(_float fMin, _float fMax);
+	void			View_FrameRate(HWND hWnd = 0);
 
 	//Renderer
 public:
@@ -109,7 +110,11 @@ private:
 	class CSound_Manager*		m_pSound_Manager = { nullptr };
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 
+private:
 	DIMENSION					m_eCurrentDimension = {};
+	_uint						m_iFPS = { 0 };
+	_ulong						m_ulIntervalTime_FPS = { GetTickCount() };
+	TCHAR						m_szFPS[16] = {};
 
 public:
 	void Release_Engine();

@@ -52,6 +52,9 @@ public:
 	/* State Push */
 	_bool IsPush() { return m_eCurrentState == BLOCKSTATE::PUSH; }
 
+	/* State STOP */
+	_bool IsStop() { return m_eCurrentState == BLOCKSTATE::STOP; }
+
 	
 protected:
 	/* Component */
