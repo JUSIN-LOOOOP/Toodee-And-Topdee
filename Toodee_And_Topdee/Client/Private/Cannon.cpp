@@ -33,7 +33,7 @@ HRESULT CCannon::Initialize(void* pArg)
     m_fIntervalShooting = 0.5f;
     m_fIntervalMotion = 0.2f;
 
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(-20.f, 1.1f, 0.f ));
+    m_pTransformCom->Set_State(STATE::POSITION, _float3(-14.f, 1.1f, 0.f ));
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     
     _float3 pos = m_pTransformCom->Get_State(STATE::POSITION);

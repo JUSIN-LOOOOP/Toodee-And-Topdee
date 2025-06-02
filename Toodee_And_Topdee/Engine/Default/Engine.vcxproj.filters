@@ -228,9 +228,6 @@
     <ClInclude Include="..\Public\Observer_Manager.h">
       <Filter>01. Utility\07. Observer\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ClearTriggerObserver.h">
-      <Filter>01. Utility\07. Observer\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Collision_Manager.h">
       <Filter>01. Utility\06 Collision\Manager</Filter>
     </ClInclude>
@@ -251,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="..\public\PoolableObject.h">
       <Filter>01. Utility\03. GameObject\Poolable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ClearTriggerObserver.h">
+      <Filter>01. Utility\07. Observer\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +332,6 @@
     <ClCompile Include="..\Private\Observer.cpp">
       <Filter>01. Utility\07. Observer\Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ClearTriggerObserver.cpp">
-      <Filter>01. Utility\07. Observer\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Observer_Manager.cpp">
       <Filter>01. Utility\07. Observer\Manager</Filter>
     </ClCompile>
@@ -358,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="..\private\PoolableObject.cpp">
       <Filter>01. Utility\03. GameObject\Poolable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ClearTriggerObserver.cpp">
+      <Filter>01. Utility\07. Observer\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

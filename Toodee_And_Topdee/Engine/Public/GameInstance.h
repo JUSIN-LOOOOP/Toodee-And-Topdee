@@ -54,8 +54,6 @@ public:
 	_float			Get_TimeDelta(const _wstring& strTimerTag);
 	HRESULT			Add_Timer(const _wstring& strTimerTag);
 	void			Compute_TimeDelta(const _wstring& strTimerTag);
-	void			Change_Dimension(DIMENSION eDimension) { m_eCurrentDimension = eDimension;}
-	DIMENSION		Get_CurrentDimension() {return m_eCurrentDimension;}
 
 	//Map_Manager
 public:
@@ -85,9 +83,16 @@ public:
 	void			SetChannelVolume(CHANNELID eID, float fVolume);
 
 	//Pool
+public:
 	void					First_Push(const _wstring& strPoolTag,  class CPoolableObject* pGameObject);
 	void					Push(const _wstring& strPoolTag, class CPoolableObject* pGameObject);
 	class CPoolableObject*	Pop(const _wstring& strPoolTag);
+
+	//Dimension
+public:
+	void			Change_Dimension(DIMENSION eDimension) { m_eCurrentDimension = eDimension; }
+	DIMENSION		Get_CurrentDimension() { return m_eCurrentDimension; }
+
 
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };

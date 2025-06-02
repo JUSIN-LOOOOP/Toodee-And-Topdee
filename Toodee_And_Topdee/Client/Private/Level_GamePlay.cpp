@@ -23,14 +23,14 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+	//	return E_FAIL;
 
 	//if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+	//	return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 	//	return E_FAIL;
@@ -52,6 +52,12 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	// -- 임시 --
+	if (m_pGameInstance->Key_Down(VK_RETURN))
+	{
+		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_STAGE1))))
+			return;
+	}
 	
 }
 
@@ -217,25 +223,25 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube2(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	BLOCK_INFO info2 = {
-_float3(9.f, 0.f, 1.f),
-_float3(2.f,2.f,2.f),
-0,
-0,
-0,
-0
+		_float3(9.f, 0.f, 1.f),
+		_float3(2.f,2.f,2.f),
+		0,
+		0,
+		0,
+		0
 	};
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"), &info2)))
 		return E_FAIL;
 
-	BLOCK_INFO info3= {
-_float3(1.f, 0.f, 1.f),
-_float3(2.f,2.f,2.f),
-0,
-0,
-0,
-0
+	BLOCK_INFO info3 = {
+		_float3(1.f, 0.f, 1.f),
+		_float3(2.f,2.f,2.f),
+		0,
+		0,
+		0,
+		0
 	};
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
