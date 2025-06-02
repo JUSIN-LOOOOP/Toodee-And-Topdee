@@ -5,6 +5,7 @@
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
 #include "ClearTriggerObserver.h"
+#include "BreakTriggerObserver.h"
 #include "Test_Cube2.h"
 #include "Cannon.h"
 #include "Pig.h"
@@ -26,8 +27,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
@@ -99,13 +100,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MultiViewCamera"), &CameraDesc)))
 		return E_FAIL;
 
-
 	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
-
 	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
 
 	BLOCK_INFO	info = {};
@@ -197,7 +196,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube2(const _wstring& strLayerTag)
 	//	return E_FAIL;
 
 	BLOCK_INFO info = {
-		_float3(3.f, 0.f, 1.f),
+		_float3(3.f, 1.f, 1.f),
 		_float3(2.f,2.f,2.f),
 		0,
 		0,
@@ -210,7 +209,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube2(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	BLOCK_INFO info1 = {
-	_float3(5.f, 0.f, 1.f),
+	_float3(5.f, 1.f, 1.f),
 	_float3(2.f,2.f,2.f),
 	0,
 	0,
@@ -223,25 +222,26 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube2(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	BLOCK_INFO info2 = {
-		_float3(9.f, 0.f, 1.f),
-		_float3(2.f,2.f,2.f),
-		0,
-		0,
-		0,
-		0
+_float3(9.f, 1.f, 1.f),
+_float3(2.f,2.f,2.f),
+0,
+0,
+0,
+0
 	};
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"), &info2)))
 		return E_FAIL;
 
-	BLOCK_INFO info3 = {
-		_float3(1.f, 0.f, 1.f),
-		_float3(2.f,2.f,2.f),
-		0,
-		0,
-		0,
-		0
+	BLOCK_INFO info3= {
+_float3(1.f, 1.f, 1.f),
+_float3(2.f,2.f,2.f),
+0,
+0,
+0,
+0
+
 	};
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
@@ -327,6 +327,10 @@ HRESULT CLevel_GamePlay::Ready_Observer()
 	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"),
 		CClearTriggerObserver::Create())))
 		return E_FAIL;
+
+	//if (FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"),
+	//	CBreakTriggerObserver::Create())))
+	//	return E_FAIL;
 
 	return S_OK;
 }

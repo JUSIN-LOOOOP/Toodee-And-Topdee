@@ -4,12 +4,12 @@
 
 
 CBlock_Wood::CBlock_Wood(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CBlock{ pGraphic_Device }
+    : CInteractionBlock { pGraphic_Device }
 {
 }
 
 CBlock_Wood::CBlock_Wood(const CBlock_Wood& Prototype)
-    : CBlock{ Prototype }
+    : CInteractionBlock{ Prototype }
 {
 }
 
@@ -28,7 +28,7 @@ HRESULT CBlock_Wood::Initialize(void* pArg)
 
 	__super::SetUp_BlockInfo(pArg);
 
-	name = TEXT("Block_Wood");
+	name = TEXT("Interaction_Block_Wood");
 
     return S_OK;
 }

@@ -29,7 +29,7 @@ HRESULT CHole::Initialize(void* pArg)
 	m_pTransformCom->Scaling(2, 2, 2);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
-	name = TEXT("Block_Wall");
+	name = TEXT("Hole");
 
     return S_OK;
 }

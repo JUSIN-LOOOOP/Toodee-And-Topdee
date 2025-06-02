@@ -14,17 +14,17 @@ HRESULT CBlockState_Push::Initialize(BLOCKSTATE eState)
 	return S_OK;
 }
 
-void CBlockState_Push::Enter(CBlock* pBlock)
+void CBlockState_Push::Enter(CInteractionBlock* pBlock)
 {
 }
 
-void CBlockState_Push::Update(CBlock* pBlock, _float fTimeDelta)
+void CBlockState_Push::Update(CInteractionBlock* pBlock, _float fTimeDelta)
 {
 	if (pBlock->Pushed(fTimeDelta))
 		pBlock->Change_State(BLOCKSTATE::STOP);
 }
 
-void CBlockState_Push::Exit(CBlock* pBlock)
+void CBlockState_Push::Exit(CInteractionBlock* pBlock)
 {
 }
 

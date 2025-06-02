@@ -1,7 +1,7 @@
 #include "Player_Topdee.h"
 #include "GameInstance.h"
 #include "PlayerState.h"
-#include "Block.h"
+#include "InteractionBlock.h"
 
 CPlayer_Topdee::CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPlayer { pGraphic_Device }
@@ -277,7 +277,7 @@ void CPlayer_Topdee::Clear()
 	m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 }
 
-void CPlayer_Topdee::onReport(REPORT eReport)
+void CPlayer_Topdee::onReport(REPORT eReport, CSubjectObject* pSubject)
 {
 	if (eReport == REPORT::REPORT_CANCLEAR)
 		m_bCanClear = true;
@@ -457,9 +457,9 @@ void CPlayer_Topdee::Check_AttachCollisionState()
 
 		for(auto iter : *Overlaps)
 		{
-			if ((iter->Get_Name() == TEXT("Block_Wood")))
+			if ((iter->Get_Name().find(TEXT("Interaction")) != string::npos))
 			{
-				CBlock* pBlock = dynamic_cast<CBlock*>(iter);
+				CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(iter);
 
 				_float fDot = pBlock->ComputeDirDotLook(vPosition, vLook);
 
@@ -782,9 +782,9 @@ void CPlayer_Topdee::Check_CollisionState()
 {
 	if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
 	{
-		if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Block")) != string::npos)
+		if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Interaction")) != string::npos)
 		{
-			CBlock* pBlock = dynamic_cast<CBlock*>(m_pColliderCom->GetOverlapTarget());
+			CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(m_pColliderCom->GetOverlapTarget());
 			if (false == pBlock->IsPush())
 			{
 				pBlock->Request_Change_State(BLOCKSTATE::PUSH);

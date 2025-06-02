@@ -15,11 +15,11 @@ HRESULT CBlockState_Attach::Initialize(BLOCKSTATE eState)
 	return S_OK;
 }
 
-void CBlockState_Attach::Enter(CBlock* pBlock)
+void CBlockState_Attach::Enter(CInteractionBlock* pBlock)
 {
 }
 
-void CBlockState_Attach::Update(CBlock* pBlock, _float fTimeDelta)
+void CBlockState_Attach::Update(CInteractionBlock* pBlock, _float fTimeDelta)
 {
 	if (false == pBlock->IsAttach())
 		pBlock->Attached(fTimeDelta);
@@ -27,7 +27,7 @@ void CBlockState_Attach::Update(CBlock* pBlock, _float fTimeDelta)
 		pBlock->Update_Attached_Position();
 }
 
-void CBlockState_Attach::Exit(CBlock* pBlock)
+void CBlockState_Attach::Exit(CInteractionBlock* pBlock)
 {
 }
 

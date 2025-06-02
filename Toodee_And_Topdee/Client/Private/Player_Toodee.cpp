@@ -271,7 +271,7 @@ void CPlayer_Toodee::Clear()
     m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 }
 
-void CPlayer_Toodee::onReport(REPORT eReport)
+void CPlayer_Toodee::onReport(REPORT eReport, CSubjectObject* pSubject)
 {
     if (eReport == REPORT::REPORT_CANCLEAR)
         m_bCanClear = true;
@@ -552,7 +552,6 @@ void CPlayer_Toodee::Check_Grounded()
 
     if (m_pGroundCheckColliderCom->OnCollisionEnter() || m_pGroundCheckColliderCom->OnCollisionStay())
     {
-
     }
     else
     {
