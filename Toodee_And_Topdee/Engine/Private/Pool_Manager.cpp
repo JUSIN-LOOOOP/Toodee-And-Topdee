@@ -39,9 +39,9 @@ void CPool_Manager::Push(_uint iNumLevels,const _wstring& strPoolTag, CPoolableO
   		m_pPools[iNumLevels].emplace(strPoolTag, pPool);
 	}
 
-	pPool->Push(pGameObject);
 	if(pGameObject != nullptr)
 		pGameObject->Set_Active(false);
+	pPool->Push(pGameObject);
 }
 
 CPoolableObject* CPool_Manager::Pop(_uint iNumLevels, const _wstring& strPoolTag)

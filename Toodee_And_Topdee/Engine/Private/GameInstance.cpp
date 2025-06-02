@@ -139,6 +139,20 @@ _float CGameInstance::Rand(_float fMin, _float fMax)
 	return fMin + Rand_Normal() * (fMax - fMin);
 }
 
+void CGameInstance::View_FrameRate(HWND hWnd)
+{
+	++m_iFPS;
+
+	if (m_ulIntervalTime_FPS + 1000 < GetTickCount())
+	{
+		swprintf_s(m_szFPS, L"FPS : %d", m_iFPS);
+		SetWindowText(hWnd, m_szFPS);
+
+		m_iFPS = 0;
+		m_ulIntervalTime_FPS = GetTickCount();
+	}
+}
+
 #pragma endregion
 
 #pragma region LEVEL_MANAGER

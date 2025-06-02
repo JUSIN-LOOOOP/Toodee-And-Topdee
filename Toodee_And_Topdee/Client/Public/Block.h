@@ -28,6 +28,9 @@ public:
 
 	_float ComputeDirDotLook(const _float3& vPlayerPosition, const _float3& vLook);
 
+	/* State STOP */
+	_bool IsStop() { return m_eCurrentState == BLOCKSTATE::STOP; }
+
 	
 protected:
 	/* Component */

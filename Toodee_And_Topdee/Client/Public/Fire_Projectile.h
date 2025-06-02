@@ -49,7 +49,7 @@ private:
 	_float						m_fAccumulateMotionTime = { 0.f };
 
 	_float						m_fAccumulateLifeTime = { 0.f };
-	_float						m_fLifeInterval = {3.5f};
+	_float						m_fLifeInterval = {8.f};
 
 private:
 	HRESULT						Ready_Components();

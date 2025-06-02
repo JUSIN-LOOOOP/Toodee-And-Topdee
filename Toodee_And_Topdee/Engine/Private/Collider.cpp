@@ -215,7 +215,8 @@ HRESULT CCollider::Render()
     // 변환 행렬 적용
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
 
-    // 와이어프레임 모드 설정
+    // 와이어프레임 모드 설정 및 컬모드 설정
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
     // 충돌 여부에 따른 색상 적용
@@ -241,8 +242,10 @@ HRESULT CCollider::Render()
     // 도형 그리기
     m_pGraphic_Device->DrawIndexedPrimitive(m_ePrimitiveType, 0, 0, m_iNumVertices, 0, m_iNumPrimitive);
 
-    // 상태 복구 - 솔리드 모드로 변경
+    // 상태 복구 - 솔리드 모드로 변경 및 컬모드
     m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 
     // 상태 복구 - 텍스처 팩터 기본값으로 변경
     m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFFFFFFFF);

@@ -151,6 +151,11 @@
     <ClInclude Include="..\Public\BackWall.h" />
     <ClInclude Include="..\Public\BasicTile.h" />
     <ClInclude Include="..\Public\Block.h" />
+    <ClInclude Include="..\Public\BlockState.h" />
+    <ClInclude Include="..\Public\BlockState_Attach.h" />
+    <ClInclude Include="..\Public\BlockState_Detach.h" />
+    <ClInclude Include="..\Public\BlockState_Push.h" />
+    <ClInclude Include="..\Public\BlockState_Stop.h" />
     <ClInclude Include="..\Public\Block_Break.h" />
     <ClInclude Include="..\Public\Block_Fall.h" />
     <ClInclude Include="..\Public\Block_Lock.h" />
@@ -212,6 +217,11 @@
     <ClCompile Include="..\Private\BackWall.cpp" />
     <ClCompile Include="..\Private\BasicTile.cpp" />
     <ClCompile Include="..\Private\Block.cpp" />
+    <ClCompile Include="..\Private\BlockState.cpp" />
+    <ClCompile Include="..\Private\BlockState_Attach.cpp" />
+    <ClCompile Include="..\Private\BlockState_Detach.cpp" />
+    <ClCompile Include="..\Private\BlockState_Push.cpp" />
+    <ClCompile Include="..\Private\BlockState_Stop.cpp" />
     <ClCompile Include="..\Private\Block_Break.cpp" />
     <ClCompile Include="..\Private\Block_Fall.cpp" />
     <ClCompile Include="..\Private\Block_Lock.cpp" />
@@ -268,6 +278,9 @@
   <ItemGroup>
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
