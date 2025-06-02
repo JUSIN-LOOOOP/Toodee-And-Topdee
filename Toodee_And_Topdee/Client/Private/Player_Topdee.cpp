@@ -792,9 +792,22 @@ void CPlayer_Topdee::Check_CollisionState()
 			}
 		}
 
-		_float fDist = {};
-		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-		COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
+		//_float fDist = {};
+		//_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+		_float3 temp;
+		if (m_pColliderCom->GetCollisionsOffset(&temp))
+		{
+			_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+			vPosition.x = vPosition.x + temp.x;
+			vPosition.z = vPosition.z + temp.z;
+
+
+			m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+			m_vNextMovePosition = vPosition;
+		}
+
+	/*	COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
 
 		switch (eCollider_Dir)
 		{
@@ -818,7 +831,7 @@ void CPlayer_Topdee::Check_CollisionState()
 			break;
 		}
 		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-		m_vNextMovePosition = vPosition;
+		m_vNextMovePosition = vPosition;*/
 	}
 }
 
