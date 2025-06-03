@@ -65,10 +65,9 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     }
     else
     {
-        PLAYERDESC* pDesc = static_cast<PLAYERDESC*>(pArg);
+        BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
-        m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPlayerStartPosition);
-        m_vPotalPosition = pDesc->vPotalPosition;
+        m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
     }
   
     //Test true = 클리어모션 false = 플레이모션
@@ -117,7 +116,7 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
 
             m_pGameInstance->Check_Collision(m_pColliderCom);
 
-            Check_CollisionState();
+            Check_Collision();
 
             Check_Grounded();
         }
@@ -486,67 +485,85 @@ void CPlayer_Toodee::Compute_Gravity(_float fTimeDelta)
         m_fCurrentJumpPower = -20.f;
 }
 
-void CPlayer_Toodee::Check_CollisionState()
+void CPlayer_Toodee::Check_Collision()
 {
-
-    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-
     if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
     {
-        vector<CGameObject*>* Overlaps = { nullptr };
-        if (false == m_pColliderCom->GetOverlapAll(Overlaps))
-            return;
-        
-        for (auto iter : *Overlaps)
+        Check_Collision_BlockBreak();
+        Check_Collision_PlayerState();
+    }
+}
+
+void CPlayer_Toodee::Check_Collision_PlayerState()
+{
+    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+    //위치 보정
+    _float3 temp;
+    if (m_pColliderCom->GetCollisionsOffset(&temp))
+    {
+        _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+        vPosition.x = vPosition.x + temp.x;
+        vPosition.z = vPosition.z + temp.z;
+
+        m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+    }
+
+    //방향 체크
+    COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection();
+
+
+    switch (eCollider_Dir)
+    {
+ //   case COLLIDER_DIR::LEFT:
+ //       vPosition.x -= fDist;
+ //       break;
+ //   case COLLIDER_DIR::RIGHT:
+ //       vPosition.x += fDist;
+ //       break;
+ //   case COLLIDER_DIR::TOP:
+ //       vPosition.y += fDist;
+ //       break;
+ //   case COLLIDER_DIR::BOTTOM:
+ //       vPosition.y -= fDist;
+ //       break;
+        case COLLIDER_DIR::FRONT:
         {
-            if (iter->Get_Name().find(TEXT("Break")) != string::npos)
-            {
-
-                COLLIDER_DIR eBreakCollider_Dir = m_pColliderCom->DetectCollisionDirection();
-
-                if(eBreakCollider_Dir == COLLIDER_DIR::BACK)
-                    Notify(EVENT::BLOCK_BREAK);
-            }
+ //           vPosition.z -= fDist;
+            m_fCurrentJumpPower = 0.f;
+            break;
         }
-            _float fDist = {};
-            COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
+        case COLLIDER_DIR::BACK:
+        {
+            if (m_bInAction && m_eJumpState != JUMPSTATE::JUMPING)
+            {
+                m_bInAction = false;
+                m_fAccumulationJumpPower = 0.f;
+                m_fGravityPower = 0.f;
+      //         vPosition.z += fDist;
+            }
+            break;
+        }
+    }
+  //  m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+}
 
-            switch (eCollider_Dir)
-            {
-            case COLLIDER_DIR::LEFT:
-                vPosition.x -= fDist;
-                break;
-            case COLLIDER_DIR::RIGHT:
-                vPosition.x += fDist;
-                break;
-            case COLLIDER_DIR::TOP:
-                vPosition.y += fDist;
-                break;
-            case COLLIDER_DIR::BOTTOM:
-                vPosition.y -= fDist;
-                break;
-            case COLLIDER_DIR::FRONT:
-            {
-                vPosition.z -= fDist;
-                m_fCurrentJumpPower = 0.f;
+void CPlayer_Toodee::Check_Collision_BlockBreak()
+{
+    vector<CGameObject*>* Overlaps = { nullptr };
+    if (false == m_pColliderCom->GetOverlapAll(Overlaps))
+        return;
 
-                break;
-            }
-            case COLLIDER_DIR::BACK:
-            {
-                if (m_bInAction && m_eJumpState != JUMPSTATE::JUMPING)
-                {
-                    m_bInAction = false;
-                    m_fAccumulationJumpPower = 0.f;
-                    m_fGravityPower = 0.f;
-                    vPosition.z += fDist;
-                }
-                break;
-            }
-            }
-            m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-        //}
-       
+    for (auto iter : *Overlaps)
+    {
+        if (iter->Get_Name().find(TEXT("Break")) != string::npos)
+        {
+
+            COLLIDER_DIR eBreakCollider_Dir = m_pColliderCom->DetectCollisionDirection();
+
+            if (eBreakCollider_Dir == COLLIDER_DIR::BACK)
+                Notify(EVENT::BLOCK_BREAK);
+        }
     }
 }
 

@@ -10,7 +10,7 @@ private:
 	virtual ~CBreakTriggerObserver() = default;
 
 public:
-	void onNotify(EVENT eEvent, CSubjectObject* pSubject = nullptr) override;
+	virtual void onNotify(EVENT eEvent, CSubjectObject* pSubject = nullptr) override;
 
 public:
 	static CBreakTriggerObserver* Create();

@@ -29,7 +29,7 @@ HRESULT CBlock_Wood::Initialize(void* pArg)
 	__super::SetUp_BlockInfo(pArg);
 
 
-	m_fMaxFallHeight = 2.f;
+	m_fMaxFallHeight = 1.7f;
 
 	name = TEXT("Interaction_Block_Wood");
 

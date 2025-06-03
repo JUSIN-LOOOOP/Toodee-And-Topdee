@@ -7,6 +7,7 @@
 #include "Level_Loading.h"
 #include "ClearTriggerObserver.h"
 #include "BreakTriggerObserver.h"
+#include "KeyTriggerObserver.h"
 #include "Test_Cube2.h"
 #include "Cannon.h"
 #include "Pig.h"
@@ -22,12 +23,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Observer()))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-		//return E_FAIL;
+	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 		return E_FAIL;
@@ -335,6 +335,10 @@ HRESULT CLevel_GamePlay::Ready_Observer()
 
 	if (FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"),
 		CBreakTriggerObserver::Create())))
+		return E_FAIL;
+
+	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_KeyTrigger"),
+		CKeyTriggerObserver::Create())))
 		return E_FAIL;
 
 	return S_OK;

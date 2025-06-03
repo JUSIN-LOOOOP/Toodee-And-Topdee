@@ -74,7 +74,9 @@ private:
 	void TurnDownOnStop(_float fTimeDelta);							// Stop State로 변했을때 아래 방향 바라보기
 
 	/* Player Collision */
-	void Check_CollisionState();									// 플레이어 충돌 체크
+	void Check_Collision();									// 플레이어 충돌 체크
+	void Check_Collision_PlayerState();
+	void Check_Collision_InteractionBlock();
 
 	/* Attach  */
 	void Check_AttachCollisionState();
