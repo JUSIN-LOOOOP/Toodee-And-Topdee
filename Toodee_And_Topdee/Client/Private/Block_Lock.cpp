@@ -145,12 +145,6 @@ CGameObject* CBlock_Lock::Clone(void* pArg)
 
 void CBlock_Lock::Free()
 {
-	CGameObject::Free();
+	CBlock::Free();
 	CSubjectObject::SubjectFree();
-
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
-
-
 }

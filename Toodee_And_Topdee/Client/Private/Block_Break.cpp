@@ -34,7 +34,7 @@ HRESULT CBlock_Break::Initialize(void* pArg)
 
 	m_pColliderCom->ApplyFixedPosition(m_pTransformCom->Get_State(STATE::POSITION));
 
-	name = TEXT("Wall_Break");
+	name = TEXT("Block_Break");
 
     return S_OK;
 }
@@ -45,6 +45,7 @@ void CBlock_Break::Priority_Update(_float fTimeDelta)
 
 void CBlock_Break::Update(_float fTimeDelta)
 {
+
 	if (m_bIsStepOn)
 	{
 		if (m_fCurrentBreakTime >= m_fBreakDelay)
@@ -102,7 +103,7 @@ _bool CBlock_Break::Compute_Near(const _float3& vOtherPosition)
 
 	_float fLength = D3DXVec3Length(&vDistance);
 
-	return fLength <= 3.5f; //오차 범위 0.5f
+	return fLength <= 2.2f; //오차 범위 0.5f
 }
 
 _bool CBlock_Break::IsNearBlock(CSubjectObject* pSubject)
@@ -208,12 +209,6 @@ CGameObject* CBlock_Break::Clone(void* pArg)
 
 void CBlock_Break::Free()
 {
-	CGameObject::Free();
+	CBlock::Free();
 	CSubjectObject::SubjectFree();
-
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
-
-
 }
