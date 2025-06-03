@@ -1,10 +1,12 @@
 #include "Level_Stage5.h"
+#include "Client_Extension.h"
 
 #include "GameInstance.h"
 #include "Camera.h"
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
 #include "ClearTriggerObserver.h"
+#include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
 

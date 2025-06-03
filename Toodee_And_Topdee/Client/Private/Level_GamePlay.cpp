@@ -32,8 +32,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+	//	return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 	//	return E_FAIL;

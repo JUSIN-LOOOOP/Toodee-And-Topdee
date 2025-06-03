@@ -33,6 +33,9 @@ public:
 public:
 	HRESULT			Open_Level(_uint iLevelID, class CLevel* pNewLevel);
 	const _uint		Get_CurrentLevelID();
+	void			Set_CurrentLevelID(_uint ilevel);
+	const _uint		Get_NextLevelID();
+	void			Set_NextLevelID(_uint ilevel);
 
 	//Prototype
 public:
@@ -112,6 +115,10 @@ private:
 
 private:
 	DIMENSION					m_eCurrentDimension = {};
+	_uint						m_iNextLevelID = { 0 };
+	_uint						m_iCurrentLevelID = { 0 };
+
+
 	_uint						m_iFPS = { 0 };
 	_ulong						m_ulIntervalTime_FPS = { GetTickCount() };
 	TCHAR						m_szFPS[16] = {};
