@@ -63,21 +63,20 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (nullptr == pArg)
 	{
 		m_vPotalPosition = { 0.f, 0.f, 0.f };
-		m_pTransformCom->Set_State(STATE::POSITION, _float3(1.f, 1.f, 1.f));
+		m_pTransformCom->Set_State(STATE::POSITION, _float3(1.f, 0.5f, 1.f));
 	}
 	else
 	{
-		PLAYERDESC* pDesc = static_cast<PLAYERDESC*>(pArg);
+		BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
-		m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPlayerStartPosition);
-		m_vPotalPosition = pDesc->vPotalPosition;
+		m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
 	}
 
 	m_bCanClear = false;
 	m_fTurnDownTime = 0.f;
 	m_fTurnDownDelay = 0.04f;
 	m_vPotalPosition = { 0.f, 0.f, 0.f };
-	m_vNextMovePosition = { -1.f, 0.f, -1.f };
+
 	m_fMaxDot = -2.f;
 
 	m_pTransformCom->Scaling(12.f, 12.f, 0.f); 
@@ -116,7 +115,7 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 
 			m_pGameInstance->Check_Collision(m_pColliderCom);
 
-			Check_CollisionState();
+			Check_Collision();
 
 			if (m_bInAction)
 			{
@@ -778,61 +777,42 @@ void CPlayer_Topdee::TurnDownOnStop(_float fTimeDelta)
 	m_bIsTurnDown = m_eCurrentMoveDir == MOVEDIRECTION::DOWN;
 }
 
-void CPlayer_Topdee::Check_CollisionState()
+void CPlayer_Topdee::Check_Collision()
 {
 	if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
 	{
-		if (nullptr != m_pColliderCom->GetOverlapTarget() && 
-			m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Interaction")) != string::npos)
-		{
-			CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(m_pColliderCom->GetOverlapTarget());
-			if (false == pBlock->IsPush() && false == pBlock->IsFall())
-			{
-				pBlock->Request_Change_State(BLOCKSTATE::PUSH);
-				pBlock->Push(m_eCurrentMoveDir, m_eCurrentTextureDir, 8.f);
-			}
-		}
+		Check_Collision_InteractionBlock();
+		Check_Collision_PlayerState();
 
-		//_float fDist = {};
-		//_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	}
+}
 
-		_float3 temp;
-		if (m_pColliderCom->GetCollisionsOffset(&temp))
-		{
-			_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-			vPosition.x = vPosition.x + temp.x;
-			vPosition.z = vPosition.z + temp.z;
+void CPlayer_Topdee::Check_Collision_PlayerState()
+{
+	_float3 temp;
+	if (m_pColliderCom->GetCollisionsOffset(&temp))
+	{
+		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		vPosition.x = vPosition.x + temp.x;
+		vPosition.z = vPosition.z + temp.z;
 
-
-			m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-			m_vNextMovePosition = vPosition;
-		}
-
-	/*	COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
-
-		switch (eCollider_Dir)
-		{
-		case COLLIDER_DIR::LEFT:
-			vPosition.x -= fDist;
-			break;
-		case COLLIDER_DIR::RIGHT:
-			vPosition.x += fDist;
-			break;
-		case COLLIDER_DIR::TOP:
-			vPosition.y += fDist;
-			break;
-		case COLLIDER_DIR::BOTTOM:
-			vPosition.y -= fDist;
-			break;
-		case COLLIDER_DIR::FRONT:
-			vPosition.z -= fDist;
-			break;
-		case COLLIDER_DIR::BACK:
-			vPosition.z += fDist;
-			break;
-		}
 		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-		m_vNextMovePosition = vPosition;*/
+		m_vNextMovePosition = vPosition;
+	}
+
+}
+
+void CPlayer_Topdee::Check_Collision_InteractionBlock()
+{
+	if (nullptr != m_pColliderCom->GetOverlapTarget() &&
+		m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Interaction")) != string::npos)
+	{
+		CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(m_pColliderCom->GetOverlapTarget());
+		if (false == pBlock->IsPush() && false == pBlock->IsFall())
+		{
+			pBlock->Request_Change_State(BLOCKSTATE::PUSH);
+			pBlock->Push(m_eCurrentMoveDir, m_eCurrentTextureDir, 8.f);
+		}
 	}
 }
 
