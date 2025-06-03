@@ -32,6 +32,8 @@ HRESULT CBlock_Break::Initialize(void* pArg)
 	m_fCurrentBreakTime = 0.f;
 	m_fShakingPower = 0.25f;
 
+	m_pColliderCom->ApplyFixedPosition(m_pTransformCom->Get_State(STATE::POSITION));
+
 	name = TEXT("Wall_Break");
 
     return S_OK;
@@ -206,7 +208,8 @@ CGameObject* CBlock_Break::Clone(void* pArg)
 
 void CBlock_Break::Free()
 {
-	__super::Free();
+	CGameObject::Free();
+	CSubjectObject::SubjectFree();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
