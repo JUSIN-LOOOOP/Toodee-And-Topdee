@@ -145,8 +145,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\BackCloud.h" />
+    <ClInclude Include="..\Public\Backdrop.h" />
+    <ClInclude Include="..\Public\BackTile.h" />
+    <ClInclude Include="..\Public\BackWall.h" />
     <ClInclude Include="..\Public\BasicTile.h" />
     <ClInclude Include="..\Public\Block.h" />
+    <ClInclude Include="..\Public\BlockState.h" />
+    <ClInclude Include="..\Public\BlockState_Attach.h" />
+    <ClInclude Include="..\Public\BlockState_Detach.h" />
+    <ClInclude Include="..\Public\BlockState_Push.h" />
+    <ClInclude Include="..\Public\BlockState_Stop.h" />
     <ClInclude Include="..\Public\Block_Break.h" />
     <ClInclude Include="..\Public\Block_Fall.h" />
     <ClInclude Include="..\Public\Block_Lock.h" />
@@ -156,15 +165,30 @@
     <ClInclude Include="..\Public\Block_Wood.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\public\Cannon.h" />
+    <ClInclude Include="..\Public\Client_Extension.h" />
+    <ClInclude Include="..\Public\ColliderMap_Object.h" />
+    <ClInclude Include="..\public\Fire_Projectile.h" />
+    <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\Hole.h" />
+    <ClInclude Include="..\Public\InteractionBlock.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\Public\Level_MapEdit.h" />
+    <ClInclude Include="..\Public\Level_Stage1.h" />
+    <ClInclude Include="..\Public\Level_Stage2.h" />
+    <ClInclude Include="..\Public\Level_Stage3.h" />
+    <ClInclude Include="..\Public\Level_Stage4.h" />
+    <ClInclude Include="..\Public\Level_Stage5.h" />
+    <ClInclude Include="..\Public\Level_Stage6.h" />
+    <ClInclude Include="..\Public\Level_Test.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
+    <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\MultiViewCamera.h" />
     <ClInclude Include="..\Public\Part_Body.h" />
+    <ClInclude Include="..\Public\Part_Ears.h" />
     <ClInclude Include="..\Public\Part_Eyes.h" />
     <ClInclude Include="..\Public\Part_Legs.h" />
     <ClInclude Include="..\Public\Part_Nose.h" />
@@ -190,8 +214,17 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\BackCloud.cpp" />
+    <ClCompile Include="..\Private\Backdrop.cpp" />
+    <ClCompile Include="..\Private\BackTile.cpp" />
+    <ClCompile Include="..\Private\BackWall.cpp" />
     <ClCompile Include="..\Private\BasicTile.cpp" />
     <ClCompile Include="..\Private\Block.cpp" />
+    <ClCompile Include="..\Private\BlockState.cpp" />
+    <ClCompile Include="..\Private\BlockState_Attach.cpp" />
+    <ClCompile Include="..\Private\BlockState_Detach.cpp" />
+    <ClCompile Include="..\Private\BlockState_Push.cpp" />
+    <ClCompile Include="..\Private\BlockState_Stop.cpp" />
     <ClCompile Include="..\Private\Block_Break.cpp" />
     <ClCompile Include="..\Private\Block_Fall.cpp" />
     <ClCompile Include="..\Private\Block_Lock.cpp" />
@@ -200,15 +233,29 @@
     <ClCompile Include="..\Private\Block_Wall.cpp" />
     <ClCompile Include="..\Private\Block_Wood.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
+    <ClCompile Include="..\private\Cannon.cpp" />
+    <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
+    <ClCompile Include="..\private\Fire_Projectile.cpp" />
+    <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
+    <ClCompile Include="..\Private\InteractionBlock.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
     <ClCompile Include="..\Private\Level_MapEdit.cpp" />
+    <ClCompile Include="..\Private\Level_Stage1.cpp" />
+    <ClCompile Include="..\Private\Level_Stage2.cpp" />
+    <ClCompile Include="..\Private\Level_Stage3.cpp" />
+    <ClCompile Include="..\Private\Level_Stage4.cpp" />
+    <ClCompile Include="..\Private\Level_Stage5.cpp" />
+    <ClCompile Include="..\Private\Level_Stage6.cpp" />
+    <ClCompile Include="..\Private\Level_Test.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
+    <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\MultiViewCamera.cpp" />
     <ClCompile Include="..\Private\Part_Body.cpp" />
+    <ClCompile Include="..\Private\Part_Ears.cpp" />
     <ClCompile Include="..\Private\Part_Eyes.cpp" />
     <ClCompile Include="..\Private\Part_Legs.cpp" />
     <ClCompile Include="..\Private\Part_Nose.cpp" />

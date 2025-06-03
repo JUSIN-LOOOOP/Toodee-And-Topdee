@@ -142,6 +142,7 @@ _bool CTransform::Approach(const _float3& vTarget, _float fTimeDelta, _float fSp
 	//if (fLimitRange <= D3DXVec3Length(&vMoveDir))
 	{
 		_float fDistanceX = vMoveDir.x;
+		_float fDistanceY = vMoveDir.y;
 		_float fDistanceZ = vMoveDir.z;
 
 		_float3 vMove = *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * fSpeed * fTimeDelta;
@@ -151,6 +152,9 @@ _bool CTransform::Approach(const _float3& vTarget, _float fTimeDelta, _float fSp
 
 		if (abs(vMove.x) >= abs(fDistanceX))
 			vMove.x = fDistanceX;
+
+		if (abs(vMove.y) >= abs(fDistanceY))
+			vMove.y = fDistanceY;
 
 		if (abs(vMove.z) >= abs(fDistanceZ))
 			vMove.z = fDistanceZ;
@@ -170,9 +174,11 @@ void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 	_float3 vUp =		_float3(0.f, 1.f, 0.f) * vScale.y;
 	_float3 vLook =		_float3(0.f, 0.f, 1.f) * vScale.z;
 
+	_float3 NewvAxis = {};
 	_float4x4 rotationMatrix{};
-	
-	D3DXMatrixRotationAxis(&rotationMatrix, &vAxis, m_fRotationPerSec);
+	D3DXVec3Normalize(&NewvAxis, &vAxis);
+
+	D3DXMatrixRotationAxis(&rotationMatrix, &vAxis, fRadian);
 
 	D3DXVec3TransformNormal(&vRight, &vRight, &rotationMatrix);
 	D3DXVec3TransformNormal(&vUp, &vUp, &rotationMatrix);
@@ -230,33 +236,33 @@ void CTransform::Scaling(_float fScaleX, _float fScaleY, _float fScaleZ)
 	Set_State(STATE::LOOK, *D3DXVec3Normalize(&vLook, &vLook) * fScaleZ);
 }
 
-_bool CTransform::Spiral(const _float3& vTarget, const _float3 vAxis, _float fRotationDegree, _float fDistance,_float fTimeDelta)
+_bool CTransform::Spiral(const _float3& vTarget, const _float3& vAxis, _float fRotationDegree, _float fDistance,_float fTimeDelta)
 {
 	_float3 vPosition = Get_State(STATE::POSITION);
 
 
 	_float4x4 rotationMatrix{};
 
-	//È¸Àü ¼Óµµ
+	//íšŒì „ ì†ë„
 	_float fRotationPerSec = D3DXToRadian(fRotationDegree);
 
-	//Áö±Ý±îÁö È¸ÀüÇÑ °¢µµ
+	//ì§€ê¸ˆê¹Œì§€ íšŒì „í•œ ê°ë„
 	m_fTotalRotation += fRotationPerSec * fTimeDelta;
 
-	//È¸ÀüÇÒ À§Ä¡º¤ÅÍ
+	//íšŒì „í•  ìœ„ì¹˜ë²¡í„°
 	_float3 vRotatePosition = vPosition - vTarget;
 
-	//À§Ä¡º¤ÅÍ È¸Àü
+	//ìœ„ì¹˜ë²¡í„° íšŒì „
 	D3DXMatrixRotationAxis(&rotationMatrix, &vAxis, fRotationPerSec * fTimeDelta);
 	D3DXVec3TransformNormal(&vRotatePosition, &vRotatePosition, &rotationMatrix);
 
-	//¿ø·¡ À§Ä¡º¤ÅÍ¸¦ È¸ÀüÇÑ À§Ä¡º¤ÅÍ·Î °»½Å
+	//ì›ëž˜ ìœ„ì¹˜ë²¡í„°ë¥¼ íšŒì „í•œ ìœ„ì¹˜ë²¡í„°ë¡œ ê°±ì‹ 
 	vPosition = vTarget + vRotatePosition;
 
-	//¹æÇâº¤ÅÍ ±¸ÇÏ±â
+	//ë°©í–¥ë²¡í„° êµ¬í•˜ê¸°
 	_float3 vMoveDir = vTarget - vPosition;
 
-	//Å¸°Ù°úÀÇ °Å¸®¿Í È¸ÀüÇÒ °¢µµ¸¦ ÅëÇØ ½ºÇÇµå ±¸ÇÏ±â , Distance Toodee°¡ À½¼ö µé¾î°¡¼­ abs
+	//íƒ€ê²Ÿê³¼ì˜ ê±°ë¦¬ì™€ íšŒì „í•  ê°ë„ë¥¼ í†µí•´ ìŠ¤í”¼ë“œ êµ¬í•˜ê¸° , Distance Toodeeê°€ ìŒìˆ˜ ë“¤ì–´ê°€ì„œ abs
 	_float fSpeedPerSec = abs(fDistance) * (fRotationPerSec / (2.f * D3DX_PI));
 
 	_float3 vMove = *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * fSpeedPerSec * fTimeDelta;
@@ -265,13 +271,12 @@ _bool CTransform::Spiral(const _float3& vTarget, const _float3 vAxis, _float fRo
 
 	Set_State(STATE::POSITION, vPosition);
 
-	//¸ñÇ¥¸¸Å­ °¢µµº¸´Ù È¸Àü Çß´Ù¸é true
+	//ëª©í‘œë§Œí¼ ê°ë„ë³´ë‹¤ íšŒì „ í–ˆë‹¤ë©´ true
 	if (m_fTotalRotation >= fRotationPerSec)
 		return true;
 
 	return false;
 }
-
 
 void CTransform::Bind_Matrix()
 {

@@ -16,10 +16,14 @@ public:
 	HRESULT			Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut);
 	void			Update_Engine(_float fTimeDelta);
 	HRESULT			Clear_Resources(_uint iClearLevelID);
-
 	void			Render_Begin(D3DXCOLOR Color);
 	HRESULT			Draw();
 	void			Render_End(HWND hWnd = 0);
+
+public:
+	_float			Rand_Normal();
+	_float			Rand(_float fMin, _float fMax);
+	void			View_FrameRate(HWND hWnd = 0);
 
 	//Renderer
 public:
@@ -51,12 +55,6 @@ public:
 	_float			Get_TimeDelta(const _wstring& strTimerTag);
 	HRESULT			Add_Timer(const _wstring& strTimerTag);
 	void			Compute_TimeDelta(const _wstring& strTimerTag);
-	void			Change_Dimension(DIMENSION eDimension) {
-		m_eCurrentDimension = eDimension;
-	}
-	DIMENSION		Get_CurrentDimension() {
-		return m_eCurrentDimension;
-	}
 
 	//Map_Manager
 public:
@@ -74,16 +72,28 @@ public:
 
 	//Observer
 public:
-	HRESULT Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CObserver* pObserver);
-	HRESULT Subscribe_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CSubjectObject* pSubject);
+	HRESULT			Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CObserver* pObserver);
+	HRESULT			Subscribe_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CSubjectObject* pSubject);
 
 	//Sound
 public:
-	void		 PlayAudio(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);
-	void		 PlayBGM(const TCHAR* pSoundKey, float fVolume);
-	void		 StopSound(CHANNELID eID);
-	void		 StopAll();
-	void		 SetChannelVolume(CHANNELID eID, float fVolume);
+	void			PlayAudio(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);
+	void			PlayBGM(const TCHAR* pSoundKey, float fVolume);
+	void			StopSound(CHANNELID eID);
+	void			StopAll();
+	void			SetChannelVolume(CHANNELID eID, float fVolume);
+
+	//Pool
+public:
+	void					First_Push(const _wstring& strPoolTag,  class CPoolableObject* pGameObject);
+	void					Push(const _wstring& strPoolTag, class CPoolableObject* pGameObject);
+	class CPoolableObject*	Pop(const _wstring& strPoolTag);
+
+	//Dimension
+public:
+	void			Change_Dimension(DIMENSION eDimension) { m_eCurrentDimension = eDimension; }
+	DIMENSION		Get_CurrentDimension() { return m_eCurrentDimension; }
+
 
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -98,8 +108,13 @@ private:
 	class CMap_Manager*			m_pMap_Manager = { nullptr };
 	class CObserver_Manager*	m_pObserver_Manager = { nullptr };
 	class CSound_Manager*		m_pSound_Manager = { nullptr };
+	class CPool_Manager*		m_pPool_Manager = { nullptr };
 
+private:
 	DIMENSION					m_eCurrentDimension = {};
+	_uint						m_iFPS = { 0 };
+	_ulong						m_ulIntervalTime_FPS = { GetTickCount() };
+	TCHAR						m_szFPS[16] = {};
 
 public:
 	void Release_Engine();

@@ -1,6 +1,7 @@
 #include "Player_Topdee.h"
 #include "GameInstance.h"
 #include "PlayerState.h"
+#include "InteractionBlock.h"
 
 CPlayer_Topdee::CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPlayer { pGraphic_Device }
@@ -59,11 +60,24 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (FAILED(Ready_Outline()))
 		return E_FAIL;
 
+	if (nullptr == pArg)
+	{
+		m_vPotalPosition = { 0.f, 0.f, 0.f };
+		m_pTransformCom->Set_State(STATE::POSITION, _float3(1.f, 0.5f, 1.f));
+	}
+	else
+	{
+		BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
+
+		m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+	}
+
 	m_bCanClear = false;
 	m_fTurnDownTime = 0.f;
 	m_fTurnDownDelay = 0.04f;
 	m_vPotalPosition = { 0.f, 0.f, 0.f };
-	m_vNextMovePosition = { -1.f, 0.f, -1.f };
+
+	m_fMaxDot = -2.f;
 
 	m_pTransformCom->Scaling(12.f, 12.f, 0.f); 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
@@ -77,6 +91,7 @@ void CPlayer_Topdee::Priority_Update(_float fTimeDelta)
 {
 	Check_Dimension();
 
+	m_pActionCheckColliderCom->Collision_Off();
 
 	if (GetKeyState('2') & 0x8000)
 		Notify(EVENT::ENTER_PORTAL);
@@ -100,17 +115,26 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 
 			m_pGameInstance->Check_Collision(m_pColliderCom);
 
-			Check_CollisionState();
+			Check_Collision();
 
 			if (m_bInAction)
 			{
-				m_bInAction = false;
+				MoveToTileCenter(fTimeDelta);
+
+				if (m_pAttachBlock)
+					Check_DetachCollisionState();
+				else
+					Check_AttachCollisionState();
+
+				Interaction();
 			}
 		}
 		else
 		{
 			if (!m_bIsTurnDown)
 				TurnDownOnStop(fTimeDelta);
+
+			m_bInAction = false;
 		}
 
 		m_pCurrentState->Update(this, fTimeDelta);
@@ -154,6 +178,9 @@ void CPlayer_Topdee::Late_Update(_float fTimeDelta)
 HRESULT CPlayer_Topdee::Render()
 {
 	if (FAILED(m_pColliderCom->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pActionCheckColliderCom->Render()))
 		return E_FAIL;
 
 	m_pTransformCom->Bind_Matrix();
@@ -229,6 +256,8 @@ void CPlayer_Topdee::Stop()
 
 	m_ePrevMoveDir = m_eCurrentMoveDir;
 	m_bIsTurnDown = false;
+
+	m_bInAction = false;
 }
 
 void CPlayer_Topdee::Clear()
@@ -247,26 +276,47 @@ void CPlayer_Topdee::Clear()
 	m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 }
 
-void CPlayer_Topdee::onReport(REPORT eReport)
+void CPlayer_Topdee::onReport(REPORT eReport, CSubjectObject* pSubject)
 {
 	if (eReport == REPORT::REPORT_CANCLEAR)
 		m_bCanClear = true;
 }
 
+void CPlayer_Topdee::Interaction()
+{
+
+	if (m_pGameInstance->Key_Up('Z'))
+	{
+		if (m_pAttachBlock && true == m_bCanDetach)
+		{
+			m_pAttachBlock->Request_Change_State(BLOCKSTATE::DETACH);
+			m_pAttachBlock->Detach(m_vDetachPosition, 20.f);
+			m_pAttachBlock = nullptr;
+			m_bIsAttach = false;
+		}
+		else
+		{	
+			if (m_pFocuseBlock)
+			{
+				if(m_pFocuseBlock->IsStop())
+				{
+					m_pFocuseBlock->Request_Change_State(BLOCKSTATE::ATTACH);
+					m_pFocuseBlock->Attach(m_pTransformCom, 20.f);
+					m_pAttachBlock = m_pFocuseBlock;
+					m_bIsAttach = true;
+				}
+				m_pFocuseBlock = nullptr;
+			}
+		}
+		m_bInAction = false;
+	}
+}
+
 _float3 CPlayer_Topdee::ComputeTileOutlinePosition()
 {
-	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	_float3 vCenter = ComputeTileCenter();
 
 	const _float TILE_SIZE = 2.f;
-
-	_int iCountX = static_cast<_int>(floorf(vPosition.x / TILE_SIZE));
-	_int iCountZ = static_cast<_int>(floorf(vPosition.z / TILE_SIZE));
-
-	_float fCenterX = {};
-	_float fCenterZ = {};
-
-	fCenterX = iCountX * TILE_SIZE + (TILE_SIZE * 0.5);
-	fCenterZ = iCountZ * TILE_SIZE + (TILE_SIZE * 0.5);
 
 	_float fDistanceX = {};
 	_float fDistanceZ = {};
@@ -297,8 +347,7 @@ _float3 CPlayer_Topdee::ComputeTileOutlinePosition()
 		fDistanceX *= -1.f;
 	}
 
-
-	_float3 vOutlinePosition = {fCenterX + fDistanceX, vPosition.y, fCenterZ + fDistanceZ};
+	_float3 vOutlinePosition = { vCenter.x + fDistanceX, vCenter.y, vCenter.z + fDistanceZ};
 
 	return vOutlinePosition;
 }
@@ -360,7 +409,7 @@ MOVEDIRECTION CPlayer_Topdee::ComputeMoveDirection(_uint iInputData)
 	return m_eCurrentMoveDir;
 }
 
-void CPlayer_Topdee::ComputeTileCenter()
+_float3 CPlayer_Topdee::ComputeTileCenter()
 {
 	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
@@ -372,15 +421,198 @@ void CPlayer_Topdee::ComputeTileCenter()
 	_float fCenterX = {};
 	_float fCenterZ = {};
 
-	fCenterX = iCountX * TILE_SIZE + (TILE_SIZE * 0.5);
-	fCenterZ = iCountZ * TILE_SIZE + (TILE_SIZE * 0.5);
+	fCenterX = static_cast<_float>(iCountX) * TILE_SIZE + static_cast<_float>(TILE_SIZE * 0.5);
+	fCenterZ = static_cast<_float>(iCountZ) * TILE_SIZE + static_cast<_float>(TILE_SIZE * 0.5);
 
 	m_vCurrentTileCenter = { fCenterX, vPosition.y, fCenterZ };
+
+	return m_vCurrentTileCenter;
 }
 
 void CPlayer_Topdee::MoveToTileCenter(_float fTimeDelta)
 {
 	m_pTransformCom->Approach(m_vCurrentTileCenter, fTimeDelta, 10.f);	
+}
+
+void CPlayer_Topdee::Check_AttachCollisionState()
+{
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	vPosition = { vPosition.x, vPosition.y, vPosition.z };
+	m_pActionCheckTransformCom->Set_State(STATE::POSITION, vPosition);
+
+	m_fMaxDot = -2.f;
+
+	m_pActionCheckColliderCom->Collision_On();
+
+	m_pGameInstance->Check_Collision(m_pActionCheckColliderCom);
+
+	if (m_pActionCheckColliderCom->OnCollisionStay() || m_pActionCheckColliderCom->OnCollisionEnter())
+	{
+		vector<CGameObject*>* Overlaps = { nullptr };
+		m_pActionCheckColliderCom->GetOverlapAll(Overlaps);
+
+		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		_float3 vLook = Compute_Look();
+
+		for(auto iter : *Overlaps)
+		{
+			if ((iter->Get_Name().find(TEXT("Interaction")) != string::npos))
+			{
+				CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(iter);
+
+				_float fDot = pBlock->ComputeDirDotLook(vPosition, vLook);
+
+				if (fDot > m_fMaxDot)
+				{
+					m_fMaxDot = fDot;
+					m_pFocuseBlock = pBlock;
+				}
+			}
+			
+		}
+	}
+}
+
+_float3 CPlayer_Topdee::Compute_Look()
+{
+	_float3 vLook = {0.f, 0.f, 0.f};
+
+	switch (m_eCurrentMoveDir)
+	{
+	case MOVEDIRECTION::DOWN :
+		vLook.z = -1.f;
+		break;
+	case MOVEDIRECTION::DIAGONAL_DOWN:
+		vLook.x = 0.5f;
+		vLook.z = -0.5f;
+		break;
+	case MOVEDIRECTION::TRANSVERSE:
+		vLook.x = 1.f;
+		break;
+	case MOVEDIRECTION::DIAGONAL_UP:
+		vLook.x = 0.5f;
+		vLook.z = 0.5f;
+		break;
+	case MOVEDIRECTION::UP:
+		vLook.z = 1.f;
+		break;
+	}
+
+	if (m_eCurrentTextureDir == TEXTUREDIRECTION::LEFT)
+		vLook.x *= -1.f;
+
+	return vLook;
+}
+
+void CPlayer_Topdee::Check_DetachCollisionState()
+{
+	// Check 전 초기화
+
+	for (_uint i = 0; i < 4; i++)
+	{
+		m_fDotByDir[i] = -2.f;
+	}
+
+	m_fMaxDot = -2.f;
+
+	// LEFT, UP, RIGHT, DOWN 방향 Check 용
+
+	_float3 Dir[4] = { {-1.f, 0.f, 0.f},
+						{ 0.f, 0.f, 1.f},
+						{ 1.f, 0.f, 0.f },
+						{ 0.f, 0.f, -1.f} };
+
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	m_pActionCheckTransformCom->Set_State(STATE::POSITION, vPosition);
+
+	m_pActionCheckColliderCom->Collision_On();
+
+	m_pGameInstance->Check_Collision(m_pActionCheckColliderCom);
+
+	if (m_pActionCheckColliderCom->OnCollisionStay() || m_pActionCheckColliderCom->OnCollisionEnter())
+	{
+		vector<CGameObject*>* Overlaps = { nullptr };
+		m_pActionCheckColliderCom->GetOverlapAll(Overlaps);
+
+		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		_float3 vLook = Compute_Look();
+
+		for (auto iter : *Overlaps)
+		{
+			if ((iter->Get_Name().find(TEXT("Block")) != string::npos || iter->Get_Name().find(TEXT("Wall")) != string::npos))
+			{
+				CBlock* pBlock = dynamic_cast<CBlock*>(iter);
+
+				_float fDot = pBlock->ComputeDirDotLook(vPosition, vLook);
+
+				if (fDot > m_fMaxDot)
+				{
+					m_fMaxDot = fDot;
+				}
+
+				for (_uint i = 0; i < 4; i++)
+				{
+					_float fDotByDir = pBlock->ComputeDirDotLook(vPosition, Dir[i]);
+
+					if (fDotByDir > m_fDotByDir[i])
+					{
+						m_fDotByDir[i] = fDotByDir;
+					}
+				}
+			}
+		}
+	}
+
+	if (m_fMaxDot <= 0.9f) // 오차 범위 감안
+	{
+		m_vDetachPosition = ComputeTileOutlinePosition();
+		m_bCanDetach = true;
+		return;
+	}
+	else
+	{
+		for (_uint i = 0; i < ENUM_CLASS(DETACHDIRECTION::DETACHDIRECTION_END); i++)
+		{
+			if (m_fDotByDir[i] <= 0.9f) // 오차 범위 감안
+			{
+				m_vDetachPosition = Compute_Detach_Position(static_cast<DETACHDIRECTION>(i));
+				m_bCanDetach = true;
+				return;
+			}
+		}
+	}
+
+	m_bCanDetach = false;
+}
+
+_float3 CPlayer_Topdee::Compute_Detach_Position(DETACHDIRECTION eDir)
+{
+	_float3 vCenter = ComputeTileCenter();
+
+	const _float TILE_SIZE = 2.f;
+
+	_float fDistanceX = 0.f;
+	_float fDistanceZ = 0.f;
+
+	switch (eDir)
+	{
+	case DETACHDIRECTION::LEFT:
+		fDistanceX = -2.f;
+		break;
+	case DETACHDIRECTION::UP:
+		fDistanceZ = 2.f;
+		break;
+	case DETACHDIRECTION::RIGHT:
+		fDistanceX = 2.f;
+		break;
+	case DETACHDIRECTION::DOWN:
+		fDistanceZ = -2.f;
+		break;
+	}
+
+	_float3 vDetachPosition = { vCenter.x + fDistanceX, vCenter.y, vCenter.z + fDistanceZ};
+	return vDetachPosition;
 }
 
 HRESULT CPlayer_Topdee::Ready_Components()
@@ -390,6 +622,7 @@ HRESULT CPlayer_Topdee::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
+#pragma region Transform
 	/* For.Com_Transform*/
 	CTransform::TRANSFORM_DESC		TransformDesc{};
 	TransformDesc.fSpeedPerSec = 10.f;
@@ -399,27 +632,17 @@ HRESULT CPlayer_Topdee::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	/* For.Com_Texture*/
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Idle"),
-		TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::IDLE)]))))
+	CTransform::TRANSFORM_DESC		ActionCheckTransformDesc{};
+	ActionCheckTransformDesc.fSpeedPerSec = 0.f;
+	ActionCheckTransformDesc.fRotationPerSec = D3DXToRadian(90.f);
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
+		TEXT("Com_AttachCheckTransform"), reinterpret_cast<CComponent**>(&m_pActionCheckTransformCom), &ActionCheckTransformDesc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Move"),
-		TEXT("Com_Move_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::MOVE)]))))
-		return E_FAIL;
+#pragma endregion 
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Action"),
-		TEXT("Com_Action_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::ACTION)]))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Stop"),
-		TEXT("Com_Stop_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::STOP)]))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Topdee_Clear"),
-		TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::CLEAR)]))))
-		return E_FAIL;
-
+#pragma region Collider
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
@@ -430,7 +653,45 @@ HRESULT CPlayer_Topdee::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
-	
+
+	CCollider::COLLIDER_DESC ActionCheckColliderDesc{};
+	ActionCheckColliderDesc.pOwner = this;
+	ActionCheckColliderDesc.pTransform = m_pActionCheckTransformCom;
+	ActionCheckColliderDesc.vColliderScale = _float3(3.f, 3.f, 3.f);
+	ActionCheckColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ActionCheckColliderDesc.bIsFixed = false;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_AttachCheckCollider"), reinterpret_cast<CComponent**>(&m_pActionCheckColliderCom), &ActionCheckColliderDesc)))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region Topdee Texture
+
+	/* For.Com_Texture*/
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Idle"),
+		TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::IDLE)]))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Move"),
+		TEXT("Com_Move_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::MOVE)]))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Action"),
+		TEXT("Com_Action_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::ACTION)]))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Stop"),
+		TEXT("Com_Stop_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::STOP)]))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Clear"),
+		TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::CLEAR)]))))
+		return E_FAIL;
+
+#pragma endregion
+
 	return S_OK;
 }
 
@@ -463,8 +724,8 @@ HRESULT CPlayer_Topdee::Ready_Observers()
 
 HRESULT CPlayer_Topdee::Ready_Outline()
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Effect"),
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_TileOutline"), this)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Effect"),
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"), this)))
 		return E_FAIL;
 
 	
@@ -516,37 +777,42 @@ void CPlayer_Topdee::TurnDownOnStop(_float fTimeDelta)
 	m_bIsTurnDown = m_eCurrentMoveDir == MOVEDIRECTION::DOWN;
 }
 
-void CPlayer_Topdee::Check_CollisionState()
+void CPlayer_Topdee::Check_Collision()
 {
 	if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
 	{
-		_float fDist = {};
+		Check_Collision_InteractionBlock();
+		Check_Collision_PlayerState();
+
+	}
+}
+
+void CPlayer_Topdee::Check_Collision_PlayerState()
+{
+	_float3 temp;
+	if (m_pColliderCom->GetCollisionsOffset(&temp))
+	{
 		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-		COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
-		
-		switch(eCollider_Dir)
-		{
-		case COLLIDER_DIR::LEFT:
-			vPosition.x -= fDist;
-			break;
-		case COLLIDER_DIR::RIGHT:
-			vPosition.x += fDist;
-			break;
-		case COLLIDER_DIR::TOP:
-			vPosition.y += fDist;
-			break;
-		case COLLIDER_DIR::BOTTOM:
-			vPosition.y -= fDist;
-			break;
-		case COLLIDER_DIR::FRONT:
-			vPosition.z -= fDist;
-			break;
-		case COLLIDER_DIR::BACK:
-			vPosition.z += fDist;
-			break;
-		}
+		vPosition.x = vPosition.x + temp.x;
+		vPosition.z = vPosition.z + temp.z;
+
 		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 		m_vNextMovePosition = vPosition;
+	}
+
+}
+
+void CPlayer_Topdee::Check_Collision_InteractionBlock()
+{
+	if (nullptr != m_pColliderCom->GetOverlapTarget() &&
+		m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Interaction")) != string::npos)
+	{
+		CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(m_pColliderCom->GetOverlapTarget());
+		if (false == pBlock->IsPush() && false == pBlock->IsFall())
+		{
+			pBlock->Request_Change_State(BLOCKSTATE::PUSH);
+			pBlock->Push(m_eCurrentMoveDir, m_eCurrentTextureDir, 8.f);
+		}
 	}
 }
 
@@ -578,4 +844,7 @@ CGameObject* CPlayer_Topdee::Clone(void* pArg)
 void CPlayer_Topdee::Free()
 {
 	__super::Free();
+	
+	Safe_Release(m_pActionCheckColliderCom);
+	Safe_Release(m_pActionCheckTransformCom);
 }

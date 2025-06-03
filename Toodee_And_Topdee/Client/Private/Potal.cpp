@@ -35,10 +35,15 @@ HRESULT CPotal::Initialize(void* pArg)
 	m_iCurrentAnimCount = 0;
 	m_fAnimTime = 0.f;
 
-	_float3 vPosition = *(static_cast<_float3*>(pArg));
+	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
-	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-	m_pTransformCom->Scaling(5.f, 5.f, 5.f); // Test
+	_float3 vPosition = pDesc->vPos;
+	vPosition.x += 1.f;
+	vPosition.z += 1.f;
+
+	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+
+	m_pTransformCom->Scaling(4.f, 4.f, 4.f);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	
 	return S_OK;
@@ -107,7 +112,7 @@ HRESULT CPotal::Ready_Components()
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Potal"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Potal"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

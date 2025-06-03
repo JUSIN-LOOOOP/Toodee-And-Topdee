@@ -1,13 +1,11 @@
 #include "SubjectObject.h"
 #include "Observer.h"
 
-CSubjectObject::CSubjectObject(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject { pGraphic_Device }
+CSubjectObject::CSubjectObject()
 {
 }
 
 CSubjectObject::CSubjectObject(const CSubjectObject& Prototype)
-	: CGameObject { Prototype }
 {
 
 }
@@ -51,10 +49,8 @@ void CSubjectObject::Notify_Dead()
 		Observer->Remove_Subject(this);
 }
 
-void CSubjectObject::Free()
+void CSubjectObject::SubjectFree()
 {
-	__super::Free();
-
 	auto iter = m_Observers.begin();
 
 	for (iter; iter != m_Observers.end();)
