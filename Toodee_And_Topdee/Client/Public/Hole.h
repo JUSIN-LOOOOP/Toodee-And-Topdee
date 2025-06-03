@@ -26,16 +26,19 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void Set_Dead() { m_bDead = true; }
 private: 
 	HRESULT Ready_Components();
 
 private: 
-	class CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	class CTexture* m_pTextureCom = { nullptr };
-	class CTransform* m_pTransformCom = { nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
 
 	_uint	m_iTextureIdx = {};
 
+	_bool m_bDead = {};
 public:
 	static CHole* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

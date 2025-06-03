@@ -38,7 +38,6 @@ HRESULT CObserver_Manager::Add_Observer(_uint iObserverLevelndex, const _wstring
 
     m_Observers[iObserverLevelndex].emplace(strObserverTag, pObserver);
 
-    auto Pair2 = m_Observers[3];
     return S_OK;
 }
 
@@ -48,7 +47,6 @@ HRESULT CObserver_Manager::Subscribe_Observer(_uint iObserverLevelndex, const _w
         iObserverLevelndex >= m_iNumLevels)
         return E_FAIL;
 
-    auto Pair2 = m_Observers[3];
     CObserver* pObserver = Find_Observer(iObserverLevelndex, strObserverTag);
 
     if(nullptr == pObserver)

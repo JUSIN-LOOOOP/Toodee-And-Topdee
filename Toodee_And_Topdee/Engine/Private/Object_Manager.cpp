@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "GameObject.h"
+#include "PoolableObject.h"
 
 CObject_Manager::CObject_Manager()
 	:m_pGameInstance{ CGameInstance::GetInstance() }
@@ -39,6 +40,12 @@ HRESULT CObject_Manager::Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _w
 	//Map Edit 레벨일 때, MapManager가 Tile객체를 관리할 수 있도록 포인터를 넘겨준다.
 	if (strLayerTag == L"Layer_Tile")
 		m_pGameInstance->Add_Tile(pGameObject);
+
+	if (strLayerTag == L"Layer_Projectile_Fire")
+		m_pGameInstance->First_Push(strLayerTag,dynamic_cast<CPoolableObject*>(pGameObject));
+
+	if (strLayerTag == L"Layer_Projectile_Laser")
+		m_pGameInstance->First_Push(strLayerTag, dynamic_cast<CPoolableObject*>(pGameObject));
 
 	return S_OK;
 }

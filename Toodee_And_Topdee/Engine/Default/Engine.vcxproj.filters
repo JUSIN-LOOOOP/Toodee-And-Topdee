@@ -115,6 +115,21 @@
     <Filter Include="00. System\00. Device\Sound">
       <UniqueIdentifier>{9f0a2a35-f6fe-4b41-b95c-236bede61ea1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\08. Pool">
+      <UniqueIdentifier>{1bfbc6e9-028d-49ea-9c02-f71a8fb1748d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\08. Pool\Manager">
+      <UniqueIdentifier>{d1ba5722-c151-408e-9200-492a4efb6535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\08. Pool\Manager\Base">
+      <UniqueIdentifier>{911ca93c-1247-4371-9a4b-07d4a743bc43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. GameObject\Poolable">
+      <UniqueIdentifier>{90158ab4-e5f9-414e-8f4d-89f1c9d7b3da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. GameObject\00. Base">
+      <UniqueIdentifier>{d4f551a2-3747-4662-8797-f40338341a3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -158,9 +173,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Renderer.h">
       <Filter>01. Utility\04. Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\GameObject.h">
-      <Filter>01. Utility\03. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Layer.h">
       <Filter>01. Utility\03. GameObject\Manager\Layer</Filter>
@@ -216,9 +228,6 @@
     <ClInclude Include="..\Public\Observer_Manager.h">
       <Filter>01. Utility\07. Observer\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ClearTriggerObserver.h">
-      <Filter>01. Utility\07. Observer\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Collision_Manager.h">
       <Filter>01. Utility\06 Collision\Manager</Filter>
     </ClInclude>
@@ -230,6 +239,24 @@
     </ClInclude>
     <ClInclude Include="..\public\Sound_Manager.h">
       <Filter>00. System\00. Device\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Pool_Manager.h">
+      <Filter>01. Utility\08. Pool\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Pool.h">
+      <Filter>01. Utility\08. Pool\Manager\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PoolableObject.h">
+      <Filter>01. Utility\03. GameObject\Poolable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ClearTriggerObserver.h">
+      <Filter>01. Utility\07. Observer\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObject.h">
+      <Filter>01. Utility\03. GameObject\00. Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BreakTriggerObserver.h">
+      <Filter>01. Utility\07. Observer\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -256,9 +283,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Renderer.cpp">
       <Filter>01. Utility\04. Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\GameObject.cpp">
-      <Filter>01. Utility\03. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Layer.cpp">
       <Filter>01. Utility\03. GameObject\Manager\Layer</Filter>
@@ -311,9 +335,6 @@
     <ClCompile Include="..\Private\Observer.cpp">
       <Filter>01. Utility\07. Observer\Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ClearTriggerObserver.cpp">
-      <Filter>01. Utility\07. Observer\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Observer_Manager.cpp">
       <Filter>01. Utility\07. Observer\Manager</Filter>
     </ClCompile>
@@ -328,6 +349,25 @@
     </ClCompile>
     <ClCompile Include="..\private\Sound_Manager.cpp">
       <Filter>00. System\00. Device\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Pool_Manager.cpp">
+      <Filter>01. Utility\08. Pool\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Pool.cpp">
+      <Filter>01. Utility\08. Pool\Manager\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PoolableObject.cpp">
+      <Filter>01. Utility\03. GameObject\Poolable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ClearTriggerObserver.cpp">
+      <Filter>01. Utility\07. Observer\Base</Filter>
+    </ClCompile>
+
+    <ClCompile Include="..\private\GameObject.cpp">
+      <Filter>01. Utility\03. GameObject\00. Base</Filter>
+ </ClCompile>
+    <ClCompile Include="..\Private\BreakTriggerObserver.cpp">
+      <Filter>01. Utility\07. Observer\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

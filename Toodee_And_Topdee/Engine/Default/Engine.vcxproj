@@ -159,6 +159,7 @@ call Copy.bat
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\Private\BreakTriggerObserver.cpp" />
     <ClCompile Include="..\Private\ClearTriggerObserver.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
     <ClCompile Include="..\private\Collision.cpp" />
@@ -176,6 +177,9 @@ call Copy.bat
     <ClCompile Include="..\Private\Parts.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\Private\Observer_Manager.cpp" />
+    <ClCompile Include="..\private\Pool.cpp" />
+    <ClCompile Include="..\private\PoolableObject.cpp" />
+    <ClCompile Include="..\private\Pool_Manager.cpp" />
     <ClCompile Include="..\private\Prototype_Manager.cpp" />
     <ClCompile Include="..\private\Renderer.cpp" />
     <ClCompile Include="..\private\Sound_Manager.cpp" />
@@ -193,6 +197,7 @@ call Copy.bat
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\Public\BreakTriggerObserver.h" />
     <ClInclude Include="..\Public\ClearTriggerObserver.h" />
     <ClInclude Include="..\Public\Collider.h" />
     <ClInclude Include="..\public\Collision.h" />
@@ -216,6 +221,9 @@ call Copy.bat
     <ClInclude Include="..\Public\Parts.h" />
     <ClInclude Include="..\Public\Observer.h" />
     <ClInclude Include="..\Public\Observer_Manager.h" />
+    <ClInclude Include="..\public\Pool.h" />
+    <ClInclude Include="..\public\PoolableObject.h" />
+    <ClInclude Include="..\public\Pool_Manager.h" />
     <ClInclude Include="..\public\Prototype_Manager.h" />
     <ClInclude Include="..\public\Renderer.h" />
     <ClInclude Include="..\public\Sound_Manager.h" />

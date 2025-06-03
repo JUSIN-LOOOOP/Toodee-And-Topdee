@@ -7,12 +7,14 @@ CClearTriggerObserver::CClearTriggerObserver()
 
 void CClearTriggerObserver::onNotify(EVENT eEvent, CSubjectObject* pSubject)
 {
+	if (nullptr == pSubject)
+		return;
+
 	switch (eEvent)
 	{
 	case EVENT::ENTER_PORTAL:
 		Add_OverlapSubjects(pSubject);
 		break;
-		
 	case EVENT::EXIT_PORTAL:
 		Remove_OverlapSubjects(pSubject);
 		break;
@@ -27,6 +29,9 @@ void CClearTriggerObserver::onNotify(EVENT eEvent, CSubjectObject* pSubject)
 
 void CClearTriggerObserver::Remove_Subject(CSubjectObject* pSubject)
 {
+	if (nullptr == pSubject)
+		return;
+
 	auto iter = m_Subjects.begin();
 
 	for (iter; iter != m_Subjects.end();)
@@ -39,9 +44,6 @@ void CClearTriggerObserver::Remove_Subject(CSubjectObject* pSubject)
 		else
 			iter++;
 	}
-
-	if (nullptr == pSubject)
-		return;
 
 	_uint iErase = m_OverlapSubjects.erase(pSubject);
 

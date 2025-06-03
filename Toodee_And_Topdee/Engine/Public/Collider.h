@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-
+#include <array>
 /* 원형 컴포넌트 만들 때 아래와 같이 나누기*/
 /* Prototype_Component_Collider_Rect*/
 /* Prototype_Component_Collider_Cube*/
@@ -12,6 +12,13 @@ class ENGINE_DLL CCollider final : public CComponent
 {
 public:
 	enum class COLLIDER_STATE { NONE, ENTRY, STAY, EXIT };
+	typedef struct tagTargetResult
+	{
+		class CGameObject*	pGameObject = { nullptr };
+		_float				fDist = { 0.f };
+		_float3				vDirection = { 0.f,0.f,0.f };
+		_float3				vTargetPosition = { 0.f,0.f,0.f };
+	}TARGET_RESULT;
 
 	typedef struct tagColliderDesc
 	{	
@@ -39,15 +46,24 @@ public:
 	const _bool				OnCollisionStay()  const { return m_eState == COLLIDER_STATE::STAY; }
 	const _bool				OnCollisionExit()  const { return m_eState == COLLIDER_STATE::EXIT; }
 
-	const _bool				Collision_IsActive()  const { return m_bisTrigger; }
-	void					Collision_Off() { m_bisTrigger = false; }
-	void					Collision_On() { m_bisTrigger = true; }
+	const _bool				Collision_IsActive()  const {
+		return m_bisTrigger;
+	}
+	void					Collision_Off() {
+		Remove_Others();
+		m_bisTrigger = false;
+	}
+	void					Collision_On() { Remove_Others(); m_bisTrigger = true; }
+	void					ApplyFixedPosition(_float3 vPosition) { m_vPosition = vPosition; m_bIsFixed = true; }
+	void					SyncWithOwner() { m_bIsFixed = false; }
 
 	_bool					GetOverlapAll(vector<class CGameObject*>*& pList);
 	class CGameObject*		GetOverlapTarget();
 
 	const COLLIDER_DIR		DetectCollisionDirection(_float* distance = nullptr) const;
-
+	const _bool				GetCollisionsOffset(_float3* distance) const;
+	
+	TARGET_RESULT			FindNearestTarget(const _wstring strName = TEXT(""));
 	HRESULT					Render();
 
 	/* Engine 함수 */
@@ -58,6 +74,8 @@ public:
 	void					Set_State(COLLIDER_STATE eState) { m_eState = eState; }
 
 private:
+	array<_wstring, 2>			strCompare = { TEXT("Interaction"), TEXT("Wall") };
+
 	_float3						m_vScale = { };
 	_float3						m_vPosition = { };
 	_bool						m_bIsFixed = { };

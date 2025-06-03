@@ -24,7 +24,9 @@ HRESULT CBlock_Wall::Initialize(void* pArg)
 
 	__super::SetUp_BlockInfo(pArg);
 
-	name = TEXT("Block_Wall");
+	m_pColliderCom->Collision_Off();
+
+	name = TEXT("Wall");
 
     return S_OK;
 }
@@ -69,7 +71,7 @@ HRESULT CBlock_Wall::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Block_Wall"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Wall"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -80,6 +82,18 @@ HRESULT CBlock_Wall::Ready_Components()
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+	CCollider::COLLIDER_DESC ColliderDesc{};
+	ColliderDesc.pOwner = this;
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(1.8f, 1.8f, 1.8f);
+	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.bIsFixed = false;
+
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 
@@ -126,7 +140,4 @@ void CBlock_Wall::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
 }

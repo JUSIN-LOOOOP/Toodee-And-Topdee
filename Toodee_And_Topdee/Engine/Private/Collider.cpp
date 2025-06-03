@@ -122,16 +122,48 @@ CGameObject* CCollider::GetOverlapTarget()
     return (m_eState == COLLIDER_STATE::NONE|| m_pOthers.empty()) ? nullptr : m_pOthers.back() != nullptr ? m_pOthers.back() : nullptr;
 }
 
+CCollider::TARGET_RESULT  CCollider::FindNearestTarget(_wstring strName)
+{
+    TARGET_RESULT result;
+    
+    _float3 myPos = m_pTransform->Get_State(STATE::POSITION);
+    _float fMinDist = FLT_MAX;
+
+    for (auto pOther : m_pOthers)
+    {
+		if (pOther == nullptr) continue;
+        if (strName != TEXT("") && !pOther->CompareName(strName)) continue;
+
+        CTransform* pOtherTransform = static_cast<CTransform*>(pOther->Get_Component(TEXT("Com_Transform")));
+        if (pOtherTransform == nullptr) continue;
+
+        _float3 otherPos = pOtherTransform->Get_State(STATE::POSITION);
+		_float3 toOther = otherPos - myPos;
+		_float dist = D3DXVec3LengthSq(&toOther);
+
+		if (dist < fMinDist)
+		{
+			fMinDist = dist;
+            result.pGameObject = pOther;
+            result.fDist = D3DXVec3Length(&toOther);
+            D3DXVec3Normalize(&toOther, &toOther);
+            result.vDirection = toOther;
+            result.vTargetPosition = otherPos;
+		}
+	}
+
+    return result;
+}
+
 const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
 {
     if (m_eState == COLLIDER_STATE::NONE) return COLLIDER_DIR::CD_END;
     if (m_pOthers.size() == 0) return COLLIDER_DIR::CD_END;
     _float3  myPosition = m_pTransform->Get_State(STATE::POSITION);
-    //_float3  myScale = m_pTransform->Get_Scaled();
     _float3 myScale = m_vScale;
 
     CTransform* other = nullptr;
-    if(m_pOthers.back() != nullptr)
+    if(!m_pOthers.empty() && m_pOthers.back() != nullptr)
         other = dynamic_cast<CTransform*>(m_pOthers.back()->Get_Component(TEXT("Com_Transform")));
 
     if (other == nullptr)
@@ -150,59 +182,101 @@ const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
     _float overlapY = (myScale.y + otherScale.y) * 0.5f - absY;
     _float overlapZ = (myScale.z + otherScale.z) * 0.5f - absZ;
 
-    if (overlapX <= overlapY && overlapX <= overlapZ) {
-        *distance = overlapX * 0.5f;
+    if (overlapX <= overlapY && overlapX <= overlapZ)
+    {
+        if(distance != nullptr) *distance = overlapX * 0.5f;
         return (vDelta.x > 0) ? COLLIDER_DIR::LEFT : COLLIDER_DIR::RIGHT;
     }
-    else if (overlapY <= overlapZ) {
-        *distance = overlapY * 0.5f;
+    else if (overlapY <= overlapZ) 
+    {
+        if (distance != nullptr) *distance = overlapY * 0.5f;
         return (vDelta.y > 0) ? COLLIDER_DIR::BOTTOM : COLLIDER_DIR::TOP;
     }
-    else {
-        *distance = overlapZ;
+    else 
+    {
+        if (distance != nullptr)*distance = overlapZ;
         return (vDelta.z > 0) ? COLLIDER_DIR::FRONT : COLLIDER_DIR::BACK;
     }
     
-
-    //if (absY > absX && absY > absZ)
-    //{
-    //    if (vDelta.y > 0) {
-    //        *distance = (otherScale.y + myScale.y) * 0.5f - vDelta.y;
-    //        return COLLIDER_DIR::BOTTOM;
-    //    }
-    //    else
-    //    {
-    //        *distance = (otherScale.y + myScale.y) * 0.5f + vDelta.y;
-    //        return COLLIDER_DIR::TOP;
-    //    }
-    //}
-    //else if (absX > absZ)
-    //{
-    //    if (vDelta.x > 0)
-    //    {
-    //        *distance = (otherScale.x + myScale.x) * 0.5f - vDelta.x;
-    //        return COLLIDER_DIR::LEFT;
-    //    }
-    //    else
-    //    {
-    //        *distance = (otherScale.x + myScale.x) * 0.5f + vDelta.x;
-    //        return COLLIDER_DIR::RIGHT;
-    //    }
-    //}
-    //else
-    //{
-    //    if (vDelta.z > 0)
-    //    {            
-    //        *distance = (otherScale.z + myScale.z) * 0.5f - vDelta.z;
-    //        return COLLIDER_DIR::FRONT;
-    //    }
-    //    else
-    //    {
-    //        *distance = (otherScale.z + myScale.z) * 0.5f + vDelta.z;
-    //        return COLLIDER_DIR::BACK;
-    //    }
-    //}
 }
+
+const _bool CCollider::GetCollisionsOffset(_float3* distance) const
+{
+    if (m_eState == COLLIDER_STATE::NONE || m_pOthers.size() == 0 || distance == nullptr ) return false;
+
+    _float3  result = { 0.f, 0.f, 0.f };
+    _float3  myPosition = m_pTransform->Get_State(STATE::POSITION);
+    _float3  myScale = m_vScale;
+
+    _float3  vMinCompare = { FLT_MAX,FLT_MAX ,FLT_MAX };
+	_bool    bFlag[3] = { false,false,false };
+    _float minMagnitude = FLT_MAX;
+
+    for (auto& iter : m_pOthers)
+    {
+        if (iter == nullptr) continue;
+
+        _wstring strOtherName = iter->Get_Name();
+
+        /* 이름이 strCompare가 아닌 오브젝트는 패스 */
+        for (_uint i = 0; i < strCompare.size(); ++i)
+            if ((strOtherName.size() >= strCompare[i].size() && strOtherName.substr(0, strCompare[i].size()).compare(strCompare[i]) != 0))
+                continue;
+
+        CTransform* otherTransform = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")));
+
+        if (otherTransform == nullptr) continue;
+
+
+        _float3  otherPosition = otherTransform->Get_State(STATE::POSITION);
+        _float3  otherScale = otherTransform->Get_Scaled();
+        _float3  vDelta = myPosition - otherPosition;
+
+        _float absX = fabsf(vDelta.x);
+        _float absY = fabsf(vDelta.y);
+        _float absZ = fabsf(vDelta.z);
+
+        _float overlapX = (myScale.x + otherScale.x) * 0.5f - absX;
+        _float overlapY = (myScale.y + otherScale.y) * 0.5f - absY;
+        _float overlapZ = (myScale.z + otherScale.z) * 0.5f - absZ;
+
+        if (overlapX < 0 || overlapY < 0 || overlapZ < 0) continue;
+
+        /* 충돌중인 모든 콜라이더에서 가장 작은 축들을 더함 */
+        if (overlapX <= overlapY && overlapX <= overlapZ)
+            result += { (vDelta.x > 0 ? overlapX : -overlapX), 0.f, 0.f };
+        else if (overlapY <= overlapX && overlapY <= overlapZ)
+            result += { 0.f, (vDelta.y > 0 ? overlapY : -overlapY), 0.f };
+        else
+            result += { 0.f, 0.f, (vDelta.z > 0 ? overlapZ : -overlapZ) };
+
+        /* 가장 가까운 콜라이더 1개에서 가장 작은 축 하나 고름 */
+       /* _float3 offset = { 0.f, 0.f, 0.f };
+
+        if (overlapX <= overlapY && overlapX <= overlapZ)
+            offset.x = (vDelta.x > 0) ? overlapX : -overlapX;
+        else if (overlapY <= overlapX && overlapY <= overlapZ)
+            offset.y = (vDelta.y > 0) ? overlapY : -overlapY;
+        else
+            offset.z = (vDelta.z > 0) ? overlapZ : -overlapZ;
+
+        _float magnitude = offset.x * offset.x + offset.y * offset.y + offset.z * offset.z;
+        if (magnitude < minMagnitude)
+        {
+            minMagnitude = magnitude;
+            result = offset;
+        }*/
+    }
+
+    //if (minMagnitude == FLT_MAX)
+    //    return false;
+
+    *distance = result;
+    return true;
+
+
+}
+
 
 HRESULT CCollider::Render()
 {
@@ -215,10 +289,15 @@ HRESULT CCollider::Render()
     matWorld._21 = 0.0f; matWorld._22 = 1.0f; matWorld._23 = 0.0f;
     matWorld._31 = 0.0f; matWorld._32 = 0.0f; matWorld._33 = 1.0f;
 
+    if (m_bIsFixed)
+        memcpy(&matWorld.m[ENUM_CLASS(STATE::POSITION)][0], &m_vPosition, sizeof(_float3));
+
+
     // 변환 행렬 적용
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
 
-    // 와이어프레임 모드 설정
+    // 와이어프레임 모드 설정 및 컬모드 설정
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
     // 충돌 여부에 따른 색상 적용
@@ -244,8 +323,10 @@ HRESULT CCollider::Render()
     // 도형 그리기
     m_pGraphic_Device->DrawIndexedPrimitive(m_ePrimitiveType, 0, 0, m_iNumVertices, 0, m_iNumPrimitive);
 
-    // 상태 복구 - 솔리드 모드로 변경
+    // 상태 복구 - 솔리드 모드로 변경 및 컬모드
     m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 
     // 상태 복구 - 텍스처 팩터 기본값으로 변경
     m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFFFFFFFF);

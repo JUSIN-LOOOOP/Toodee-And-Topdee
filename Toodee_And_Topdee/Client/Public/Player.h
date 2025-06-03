@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "SubjectObject.h"
+#include "GameObject.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -15,8 +16,14 @@ BEGIN(Client)
 
 class CPlayerState;
 
-class CPlayer abstract : public CSubjectObject
+class CPlayer abstract : public CGameObject, public CSubjectObject
 {
+public:
+	typedef struct tagPlayerDesc {
+		_float3 vPlayerStartPosition;
+		_float3 vPotalPosition;
+	}PLAYERDESC;
+
 protected:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -41,7 +48,7 @@ public:
 	virtual void Clear() PURE;											// Clear State 飘府芭
 
 	/* Observer */
-	virtual void onReport(REPORT eReport) PURE;							// Observer啊 林绰 REPORT 贸府
+	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) PURE;							// Observer啊 林绰 REPORT 贸府
 
 	_bool CanMoveInAction() const { return m_bMoveInAction; }
 	_bool InAction() const { return m_bInAction; }						

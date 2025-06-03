@@ -28,9 +28,8 @@ public:
 	virtual void Stop() override;									
 	virtual void Clear() override;									
 	
-	virtual void onReport(REPORT eReport) override;					
-private:															   
-																	   
+	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) override;
+private:															   								   
 	/* Ground Check Collider */										   
 	CCollider*  m_pGroundCheckColliderCom = { nullptr };			// 지면 체크용 Collider
 	CTransform* m_pGroundCheckTransformCom = { nullptr };			// 지면 체크용 Collider에게 붙일 Transform
@@ -38,6 +37,7 @@ private:
 																	   
 	/* Jump */														   
 	JUMPSTATE	m_eJumpState = {};									// 점프 상태
+	_float		m_fStartJumpPower = {};
 	_float		m_fCurrentJumpPower = {};							// 점프 높이를 조절 POWER
 	_float		m_fAccumulationJumpPower = {};						// 현재 증가된 점프량
 	_float		m_fIncreaseJumpPower = {};							// 한프레임당 증가할수 있는 점프파워
@@ -51,7 +51,9 @@ private:
 	void Gravity(_float fTimeDelta);								// 중력 적용
 	void Compute_Gravity(_float fTimeDelta);						// 중력 갱신
 																	   
-	void Check_CollisionState();									// 플레이어 충돌 체크
+	void Check_Collision();											// 플레이어 충돌 체크
+	void Check_Collision_PlayerState();
+	void Check_Collision_BlockBreak();
 	void Check_Grounded();											// 지면 체크
 
 ;	HRESULT Ready_Components();
