@@ -53,7 +53,9 @@ private:
 																	   
 	void Check_Collision();											// 플레이어 충돌 체크
 	void Check_Collision_PlayerState();
-	void Check_Collision_BlockBreak();
+	void Check_Collision_BlockBreak(CGameObject* pGameObject);
+	void Check_Collision_Dead(CGameObject* pGameObject);
+	void Check_Collision_Portal(CGameObject* pGameObject);
 	void Check_Grounded();											// 지면 체크
 
 ;	HRESULT Ready_Components();
