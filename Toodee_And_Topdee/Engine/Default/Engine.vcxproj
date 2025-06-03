@@ -167,6 +167,7 @@ call Copy.bat
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\private\GameObject.cpp" />
+    <ClCompile Include="..\Private\KeyTriggerObserver.cpp" />
     <ClCompile Include="..\private\Key_Manager.cpp" />
     <ClCompile Include="..\Private\Map_Manager.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />
@@ -211,6 +212,7 @@ call Copy.bat
     <ClInclude Include="..\Public\Engine_Typedef.h" />
     <ClInclude Include="..\public\GameInstance.h" />
     <ClInclude Include="..\public\GameObject.h" />
+    <ClInclude Include="..\Public\KeyTriggerObserver.h" />
     <ClInclude Include="..\public\Key_Manager.h" />
     <ClInclude Include="..\Public\Map_Manager.h" />
     <ClInclude Include="..\public\Object_Manager.h" />

@@ -30,6 +30,7 @@ HRESULT CColliderMap_Object::Initialize(void* pArg)
     m_pTransformCom->Set_State(STATE::POSITION, m_vPosition);
     m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
 
+    name = TEXT("Wall");
     return S_OK;
 
 }
@@ -75,7 +76,7 @@ HRESULT CColliderMap_Object::Ready_Components()
     ColliderDesc.bIsFixed = false;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
-        TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
     {
         MSG_BOX(TEXT("Failed to Add_Component : Com_Collision"));
         return E_FAIL;

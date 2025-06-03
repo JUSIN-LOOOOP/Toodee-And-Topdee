@@ -61,10 +61,14 @@ public:
 	class CGameObject*		GetOverlapTarget();
 
 	const COLLIDER_DIR		DetectCollisionDirection(_float* distance = nullptr) const;
-	const _bool				GetCollisionsOffset(_float3* distance) const;
+	const _bool				GetCollisionsOffset(_float3* distance,const _wstring strComponentTag = TEXT("Com_Collider")) const;
 	
 	TARGET_RESULT			FindNearestTarget(const _wstring strName = TEXT(""));
 	HRESULT					Render();
+
+	const _float3			Get_ColliderScaled() { return m_vScale; };
+	const _float3			Get_ColliderPosition() { return m_vPosition; };
+
 
 	/* Engine ÇÔ¼ö */
 public:
