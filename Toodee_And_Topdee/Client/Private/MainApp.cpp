@@ -56,7 +56,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_ForStatic_Parts()))
 		return E_FAIL;
 
-	if (FAILED(Start_Level(LEVEL::LEVEL_LOGO)))
+	if (FAILED(Start_Level(LEVEL::LEVEL_GAMEPLAY)))
 		return E_FAIL;
 
 	return S_OK;
@@ -129,6 +129,7 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_Texture_Potal */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Potal"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Potal/portalSpr_%d.png"), 11))))
+		return E_FAIL;
 
 	/* Prototype_GameObject_Potal */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"),
@@ -182,6 +183,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 	/* Prototype_Component_Texture_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Hole"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Block/Hole.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Key"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Key/keySpr_%d.png"), 12))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackWall */

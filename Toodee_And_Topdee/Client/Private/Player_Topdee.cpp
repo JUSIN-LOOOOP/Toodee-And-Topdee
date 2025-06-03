@@ -59,6 +59,8 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (FAILED(Ready_Outline()))
 		return E_FAIL;
 
+	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
+
 	m_bCanClear = false;
 	m_fTurnDownTime = 0.f;
 	m_fTurnDownDelay = 0.04f;
@@ -67,6 +69,7 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 
 	m_pTransformCom->Scaling(12.f, 12.f, 0.f); 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
 	
 	ComputeTileCenter();
 

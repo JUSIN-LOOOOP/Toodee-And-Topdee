@@ -23,6 +23,10 @@ HRESULT CLevel_Map::Initialize()
 	TextureCount.push_back(1);	//SPARK
 	TextureCount.push_back(1);	//METAL
 	TextureCount.push_back(1);	//Hole
+	TextureCount.push_back(1);	//Key
+	TextureCount.push_back(1);	//Potal
+	TextureCount.push_back(1);	//Topdee
+	TextureCount.push_back(1);	//Toodee
 
 	m_pGameInstance->Load_Initial_Data(&TextureCount);
 
@@ -72,7 +76,7 @@ HRESULT CLevel_Map::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_Map::Ready_Layer_Tile(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage2"));
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage6"));
 	BLOCK_INFO	info = {};
 	BLOCK_INFO	arg = {};
 	_uint		idx = {};

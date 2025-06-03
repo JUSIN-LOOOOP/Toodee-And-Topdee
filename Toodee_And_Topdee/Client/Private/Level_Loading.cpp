@@ -44,7 +44,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			pNewLevel = CLevel_Logo::Create(m_pGraphic_Device);
 			break;
 		case LEVEL::LEVEL_GAMEPLAY:
-			pNewLevel = CLevel_Test::Create(m_pGraphic_Device);
+			pNewLevel = CLevel_GamePlay::Create(m_pGraphic_Device);
 			break;
 		case LEVEL::LEVEL_MAPEDIT:
 			pNewLevel = CLevel_Map::Create(m_pGraphic_Device);

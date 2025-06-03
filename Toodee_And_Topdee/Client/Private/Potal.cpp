@@ -35,9 +35,9 @@ HRESULT CPotal::Initialize(void* pArg)
 	m_iCurrentAnimCount = 0;
 	m_fAnimTime = 0.f;
 
-	_float3 vPosition = *(static_cast<_float3*>(pArg));
+	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
-	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
 	m_pTransformCom->Scaling(5.f, 5.f, 5.f); // Test
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	

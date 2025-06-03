@@ -10,12 +10,17 @@
 #include "Block_Spark.h"
 #include "Block_Metal.h"
 #include "Hole.h"
+#include "Key.h"
 #include "TextureUI.h"
 #include "TileOutline.h"
 #include "Pig.h"
 #include "Cannon.h"
 #include "Fire_Projectile.h"
 #include "BackCloud.h"
+
+//#include "StageBoss.h"
+//#include "StageBoss_Body.h"
+//#include "StageBoss_Hand.h"
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
@@ -149,6 +154,23 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
   
 #pragma endregion
 
+#pragma region TEXTURE_STAGEBOSS
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Body"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/StageBoss/StageBoss.dds"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Eye"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBossEye.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Mouth"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBossMouth.png"), 1))))
+		return E_FAIL;*/
+
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Hand"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBoss_hand%d.png"), 1))))
+		return E_FAIL;*/
+
+#pragma endregion
+
 	lstrcpy(m_szLoadingText, TEXT("Now Loading Model..."));
 
 	lstrcpy(m_szLoadingText, TEXT("Now Loading Shader..."));
@@ -198,6 +220,10 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Key"),
+		CKey::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
   
 #pragma endregion
   
@@ -230,6 +256,25 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
   
 #pragma endregion
 
+#pragma region GameObject_StageBoss
+
+	///* Prototype_GameObject_StageBoss*/
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss"),
+	//	CFire_Projectile::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
+
+	/* Prototype_GameObject_StageBoss_Body*/
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Body"),
+		CStageBoss_Body::Create(m_pGraphic_Device))))
+		return E_FAIL;*/
+
+	///* Prototype_GameObject_StageBoss_Hand*/
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Hand"),
+	//	CFire_Projectile::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
+#pragma endregion
+
+
 	lstrcpy(m_szLoadingText, TEXT("The Gameplay_Level has finished loading."));
 
 	m_isFinished = true;
@@ -240,7 +285,7 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 HRESULT CLoader::Loading_For_MapEdit_Level()
 {
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_Component_Texture_Tile"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Tile/Tile%d.png"), 101))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Tile/Tile%d.png"), 105))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_TextureUI"),
@@ -265,22 +310,27 @@ HRESULT CLoader::Loading_For_MapEdit_Level()
 
 HRESULT CLoader::Loading_For_Stage1()
 {
-	/* Prototype_Component_Texture_Wood */
+	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Break */
+	/* Prototype_GameObject_Break */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Lock */
+	/* Prototype_GameObject_Lock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_WallLock"),
 		CBlock_Lock::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Hole */
+	/* Prototype_GameObject_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_Key"),
+		CKey::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -289,7 +339,7 @@ HRESULT CLoader::Loading_For_Stage1()
 
 #pragma region TEXTURE Back
 
-	/* Prototype_Component_Texture_BackCloud */
+	/* Prototype_GameObject_BackCloud */
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_BackCloud"),
 		CBackCloud::Create(m_pGraphic_Device))))
@@ -304,22 +354,27 @@ HRESULT CLoader::Loading_For_Stage1()
 
 HRESULT CLoader::Loading_For_Stage2()
 {
-	/* Prototype_Component_Texture_Break */
+	/* Prototype_GameObject_Break */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Lock */
+	/* Prototype_GameObject_Lock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_WallLock"),
 		CBlock_Lock::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Fall */
+	/* Prototype_GameObject_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_Key"),
+		CKey::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Fall */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_WallFall"),
 		CBlock_Fall::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Hole */
+	/* Prototype_GameObject_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -342,9 +397,14 @@ HRESULT CLoader::Loading_For_Stage2()
 
 HRESULT CLoader::Loading_For_Stage3()
 {
-	/* Prototype_Component_Texture_Lock */
+	/* Prototype_GameObject_Lock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE3), TEXT("Prototype_GameObject_WallLock"),
 		CBlock_Lock::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE3), TEXT("Prototype_GameObject_Key"),
+		CKey::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion
@@ -356,19 +416,24 @@ HRESULT CLoader::Loading_For_Stage3()
 
 HRESULT CLoader::Loading_For_Stage4()
 {
-	/* Prototype_Component_Texture_Wood */
+	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Break */
+	/* Prototype_GameObject_Break */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Lock */
+	/* Prototype_GameObject_Lock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_WallLock"),
 		CBlock_Lock::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_Key"),
+		CKey::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
 
@@ -379,22 +444,27 @@ HRESULT CLoader::Loading_For_Stage4()
 
 HRESULT CLoader::Loading_For_Stage5()
 {
-	/* Prototype_Component_Texture_Wood */
+	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Lock */
+	/* Prototype_GameObject_Lock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_WallLock"),
 		CBlock_Lock::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Metal */
+	/* Prototype_GameObject_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Key"),
+		CKey::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Metal */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Metal"),
 		CBlock_Metal::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Hole */
+	/* Prototype_GameObject_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -409,22 +479,27 @@ HRESULT CLoader::Loading_For_Stage5()
 
 HRESULT CLoader::Loading_For_Stage6()
 {
-	/* Prototype_Component_Texture_Lock */
+	/* Prototype_GameObject_Lock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_WallLock"),
 		CBlock_Lock::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Fall */
+	/* Prototype_GameObject_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Key"),
+		CKey::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Fall */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_WallFall"),
 		CBlock_Fall::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Spark */
+	/* Prototype_GameObject_Spark */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Spark"),
 		CBlock_Spark::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Hole */
+	/* Prototype_GameObject_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;

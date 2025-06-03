@@ -57,6 +57,8 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (FAILED(Ready_Observers()))
         return E_FAIL;
 
+    BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
+
     //Test true = 클리어모션 false = 플레이모션
     m_bCanClear = false;
     m_vPotalPosition = { 0.f, 0.f, 0.f };
@@ -68,7 +70,8 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     m_fGravityPower = 0.f;
 
     m_pTransformCom->Scaling(12.f, 12.f, 0.f);
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, 0.f, 10.f));
+    //m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, 0.f, 10.f));
+    m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
     
