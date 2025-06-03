@@ -512,6 +512,7 @@ void CPlayer_Toodee::Check_Collision_PlayerState()
     //방향 체크
     COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection();
 
+
     switch (eCollider_Dir)
     {
  //   case COLLIDER_DIR::LEFT:
