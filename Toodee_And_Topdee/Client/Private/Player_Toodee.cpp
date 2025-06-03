@@ -502,7 +502,7 @@ void CPlayer_Toodee::Check_CollisionState()
             if (iter->Get_Name().find(TEXT("Break")) != string::npos)
             {
 
-                COLLIDER_DIR eBreakCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
+                COLLIDER_DIR eBreakCollider_Dir = m_pColliderCom->DetectCollisionDirection();
 
                 if(eBreakCollider_Dir == COLLIDER_DIR::BACK)
                     Notify(EVENT::BLOCK_BREAK);
