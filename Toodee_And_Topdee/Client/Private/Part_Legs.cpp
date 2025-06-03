@@ -24,14 +24,38 @@ HRESULT CPart_Legs::Initialize_Prototype()
 HRESULT CPart_Legs::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
+		return S_OK;
 
 	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
 	m_iTextureIndex = pDesc->iTextureIndex;
+	m_strTexTag = pDesc->strTexTag;
+	m_eState = pDesc->eState;
+	m_vBodyScale = pDesc->vBodyScale;
+	m_iTexLevelIndex = pDesc->iTexLevelIndex;
 
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
+	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
+	{
+		m_fAngleX = -(pDesc->fAngleX);
+		m_fAngleY = -(pDesc->fAngleY);
+	}
+	else
+	{
+		m_fAngleX = pDesc->fAngleX;
+		m_fAngleY = pDesc->fAngleY;
+	}
 
+	m_pVIBufferCom = pDesc->pVIBufferCom;
+
+	Safe_AddRef(m_pVIBufferCom);
+
+	m_pTransformCom = static_cast<CTransform*>(m_pGameInstance->
+		Clone_Prototype(PROTOTYPE::COMPONENT, 0, TEXT("Prototype_Component_Transform")));
+
+
+	m_pTextureCom = static_cast<CTexture*>(m_pGameInstance->
+		Clone_Prototype(PROTOTYPE::COMPONENT, m_iTexLevelIndex, m_strTexTag));
+
+	Ready_Component();
 
 	return S_OK;
 }
@@ -57,6 +81,11 @@ HRESULT CPart_Legs::Render(void* pArg)
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CPart_Legs::Ready_Component()
+{
+
 }
 
 CPart_Legs* CPart_Legs::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -86,7 +115,7 @@ void CPart_Legs::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTextureCom);
+	// Safe_Release(m_pVIBufferCom);
+	// Safe_Release(m_pTransformCom);
+	// Safe_Release(m_pTextureCom);
 }

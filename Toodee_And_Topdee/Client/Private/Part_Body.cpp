@@ -11,6 +11,7 @@ CPart_Body::CPart_Body(LPDIRECT3DDEVICE9 pGraphic_Device)
 CPart_Body::CPart_Body(const CPart_Body& Prototype)
 	: CParts {Prototype}
 	, m_iTextureIndex{ Prototype.m_iTextureIndex }
+	, m_fFrame{ Prototype.m_fFrame }
 {
 }
 
@@ -24,15 +25,38 @@ HRESULT CPart_Body::Initialize_Prototype()
 HRESULT CPart_Body::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
+		return S_OK;
 
 	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
 	m_iTextureIndex = pDesc->iTextureIndex;
+	m_strTexTag = pDesc->strTexTag;
+	m_eState = pDesc->eState;
+	m_vBodyScale = pDesc->vBodyScale;
+	m_iTexLevelIndex = pDesc->iTexLevelIndex;
 
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
+	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
+	{
+		m_fAngleX = -(pDesc->fAngleX);
+		m_fAngleY = -(pDesc->fAngleY);
+	}
+	else
+	{
+		m_fAngleX = pDesc->fAngleX;
+		m_fAngleY = pDesc->fAngleY;
+	}
+
+	m_pVIBufferCom = pDesc->pVIBufferCom;
+
+	Safe_AddRef(m_pVIBufferCom);
+
+	m_pTransformCom = static_cast<CTransform*>(m_pGameInstance->
+		Clone_Prototype(PROTOTYPE::COMPONENT, 0, TEXT("Prototype_Component_Transform")));
 
 
+	m_pTextureCom = static_cast<CTexture*>(m_pGameInstance->
+		Clone_Prototype(PROTOTYPE::COMPONENT, m_iTexLevelIndex, m_strTexTag));
+
+	Ready_Component();
 	return S_OK;
 }
 
@@ -82,6 +106,12 @@ void CPart_Body::Pos_Set(CTransform* pTransform)
 	m_pTransformCom->Set_State(STATE::POSITION, pTransform->Get_State(STATE::POSITION));
 }
 
+void CPart_Body::Ready_Component()
+{
+
+
+}
+
 CPart_Body* CPart_Body::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CPart_Body* pInstance = new CPart_Body(pGraphic_Device);
@@ -108,8 +138,4 @@ CComponent* CPart_Body::Clone(void* pArg)
 void CPart_Body::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTextureCom);
 }

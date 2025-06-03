@@ -8,6 +8,7 @@ CParts::CParts(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CParts::CParts(const CParts& Prototype)
 	: CComponent{Prototype}
+
 {
 
 }
@@ -19,13 +20,13 @@ HRESULT CParts::Initialize_Prototype()
 
 HRESULT CParts::Initialize(void* pArg)
 {
-	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
-
+	/*PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
+	m_iTextureIndex = pDesc->iTextureIndex;
 	m_strTexTag = pDesc->strTexTag;
 	m_eState = pDesc->eState;
 	m_vBodyScale = pDesc->vBodyScale;
 	m_iTexLevelIndex = pDesc->iTexLevelIndex;
-	
+
 	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
 	{
 		m_fAngleX = -(pDesc->fAngleX);
@@ -35,23 +36,8 @@ HRESULT CParts::Initialize(void* pArg)
 	{
 		m_fAngleX = pDesc->fAngleX;
 		m_fAngleY = pDesc->fAngleY;
-	}
+	}*/
 
-
-	m_pVIBufferCom = static_cast<CVIBuffer_Rect*>(m_pGameInstance->
-		Clone_Prototype(PROTOTYPE::COMPONENT, 0, TEXT("Prototype_Component_VIBuffer_Rect")));
-
-	Safe_AddRef(m_pVIBufferCom);
-
-	m_pTransformCom = static_cast<CTransform*>(m_pGameInstance->
-		Clone_Prototype(PROTOTYPE::COMPONENT, 0, TEXT("Prototype_Component_Transform")));
-
-	Safe_AddRef(m_pTransformCom);
-
-	m_pTextureCom = static_cast<CTexture*>(m_pGameInstance->
-		Clone_Prototype(PROTOTYPE::COMPONENT, m_iTexLevelIndex, m_strTexTag));
-
-	Safe_AddRef(m_pTextureCom);
 	return S_OK;
 }
 
@@ -124,10 +110,10 @@ void CParts::Check_To_FocusDelta(_int* pOutX, _int* pOutY, _float3 vFocusPos, _f
 	{
 		if (vDelta.x - vDelta.z < -0.1f) // À§ÂÊ »ï°¢Çü 
 		{
-			if (*pOutX - static_cast<int>(vDelta.x) > 45)
-				*pOutX = 45;
-			else if (*pOutX - static_cast<int>(vDelta.x) < -45)
-				*pOutX = -45;
+			if (*pOutX - static_cast<int>(vDelta.x) > 35)
+				*pOutX = 35;
+			else if (*pOutX - static_cast<int>(vDelta.x) < -35)
+				*pOutX = -35;
 			else
 				*pOutX -= static_cast<int>(vDelta.x);
 

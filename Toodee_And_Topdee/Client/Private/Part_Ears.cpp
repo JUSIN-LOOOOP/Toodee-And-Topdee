@@ -24,14 +24,38 @@ HRESULT CPart_Ears::Initialize_Prototype()
 HRESULT CPart_Ears::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
+		return S_OK;
 
-	CParts::PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
+	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
 	m_iTextureIndex = pDesc->iTextureIndex;
-	
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
-	
+	m_strTexTag = pDesc->strTexTag;
+	m_eState = pDesc->eState;
+	m_vBodyScale = pDesc->vBodyScale;
+	m_iTexLevelIndex = pDesc->iTexLevelIndex;
+
+	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
+	{
+		m_fAngleX = -(pDesc->fAngleX);
+		m_fAngleY = -(pDesc->fAngleY);
+	}
+	else
+	{
+		m_fAngleX = pDesc->fAngleX;
+		m_fAngleY = pDesc->fAngleY;
+	}
+
+	m_pVIBufferCom = pDesc->pVIBufferCom;
+
+	Safe_AddRef(m_pVIBufferCom);
+
+	m_pTransformCom = static_cast<CTransform*>(m_pGameInstance->
+		Clone_Prototype(PROTOTYPE::COMPONENT, 0, TEXT("Prototype_Component_Transform")));
+
+
+	m_pTextureCom = static_cast<CTexture*>(m_pGameInstance->
+		Clone_Prototype(PROTOTYPE::COMPONENT, m_iTexLevelIndex, m_strTexTag));
+
+	Ready_Component();
 	return S_OK;
 }
 
@@ -72,6 +96,11 @@ void CPart_Ears::Turn_To_Ears(_float fFocusPosX, _float fMyPosX, _float fTimeDel
 		m_fDeltaAngleX += 0.1f;
 }
 
+void CPart_Ears::Ready_Component()
+{
+
+}
+
 CPart_Ears* CPart_Ears::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CPart_Ears* pInstance = new CPart_Ears(pGraphic_Device);
@@ -98,8 +127,7 @@ CComponent* CPart_Ears::Clone(void* pArg)
 void CPart_Ears::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTextureCom);
+	// Safe_Release(m_pVIBufferCom);
+	// Safe_Release(m_pTransformCom);
+	// Safe_Release(m_pTextureCom);
 }

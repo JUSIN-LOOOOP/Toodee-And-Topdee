@@ -13,6 +13,9 @@ public:
 
 	typedef struct tagPart_Desc
 	{
+		class CVIBuffer_Rect*	pVIBufferCom;
+		class CTexture*			pTextureCom;
+
 		_float					fAngleX{}, fAngleY{}, fFrame{};
 		_float3					vBodyScale{};
 		_wstring				strTexTag{};
@@ -31,10 +34,12 @@ public:
 	virtual void	Update(class CTransform* pTransform, _float fTimeDelta, _float3	vFocusPos = _float3(0.f,0.f,0.f));
 	virtual HRESULT Render(void* pArg = 0);
 
-protected: // 각 파츠에서 공통적으로 필요한 컴포넌트들
+protected:
+	// 공통으로 사용하는 컴포넌트 Rect / 같은 Texture를 쓰는 객체들끼리 공유할 컴포넌트
 	class CVIBuffer_Rect*	m_pVIBufferCom = { nullptr };
-	class CTransform*		m_pTransformCom = { nullptr };
-	class CTexture*			m_pTextureCom = { nullptr };
+	class CTexture* m_pTextureCom = { nullptr };
+	// 파츠마다 각자 다른 transform 사용
+	class CTransform* m_pTransformCom = { nullptr };
 
 	// 파츠의 구분을 위한 enum
 	PARTSTATE	m_eState = {};
