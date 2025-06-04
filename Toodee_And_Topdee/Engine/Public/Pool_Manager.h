@@ -20,7 +20,6 @@ private:
 
 public:
 	HRESULT						Initialize(_uint iNumLevels);
-	void						First_Push(_uint iNumLevels, const _wstring& strPoolTag, class CPoolableObject* pGameObject);
 	void						Push(_uint iNumLevels, const _wstring& strPoolTag, class CPoolableObject* pGameObject);
 	class CPoolableObject*		Pop(_uint iNumLevels, const _wstring& strPoolTag);
 	void						Clear(_uint iNumLevels);

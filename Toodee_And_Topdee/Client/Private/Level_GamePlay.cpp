@@ -20,6 +20,8 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+
 	if (FAILED(Ready_Observer()))
 		return E_FAIL;
 

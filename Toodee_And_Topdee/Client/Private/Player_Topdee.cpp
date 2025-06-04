@@ -256,7 +256,7 @@ void CPlayer_Topdee::Action()
 void CPlayer_Topdee::Stop()
 {
 	m_pColliderCom->Collision_Off();
-	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+	//m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
 
 	m_ePrevMoveDir = m_eCurrentMoveDir;
 	m_bIsTurnDown = false;

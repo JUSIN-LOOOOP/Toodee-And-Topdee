@@ -30,7 +30,7 @@ HRESULT CPig::Initialize(void* pArg)
 	name = TEXT("Pig");
 	m_bLeft = false;
 
-	m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
+	//m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
