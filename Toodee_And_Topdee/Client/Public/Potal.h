@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Event.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -26,7 +27,14 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void BeginOverlapPlayer(const ENTERPORTALEVENT& Event);
+	void EndOverlapPlayer(const EXITPORTALEVENT& Event);
+
 private:
+	_uint		m_iPlayLevel = {};
+	//Can Clear üũ
+	unordered_set<CGameObject*> m_OverlapSubjects;
+
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
@@ -39,6 +47,7 @@ private:
 
 private:
 	HRESULT Ready_Components();
+	HRESULT Ready_SubscribeEvent(_uint iPlayerLevel);
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 

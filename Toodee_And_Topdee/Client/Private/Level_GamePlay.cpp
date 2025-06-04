@@ -5,9 +5,6 @@
 #include "Camera.h"
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
-#include "ClearTriggerObserver.h"
-#include "BreakTriggerObserver.h"
-#include "KeyTriggerObserver.h"
 #include "Test_Cube2.h"
 #include "Cannon.h"
 #include "Pig.h"
@@ -21,9 +18,6 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_GamePlay::Initialize()
 {
 	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
-
-	if (FAILED(Ready_Observer()))
-		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
@@ -50,6 +44,9 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 	
 	if(FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Cloud(TEXT("Layer_Cloud"))))
 		return E_FAIL;
 
 	/*if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
@@ -370,24 +367,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Cannon(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Observer()
-{
-	// 옵저버 매니저에 Observer_ClearTrigger Key값을 가진 CClearTriggerObserver 생성
-	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"),
-		CClearTriggerObserver::Create())))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"),
-		CBreakTriggerObserver::Create())))
-		return E_FAIL;
-
-	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_KeyTrigger"),
-		CKeyTriggerObserver::Create())))
-		return E_FAIL;
-
-	return S_OK;
-}
-
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
 	CPig::PIG_DESC pDesc{};
@@ -416,6 +395,16 @@ HRESULT CLevel_GamePlay::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
 			return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Cloud(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cloud"))))
+		return E_FAIL;
+	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_StageBoss(const _wstring& strLayerTag)

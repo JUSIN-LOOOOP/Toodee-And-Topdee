@@ -26,15 +26,18 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-private: 
-	HRESULT Ready_Components();
+	void Get_Key();
 
 private: 
+
 	class CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	class CTexture* m_pTextureCom = { nullptr };
 	class CTransform* m_pTransformCom = { nullptr };
-
+	class CCollider* m_pColliderCom = { nullptr };
 	_uint	m_iTextureIdx = {};
+
+private:
+	HRESULT Ready_Components();
 
 public:
 	static CKey* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
