@@ -196,6 +196,12 @@
     <ClCompile Include="..\Private\Level_MapEdit.cpp">
       <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Spikes.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Dead.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -395,9 +401,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Client_Extension.h">
       <Filter>99. Defines</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\InteractionBlock.h">
       <Filter>00. Dummys\T Y J\Block\Interaction Block</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Spikes.h">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_Dead.h">
+      <Filter>00. Dummys\K J H</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
