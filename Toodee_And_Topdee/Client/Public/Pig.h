@@ -31,11 +31,10 @@ public:
 
 
 private:
-	map<const _wstring, CParts*>  m_vParts ;
+	map<const _wstring, CParts*>  m_vParts{};
 	// vector<CParts*>  m_vParts;
 	_bool		m_bLeft{}, m_bMotion{}, m_bGravity{};
-	_float		m_fDownBlock{};
-	_float3		m_vColliderScale{}, m_vColliderRadius{};
+	_float3		m_vColliderScale{};
 	
 
 private:

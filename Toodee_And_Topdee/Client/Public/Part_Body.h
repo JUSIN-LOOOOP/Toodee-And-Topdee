@@ -25,9 +25,7 @@ public:
 	virtual HRESULT Render(void* pArg) override;
 
 private:
-	void Ready_Component();
-	_int   m_iTextureIndex = {};
-	_float m_fFrame{};
+	_float m_fOldFrame{};
 
 
 private:

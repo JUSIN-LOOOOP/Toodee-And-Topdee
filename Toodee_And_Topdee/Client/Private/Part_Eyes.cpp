@@ -10,7 +10,6 @@ CPart_Eyes::CPart_Eyes(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CPart_Eyes::CPart_Eyes(const CPart_Eyes& Prototype)
 	: CParts {Prototype}
-	, m_iTextureIndex{ Prototype.m_iTextureIndex }
 {
 }
 
@@ -27,35 +26,24 @@ HRESULT CPart_Eyes::Initialize(void* pArg)
 		return S_OK;
 
 	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
-	m_iTextureIndex = pDesc->iTextureIndex;
-	m_strTexTag = pDesc->strTexTag;
+	m_strOtherName = pDesc->strOtherName;
 	m_eState = pDesc->eState;
-	m_vBodyScale = pDesc->vBodyScale;
-	m_iTexLevelIndex = pDesc->iTexLevelIndex;
+	m_fFrame = pDesc->fFrame;
+	m_fMaxFrame = pDesc->fMaxFrame;
 
 	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
-	{
-		m_fAngleX = -(pDesc->fAngleX);
-		m_fAngleY = -(pDesc->fAngleY);
-	}
+	{	m_fAngleX = -(pDesc->fAngleX);	m_fAngleY = -(pDesc->fAngleY);	}
 	else
-	{
-		m_fAngleX = pDesc->fAngleX;
-		m_fAngleY = pDesc->fAngleY;
-	}
+	{	m_fAngleX = pDesc->fAngleX;		m_fAngleY = pDesc->fAngleY;	}
 
 	m_pVIBufferCom = pDesc->pVIBufferCom;
+	m_pTextureCom = pDesc->pTextureCom;
 
 	Safe_AddRef(m_pVIBufferCom);
 
 	m_pTransformCom = static_cast<CTransform*>(m_pGameInstance->
-		Clone_Prototype(PROTOTYPE::COMPONENT, 0, TEXT("Prototype_Component_Transform")));
+		Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform")));
 
-
-	m_pTextureCom = static_cast<CTexture*>(m_pGameInstance->
-		Clone_Prototype(PROTOTYPE::COMPONENT, m_iTexLevelIndex, m_strTexTag));
-
-	Ready_Component();
 	return S_OK;
 }
 
@@ -63,7 +51,10 @@ HRESULT CPart_Eyes::Initialize(void* pArg)
 void CPart_Eyes::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
 	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
-	__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
+	if(m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
+		__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
+	
+
 	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, -0.3f);
 
 	if (m_eState == PARTSTATE::PARTS_RIGHT)
@@ -76,7 +67,7 @@ HRESULT CPart_Eyes::Render(void* pArg)
 
 	m_pTransformCom->Bind_Matrix();
 
-	if (FAILED(m_pTextureCom->Bind_Texture(m_iTextureIndex)))
+	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
 
 	m_pVIBufferCom->Bind_Buffers();
@@ -84,11 +75,6 @@ HRESULT CPart_Eyes::Render(void* pArg)
 	m_pVIBufferCom->Render();
 
 	return S_OK;
-}
-
-void CPart_Eyes::Ready_Component()
-{
-
 }
 
 CPart_Eyes* CPart_Eyes::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -118,7 +104,4 @@ void CPart_Eyes::Free()
 {
 	__super::Free();
 
-	// Safe_Release(m_pVIBufferCom);
-	// Safe_Release(m_pTransformCom);
-	// Safe_Release(m_pTextureCom);
 }

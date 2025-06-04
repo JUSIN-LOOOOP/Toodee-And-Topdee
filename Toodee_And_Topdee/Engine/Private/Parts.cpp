@@ -20,24 +20,7 @@ HRESULT CParts::Initialize_Prototype()
 
 HRESULT CParts::Initialize(void* pArg)
 {
-	/*PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
-	m_iTextureIndex = pDesc->iTextureIndex;
-	m_strTexTag = pDesc->strTexTag;
-	m_eState = pDesc->eState;
-	m_vBodyScale = pDesc->vBodyScale;
-	m_iTexLevelIndex = pDesc->iTexLevelIndex;
-
-	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
-	{
-		m_fAngleX = -(pDesc->fAngleX);
-		m_fAngleY = -(pDesc->fAngleY);
-	}
-	else
-	{
-		m_fAngleX = pDesc->fAngleX;
-		m_fAngleY = pDesc->fAngleY;
-	}*/
-
+	
 	return S_OK;
 }
 
@@ -69,8 +52,8 @@ void CParts::RevolveAround(class CTransform* pTransform, _int iAngleX, _int iAng
 	_float fLengthX = D3DXVec3Length(&vRight);
 	_float fLengthY = D3DXVec3Length(&vUp);
 
-	_float fRadiusX = (fLengthX + fLengthX * fRadius) * 0.7f * 0.5f;
-	_float fRadiusY = (fLengthY + fLengthY * fRadius) * 0.7f * 0.5f;
+	_float fRadiusX = (fLengthX + (fLengthX * fRadius)) * 0.8f * 0.5f;
+	_float fRadiusY = (fLengthY + (fLengthY * fRadius)) * 0.8f * 0.5f;
 
 	// 각 방향 벡터들을 정규화
 	D3DXVec3Normalize(&vRight, &vRight);

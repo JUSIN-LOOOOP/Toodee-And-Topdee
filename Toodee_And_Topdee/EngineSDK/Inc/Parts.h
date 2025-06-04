@@ -16,11 +16,10 @@ public:
 		class CVIBuffer_Rect*	pVIBufferCom;
 		class CTexture*			pTextureCom;
 
-		_float					fAngleX{}, fAngleY{}, fFrame{};
-		_float3					vBodyScale{};
-		_wstring				strTexTag{};
-		_uint					iTexLevelIndex{}, iTextureIndex{}, iTextureMaxIndex{};	//텍스쳐 로드시 필요한 정보들
-		PARTSTATE				eState{};
+		_float					fAngleX{}, fAngleY{};	// 객체기준 파츠위치값
+		_float					fFrame{}, fMaxFrame{};	// 1장의 이미지가 아닌경우
+		_wstring				strOtherName{};			// 파츠에서 분기하기위함
+		PARTSTATE				eState{};				// 객체기준 위치구분 (좌우만 구분해도되긴해서 필요없으면 PARTSTATE갯수 줄일예정)
 	}PART_DESC;
 
 protected:
@@ -35,27 +34,19 @@ public:
 	virtual HRESULT Render(void* pArg = 0);
 
 protected:
-	// 공통으로 사용하는 컴포넌트 Rect / 같은 Texture를 쓰는 객체들끼리 공유할 컴포넌트
-	class CVIBuffer_Rect*	m_pVIBufferCom = { nullptr };
-	class CTexture* m_pTextureCom = { nullptr };
-	// 파츠마다 각자 다른 transform 사용
-	class CTransform* m_pTransformCom = { nullptr };
+	class CVIBuffer_Rect*	m_pVIBufferCom	= { nullptr };
+	class CTexture*			m_pTextureCom	= { nullptr };
+	class CTransform*		m_pTransformCom = { nullptr };
 
 	// 파츠의 구분을 위한 enum
-	PARTSTATE	m_eState = {};
-
-	// 텍스쳐 로드를 위한 원형 텍스쳐 컴포넌트의 이름 및 레벨
-	_wstring	m_strTexTag{};
-	_uint		m_iTexLevelIndex {},m_iTextureIndex{}, m_iTextureMaxIndex{};
-
-	// 파츠의 위치를 결정 할 좌우, 상하 및 body스케일 설정
-	_float		m_fAngleX{}, m_fAngleY{};
-	_float3		m_vBodyScale{};
+	PARTSTATE	m_eState = {};				// 파츠의 위치구분
+	_wstring	m_strOtherName{};				// 주인객체의 이름 분기문 구분으로 기능수행을위함
+	_float		m_fAngleX{}, m_fAngleY{};	// 위치값 세팅
+	_float		m_fFrame{}, m_fMaxFrame{};		// 고정이미지가 아닐경우 사용
 
 
 protected:
 	// 파츠가 객체를 중심으로 공전(궤도공전)
-	// fPartsScale값은 기본 값 1 파츠별로 크기변경 (몸통Scale)
 	void RevolveAround(class CTransform* pTransform, _int iAngleX, _int iAngleY, _float fRadius = 0.f);
 	void Check_To_FocusDelta(_int* pOutX, _int* pOutY, _float3 vFocusPos, _float3 vMyPos);
 
