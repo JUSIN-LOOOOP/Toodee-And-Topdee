@@ -35,8 +35,8 @@ public:
 	_bool								IsOverlappingWall(_float3 vOtherPosition, _float3 vLook);
 
 private:
-	CTransform*					m_pTransformCom = { nullptr };
-	CCollider*					m_pColliderCom = { nullptr };
+	CTransform*							m_pTransformCom = { nullptr };
+	CCollider*							m_pColliderCom = { nullptr };
 
 	_float3								m_vPosition = { };
 	_float3								m_vScale = { };

@@ -167,7 +167,21 @@ HRESULT CGameInstance::Open_Level(_uint iLevelID, CLevel* pNewLevel)
 
 const _uint CGameInstance::Get_CurrentLevelID()
 {
-	return m_pLevel_Manager->Get_CurrentLevelID();
+	return m_iCurrentLevelID;
+}
+void CGameInstance::Set_CurrentLevelID(_uint ilevel)
+{
+	m_iCurrentLevelID = ilevel;
+}
+
+const _uint CGameInstance::Get_NextLevelID()
+{
+	return m_iNextLevelID;
+}
+
+void CGameInstance::Set_NextLevelID(_uint ilevel)
+{
+	m_iNextLevelID = ilevel;
 }
 
 
@@ -296,7 +310,7 @@ void CGameInstance::Check_Collision(CCollider* pCollider)
 	if (nullptr == m_pCollision_Manager)
 		return;
 
-	return m_pCollision_Manager->Check_Collision(Get_CurrentLevelID() - 1, pCollider);
+	return m_pCollision_Manager->Check_Collision(m_iCurrentLevelID, pCollider);
 }
 
 #pragma endregion
@@ -362,7 +376,7 @@ void CGameInstance::First_Push(const _wstring& strPoolTag, class CPoolableObject
 	if (nullptr == m_pPool_Manager)
 		return;
 
-	m_pPool_Manager->Push(Get_CurrentLevelID() + 1, strPoolTag, pGameObject);
+	m_pPool_Manager->Push(m_iNextLevelID, strPoolTag, pGameObject);
 }
 
 void CGameInstance::Push(const _wstring& strPoolTag, CPoolableObject* pGameObject)
@@ -370,7 +384,7 @@ void CGameInstance::Push(const _wstring& strPoolTag, CPoolableObject* pGameObjec
 	if (nullptr == m_pPool_Manager)
 		return;
 
-	m_pPool_Manager->Push(Get_CurrentLevelID() - 1,strPoolTag, pGameObject);
+	m_pPool_Manager->Push(m_iCurrentLevelID,strPoolTag, pGameObject);
 }
 
 CPoolableObject* CGameInstance::Pop(const _wstring& strPoolTag)
@@ -378,7 +392,7 @@ CPoolableObject* CGameInstance::Pop(const _wstring& strPoolTag)
 	if (nullptr == m_pPool_Manager)
 		return nullptr;
 
-	return m_pPool_Manager->Pop(Get_CurrentLevelID() - 1, strPoolTag);
+	return m_pPool_Manager->Pop(m_iCurrentLevelID, strPoolTag);
 }
 
 #pragma endregion

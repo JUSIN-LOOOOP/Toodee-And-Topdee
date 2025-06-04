@@ -1,10 +1,12 @@
 #include "Level_Stage1.h"
+#include "Client_Extension.h"
 
 #include "GameInstance.h"
 #include "Camera.h"
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
 #include "ClearTriggerObserver.h"
+#include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
 
@@ -33,6 +35,9 @@ HRESULT CLevel_Stage1::Initialize()
 	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -191,6 +196,25 @@ HRESULT CLevel_Stage1::Ready_Observer()
 	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Observer_ClearTrigger"),
 		CClearTriggerObserver::Create())))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage1::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
+{
+	CColliderMap_Object::COLLIDER_MAP_DESC desc{};
+
+	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_STAGE1); ++i)
+	{
+		auto Pair = MapCollider_Builder(LEVEL::LEVEL_STAGE1, i);
+		desc.vPosition = Pair.first;
+		desc.vScale = Pair.second;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
+			return E_FAIL;
+	}
+
 
 	return S_OK;
 }

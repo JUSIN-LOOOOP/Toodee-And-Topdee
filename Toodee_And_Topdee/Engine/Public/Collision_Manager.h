@@ -32,8 +32,8 @@ private:
 	_uint										m_iNumLevels = {};
 	map<class CCollider*, COLLISION_INFO>*		m_pColliders = { nullptr };
 
-private:
-	void			Check_Deleted();	/* nullptr가 아니면 삭제  */
+//private:
+//	void			Check_Deleted();	/* nullptr가 아니면 삭제  */
 
 public:
 	static CCollision_Manager* Create(_uint iNumLevels);
