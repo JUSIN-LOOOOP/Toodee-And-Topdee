@@ -4,7 +4,6 @@
 #include "Camera.h"
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
-#include "ClearTriggerObserver.h"
 
 #include "Test_Cube2.h"
 #include "Pig.h"
@@ -236,16 +235,6 @@ HRESULT CLevel_Test::Ready_Layer_ColliderCube(const _wstring& strLayerTag)
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_ColliderCube"), &Block_Desc)))
 			return E_FAIL;
 	}
-	return S_OK;
-}
-
-HRESULT CLevel_Test::Ready_Observer()
-{
-	// 옵저버 매니저에 Observer_ClearTrigger Key값을 가진 CClearTriggerObserver 생성
-	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"),
-		CClearTriggerObserver::Create())))
-		return E_FAIL;
-
 	return S_OK;
 }
 

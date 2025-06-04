@@ -36,6 +36,7 @@ HRESULT CHole::Initialize(void* pArg)
 
 void CHole::Priority_Update(_float fTimeDelta)
 {
+
 }
 
 void CHole::Update(_float fTimeDelta)

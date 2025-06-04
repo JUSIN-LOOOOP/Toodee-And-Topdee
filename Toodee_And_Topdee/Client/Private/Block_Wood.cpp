@@ -28,6 +28,11 @@ HRESULT CBlock_Wood::Initialize(void* pArg)
 
 	__super::SetUp_BlockInfo(pArg);
 
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	vPosition.y += 1.f;
+
+	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+
 
 	m_fMaxFallHeight = 1.7f;
 

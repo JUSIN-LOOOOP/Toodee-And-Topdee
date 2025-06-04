@@ -5,7 +5,6 @@
 #include "Camera.h"
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
-#include "ClearTriggerObserver.h"
 #include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
@@ -18,10 +17,7 @@ CLevel_Stage1::CLevel_Stage1(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_Stage1::Initialize()
 {
 	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
-
-	if (FAILED(Ready_Observer()))
-		return E_FAIL;
-
+	m_pGameInstance->Reset_KeyCount();
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
@@ -179,15 +175,6 @@ HRESULT CLevel_Stage1::Ready_Layer_Back(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_BackCloud"))))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CLevel_Stage1::Ready_Observer()
-{
-	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Observer_ClearTrigger"),
-		CClearTriggerObserver::Create())))
 		return E_FAIL;
 
 	return S_OK;
