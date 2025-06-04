@@ -22,14 +22,30 @@ HRESULT CPart_Nose::Initialize_Prototype()
 HRESULT CPart_Nose::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
+		return S_OK;
 
 	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
-	m_iTextureIndex = pDesc->iTextureIndex;
+	m_strOtherName = pDesc->strOtherName;
+	m_eState = pDesc->eState;
+	m_fFrame = pDesc->fFrame;
+	m_fMaxFrame = pDesc->fMaxFrame;
 
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
-	
+	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
+	{	m_fAngleX = -(pDesc->fAngleX);	m_fAngleY = -(pDesc->fAngleY);	}
+	else
+	{	m_fAngleX = pDesc->fAngleX;		m_fAngleY = pDesc->fAngleY;	}
+
+	m_pVIBufferCom = pDesc->pVIBufferCom;
+	m_pTextureCom = pDesc->pTextureCom;
+
+	Safe_AddRef(m_pVIBufferCom);
+
+	m_pTransformCom = static_cast<CTransform*>(m_pGameInstance->
+		Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform")));
+
+
+
+
 	return S_OK;
 }
 
@@ -37,8 +53,11 @@ HRESULT CPart_Nose::Initialize(void* pArg)
 void CPart_Nose::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
 	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
-	__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
-	 __super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, 0.3f);
+	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
+		__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
+
+
+	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, -0.3f);
 }
 
 HRESULT CPart_Nose::Render(void* pArg)
@@ -46,7 +65,7 @@ HRESULT CPart_Nose::Render(void* pArg)
 	m_pTransformCom->Bind_Matrix();
 
 
-	if (FAILED(m_pTextureCom->Bind_Texture(m_iTextureIndex)))
+	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
 
 	m_pVIBufferCom->Bind_Buffers();
@@ -87,7 +106,4 @@ void CPart_Nose::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTextureCom);
 }

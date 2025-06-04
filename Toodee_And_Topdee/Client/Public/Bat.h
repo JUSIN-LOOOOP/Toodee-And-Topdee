@@ -7,18 +7,18 @@ class CParts;
 END
 BEGIN(Client)
 
-class CPig final : public CMonster
+class CBat final : public CMonster
 {
 public:
-	typedef struct tagPigDesc : public MONSTER_DESC
+	typedef struct tagBatDesc : public MONSTER_DESC
 	{
 		_float3 vPosSet{};
-	}PIG_DESC;
+	}BAT_DESC;
 
 private:
-	CPig(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CPig(const CPig& Prototype);
-	virtual ~CPig() = default;
+	CBat(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CBat(const CBat& Prototype);
+	virtual ~CBat() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -32,9 +32,7 @@ public:
 
 private:
 	map<const _wstring, CParts*>  m_vParts{};
-	// vector<CParts*>  m_vParts;
-	_bool		m_bLeft{}, m_bMotion{}, m_bGravity{};
-	_float3		m_vColliderScale{};
+	_bool		m_bLeft{}, m_bMotion{};
 	
 
 private:
@@ -42,20 +40,17 @@ private:
 	HRESULT Ready_Parts();
 	void	Render_Parts();
 
-	_bool	Check_Gravity(_float fTimeDelta);
-	void	Compute_Collision(_float3 vDir = _float3(0.f,0.f,0.f));
 
 private : // Test¿ë
 	void Move_Patrol(_float fTimeDelta);
-	_float m_fMaxPat{}, m_fPatrol{};
-	_float3		m_vOldPos{};
 	_float3 absfloat3(const _float3& vec3) { return _float3(fabsf(vec3.x), fabsf(vec3.y), fabsf(vec3.z)); }
 
-	_float3 Move_To_Target(_float fTimeDelta);
+	void Key_Input(_float fTimeDelta);
+
 	
 
 public:
-	static CPig* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CBat* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

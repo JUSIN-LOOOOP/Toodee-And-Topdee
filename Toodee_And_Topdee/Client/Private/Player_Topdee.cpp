@@ -72,6 +72,7 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	else
 	{
 		BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
+
 		_float3 vPosition = pDesc->vPos;
 		vPosition.y += 1.f;
 		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
