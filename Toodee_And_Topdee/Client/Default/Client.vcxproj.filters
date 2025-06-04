@@ -121,7 +121,6 @@
     <ClCompile Include="..\Private\Level_Stage6.cpp">
       <Filter>01. Levels\03. GamePlay\06. Stage06</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\TileOutline.cpp" />
     <ClCompile Include="..\Private\Pig.cpp">
       <Filter>02. GameObjects\Monster\Pig</Filter>
     </ClCompile>
@@ -199,6 +198,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_Dead.cpp">
       <Filter>00. Dummys\K J H</Filter>
+	</ClCompile>
     <ClCompile Include="..\Private\TextureUI.cpp">
       <Filter>00. Dummys\T Y J\TextureUI</Filter>
     </ClCompile>
@@ -290,6 +290,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_MapEdit.h">
       <Filter>00. Dummys\T Y J</Filter>
+	</ClInclude>
     <ClInclude Include="..\public\Test_Cube.h">
       <Filter>00. Dummys\J O H</Filter>
     </ClInclude>
@@ -433,6 +434,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_Dead.h">
       <Filter>00. Dummys\K J H</Filter>
+	</ClInclude>
     <ClInclude Include="..\Public\TextureUI.h">
       <Filter>00. Dummys\T Y J\TextureUI</Filter>
     </ClInclude>
@@ -637,6 +639,7 @@
     </Filter>
     <Filter Include="00. MainApp">
       <UniqueIdentifier>{0f441b58-ea10-4ffe-982b-ae6f90d35d85}</UniqueIdentifier>
+	</Filter>
     <Filter Include="00. Dummys\T Y J\StageBoss">
       <UniqueIdentifier>{963df8a3-734b-468c-9406-e5cc3614591f}</UniqueIdentifier>
     </Filter>

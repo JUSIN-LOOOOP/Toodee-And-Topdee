@@ -64,7 +64,9 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     {
         BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
-        m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+        _float3 vPosition = pDesc->vPos;
+        vPosition.y += 1.f;
+        m_pTransformCom->Set_State(STATE::POSITION, vPosition);
     }
   
     //Test true = 클리어모션 false = 플레이모션
