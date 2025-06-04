@@ -55,6 +55,26 @@ HRESULT CColliderMap_Object::Render()
     return S_OK;
 }
 
+_bool CColliderMap_Object::IsOverlappingWall(_float3 vOtherPosition, _float3 vLook)
+{
+    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+    _float3 vScale = m_pTransformCom->Get_Scaled();
+
+    _float fMinX = vPosition.x - (vScale.x * 0.5f);
+    _float fMaxX = vPosition.x + (vScale.x * 0.5f);
+    _float fMinZ = vPosition.z - (vScale.z * 0.5f);
+    _float fMaxZ = vPosition.z + (vScale.z * 0.5f);
+
+    _float3 vCheckPosition = vOtherPosition + (vLook * 2.f);        // 2.f == TILESIZE
+
+    if (vCheckPosition.x > fMinX && vCheckPosition.x < fMaxX)
+        if (vCheckPosition.z > fMinZ && vCheckPosition.z < fMaxZ)
+            return true;
+
+    return false;
+}
+
+
 HRESULT CColliderMap_Object::Ready_Components()
 {
 

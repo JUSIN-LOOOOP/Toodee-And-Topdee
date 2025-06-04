@@ -43,23 +43,28 @@ void CBlock_Wood::Priority_Update(_float fTimeDelta)
 
 void CBlock_Wood::Update(_float fTimeDelta)
 {
+	if (m_bFallinHole)
+		return;
+
 	m_pCurrentState->Update(this, fTimeDelta);
 
 	m_pGameInstance->Check_Collision(m_pColliderCom);
 
-
-	__super::CheckCollisionState();
+	__super::CheckCollisionTopdeeState();
 
 }
 
 void CBlock_Wood::Late_Update(_float fTimeDelta)
 {
-	
+	__super::Late_Update(fTimeDelta);
+
+	if (m_bFallinHole)
+		return;
+
 	if(m_eCurrentState == BLOCKSTATE::PUSH)
 		__super::Update_PushState(this);
 
 
-	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CBlock_Wood::Render()

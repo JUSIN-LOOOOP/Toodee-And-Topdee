@@ -62,6 +62,8 @@ private:
 	_float			m_fTurnDownDelay = {};
 
 private:
+	virtual void Check_Dimension() override;
+
 	_uint KeyInput();												// 키 입력 Return
 	
 	/* Movement */
@@ -76,7 +78,9 @@ private:
 	/* Player Collision */
 	void Check_Collision();									// 플레이어 충돌 체크
 	void Check_Collision_PlayerState();
-	void Check_Collision_InteractionBlock();
+	void Check_Collision_Dead(CGameObject* pGameObject);
+	void Check_Collision_InteractionBlock(CGameObject* pGameObject);
+	void Check_Collision_Portal(CGameObject* pGameObject);
 
 	/* Attach  */
 	void Check_AttachCollisionState();

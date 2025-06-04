@@ -17,7 +17,7 @@ CPotal::CPotal(const CPotal& Prototype)
 
 HRESULT CPotal::Initialize_Prototype()
 {
-	name = TEXT("Potal");
+	name = TEXT("Portal");
 
 	m_iMaxAnimCount = 11;
 	m_fAnimDelay = 0.02f;
