@@ -17,6 +17,7 @@
 #include "Cannon.h"
 #include "Fire_Projectile.h"
 #include "BackCloud.h"
+#include "Cloud.h"
 
 #include "StageBoss.h"
 #include "StageBoss_Body.h"
@@ -142,6 +143,14 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	/* Prototype_Component_Texture_Projectile_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Projectile_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Projectile/Fire/Projectile_Fire%d.png"), 40))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region TEXTURE_CLOUD
+	/* Prototype_Component_Texture_Cloud */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Cloud"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Clouds/Cloud%d.png"), 6))))
 		return E_FAIL;
 
 #pragma endregion
@@ -276,6 +285,15 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	//	return E_FAIL;
 #pragma endregion
 
+
+#pragma region GameObject_Cloud
+
+	/* Prototype_GameObject_Cannon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cloud"),
+		CCloud::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+#pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("The Gameplay_Level has finished loading."));
 

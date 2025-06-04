@@ -151,9 +151,6 @@
     <ClCompile Include="..\Private\Collider_Cube.cpp">
       <Filter>00. Dummys\K S H\Level_Test\Collider_Cube</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Cannon.cpp">
-      <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Fire_Projectile.cpp">
       <Filter>00. Dummys\J O H\Cannon\Projectile\Fire</Filter>
     </ClCompile>
@@ -187,9 +184,6 @@
     <ClCompile Include="..\Private\ColliderMap_Object.cpp">
       <Filter>02. GameObjects\MapCollider</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\InteractionBlock.cpp">
-      <Filter>00. Dummys\T Y J\Block\Interaction Block</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Level_MapEdit.cpp">
       <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
@@ -198,7 +192,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_Dead.cpp">
       <Filter>00. Dummys\K J H</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\TextureUI.cpp">
       <Filter>00. Dummys\T Y J\TextureUI</Filter>
     </ClCompile>
@@ -219,6 +213,13 @@
     </ClCompile>
     <ClCompile Include="..\Private\Key.cpp">
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InteractionBlock.cpp" />
+    <ClCompile Include="..\Private\Cloud.cpp">
+      <Filter>02. GameObjects\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cannon.cpp">
+      <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,7 +291,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_MapEdit.h">
       <Filter>00. Dummys\T Y J</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\Test_Cube.h">
       <Filter>00. Dummys\J O H</Filter>
     </ClInclude>
@@ -387,9 +388,6 @@
     <ClInclude Include="..\Public\Collider_Cube.h">
       <Filter>00. Dummys\K S H\Level_Test\Collider_Cube</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Cannon.h">
-      <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Fire_Projectile.h">
       <Filter>00. Dummys\J O H\Cannon\Projectile\Fire</Filter>
     </ClInclude>
@@ -426,15 +424,12 @@
     <ClInclude Include="..\Public\Client_Extension.h">
       <Filter>99. Defines</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\InteractionBlock.h">
-      <Filter>00. Dummys\T Y J\Block\Interaction Block</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Spikes.h">
       <Filter>00. Dummys\K J H</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\State_Dead.h">
       <Filter>00. Dummys\K J H</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\TextureUI.h">
       <Filter>00. Dummys\T Y J\TextureUI</Filter>
     </ClInclude>
@@ -455,6 +450,13 @@
     </ClInclude>
     <ClInclude Include="..\Public\Key.h">
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\InteractionBlock.h" />
+    <ClInclude Include="..\Public\Cloud.h">
+      <Filter>02. GameObjects\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Cannon.h">
+      <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -634,12 +636,9 @@
     <Filter Include="00. Dummys\J O H\Test">
       <UniqueIdentifier>{6905adee-041c-4d33-892b-b3b8bda44b24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Interaction Block">
-      <UniqueIdentifier>{9f74cfd1-169c-448b-a154-a0a7a5a9d08f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. MainApp">
       <UniqueIdentifier>{0f441b58-ea10-4ffe-982b-ae6f90d35d85}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="00. Dummys\T Y J\StageBoss">
       <UniqueIdentifier>{963df8a3-734b-468c-9406-e5cc3614591f}</UniqueIdentifier>
     </Filter>
@@ -681,6 +680,9 @@
     </Filter>
     <Filter Include="00. Dummys\T Y J\MapObject\Key">
       <UniqueIdentifier>{4361f3e3-3789-4f80-bc48-404f1b9bfce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Cloud">
+      <UniqueIdentifier>{6aed162d-f917-45c0-a454-13970b6127fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
