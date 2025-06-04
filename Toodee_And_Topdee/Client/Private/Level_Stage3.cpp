@@ -199,9 +199,9 @@ HRESULT CLevel_Stage3::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 {
 	CColliderMap_Object::COLLIDER_MAP_DESC desc{};
 
-	for (_uint i = 0; i < Stage_ColliderCount(ENUM_CLASS(LEVEL::LEVEL_STAGE3)); ++i)
+	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_STAGE3); ++i)
 	{
-		auto Pair = MapCollider_Builder(ENUM_CLASS(LEVEL::LEVEL_STAGE3), i);
+		auto Pair = MapCollider_Builder(LEVEL::LEVEL_STAGE3, i);
 		desc.vPosition = Pair.first;
 		desc.vScale = Pair.second;
 

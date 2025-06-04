@@ -26,14 +26,14 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
-		//return E_FAIL;
+	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 	//	return E_FAIL;
@@ -358,9 +358,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 {
 	CColliderMap_Object::COLLIDER_MAP_DESC desc{};
 
-	for (_uint i = 0; i < Stage_ColliderCount(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY)); ++i)
+	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_GAMEPLAY); ++i)
 	{
-		auto Pair = MapCollider_Builder(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), i);
+		auto Pair = MapCollider_Builder(LEVEL::LEVEL_GAMEPLAY, i);
 		desc.vPosition = Pair.first;
 		desc.vScale = Pair.second;
 
