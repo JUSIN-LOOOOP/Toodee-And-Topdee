@@ -23,6 +23,8 @@ HRESULT CInteractionBlock::Initialize_Prototype()
 
 HRESULT CInteractionBlock::Initialize(void* pArg)
 {
+	m_bFallinHole = false;
+
 	return S_OK;
 }
 
@@ -207,7 +209,7 @@ void CInteractionBlock::Update_PushState(CInteractionBlock* pBlock)
 	}
 }
 
-void CInteractionBlock::CheckCollisionState()
+void CInteractionBlock::CheckCollisionTopdeeState()
 {
 	if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
 	{
@@ -220,14 +222,7 @@ void CInteractionBlock::CheckCollisionState()
 			{
 				if (m_eCurrentState == BLOCKSTATE::PUSH)
 				{
-
-					if (iter->Get_Name() == TEXT("Wall"))
-					{
-						m_pTransformCom->Set_State(STATE::POSITION, m_vPrevPosition);
-						m_pCurrentState->Request_ChangeState(this, BLOCKSTATE::STOP);
-						m_bBlock = true;
-					}
-					else if (iter->Get_Name().find(TEXT("Interaction")) != string::npos)
+					if (iter->Get_Name().find(TEXT("Interaction")) != string::npos)
 					{
 						CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(iter);
 
@@ -243,7 +238,12 @@ void CInteractionBlock::CheckCollisionState()
 							m_pCurrentState->Request_ChangeState(this, BLOCKSTATE::STOP);
 							m_bBlock = true;
 						}
-
+					}
+					else if (iter->Get_Name().find(TEXT("Wall")) != string::npos || iter->Get_Name().find(TEXT("Block")) != string::npos)
+					{
+						m_pTransformCom->Set_State(STATE::POSITION, m_vPrevPosition);
+						m_pCurrentState->Request_ChangeState(this, BLOCKSTATE::STOP);
+						m_bBlock = true;
 					}
 				}
 				else if(m_eCurrentState == BLOCKSTATE::STOP && false == m_bFalling)
@@ -364,6 +364,7 @@ void CInteractionBlock::FallIntoHole(_float fTimeDelta)
 		fGravity = m_fTotalFallHeight - m_fMaxFallHeight;
 		m_pColliderCom->Collision_Off();
 		m_bFalling = false;
+		m_bFallinHole = true;
 	}
 
 	vPosition.y -= fGravity;

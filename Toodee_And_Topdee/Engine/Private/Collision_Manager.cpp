@@ -62,28 +62,28 @@ void CCollision_Manager::Clear(_uint iLevelIndex)
         Safe_Release(pCollider);
     }
 
-	m_pColliders[iLevelIndex].clear();
+ 	m_pColliders[iLevelIndex].clear();
 }
 
-void CCollision_Manager::Check_Deleted()
-{
-	for (size_t i = 0; i < m_iNumLevels; ++i)
-	{
- 		for (auto iter = m_pColliders[i].begin(); iter != m_pColliders[i].end(); )
-		{
-			if (iter->first != nullptr)
-			{
-                CCollider* pCollider =iter->first;
-                Safe_Release(pCollider);
-				iter = m_pColliders[i].erase(iter);
-			}
-			else
-				++iter;
-
-		}
-        m_pColliders[i].clear();
-	}
-}
+//void CCollision_Manager::Check_Deleted()
+//{
+//	for (size_t i = 0; i < m_iNumLevels; ++i)
+//	{
+// 		for (auto iter = m_pColliders[i].begin(); iter != m_pColliders[i].end(); )
+//		{
+//			if (iter->first != nullptr)
+//			{
+//                CCollider* pCollider =iter->first;
+//                Safe_Release(pCollider);
+//				iter = m_pColliders[i].erase(iter);
+//			}
+//			else
+//				++iter;
+//
+//		}
+//        m_pColliders[i].clear();
+//	}
+//}
 
 
 void CCollision_Manager::Check_Collision(_uint iLevelIndex, CCollider* pCollider)

@@ -19,11 +19,10 @@ public:
 private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_MapObject(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Potal(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Back(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Observer();
+	HRESULT Ready_Layer_ColliderMap(const _wstring& strLayerTag);
 
 
 public:

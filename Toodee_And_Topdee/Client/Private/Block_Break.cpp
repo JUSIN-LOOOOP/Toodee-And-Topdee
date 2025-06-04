@@ -22,8 +22,6 @@ HRESULT CBlock_Break::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Observer()))
-		return E_FAIL;
 
 	__super::SetUp_BlockInfo(pArg);
 
@@ -34,7 +32,7 @@ HRESULT CBlock_Break::Initialize(void* pArg)
 
 	m_pColliderCom->ApplyFixedPosition(m_pTransformCom->Get_State(STATE::POSITION));
 
-	name = TEXT("Wall_Break");
+	name = TEXT("Block_Break");
 
     return S_OK;
 }
@@ -45,6 +43,7 @@ void CBlock_Break::Priority_Update(_float fTimeDelta)
 
 void CBlock_Break::Update(_float fTimeDelta)
 {
+
 	if (m_bIsStepOn)
 	{
 		if (m_fCurrentBreakTime >= m_fBreakDelay)
@@ -73,25 +72,10 @@ HRESULT CBlock_Break::Render()
 	return S_OK;
 }
 
-void CBlock_Break::onReport(REPORT eReport, CSubjectObject* pSubject)
-{
-	if (nullptr == pSubject || this == pSubject)
-		return;
-
-	if (m_bIsStepOn)
-		return;
-
-	if (IsNearBlock(pSubject))
-	{
-		StepOn();
-	}
-}
-
 void CBlock_Break::StepOn()
 {
 	m_bIsStepOn = true;
 	m_vCenterPosition = m_pTransformCom->Get_State(STATE::POSITION);
-	Notify(EVENT::BLOCK_BREAK);
 }
 
 _bool CBlock_Break::Compute_Near(const _float3& vOtherPosition)
@@ -102,19 +86,9 @@ _bool CBlock_Break::Compute_Near(const _float3& vOtherPosition)
 
 	_float fLength = D3DXVec3Length(&vDistance);
 
-	return fLength <= 3.5f; //오차 범위 0.5f
+	return fLength <= 2.2f; //오차 범위 0.5f
 }
 
-_bool CBlock_Break::IsNearBlock(CSubjectObject* pSubject)
-{
-	CGameObject* pGameObject = dynamic_cast<CGameObject*>(pSubject);
-
-	CTransform* pTransform = static_cast<CTransform*>(pGameObject->Get_Component(TEXT("Com_Transform")));
-
-	_float3 vPosition = pTransform->Get_State(STATE::POSITION);
-
-	return Compute_Near(vPosition);
-}
 
 void CBlock_Break::Shaking()
 {
@@ -162,12 +136,6 @@ HRESULT CBlock_Break::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CBlock_Break::Ready_Observer()
-{
-	m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"), this);
-
-	return S_OK;
-}
 
 void CBlock_Break::SetUp_RenderState()
 {
@@ -208,12 +176,5 @@ CGameObject* CBlock_Break::Clone(void* pArg)
 
 void CBlock_Break::Free()
 {
-	CGameObject::Free();
-	CSubjectObject::SubjectFree();
-
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
-
-
+	__super::Free();
 }

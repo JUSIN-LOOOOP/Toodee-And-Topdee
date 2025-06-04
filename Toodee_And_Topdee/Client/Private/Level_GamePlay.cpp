@@ -1,4 +1,4 @@
-#include "Level_GamePlay.h"
+﻿#include "Level_GamePlay.h"
 #include "Client_Extension.h"
 
 #include "GameInstance.h"
@@ -20,6 +20,8 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+
 	if (FAILED(Ready_Observer()))
 		return E_FAIL;
 
@@ -32,11 +34,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
-
-	//if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
-	//	return E_FAIL;
+	/*if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+		return E_FAIL;*/
 
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Back"))))
 		return E_FAIL;
@@ -52,6 +51,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	
 	if(FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
+
+	/*if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -111,7 +113,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
 	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
-
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
 
@@ -166,6 +167,30 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 		case MAPOBJECT::HOLE:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Hole"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::KEY:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Key"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::PORTAL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &info)))			
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::TOODEE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TooDee"),
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::TOPDEE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TopDee"),
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
 				return E_FAIL;
 			break;
 
@@ -256,14 +281,32 @@ _float3(2.f,2.f,2.f),
 	return S_OK;
 }
 
+/*
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+	/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"))))
+		return E_FAIL;*/
+
+	/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"))))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"))))
+		return E_FAIL;
+
+
+	BLOCK_INFO info = {
+		_float3(3.f, 0.f, 3.f),
+		_float3(2.f,2.f,2.f),
+		0,
+		0,
+		0,
+		0
+	};
+	if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallFall"),&info)))
 		return E_FAIL;
 
 	return S_OK;
@@ -279,6 +322,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
 
 	return S_OK;
 }
+*/
 
 HRESULT CLevel_GamePlay::Ready_Layer_Back(const _wstring& strLayerTag)
 {
@@ -362,9 +406,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 {
 	CColliderMap_Object::COLLIDER_MAP_DESC desc{};
 
-	for (_uint i = 0; i < Stage_ColliderCount(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY)); ++i)
+	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_GAMEPLAY); ++i)
 	{
-		auto Pair = MapCollider_Builder(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), i);
+		auto Pair = MapCollider_Builder(LEVEL::LEVEL_GAMEPLAY, i);
 		desc.vPosition = Pair.first;
 		desc.vScale = Pair.second;
 
@@ -372,8 +416,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
 			return E_FAIL;
 	}
+}
 
-
+HRESULT CLevel_GamePlay::Ready_Layer_StageBoss(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Body"))))
+		return E_FAIL;
 	return S_OK;
 }
 

@@ -1,10 +1,12 @@
-#include "Level_Stage5.h"
+﻿#include "Level_Stage5.h"
+#include "Client_Extension.h"
 
 #include "GameInstance.h"
 #include "Camera.h"
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
 #include "ClearTriggerObserver.h"
+#include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
 
@@ -15,6 +17,8 @@ CLevel_Stage5::CLevel_Stage5(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_Stage5::Initialize()
 {
+	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+
 	if (FAILED(Ready_Observer()))
 		return E_FAIL;
 
@@ -24,13 +28,10 @@ HRESULT CLevel_Stage5::Initialize()
 	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
-	//	return E_FAIL;
-
-	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
+	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -134,34 +135,35 @@ HRESULT CLevel_Stage5::Ready_Layer_MapObject(const _wstring& strLayerTag)
 				return E_FAIL;
 			break;
 
+		case MAPOBJECT::KEY:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Key"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::PORTAL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::TOODEE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::TOPDEE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
+				return E_FAIL;
+			break;
+
 		default:
 			MSG_BOX(TEXT("Error : Block Index error!"));
 		}
+
 	}
-	return S_OK;
-}
-
-HRESULT CLevel_Stage5::Ready_Layer_Player(const _wstring& strLayerTag)
-{
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"))))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CLevel_Stage5::Ready_Layer_Potal(const _wstring& strLayerTag)
-{
-	_float3 vPotalPosition = { 5.f, 0.f, 0.f }; //TEST
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -191,6 +193,24 @@ HRESULT CLevel_Stage5::Ready_Observer()
 	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Observer_ClearTrigger"),
 		CClearTriggerObserver::Create())))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage5::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
+{
+	CColliderMap_Object::COLLIDER_MAP_DESC desc{};
+
+	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_STAGE5); ++i)
+	{
+		auto Pair = MapCollider_Builder(LEVEL::LEVEL_STAGE5, i);
+		desc.vPosition = Pair.first;
+		desc.vScale = Pair.second;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

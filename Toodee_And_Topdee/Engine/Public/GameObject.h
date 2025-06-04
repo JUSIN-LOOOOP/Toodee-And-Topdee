@@ -10,7 +10,7 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CGameObject abstract : public virtual CBase
+class ENGINE_DLL CGameObject abstract : public CBase
 {
 protected:
 	CGameObject(LPDIRECT3DDEVICE9 pGraphic_Device);

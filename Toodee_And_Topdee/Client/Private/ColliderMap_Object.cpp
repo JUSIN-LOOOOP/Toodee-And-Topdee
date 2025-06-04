@@ -30,6 +30,7 @@ HRESULT CColliderMap_Object::Initialize(void* pArg)
     m_pTransformCom->Set_State(STATE::POSITION, m_vPosition);
     m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
 
+    name = TEXT("Wall");
     return S_OK;
 
 }
@@ -54,6 +55,26 @@ HRESULT CColliderMap_Object::Render()
     return S_OK;
 }
 
+_bool CColliderMap_Object::IsOverlappingWall(_float3 vOtherPosition, _float3 vLook)
+{
+    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+    _float3 vScale = m_pTransformCom->Get_Scaled();
+
+    _float fMinX = vPosition.x - (vScale.x * 0.5f);
+    _float fMaxX = vPosition.x + (vScale.x * 0.5f);
+    _float fMinZ = vPosition.z - (vScale.z * 0.5f);
+    _float fMaxZ = vPosition.z + (vScale.z * 0.5f);
+
+    _float3 vCheckPosition = vOtherPosition + (vLook * 2.f);        // 2.f == TILESIZE
+
+    if (vCheckPosition.x > fMinX && vCheckPosition.x < fMaxX)
+        if (vCheckPosition.z > fMinZ && vCheckPosition.z < fMaxZ)
+            return true;
+
+    return false;
+}
+
+
 HRESULT CColliderMap_Object::Ready_Components()
 {
 
@@ -75,7 +96,7 @@ HRESULT CColliderMap_Object::Ready_Components()
     ColliderDesc.bIsFixed = false;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
-        TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
     {
         MSG_BOX(TEXT("Failed to Add_Component : Com_Collision"));
         return E_FAIL;
