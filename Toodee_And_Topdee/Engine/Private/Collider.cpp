@@ -200,7 +200,7 @@ const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
     
 }
 
-const _bool CCollider::GetCollisionsOffset(_float3* distance) const
+const _bool CCollider::GetCollisionsOffset(_float3* distance, const _wstring strComponentTag) const
 {
     if (m_eState == COLLIDER_STATE::NONE || m_pOthers.size() == 0 || distance == nullptr ) return false;
 
@@ -223,15 +223,23 @@ const _bool CCollider::GetCollisionsOffset(_float3* distance) const
             if ((strOtherName.size() >= strCompare[i].size() && strOtherName.substr(0, strCompare[i].size()).compare(strCompare[i]) != 0))
                 continue;
 
-        CTransform* otherTransform = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")));
+        //CTransform* otherTransform = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")));
+        CCollider* otherCollider = dynamic_cast<CCollider*>(iter->Get_Component(strComponentTag));
 
-        if (otherTransform == nullptr) continue;
+        if (otherCollider == nullptr) continue;
 
 
-        _float3  otherPosition = otherTransform->Get_State(STATE::POSITION);
-        _float3  otherScale = otherTransform->Get_Scaled();
+        _float3  otherPosition = otherCollider->Get_ColliderPosition();
+        _float3  otherScale = otherCollider->Get_ColliderScaled();
+   
+        /* 혹시라도 콜라이더에 포지션이 없으면   */
+        if (D3DXVec3Length(&otherPosition) == 0.f)
+            otherPosition = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
+
+        /* 이 게임 특성상 x,z축으로만 움직이므로 y 값은 같은 값으로 고정으로 줌  */
+        otherPosition.y = myPosition.y;
+
         _float3  vDelta = myPosition - otherPosition;
-
         _float absX = fabsf(vDelta.x);
         _float absY = fabsf(vDelta.y);
         _float absZ = fabsf(vDelta.z);

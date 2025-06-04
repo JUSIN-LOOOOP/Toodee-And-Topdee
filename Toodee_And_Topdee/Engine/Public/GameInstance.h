@@ -33,6 +33,9 @@ public:
 public:
 	HRESULT			Open_Level(_uint iLevelID, class CLevel* pNewLevel);
 	const _uint		Get_CurrentLevelID();
+	void			Set_CurrentLevelID(_uint ilevel);
+	const _uint		Get_NextLevelID();
+	void			Set_NextLevelID(_uint ilevel);
 
 	//Prototype
 public:
@@ -91,8 +94,15 @@ public:
 
 	//Dimension
 public:
-	void			Change_Dimension(DIMENSION eDimension) { m_eCurrentDimension = eDimension; }
+	void			Change_Dimension(DIMENSION eDimension) 
+	{
+		if(DIMENSION::CHANGE != eDimension)
+		m_ePreviousDimension = m_ePreviousDimension == DIMENSION::NONE ? eDimension : m_eCurrentDimension;
+		m_eCurrentDimension = eDimension; 
+	}
 	DIMENSION		Get_CurrentDimension() { return m_eCurrentDimension; }
+	DIMENSION		Get_PreviousDimension() { return m_ePreviousDimension; }
+
 
 
 private:
@@ -111,7 +121,10 @@ private:
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 
 private:
-	DIMENSION					m_eCurrentDimension = {};
+	DIMENSION					m_ePreviousDimension = { DIMENSION::NONE };
+	DIMENSION					m_eCurrentDimension = { DIMENSION::NONE };
+	_uint						m_iCurrentLevelID = { 0 };
+	_uint						m_iNextLevelID = { 0 };
 	_uint						m_iFPS = { 0 };
 	_ulong						m_ulIntervalTime_FPS = { GetTickCount() };
 	TCHAR						m_szFPS[16] = {};

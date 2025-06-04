@@ -22,8 +22,6 @@ HRESULT CBlock_Lock::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Observer()))
-		return E_FAIL;
 
 	__super::SetUp_BlockInfo(pArg);
 
@@ -52,15 +50,6 @@ HRESULT CBlock_Lock::Render()
 		__super::Render();
 
 	return S_OK;
-}
-
-void CBlock_Lock::onReport(REPORT eReport, CSubjectObject* pSubject)
-{
-	if (eReport == REPORT::OPEN_KEYBLOCK)
-	{
-		m_Dead = true;
-		m_pColliderCom->Collision_Off();
-	}
 }
 
 HRESULT CBlock_Lock::Ready_Components()
@@ -96,13 +85,6 @@ HRESULT CBlock_Lock::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CBlock_Lock::Ready_Observer()
-{
-	m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_KeyTrigger"), this);
 
 	return S_OK;
 }
@@ -145,12 +127,5 @@ CGameObject* CBlock_Lock::Clone(void* pArg)
 
 void CBlock_Lock::Free()
 {
-	CGameObject::Free();
-	CSubjectObject::SubjectFree();
-
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
-
-
+	__super::Free();
 }

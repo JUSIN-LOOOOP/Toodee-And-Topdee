@@ -27,8 +27,7 @@ public:
 	virtual void Action() override;									
 	virtual void Stop() override;									
 	virtual void Clear() override;									
-	
-	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) override;
+
 private:															   								   
 	/* Ground Check Collider */										   
 	CCollider*  m_pGroundCheckColliderCom = { nullptr };			// 지면 체크용 Collider
@@ -53,12 +52,13 @@ private:
 																	   
 	void Check_Collision();											// 플레이어 충돌 체크
 	void Check_Collision_PlayerState();
-	void Check_Collision_BlockBreak();
+	void Check_Collision_BlockBreak(CGameObject* pGameObject);
+	void Check_Collision_Dead(CGameObject* pGameObject);
+	void Check_Collision_Portal(CGameObject* pGameObject);
 	void Check_Grounded();											// 지면 체크
 
 ;	HRESULT Ready_Components();
 	HRESULT Ready_States();
-	HRESULT Ready_Observers();
 
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();

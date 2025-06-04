@@ -172,6 +172,7 @@
     <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\Public\InteractionBlock.h" />
+    <ClInclude Include="..\Public\Key.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
@@ -199,8 +200,14 @@
     <ClInclude Include="..\public\Player_Toodee.h" />
     <ClInclude Include="..\public\Player_Topdee.h" />
     <ClInclude Include="..\Public\Potal.h" />
+    <ClInclude Include="..\Public\Spikes.h" />
+    <ClInclude Include="..\Public\StageBoss.h" />
+    <ClInclude Include="..\Public\StageBoss_Body.h" />
+    <ClInclude Include="..\Public\StageBoss_Hand.h" />
+    <ClInclude Include="..\Public\StageBoss_limb.h" />
     <ClInclude Include="..\Public\State_Action.h" />
     <ClInclude Include="..\Public\State_Clear.h" />
+    <ClInclude Include="..\Public\State_Dead.h" />
     <ClInclude Include="..\Public\State_Idle.h" />
     <ClInclude Include="..\Public\State_Move.h" />
     <ClInclude Include="..\Public\State_Stop.h" />
@@ -239,6 +246,7 @@
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
+    <ClCompile Include="..\Private\Key.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
@@ -266,8 +274,14 @@
     <ClCompile Include="..\private\Player_Toodee.cpp" />
     <ClCompile Include="..\private\Player_Topdee.cpp" />
     <ClCompile Include="..\Private\Potal.cpp" />
+    <ClCompile Include="..\Private\Spikes.cpp" />
+    <ClCompile Include="..\Private\StageBoss.cpp" />
+    <ClCompile Include="..\Private\StageBoss_Body.cpp" />
+    <ClCompile Include="..\Private\StageBoss_Hand.cpp" />
+    <ClCompile Include="..\Private\StageBoss_limb.cpp" />
     <ClCompile Include="..\Private\State_Action.cpp" />
     <ClCompile Include="..\Private\State_Clear.cpp" />
+    <ClCompile Include="..\Private\State_Dead.cpp" />
     <ClCompile Include="..\Private\State_Idle.cpp" />
     <ClCompile Include="..\Private\State_Move.cpp" />
     <ClCompile Include="..\Private\State_Stop.cpp" />

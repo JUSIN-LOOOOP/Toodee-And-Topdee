@@ -23,7 +23,7 @@
       <Filter>01. Levels\01. Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\MainApp.cpp">
-      <Filter>01. Levels\00. MainApp</Filter>
+      <Filter>00. MainApp</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MultiViewCamera.cpp">
       <Filter>02. GameObjects\Camera</Filter>
@@ -65,34 +65,31 @@
       <Filter>00. Dummys\J O H</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block.cpp">
-      <Filter>00. Dummys\T Y J\Block</Filter>
+      <Filter>00. Dummys\T Y J\MapObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Break.cpp">
-      <Filter>00. Dummys\T Y J\Block\Break</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Break</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Fall.cpp">
-      <Filter>00. Dummys\T Y J\Block\Fall</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Fall</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Lock.cpp">
-      <Filter>00. Dummys\T Y J\Block\Lock</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Lock</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Wall.cpp">
-      <Filter>00. Dummys\T Y J\Block\Wall</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Wall</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Wood.cpp">
-      <Filter>00. Dummys\T Y J\Block\Wood</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\TextureUI.cpp">
-      <Filter>00. Dummys\T Y J</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Wood</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Metal.cpp">
-      <Filter>00. Dummys\T Y J\Block\Metal</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Metal</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Spark.cpp">
-      <Filter>00. Dummys\T Y J\Block\Spark</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Spark</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Hole.cpp">
-      <Filter>00. Dummys\T Y J\Block\Hole</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Hole</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Backdrop.cpp">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
@@ -196,6 +193,33 @@
     <ClCompile Include="..\Private\Level_MapEdit.cpp">
       <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Spikes.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Dead.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\TextureUI.cpp">
+      <Filter>00. Dummys\T Y J\TextureUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_MapEdit.cpp">
+      <Filter>00. Dummys\T Y J\Level_MapEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageBoss.cpp">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageBoss_limb.cpp">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageBoss_Body.cpp">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageBoss_Hand.cpp">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Key.cpp">
+      <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -226,7 +250,7 @@
       <Filter>01. Levels\01. Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\MainApp.h">
-      <Filter>01. Levels\00. MainApp</Filter>
+      <Filter>00. MainApp</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MultiViewCamera.h">
       <Filter>02. GameObjects\Camera</Filter>
@@ -266,36 +290,42 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_MapEdit.h">
       <Filter>00. Dummys\T Y J</Filter>
+	</ClInclude>
+    <ClInclude Include="..\public\Test_Cube.h">
+      <Filter>00. Dummys\J O H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Test_Cube2.h">
+      <Filter>00. Dummys\J O H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Potal.h">
+      <Filter>00. Dummys\K J H</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block.h">
-      <Filter>00. Dummys\T Y J\Block</Filter>
+      <Filter>00. Dummys\T Y J\MapObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Break.h">
-      <Filter>00. Dummys\T Y J\Block\Break</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Break</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Fall.h">
-      <Filter>00. Dummys\T Y J\Block\Fall</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Fall</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Lock.h">
-      <Filter>00. Dummys\T Y J\Block\Lock</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Lock</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Wall.h">
-      <Filter>00. Dummys\T Y J\Block\Wall</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Wall</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Wood.h">
-      <Filter>00. Dummys\T Y J\Block\Wood</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\TextureUI.h">
-      <Filter>00. Dummys\T Y J</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Wood</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Metal.h">
-      <Filter>00. Dummys\T Y J\Block\Metal</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Metal</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Spark.h">
-      <Filter>00. Dummys\T Y J\Block\Spark</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Block\Spark</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Hole.h">
-      <Filter>00. Dummys\T Y J\Block\Hole</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Hole</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Backdrop.h">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
@@ -395,9 +425,36 @@
     </ClInclude>
     <ClInclude Include="..\Public\Client_Extension.h">
       <Filter>99. Defines</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\InteractionBlock.h">
       <Filter>00. Dummys\T Y J\Block\Interaction Block</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Spikes.h">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_Dead.h">
+      <Filter>00. Dummys\K J H</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\TextureUI.h">
+      <Filter>00. Dummys\T Y J\TextureUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_MapEdit.h">
+      <Filter>00. Dummys\T Y J\Level_MapEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageBoss.h">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageBoss_limb.h">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageBoss_Body.h">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageBoss_Hand.h">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Key.h">
+      <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -511,33 +568,6 @@
     <Filter Include="01. Levels\03. GamePlay\07. Stage_Boss02">
       <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\Block">
-      <UniqueIdentifier>{02a3673b-a045-498b-bdc8-20b7d5eb0a32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Break">
-      <UniqueIdentifier>{6a0c54f5-3a89-4934-ba1d-19776beaa6cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Wood">
-      <UniqueIdentifier>{6ce54d61-43ac-4f1a-a44f-c003d9fdc1ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Wall">
-      <UniqueIdentifier>{615247ea-a0ea-4cfd-916b-cfa233363194}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Fall">
-      <UniqueIdentifier>{930abd54-aa14-4957-8186-40a603d64e97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Lock">
-      <UniqueIdentifier>{b22a7b49-a210-4ed2-9198-d2e246c6fb77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Metal">
-      <UniqueIdentifier>{ec6d845a-a69d-41e5-b796-d9c8c42676b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Spark">
-      <UniqueIdentifier>{0856da92-c18c-47e2-b81c-bc886450ee5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\Block\Hole">
-      <UniqueIdentifier>{bd7bd66b-82af-499a-bffe-acc70c5da4b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Dummys\T Y J\BackGroundObj">
       <UniqueIdentifier>{96055de1-5330-42e8-85aa-b908c8d83573}</UniqueIdentifier>
     </Filter>
@@ -604,11 +634,53 @@
     <Filter Include="00. Dummys\J O H\Test">
       <UniqueIdentifier>{6905adee-041c-4d33-892b-b3b8bda44b24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Levels\00. MainApp">
-      <UniqueIdentifier>{0f441b58-ea10-4ffe-982b-ae6f90d35d85}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Dummys\T Y J\Block\Interaction Block">
       <UniqueIdentifier>{9f74cfd1-169c-448b-a154-a0a7a5a9d08f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. MainApp">
+      <UniqueIdentifier>{0f441b58-ea10-4ffe-982b-ae6f90d35d85}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="00. Dummys\T Y J\StageBoss">
+      <UniqueIdentifier>{963df8a3-734b-468c-9406-e5cc3614591f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\TextureUI">
+      <UniqueIdentifier>{f3b7a007-46b5-4333-b104-aa9a79d9739b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Level_MapEdit">
+      <UniqueIdentifier>{cbe633c0-a5e6-4684-8a25-e1718241454a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject">
+      <UniqueIdentifier>{02a3673b-a045-498b-bdc8-20b7d5eb0a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Hole">
+      <UniqueIdentifier>{bd7bd66b-82af-499a-bffe-acc70c5da4b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Block">
+      <UniqueIdentifier>{231421e6-3c58-4010-bac5-da96001f5bb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Block\Break">
+      <UniqueIdentifier>{6a0c54f5-3a89-4934-ba1d-19776beaa6cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Block\Fall">
+      <UniqueIdentifier>{930abd54-aa14-4957-8186-40a603d64e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Block\Lock">
+      <UniqueIdentifier>{b22a7b49-a210-4ed2-9198-d2e246c6fb77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Block\Metal">
+      <UniqueIdentifier>{ec6d845a-a69d-41e5-b796-d9c8c42676b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Block\Spark">
+      <UniqueIdentifier>{0856da92-c18c-47e2-b81c-bc886450ee5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Block\Wall">
+      <UniqueIdentifier>{615247ea-a0ea-4cfd-916b-cfa233363194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Block\Wood">
+      <UniqueIdentifier>{6ce54d61-43ac-4f1a-a44f-c003d9fdc1ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Key">
+      <UniqueIdentifier>{4361f3e3-3789-4f80-bc48-404f1b9bfce7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,7 @@ CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphicDev)
 HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 {
 	m_eNextLevelID = eNextLevelID;
+	m_pGameInstance->Set_NextLevelID(ENUM_CLASS(m_eNextLevelID));
 
 	if (FAILED(Ready_GameObjects()))
 		return E_FAIL;

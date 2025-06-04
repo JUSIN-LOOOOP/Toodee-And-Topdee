@@ -17,7 +17,7 @@ CPotal::CPotal(const CPotal& Prototype)
 
 HRESULT CPotal::Initialize_Prototype()
 {
-	name = TEXT("Potal");
+	name = TEXT("Portal");
 
 	m_iMaxAnimCount = 11;
 	m_fAnimDelay = 0.02f;
@@ -55,7 +55,7 @@ void CPotal::Priority_Update(_float fTimeDelta)
 
 void CPotal::Update(_float fTimeDelta)
 {
-	// ÇÃ·¹ÀÌ¾î Ãæµ¹ On -> Clear
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½æµ¹ On -> Clear
 }
 
 void CPotal::Late_Update(_float fTimeDelta)

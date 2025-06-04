@@ -10,6 +10,7 @@ CLevel_Manager::CLevel_Manager()
 
 HRESULT CLevel_Manager::Open_Level(_uint iLevelID, CLevel* pNewLevel)
 {
+    if (iLevelID != 1)m_pGameInstance->Set_CurrentLevelID(iLevelID);
     //기존 자원 파괴
     if (FAILED(Clear_Resources()))
         return E_FAIL;

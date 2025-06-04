@@ -3,7 +3,7 @@
 #include "Util.h"
 
 CBackdrop::CBackdrop(LPDIRECT3DDEVICE9 pGraphic_Device) 
-    : CGameObject{ pGraphic_Device }
+    : CGameObject { pGraphic_Device }
 {
 } 
 

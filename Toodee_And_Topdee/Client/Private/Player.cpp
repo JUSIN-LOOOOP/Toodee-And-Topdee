@@ -9,6 +9,7 @@
 #include "State_Action.h"
 #include "State_Clear.h"
 #include "State_Stop.h"
+#include "State_Dead.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -17,7 +18,6 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CPlayer::CPlayer(const CPlayer& Prototype)
 	: CGameObject { Prototype }
-	, CSubjectObject { Prototype }
 	, m_fPotalDistance { Prototype.m_fPotalDistance }
 	, m_bMoveInAction { Prototype.m_bMoveInAction }
 	, m_eCurrentTextureDir { Prototype.m_eCurrentTextureDir }
@@ -106,6 +106,10 @@ HRESULT CPlayer::Add_State(PLAYERSTATE eKeyState, void* pArg)
 	case PLAYERSTATE::CLEAR:
 		pInstance = CState_Clear::Create(pArg);
 		break;
+	case PLAYERSTATE::DEAD:
+		pInstance = CState_Dead::Create(pArg);
+		break;
+			
 	}
 
 	m_States.emplace(eKeyState, pInstance);
@@ -153,13 +157,13 @@ void CPlayer::Check_Dimension()
 	{
 		m_pColliderCom->Collision_Off();
 		m_bCanActive = false;
+
 	}
 }
 
 void CPlayer::Free()
 {
-	CGameObject::Free();
-	CSubjectObject::SubjectFree();
+	__super::Free();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
