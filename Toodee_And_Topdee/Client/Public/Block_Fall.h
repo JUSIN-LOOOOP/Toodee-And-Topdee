@@ -1,11 +1,10 @@
 #pragma once
 #include "Client_Defines.h"
 #include "InteractionBlock.h"
-#include "SubjectObject.h"
 
 BEGIN(Client)
 
-class CBlock_Fall final : public CInteractionBlock, public CSubjectObject
+class CBlock_Fall final : public CInteractionBlock 
 {
 private:
 	CBlock_Fall(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -20,7 +19,6 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) override;
 
 private:
 	CCollider* m_pGroundCheckColliderCom = { nullptr };
@@ -42,7 +40,6 @@ private:
 	void Gravity(_float fTimeDelta);
 
 	HRESULT Ready_Components();
-	HRESULT Ready_Observer();
 	void	SetUp_RenderState();
 	void	Reset_RenderState();
 

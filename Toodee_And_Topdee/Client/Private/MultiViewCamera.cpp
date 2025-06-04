@@ -85,12 +85,12 @@ HRESULT CMultiViewCamera::Render()
 
 void CMultiViewCamera::ChangeView(_float fTimeDelta)
 {
-    // [Ä«¸Þ¶ó ¼Óµµ ±â¹Ý ¼¼ÆÃ]
-    _float fDelta = m_ChangeSpeed * fTimeDelta;             //Angle ¿òÁ÷ÀÓ ¼Óµµ Á¦¾î
-    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3f;     //Position ¿òÁ÷ÀÓ ¼Óµµ Á¦¾î
+    // [Ä«ï¿½Þ¶ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½]
+    _float fDelta = m_ChangeSpeed * fTimeDelta;             //Angle ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
+    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3f;     //Position ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
     m_fCurrentAngle += fDelta;
 
-    // [Ä«¸Þ¶ó È¸Àü->ÀÌµ¿->zoom Àû¿ë]
+    // [Ä«ï¿½Þ¶ï¿½ È¸ï¿½ï¿½->ï¿½Ìµï¿½->zoom ï¿½ï¿½ï¿½ï¿½]
     if (m_bType == CAM_TYPE::TOP)
     {
         m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), -D3DXToRadian(fDelta));
@@ -107,7 +107,7 @@ void CMultiViewCamera::ChangeView(_float fTimeDelta)
     }
 
     _float3 tmp = m_pTransformCom->Get_State(STATE::POSITION);
-    // [¸ñÇ¥ °¢µµ ´Þ¼ºÇÏ¸é Flag ÇØÁ¦]
+    // [ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½Ï¸ï¿½ Flag ï¿½ï¿½ï¿½ï¿½]
     if (m_fCurrentAngle >= m_fTargetAngle)
     {
         m_fCurrentAngle = 0;

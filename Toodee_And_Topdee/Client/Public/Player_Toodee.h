@@ -27,8 +27,7 @@ public:
 	virtual void Action() override;									
 	virtual void Stop() override;									
 	virtual void Clear() override;									
-	
-	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) override;
+
 private:															   								   
 	/* Ground Check Collider */										   
 	CCollider*  m_pGroundCheckColliderCom = { nullptr };			// 지면 체크용 Collider
@@ -60,7 +59,6 @@ private:
 
 ;	HRESULT Ready_Components();
 	HRESULT Ready_States();
-	HRESULT Ready_Observers();
 
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();

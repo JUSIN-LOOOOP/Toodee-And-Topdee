@@ -55,8 +55,6 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 	
-	if (FAILED(Ready_Observers()))
-		return E_FAIL;
 
 	if (FAILED(Ready_Outline()))
 		return E_FAIL;
@@ -94,8 +92,6 @@ void CPlayer_Topdee::Priority_Update(_float fTimeDelta)
 
 	m_pActionCheckColliderCom->Collision_Off();
 
-	if (GetKeyState('2') & 0x8000)
-		Notify(EVENT::ENTER_PORTAL);
 }
 
 void CPlayer_Topdee::Update(_float fTimeDelta)
@@ -278,12 +274,6 @@ void CPlayer_Topdee::Clear()
 	_float3 vSpeed = m_vPotalStartPosition - vPosition;
 
 	m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
-}
-
-void CPlayer_Topdee::onReport(REPORT eReport, CSubjectObject* pSubject)
-{
-	if (eReport == REPORT::REPORT_CANCLEAR)
-		m_bCanClear = true;
 }
 
 void CPlayer_Topdee::Interaction()
@@ -770,13 +760,6 @@ HRESULT CPlayer_Topdee::Ready_States()
 	return S_OK;
 }
 
-HRESULT CPlayer_Topdee::Ready_Observers()
-{
-	m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"), this);
-
-	return S_OK;
-}
-
 HRESULT CPlayer_Topdee::Ready_Outline()
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Effect"),
@@ -852,7 +835,7 @@ void CPlayer_Topdee::Check_Collision()
 	else
 	{
 		if (m_bEnterPortal)
-			Notify(EVENT::EXIT_PORTAL);
+		{ }
 	}
 
 }
@@ -899,7 +882,6 @@ void CPlayer_Topdee::Check_Collision_Portal(CGameObject* pGameObject)
 {
 	if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
 	{
-		Notify(EVENT::ENTER_PORTAL);
 		m_bEnterPortal = true;
 	}
 }
