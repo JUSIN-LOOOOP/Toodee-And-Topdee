@@ -8,7 +8,6 @@
 #include "Timer_Manager.h"
 #include "Map_Manager.h"
 #include "Collision_Manager.h"
-#include "Observer_Manager.h"
 #include "Sound_Manager.h"
 #include "Pool_Manager.h"
 
@@ -59,16 +58,16 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pCollision_Manager)
 		return E_FAIL;
 
- 	m_pObserver_Manager = CObserver_Manager::Create(EngineDesc.iNumLevels);
-	if (nullptr == m_pObject_Manager)
-		return E_FAIL;
-
 	m_pSound_Manager = CSound_Manager::Create();
 	if (nullptr == m_pSound_Manager)
 		return E_FAIL;
 
 	m_pPool_Manager = CPool_Manager::Create(EngineDesc.iNumLevels);
 	if (nullptr == m_pPool_Manager)
+		return E_FAIL;
+
+	m_pEventBus = CEventBus::Create(EngineDesc.iNumLevels);
+	if (nullptr == m_pEventBus)
 		return E_FAIL;
 
     return S_OK;
@@ -81,7 +80,6 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 	m_pObject_Manager->Update(fTimeDelta);
 	m_pObject_Manager->Late_Update(fTimeDelta);
-
 
 	m_pLevel_Manager->Update(fTimeDelta);
 
@@ -96,9 +94,9 @@ HRESULT CGameInstance::Clear_Resources(_uint iClearLevelID)
 
 	m_pObject_Manager->Clear(iClearLevelID);
 
-	m_pObserver_Manager->Clear(iClearLevelID);
-
 	m_pPool_Manager->Clear(iClearLevelID);
+
+	m_pEventBus->Clear(iClearLevelID);
 
     return S_OK;
 }
@@ -315,21 +313,17 @@ void CGameInstance::Check_Collision(CCollider* pCollider)
 
 #pragma endregion
 
-#pragma region OBSERVER_MANAGER
+#pragma region EVENT_BUS
 
-HRESULT CGameInstance::Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, CObserver* pObserver)
+void CGameInstance::Publish(_uint iSubscribeLevel, EVENT_KEY eEventKey, const CEvent& Event)
 {
-	return m_pObserver_Manager->Add_Observer(iObserverLevelndex, strObserverTag, pObserver);
-}
-
-HRESULT CGameInstance::Subscribe_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, CSubjectObject* pSubject)
-{
-	return m_pObserver_Manager->Subscribe_Observer(iObserverLevelndex, strObserverTag, pSubject);
+	m_pEventBus->Publish(iSubscribeLevel, eEventKey, Event);
 }
 
 #pragma endregion
 
 #pragma region SOUND_MANAGER
+
 
 void CGameInstance::PlayAudio(const TCHAR* pSoundKey, CHANNELID eID, float fVolume)
 {
@@ -433,8 +427,8 @@ void CGameInstance::Release_Engine()
 	Release();
 
 	/*오브젝트가 사용하는 의존성들 먼저 유지하고 오브젝트 먼저 해제할게요*/
+	Safe_Release(m_pEventBus);
 	Safe_Release(m_pObject_Manager);
-
 	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pCollision_Manager);
 	Safe_Release(m_pTimer_Manager);
@@ -444,7 +438,6 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pMap_Manager);
-	Safe_Release(m_pObserver_Manager);
 	Safe_Release(m_pPool_Manager);
 }
 

@@ -26,13 +26,17 @@ public:
 	virtual void Move(_float fTimeDelta) override;					// Move State 트리거
 	virtual void Action() override;									// Action State 트리거
 	virtual void Stop() override;									// Stop State 트리거
-	virtual void Clear() override;									// Clear State 트리거
+	virtual void Clear(_float3 vPortalPosition) override;									// Clear State 트리거
+
+
 
 	/* State Action */
 	_bool IsAttach() const { return m_bIsAttach; }					// Box 들고 있는지 Check
 	_float3 ComputeTileOutlinePosition();							// TileOutline Position Return
 
 private:
+	_uint			m_iPlayLevel = {};
+
 	/* Attach Check Collider */
 	CCollider*		m_pActionCheckColliderCom = { nullptr };
 	CTransform*		m_pActionCheckTransformCom = { nullptr };
@@ -78,6 +82,7 @@ private:
 	void Check_Collision_Dead(CGameObject* pGameObject);
 	void Check_Collision_InteractionBlock(CGameObject* pGameObject);
 	void Check_Collision_Portal(CGameObject* pGameObject);
+	void Check_Collision_Key(CGameObject* pGameObject);
 
 	/* Attach  */
 	void Check_AttachCollisionState();
@@ -90,7 +95,8 @@ private:
 
 	HRESULT Ready_Components();
 	HRESULT Ready_States();
-	HRESULT Ready_Outline();
+	HRESULT Ready_SubscribeEvent(_uint iPlayerLevel);
+	HRESULT Ready_Outline(_uint iPlayLevel);
 
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
