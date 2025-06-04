@@ -20,6 +20,7 @@ HRESULT CState_Stop::Initialize(void* pArg)
 
 void CState_Stop::Enter(CPlayer* pPlayer)
 {
+
     m_iCurrentAnimCount = 0;
     m_fAnimTime = 0.f;
 }

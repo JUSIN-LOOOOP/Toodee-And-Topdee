@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "SubjectObject.h"
+#include "GameObject.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -15,8 +16,14 @@ BEGIN(Client)
 
 class CPlayerState;
 
-class CPlayer abstract : public CSubjectObject
+class CPlayer abstract : public CGameObject, public CSubjectObject
 {
+public:
+	typedef struct tagPlayerDesc {
+		_float3 vPlayerStartPosition;
+		_float3 vPotalPosition;
+	}PLAYERDESC;
+
 protected:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -41,7 +48,7 @@ public:
 	virtual void Clear() PURE;											// Clear State 트리거
 
 	/* Observer */
-	virtual void onReport(REPORT eReport) PURE;							// Observer가 주는 REPORT 처리
+	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) PURE;							// Observer가 주는 REPORT 처리
 
 	_bool CanMoveInAction() const { return m_bMoveInAction; }
 	_bool InAction() const { return m_bInAction; }						
@@ -61,7 +68,7 @@ protected:
 	_uint ComputeStopAnimCount(PLAYERSTATE eCurrentState);						// Stop AnimCount 갱신
 
 	
-	void Check_Dimension();														// Toodee Topdee Check
+	virtual void Check_Dimension();														// Toodee Topdee Check
 
 
 protected:
@@ -91,9 +98,11 @@ protected:
 	
 	_uint							m_iCurrentAnimCount = {};													//현재 애니메이션 Index
 
+	_bool							m_bEnterPortal = {};
 	_bool							m_bCanClear = {};															// 클리어 조건 달성 여부 ( 포탈에 2명 )
 	_bool							m_bMoveToPotal = {};														// Clear 애니메이션 Start Position Move Check
 	_bool							m_bClearAnimStart = {};														// Clear 애니메이션 트리거 
+	
 	_float3							m_vPotalPosition = {};														// Clear 애니메이션 Start Position
 	_float m_fClearSpeedPerSec = {};																			// Clear Animation 시작 위치까지 동시에 도착하기 위한 스피드
 	_float3 m_vPotalStartPosition = {};																			// Spiral에 넘겨주기 위한 포탈과의 거리

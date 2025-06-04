@@ -1,29 +1,23 @@
 #pragma once
-#include "GameObject.h"
+
+#include "Base.h"
 
 BEGIN(Engine)
 
 class CObserver;
+class CGameObject;
 
-class ENGINE_DLL CSubjectObject abstract : public CGameObject
+class ENGINE_DLL CSubjectObject abstract : public virtual CBase
 {
 protected:
-	CSubjectObject(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSubjectObject();
 	CSubjectObject(const CSubjectObject& Prototype);
 	virtual ~CSubjectObject() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() PURE;
-	virtual HRESULT Initialize(void* pArg) PURE;
-	virtual void Priority_Update(_float fTimeDelta) PURE;
-	virtual void Update(_float fTimeDelta) PURE;
-	virtual void Late_Update(_float fTimeDelta) PURE;
-	virtual HRESULT Render() PURE;
-
-
 	//Observer 에게서 REPORT를 받습니다.
 	//객체마다 REPORT 처리를 다르게 할 생각이라 가상함수로 뒀습니다.
-	virtual void onReport(REPORT eReport) PURE;
+	virtual void onReport(REPORT eReport, CSubjectObject* pSubject = nullptr) PURE;
 	
 	//옵저버 추가
 	HRESULT Add_Observer(CObserver* pObserver);
@@ -40,8 +34,7 @@ protected:
 	void Notify_Dead();
 
 public:
-	virtual CGameObject* Clone(void* pArg) PURE;
-	virtual void Free() override;
+	void SubjectFree();
 };
 
 END

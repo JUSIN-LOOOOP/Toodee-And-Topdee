@@ -28,7 +28,7 @@ public:
 
 protected:
 	//Subject들에게 REPORT 를 전달합니다.
-	virtual void Report(REPORT eReport);
+	virtual void Report(REPORT eReport, CSubjectObject* pSubject = nullptr);
 	
 protected:
 	vector<CSubjectObject*> m_Subjects;

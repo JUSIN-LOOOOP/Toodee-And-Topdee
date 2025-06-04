@@ -16,20 +16,6 @@ HRESULT CPool_Manager::Initialize(_uint iNumLevels)
 	return S_OK;
 }
 
-void CPool_Manager::First_Push(_uint iNumLevels, const _wstring& strPoolTag, CPoolableObject* pGameObject)
-{
-	CPool* pPool = Find_Pools(iNumLevels, strPoolTag);
-	if (pPool == nullptr)
-	{
-		pPool = CPool::Create();
-		m_pPools[iNumLevels].emplace(strPoolTag, pPool);
-	}
-
-	pPool->Push(pGameObject);
-	if (pGameObject != nullptr)
-		pGameObject->Set_Active(false);
-}
-
 void CPool_Manager::Push(_uint iNumLevels,const _wstring& strPoolTag, CPoolableObject* pGameObject)
 {
 	CPool* pPool = Find_Pools(iNumLevels, strPoolTag);
@@ -39,9 +25,11 @@ void CPool_Manager::Push(_uint iNumLevels,const _wstring& strPoolTag, CPoolableO
   		m_pPools[iNumLevels].emplace(strPoolTag, pPool);
 	}
 
-	pPool->Push(pGameObject);
-	if(pGameObject != nullptr)
+	if (pGameObject != nullptr) {
 		pGameObject->Set_Active(false);
+		pPool->Push(pGameObject);
+	}
+
 }
 
 CPoolableObject* CPool_Manager::Pop(_uint iNumLevels, const _wstring& strPoolTag)

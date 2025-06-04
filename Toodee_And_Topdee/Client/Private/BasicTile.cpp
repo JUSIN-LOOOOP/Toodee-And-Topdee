@@ -26,7 +26,7 @@ HRESULT CBasicTile::Initialize(void* pArg)
     m_iTileSizeY = 2;
 
     BLOCK_INFO* arg = static_cast<BLOCK_INFO*>(pArg);
-    m_pTransformCom->Scaling(m_iTileSizeX, m_iTileSizeY, 2);
+    m_pTransformCom->Scaling(static_cast<_float>(m_iTileSizeX), static_cast<_float>(m_iTileSizeY), 2);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     m_pTransformCom->Set_State(STATE::POSITION, arg->vPos);
     m_tBlockInfo.iBlockType = arg->iBlockType;

@@ -44,7 +44,7 @@ void CTextureUI::Update(_float fTimeDelta)
 	ScreenToClient(g_hWnd, &ptMouse);
 
 	ptMouse.x -= g_iWinSizeX / 2;
-	ptMouse.y = -((float)ptMouse.y - float(g_iWinSizeY / 2));
+	ptMouse.y = static_cast<_long>(-((float)ptMouse.y - float(g_iWinSizeY / 2)));
 	m_pTransformCom->Set_State(STATE::POSITION, _float3((float)ptMouse.x, (float)ptMouse.y, 0.f));
 
 }

@@ -22,6 +22,9 @@ HRESULT CBlock_Lock::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Observer()))
+		return E_FAIL;
+
 	__super::SetUp_BlockInfo(pArg);
 
 	name = TEXT("Block_Lock");
@@ -45,9 +48,19 @@ void CBlock_Lock::Late_Update(_float fTimeDelta)
 
 HRESULT CBlock_Lock::Render()
 {
-	__super::Render();
+	if(false == IsDead())
+		__super::Render();
 
 	return S_OK;
+}
+
+void CBlock_Lock::onReport(REPORT eReport, CSubjectObject* pSubject)
+{
+	if (eReport == REPORT::OPEN_KEYBLOCK)
+	{
+		m_Dead = true;
+		m_pColliderCom->Collision_Off();
+	}
 }
 
 HRESULT CBlock_Lock::Ready_Components()
@@ -72,6 +85,24 @@ HRESULT CBlock_Lock::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	/* For.Com_Collider */
+	CCollider::COLLIDER_DESC		ColliderDesc{};
+	ColliderDesc.pOwner = this;
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(1.9f, 1.9f, 1.9f);
+	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.bIsFixed = false;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CBlock_Lock::Ready_Observer()
+{
+	m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_KeyTrigger"), this);
 
 	return S_OK;
 }
@@ -114,11 +145,6 @@ CGameObject* CBlock_Lock::Clone(void* pArg)
 
 void CBlock_Lock::Free()
 {
-	__super::Free();
-
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
-
-
+	CBlock::Free();
+	CSubjectObject::SubjectFree();
 }

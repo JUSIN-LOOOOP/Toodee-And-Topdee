@@ -1,4 +1,4 @@
-#include "Level_Test.h"
+﻿#include "Level_Test.h"
 
 #include "GameInstance.h"
 #include "Camera.h"
@@ -37,8 +37,8 @@ HRESULT CLevel_Test::Initialize()
 	//if (FAILED(Ready_Layer_Potal(TEXT("Layer_Potal"))))
 	//	return E_FAIL;
 
-	if(FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;
+//	if(FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+//		return E_FAIL;
 
 //	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
 //		return E_FAIL;
@@ -91,7 +91,7 @@ HRESULT CLevel_Test::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_MultiViewCamera"), &CameraDesc)))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MultiViewCamera"), &CameraDesc)))
 		return E_FAIL;
 
 
@@ -185,11 +185,11 @@ HRESULT CLevel_Test::Ready_Layer_TestCube2(const _wstring& strLayerTag)
 HRESULT CLevel_Test::Ready_Layer_Player(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Player_Toodee"))))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Player_Topdee"))))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -217,7 +217,7 @@ HRESULT CLevel_Test::Ready_Layer_Potal(const _wstring& strLayerTag)
 	_float3 vPotalPosition = { 5.f, 0.f, 0.f }; //TEST
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
 		return E_FAIL;
 
 	return S_OK;
@@ -233,7 +233,7 @@ HRESULT CLevel_Test::Ready_Layer_ColliderCube(const _wstring& strLayerTag)
 		Block_Desc.iTextureIdx = 0;
 		Block_Desc.iDir = 0;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_ColliderCube"), &Block_Desc)))
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_ColliderCube"), &Block_Desc)))
 			return E_FAIL;
 	}
 	return S_OK;
@@ -257,7 +257,7 @@ HRESULT CLevel_Test::Ready_Layer_Monster(const _wstring& strLayerTag)
 	pDesc.vPosSet = _float3(3.5f, 0.f, 10.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Pig"), &pDesc)))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Pig"), &pDesc)))
 		return E_FAIL;
 
 	return S_OK;

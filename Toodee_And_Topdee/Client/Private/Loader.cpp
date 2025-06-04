@@ -218,6 +218,10 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Block_Wood"),
+		CBlock_Wood::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Key"),
 		CKey::Create(m_pGraphic_Device))))
 		return E_FAIL;

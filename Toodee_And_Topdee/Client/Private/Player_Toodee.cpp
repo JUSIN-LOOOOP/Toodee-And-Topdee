@@ -1,7 +1,8 @@
-#include "Player_Toodee.h"
+Ôªø#include "Player_Toodee.h"
 #include "GameInstance.h"
 #include "PlayerState.h"
-
+#include "Block.h"
+#include "Block_Break.h"
 
 CPlayer_Toodee::CPlayer_Toodee(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CPlayer { pGraphic_Device }
@@ -17,9 +18,9 @@ CPlayer_Toodee::CPlayer_Toodee(const CPlayer_Toodee& Prototype)
 
 HRESULT CPlayer_Toodee::Initialize_Prototype()
 {
-    m_fPotalDistance = -5.f;    //¿”Ω√
+    m_fPotalDistance = -5.f;    //ÏûÑÏãú
 
-    m_bMoveInAction = true;     //Action ¡ﬂ øÚ¡˜¿œºˆ ¿÷¥¬∞°
+    m_bMoveInAction = true;     //Action Ï§ë ÏõÄÏßÅÏùºÏàò ÏûàÎäîÍ∞Ä
 
     m_eActivateDimension = DIMENSION::TOODEE;
 
@@ -41,7 +42,7 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::CLEAR)].iMaxAnimCount = 17;
 
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].eState = PLAYERSTATE::DEAD;
-    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].iMaxAnimCount = 0;
+    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].iMaxAnimCount = 5;
 
     return S_OK;
 }
@@ -57,21 +58,28 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (FAILED(Ready_Observers()))
         return E_FAIL;
 
-    BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
+    if (nullptr == pArg)
+    {
+        m_vPotalPosition = { 0.f, 0.f, 0.f };
+        m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, 0.5f, 10.f));
+    }
+    else
+    {
+        BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
-    //Test true = ≈¨∏ÆæÓ∏º« false = «√∑π¿Ã∏º«
+        m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+    }
+  
+    //Test true = ÌÅ¥Î¶¨Ïñ¥Î™®ÏÖò false = ÌîåÎ†àÏù¥Î™®ÏÖò
     m_bCanClear = false;
-    m_vPotalPosition = { 0.f, 0.f, 0.f };
-
     m_fCurrentJumpPower = 0.f;
+    m_fStartJumpPower = 10.f;
     m_fAccumulationJumpPower = 0.f;
-    m_fIncreaseJumpPower = 4.f;
-    m_fMaxIncreaseJumpPower = 20.f; //¿”Ω√
+    m_fIncreaseJumpPower = 2.f;
+    m_fMaxIncreaseJumpPower = 14.f; //ÏûÑÏãú
     m_fGravityPower = 0.f;
 
     m_pTransformCom->Scaling(12.f, 12.f, 0.f);
-    //m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, 0.f, 10.f));
-    m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
     
@@ -107,9 +115,7 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
             }
 
             m_pGameInstance->Check_Collision(m_pColliderCom);
-
-            Check_CollisionState();
-
+            Check_Collision();
             Check_Grounded();
         }
 
@@ -142,7 +148,7 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
 
 void CPlayer_Toodee::Late_Update(_float fTimeDelta)
 {
-    /* æ÷¥œ∏ﬁ¿Ãº« ƒ´øÓ∆Æ µÙ∑π¿Ã */
+    /* Ïï†ÎãàÎ©îÏù¥ÏÖò Ïπ¥Ïö¥Ìä∏ ÎîúÎ†àÏù¥ */
 
     if (m_eCurrentState == PLAYERSTATE::STOP)
         m_iCurrentAnimCount = m_pPrevState->GetAnimCount();
@@ -220,7 +226,7 @@ void CPlayer_Toodee::Move(_float fTimeDelta)
 
 void CPlayer_Toodee::Action()
 {
-    if (m_bInAction && m_eJumpState == JUMPSTATE::JUMPING) // ¡°«¡ ¡ﬂ ¿Ã∂Û∏È ¡°«¡ ∆ƒøˆ ªÛΩ¬
+    if (m_bInAction && m_eJumpState == JUMPSTATE::JUMPING) // Ï†êÌîÑ Ï§ë Ïù¥ÎùºÎ©¥ Ï†êÌîÑ ÌååÏõå ÏÉÅÏäπ
     {
         if (m_fAccumulationJumpPower + m_fIncreaseJumpPower <= m_fMaxIncreaseJumpPower)
         {
@@ -228,14 +234,14 @@ void CPlayer_Toodee::Action()
             m_fCurrentJumpPower += m_fIncreaseJumpPower;
         }
     }
-    else if(!m_bInAction)   // √π ¡°«¡
+    else if(!m_bInAction)   // Ï≤´ Ï†êÌîÑ
     {
-        //Action ∆Æ∏Æ∞≈ On
+        //Action Ìä∏Î¶¨Í±∞ On
         m_bInAction = true;
         m_eJumpState = JUMPSTATE::JUMPING;
-        //¡°«¡ √÷º“ ≥Ù¿Ã
-        m_fCurrentJumpPower = 5.f;
-        //√ ±‚»≠
+        //Ï†êÌîÑ ÏµúÏÜå ÎÜíÏù¥
+        m_fCurrentJumpPower = m_fStartJumpPower;
+        //Ï¥àÍ∏∞Ìôî
         m_fGravityPower = 0.f;
         m_fAccumulationJumpPower = 0.f;
     }
@@ -244,7 +250,7 @@ void CPlayer_Toodee::Action()
 void CPlayer_Toodee::Stop()
 {
     m_pColliderCom->Collision_Off();
-    m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
+   // m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 }
 
 void CPlayer_Toodee::Clear()
@@ -262,7 +268,7 @@ void CPlayer_Toodee::Clear()
     m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 }
 
-void CPlayer_Toodee::onReport(REPORT eReport)
+void CPlayer_Toodee::onReport(REPORT eReport, CSubjectObject* pSubject)
 {
     if (eReport == REPORT::REPORT_CANCLEAR)
         m_bCanClear = true;
@@ -296,16 +302,55 @@ HRESULT CPlayer_Toodee::Ready_Components()
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
 
+#pragma region Transform
     /* For.Com_Transform*/
     CTransform::TRANSFORM_DESC		TransformDesc{};
-    TransformDesc.fSpeedPerSec = 5.f;
+    TransformDesc.fSpeedPerSec = 12.f;
     TransformDesc.fRotationPerSec = D3DXToRadian(90.f);
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Idle"),
+    CTransform::TRANSFORM_DESC		GroundCheckTransformDesc{};
+    GroundCheckTransformDesc.fSpeedPerSec = 0.f;
+    GroundCheckTransformDesc.fRotationPerSec = D3DXToRadian(90.f);
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
+        TEXT("Com_GroundCheckTransform"), reinterpret_cast<CComponent**>(&m_pGroundCheckTransformCom), &GroundCheckTransformDesc)))
+        return E_FAIL;
+
+#pragma endregion
+
+#pragma region Collider
+    CCollider::COLLIDER_DESC PlayerColliderDesc{};
+    PlayerColliderDesc.pOwner = this;
+    PlayerColliderDesc.pTransform = m_pTransformCom;
+    PlayerColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.8f);
+    PlayerColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+    PlayerColliderDesc.bIsFixed = false;
+    m_fGroundCheckPosZ = (PlayerColliderDesc.vColliderScale.z * 0.6f);
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &PlayerColliderDesc)))
+        return E_FAIL;
+
+    CCollider::COLLIDER_DESC GroundCheckColliderDesc{};
+    GroundCheckColliderDesc.pOwner = this;
+    GroundCheckColliderDesc.pTransform = m_pGroundCheckTransformCom;
+    GroundCheckColliderDesc.vColliderScale = _float3(1.f, 0.1f, 0.2f);
+    GroundCheckColliderDesc.vColliderPosion = m_pGroundCheckTransformCom->Get_State(STATE::POSITION);
+    GroundCheckColliderDesc.bIsFixed = false;
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+        TEXT("Com_GroundCheckCollider"), reinterpret_cast<CComponent**>(&m_pGroundCheckColliderCom), &GroundCheckColliderDesc)))
+        return E_FAIL;
+
+#pragma endregion
+
+#pragma region Toodee Texture
+
+   if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Idle"),
         TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::IDLE)]))))
         return E_FAIL;
 
@@ -324,41 +369,9 @@ HRESULT CPlayer_Toodee::Ready_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Clear"),
         TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::CLEAR)]))))
         return E_FAIL;
-
-    CCollider::COLLIDER_DESC PlayerColliderDesc {};
-    PlayerColliderDesc.pOwner = this;
-    PlayerColliderDesc.pTransform = m_pTransformCom;
-    PlayerColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
-    PlayerColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
-    PlayerColliderDesc.bIsFixed = false;
-    m_fGroundCheckPosZ = (PlayerColliderDesc.vColliderScale.z * 0.5f);
-
-    if(FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
-        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &PlayerColliderDesc)))
-        return E_FAIL;
-
-#pragma region GroundCheckComp
-
-    CTransform::TRANSFORM_DESC		GroundCheckTransformDesc{};
-    GroundCheckTransformDesc.fSpeedPerSec = 0.f;
-    GroundCheckTransformDesc.fRotationPerSec = D3DXToRadian(90.f);
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
-        TEXT("Com_GroundCheckTransform"), reinterpret_cast<CComponent**>(&m_pGroundCheckTransformCom), &GroundCheckTransformDesc)))
-        return E_FAIL;
-
-
-    CCollider::COLLIDER_DESC GroundCheckColliderDesc{};
-    GroundCheckColliderDesc.pOwner = this;
-    GroundCheckColliderDesc.pTransform = m_pGroundCheckTransformCom;
-    GroundCheckColliderDesc.vColliderScale = _float3(0.1f, 0.1f, 0.2f);
-    GroundCheckColliderDesc.vColliderPosion = m_pGroundCheckTransformCom->Get_State(STATE::POSITION);
-    GroundCheckColliderDesc.bIsFixed = false;
-
-    m_fGroundCheckPosZ += GroundCheckColliderDesc.vColliderScale.z;
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
-        TEXT("Com_GroundCheckCollider"), reinterpret_cast<CComponent**>(&m_pGroundCheckColliderCom), &GroundCheckColliderDesc)))
+  
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Dead"),
+        TEXT("Com_Dead_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::DEAD)]))))
         return E_FAIL;
 
 #pragma endregion
@@ -425,26 +438,28 @@ HRESULT CPlayer_Toodee::Ready_Observers()
 {
     m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"), this);
 
+    m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"), this);
+
     return S_OK;
 }
 
 void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
 {
-    //¡ﬂ∑¬ ∞ËªÍ
-    if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
+    //Ï§ëÎ†• Í≥ÑÏÇ∞
+   // if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
     {
         Compute_Gravity(fTimeDelta);
     }
 
-    //√÷∞Ì¡°ø°º≠ ¿·±Ò ∏”π´∏£±‚
+    //ÏµúÍ≥†Ï†êÏóêÏÑú Ïû†Íπê Î®∏Î¨¥Î•¥Í∏∞
     if (m_fCurrentJumpPower < 0.f && m_eJumpState != JUMPSTATE::FALLING)
     {
         m_pCurrentState->UpdateAnim(fTimeDelta);
         m_eJumpState = static_cast<JUMPSTATE>(m_pCurrentState->GetAnimCount());
     }
 
-    //¡°«¡ ≥Ù¿Ã ¿˚øÎ
-    if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
+    //Ï†êÌîÑ ÎÜíÏù¥ Ï†ÅÏö©
+ //   if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
     {
         Gravity(fTimeDelta);
     }
@@ -461,7 +476,7 @@ void CPlayer_Toodee::Gravity(_float fTimeDelta)
 
 void CPlayer_Toodee::Compute_Gravity(_float fTimeDelta)
 {
-    m_fGravityPower -= GRAVITY * fTimeDelta;
+    m_fGravityPower -= (GRAVITY * fTimeDelta) * 0.3f;
 
     if (m_fGravityPower <= -10.f)
         m_fGravityPower = -10.f;
@@ -472,48 +487,81 @@ void CPlayer_Toodee::Compute_Gravity(_float fTimeDelta)
         m_fCurrentJumpPower = -20.f;
 }
 
-void CPlayer_Toodee::Check_CollisionState()
+void CPlayer_Toodee::Check_Collision()
 {
-
-    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-
     if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
     {
-        //√Êµπ√º∞° Wall ¿Ã∂Û∏È
+        vector<CGameObject*>* Overlaps = { nullptr };
+        if (false == m_pColliderCom->GetOverlapAll(Overlaps))
+            return;
 
-        _float fDist = {};
-        COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
+        for (auto iter : *Overlaps)
+        {
+            Check_Collision_Dead(iter);
+            Check_Collision_Portal(iter);
+        }
 
-        switch (eCollider_Dir)
-        {
-        case COLLIDER_DIR::LEFT:
-            vPosition.x -= fDist;
-            break;
-        case COLLIDER_DIR::RIGHT:
-            vPosition.x += fDist;
-            break;
-        case COLLIDER_DIR::TOP:
-            vPosition.y += fDist;
-            break;
-        case COLLIDER_DIR::BOTTOM:
-            vPosition.y -= fDist;
-            break;
-        case COLLIDER_DIR::FRONT:
-            vPosition.z -= fDist;
-            break;
-        case COLLIDER_DIR::BACK:
-        {
-            if (m_bInAction && m_eJumpState != JUMPSTATE::JUMPING)
-            {
-                m_bInAction = false;
-                m_fAccumulationJumpPower = 0.f;
-                m_fGravityPower = 0.f;
-                vPosition.z += fDist;
-            }
-            break;
-        }
-        }
+        Check_Collision_PlayerState();
+    }
+    else
+    {
+        if (m_bEnterPortal)
+            Notify(EVENT::EXIT_PORTAL);
+    }
+}
+
+void CPlayer_Toodee::Check_Collision_PlayerState()
+{
+    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+    //ÏúÑÏπò Î≥¥Ï†ï
+    _float3 temp;
+    if (m_pColliderCom->GetCollisionsOffset(&temp))
+    {
+        _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+        vPosition.x = vPosition.x + temp.x;
+        vPosition.z = vPosition.z + temp.z;
+
         m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+    }
+
+    COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection();
+
+    switch (eCollider_Dir)
+    {
+        case COLLIDER_DIR::FRONT:
+        {
+            m_fCurrentJumpPower = 0.f;
+            break;
+        }
+    }
+}
+
+void CPlayer_Toodee::Check_Collision_BlockBreak(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Break")) != string::npos)
+    {
+        COLLIDER_DIR eBreakCollider_Dir = m_pGroundCheckColliderCom->DetectCollisionDirection();
+    
+        if (eBreakCollider_Dir == COLLIDER_DIR::BACK)
+            Notify(EVENT::BLOCK_BREAK);
+    }
+}
+
+void CPlayer_Toodee::Check_Collision_Dead(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Enemy")) != string::npos)
+    {
+        m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::DEAD);
+    }
+}
+
+void CPlayer_Toodee::Check_Collision_Portal(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
+    {
+        Notify(EVENT::ENTER_PORTAL);
+        m_bEnterPortal = true;
     }
 }
 
@@ -521,6 +569,7 @@ void CPlayer_Toodee::Check_Grounded()
 {
     _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
     vPosition = { vPosition.x, vPosition.y, vPosition.z - m_fGroundCheckPosZ };
+
     m_pGroundCheckTransformCom->Set_State(STATE::POSITION, vPosition);
 
     m_pGroundCheckColliderCom->Collision_On();
@@ -529,7 +578,22 @@ void CPlayer_Toodee::Check_Grounded()
 
     if (m_pGroundCheckColliderCom->OnCollisionEnter() || m_pGroundCheckColliderCom->OnCollisionStay())
     {
+        vector<CGameObject*>* Overlaps = { nullptr };
+        if (false == m_pGroundCheckColliderCom->GetOverlapAll(Overlaps))
+            return;
 
+        for (auto iter : *Overlaps)
+        {
+            Check_Collision_BlockBreak(iter);
+            Check_Collision_Dead(iter);
+        }
+
+        if(m_eJumpState != JUMPSTATE::JUMPING)
+        {
+            m_bInAction = false;
+            m_fAccumulationJumpPower = 0.f;
+            m_fGravityPower = 0.f;
+        }
     }
     else
     {
@@ -537,7 +601,7 @@ void CPlayer_Toodee::Check_Grounded()
         {
             m_bInAction = true;
             m_fGravityPower = 0.f;
-            m_fCurrentJumpPower = 0.f;
+            m_fCurrentJumpPower = -5.f;
             m_eJumpState = JUMPSTATE::JUMPING;
             m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::ACTION);
         }

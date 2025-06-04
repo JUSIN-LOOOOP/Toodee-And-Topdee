@@ -9,14 +9,16 @@
 #include "State_Action.h"
 #include "State_Clear.h"
 #include "State_Stop.h"
+#include "State_Dead.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CSubjectObject{ pGraphic_Device }
+	: CGameObject{ pGraphic_Device }
 {
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CSubjectObject{ Prototype }
+	: CGameObject { Prototype }
+	, CSubjectObject { Prototype }
 	, m_fPotalDistance { Prototype.m_fPotalDistance }
 	, m_bMoveInAction { Prototype.m_bMoveInAction }
 	, m_eCurrentTextureDir { Prototype.m_eCurrentTextureDir }
@@ -105,6 +107,10 @@ HRESULT CPlayer::Add_State(PLAYERSTATE eKeyState, void* pArg)
 	case PLAYERSTATE::CLEAR:
 		pInstance = CState_Clear::Create(pArg);
 		break;
+	case PLAYERSTATE::DEAD:
+		pInstance = CState_Dead::Create(pArg);
+		break;
+			
 	}
 
 	m_States.emplace(eKeyState, pInstance);
@@ -144,13 +150,22 @@ _uint CPlayer::ComputeStopAnimCount(PLAYERSTATE eCurrentState)
 void CPlayer::Check_Dimension()
 {
 	if (m_eActivateDimension == m_pGameInstance->Get_CurrentDimension())
+	{
+		m_pColliderCom->Collision_On();
 		m_bCanActive = true;
+	}
 	else
+	{
+		m_pColliderCom->Collision_Off();
 		m_bCanActive = false;
+
+	}
 }
+
 void CPlayer::Free()
 {
-	__super::Free();
+	CGameObject::Free();
+	CSubjectObject::SubjectFree();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

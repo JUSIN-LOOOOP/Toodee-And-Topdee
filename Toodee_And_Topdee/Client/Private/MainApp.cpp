@@ -1,4 +1,4 @@
-
+﻿
 #include "MainApp.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
@@ -21,6 +21,10 @@
 
 #include "Potal.h"
 #include "TileOutline.h"
+#include "Spikes.h"
+
+
+#include "ColliderMap_Object.h"
 
 Client::CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
@@ -145,7 +149,12 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"),
 		CTileOutline::Create(m_pGraphic_Device))))
 		return E_FAIL;
- 
+
+	/* Prototype_GameObject_Collider_Map */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"),
+		CColliderMap_Object::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	return S_OK;
 }
 HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
@@ -235,6 +244,15 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/BackCloud.png"), 1))))
 		return E_FAIL;
 
+	/* Prototype_Component_Texture_Spikes */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Spikes"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Spikes/Spikes%d.png"), 6))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"),
+		CSpikes::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -262,6 +280,10 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Clear"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Toodee/toodeeSwirl%d.png"), 17))))
 		return E_FAIL;
+	/* Prototype_Component_Texture_Toodee_Dead */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Dead"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Toodee/toodee_Dead%d.png"), 5))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region TEXTURE TOPDEE
@@ -288,6 +310,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 	/* Prototype_Component_Texture_Topdee_Clear */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Clear"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Swir%d.png"), 17))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Topdee_Dead*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Dead"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Dead%d.png"), 5))))
 		return E_FAIL;
 #pragma endregion
 

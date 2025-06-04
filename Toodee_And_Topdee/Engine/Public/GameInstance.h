@@ -21,8 +21,9 @@ public:
 	void			Render_End(HWND hWnd = 0);
 
 public:
-	_float Rand_Normal();
-	_float Rand(_float fMin, _float fMax);
+	_float			Rand_Normal();
+	_float			Rand(_float fMin, _float fMax);
+	void			View_FrameRate(HWND hWnd = 0);
 
 	//Renderer
 public:
@@ -32,6 +33,9 @@ public:
 public:
 	HRESULT			Open_Level(_uint iLevelID, class CLevel* pNewLevel);
 	const _uint		Get_CurrentLevelID();
+	void			Set_CurrentLevelID(_uint ilevel);
+	const _uint		Get_NextLevelID();
+	void			Set_NextLevelID(_uint ilevel);
 
 	//Prototype
 public:
@@ -54,8 +58,6 @@ public:
 	_float			Get_TimeDelta(const _wstring& strTimerTag);
 	HRESULT			Add_Timer(const _wstring& strTimerTag);
 	void			Compute_TimeDelta(const _wstring& strTimerTag);
-	void			Change_Dimension(DIMENSION eDimension) { m_eCurrentDimension = eDimension;}
-	DIMENSION		Get_CurrentDimension() {return m_eCurrentDimension;}
 
 	//Map_Manager
 public:
@@ -85,9 +87,23 @@ public:
 	void			SetChannelVolume(CHANNELID eID, float fVolume);
 
 	//Pool
+public:
 	void					First_Push(const _wstring& strPoolTag,  class CPoolableObject* pGameObject);
 	void					Push(const _wstring& strPoolTag, class CPoolableObject* pGameObject);
 	class CPoolableObject*	Pop(const _wstring& strPoolTag);
+
+	//Dimension
+public:
+	void			Change_Dimension(DIMENSION eDimension) 
+	{
+		if(DIMENSION::CHANGE != eDimension)
+		m_ePreviousDimension = m_ePreviousDimension == DIMENSION::NONE ? eDimension : m_eCurrentDimension;
+		m_eCurrentDimension = eDimension; 
+	}
+	DIMENSION		Get_CurrentDimension() { return m_eCurrentDimension; }
+	DIMENSION		Get_PreviousDimension() { return m_ePreviousDimension; }
+
+
 
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -104,7 +120,14 @@ private:
 	class CSound_Manager*		m_pSound_Manager = { nullptr };
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 
-	DIMENSION					m_eCurrentDimension = {};
+private:
+	DIMENSION					m_ePreviousDimension = { DIMENSION::NONE };
+	DIMENSION					m_eCurrentDimension = { DIMENSION::NONE };
+	_uint						m_iCurrentLevelID = { 0 };
+	_uint						m_iNextLevelID = { 0 };
+	_uint						m_iFPS = { 0 };
+	_ulong						m_ulIntervalTime_FPS = { GetTickCount() };
+	TCHAR						m_szFPS[16] = {};
 
 public:
 	void Release_Engine();

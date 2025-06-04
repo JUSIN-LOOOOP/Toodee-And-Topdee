@@ -19,7 +19,7 @@ void CLayer::Priority_Update(_float fTimeDelta)
 		{
 			CComponent* pComponent = (*iter)->Get_Component(TEXT("Com_Collision"));
 			if (pComponent != nullptr)
-				m_pGameInstance->Delete_Collider(m_pGameInstance->Get_CurrentLevelID()- 1, reinterpret_cast<CCollider**>(&pComponent));
+				m_pGameInstance->Delete_Collider(m_pGameInstance->Get_CurrentLevelID(), reinterpret_cast<CCollider**>(&pComponent));
 
 			Safe_Release(*iter);
 			iter = m_GameObjects.erase(iter);

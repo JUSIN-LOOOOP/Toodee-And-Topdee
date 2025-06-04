@@ -21,9 +21,9 @@ HRESULT CFire_Projectile::Initialize(void* pArg)
 {	
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
+	m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-	m_pTransformCom->Scaling(2.f, 1.f, 1.6f);
+	m_pTransformCom->Scaling(2.f, 1.f, 2.f);
 	name = TEXT("Projectile");
 
     return S_OK;
@@ -43,13 +43,16 @@ void CFire_Projectile::Update(_float fTimeDelta)
 
 	m_pGameInstance->Check_Collision(m_pColliderCom);
 
-	if (m_pColliderCom->OnCollisionEnter())
-	{
+	if (m_pColliderCom->OnCollisionEnter()|| m_pColliderCom->OnCollisionStay())
+	{		
+		m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
 		m_pGameInstance->Push(TEXT("Layer_Projectile_Fire"), this);
+
 	}
 
 	if (m_fLifeInterval <= m_fAccumulateLifeTime + fTimeDelta)
 	{
+		m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
 		m_pGameInstance->Push(TEXT("Layer_Projectile_Fire"),this);
 	}
 	else
@@ -115,7 +118,7 @@ HRESULT CFire_Projectile::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 18.f;
+	TransformDesc.fSpeedPerSec = 20.f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
@@ -126,7 +129,7 @@ HRESULT CFire_Projectile::Ready_Components()
 	CCollider::COLLIDER_DESC  ColliderDesc{};
 	ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(1.0f, 1.0f, 1.0f);
+	ColliderDesc.vColliderScale = _float3(1.5f, 3.0f, 1.0f);
 	ColliderDesc.bIsFixed = false;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),

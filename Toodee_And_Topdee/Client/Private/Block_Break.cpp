@@ -8,7 +8,7 @@ CBlock_Break::CBlock_Break(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CBlock_Break::CBlock_Break(const CBlock_Break& Prototype)
-    : CBlock{ Prototype }
+    : CBlock { Prototype }
 {
 }
 
@@ -22,7 +22,17 @@ HRESULT CBlock_Break::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Observer()))
+		return E_FAIL;
+
 	__super::SetUp_BlockInfo(pArg);
+
+	m_bIsStepOn = false;
+	m_fBreakDelay = 2.f;
+	m_fCurrentBreakTime = 0.f;
+	m_fShakingPower = 0.25f;
+
+	m_pColliderCom->ApplyFixedPosition(m_pTransformCom->Get_State(STATE::POSITION));
 
 	name = TEXT("Block_Break");
 
@@ -36,11 +46,25 @@ void CBlock_Break::Priority_Update(_float fTimeDelta)
 void CBlock_Break::Update(_float fTimeDelta)
 {
 
+	if (m_bIsStepOn)
+	{
+		if (m_fCurrentBreakTime >= m_fBreakDelay)
+		{
+			m_pColliderCom->Collision_Off();
+			m_Dead = true;
+		}
+		else
+		{
+			m_fCurrentBreakTime += fTimeDelta;
+			Shaking();
+		}
+	}
 }
 
 void CBlock_Break::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	if(false == m_Dead)
+		__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CBlock_Break::Render()
@@ -48,6 +72,59 @@ HRESULT CBlock_Break::Render()
 	__super::Render();
 
 	return S_OK;
+}
+
+void CBlock_Break::onReport(REPORT eReport, CSubjectObject* pSubject)
+{
+	if (nullptr == pSubject || this == pSubject)
+		return;
+
+	if (m_bIsStepOn)
+		return;
+
+	if (IsNearBlock(pSubject))
+	{
+		StepOn();
+	}
+}
+
+void CBlock_Break::StepOn()
+{
+	m_bIsStepOn = true;
+	m_vCenterPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	Notify(EVENT::BLOCK_BREAK);
+}
+
+_bool CBlock_Break::Compute_Near(const _float3& vOtherPosition)
+{
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	_float3 vDistance = vPosition - vOtherPosition;
+
+	_float fLength = D3DXVec3Length(&vDistance);
+
+	return fLength <= 2.2f; //오차 범위 0.5f
+}
+
+_bool CBlock_Break::IsNearBlock(CSubjectObject* pSubject)
+{
+	CGameObject* pGameObject = dynamic_cast<CGameObject*>(pSubject);
+
+	CTransform* pTransform = static_cast<CTransform*>(pGameObject->Get_Component(TEXT("Com_Transform")));
+
+	_float3 vPosition = pTransform->Get_State(STATE::POSITION);
+
+	return Compute_Near(vPosition);
+}
+
+void CBlock_Break::Shaking()
+{
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	
+	vPosition.x = m_vCenterPosition.x + (rand() % 50 / 100.f - m_fShakingPower);
+	vPosition.z = m_vCenterPosition.z + (rand() % 50 / 100.f - m_fShakingPower);
+
+	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 }
 
 HRESULT CBlock_Break::Ready_Components()
@@ -72,6 +149,23 @@ HRESULT CBlock_Break::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	CCollider::COLLIDER_DESC ColliderDesc{};
+	ColliderDesc.pOwner = this;
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(1.8f, 1.8f, 1.8f);
+	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.bIsFixed = false;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CBlock_Break::Ready_Observer()
+{
+	m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"), this);
 
 	return S_OK;
 }
@@ -115,11 +209,6 @@ CGameObject* CBlock_Break::Clone(void* pArg)
 
 void CBlock_Break::Free()
 {
-	__super::Free();
-
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
-
-
+	CBlock::Free();
+	CSubjectObject::SubjectFree();
 }

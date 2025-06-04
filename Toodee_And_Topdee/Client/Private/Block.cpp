@@ -2,6 +2,8 @@
 #include "GameInstance.h"
 
 
+
+
 CBlock::CBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -25,10 +27,12 @@ HRESULT CBlock::Initialize(void* pArg)
 
 void CBlock::Priority_Update(_float fTimeDelta)
 {
+
 }
 
 void CBlock::Update(_float fTimeDelta)
 {
+
 }
 
 void CBlock::Late_Update(_float fTimeDelta)
@@ -55,10 +59,26 @@ HRESULT CBlock::Render()
 	return S_OK;
 }
 
+_float CBlock::ComputeDirDotLook(const _float3& vPlayerPosition, const _float3& vLook)
+{
+	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	_float3 vDirection = vPosition - vPlayerPosition;
+
+	_float3 vNormalLook = {};
+
+	D3DXVec3Normalize(&vNormalLook, &vLook);
+
+	D3DXVec3Normalize(&vDirection, &vDirection);
+
+	return D3DXVec3Dot(&vDirection, &vLook);
+}
+
 HRESULT CBlock::Ready_Components()
 {
 	return S_OK;
 }
+
 
 void CBlock::SetUp_BlockInfo(void* pArg)
 {
@@ -92,4 +112,5 @@ void CBlock::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
 }

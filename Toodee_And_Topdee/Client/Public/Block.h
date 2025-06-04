@@ -26,11 +26,14 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	_float ComputeDirDotLook(const _float3& vPlayerPosition, const _float3& vLook);
+	
 protected:
-
+	/* Component */
 	CVIBuffer_Cube*		m_pVIBufferCom = { nullptr };
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
+	CCollider*			m_pColliderCom = { nullptr };
 
 protected:
 	virtual	HRESULT Ready_Components();
