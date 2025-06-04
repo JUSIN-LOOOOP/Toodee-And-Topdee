@@ -10,7 +10,6 @@ CPart_Body::CPart_Body(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CPart_Body::CPart_Body(const CPart_Body& Prototype)
 	: CParts {Prototype}
-	, m_iTextureIndex{ Prototype.m_iTextureIndex }
 {
 }
 
@@ -24,14 +23,28 @@ HRESULT CPart_Body::Initialize_Prototype()
 HRESULT CPart_Body::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
+		return S_OK;
 
 	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
-	m_iTextureIndex = pDesc->iTextureIndex;
+	m_strOtherName = pDesc->strOtherName;
+	m_eState = pDesc->eState;
+	m_fFrame = pDesc->fFrame;
+	m_fMaxFrame = pDesc->fMaxFrame;
 
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
+	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
+	{	m_fAngleX = -(pDesc->fAngleX);	m_fAngleY = -(pDesc->fAngleY);	}
+	else
+	{	m_fAngleX = pDesc->fAngleX;		m_fAngleY = pDesc->fAngleY;	}
 
+	m_pVIBufferCom = pDesc->pVIBufferCom;
+	m_pTextureCom = pDesc->pTextureCom;
+
+	Safe_AddRef(m_pVIBufferCom);
+
+	m_pTransformCom = static_cast<CTransform*>(m_pGameInstance->
+		Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform")));
+
+	m_fOldFrame = m_fFrame;
 
 	return S_OK;
 }
@@ -41,36 +54,42 @@ void CPart_Body::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocu
 {
 	Pos_Set(pTransform);
 
-	m_fFrame += 9 * fTimeDelta;
-	if (m_fFrame >= 9)
-		m_fFrame = 1;
+	m_fFrame += m_fMaxFrame * fTimeDelta;
+	if (m_fFrame >= m_fMaxFrame)
+		m_fFrame = m_fOldFrame;
 }
 
 HRESULT CPart_Body::Render(void* pArg)
 {
-	_bool* pMotion = static_cast<_bool*>(pArg);
-	if (*pMotion)
+
+	m_pTransformCom->Bind_Matrix();
+	
+	
+	if (m_strOtherName.find(TEXT("Pig")) != string::npos)
 	{
-		m_pTransformCom->Bind_Matrix();
-
-		if (FAILED(m_pTextureCom->Bind_Texture(static_cast<_uint>(m_fFrame))))
-			return E_FAIL;
-
-		m_pVIBufferCom->Bind_Buffers();
-
-		m_pVIBufferCom->Render();
+		switch (m_pGameInstance->Get_CurrentDimension())
+		{
+		case::DIMENSION::TOODEE:
+			if (FAILED(m_pTextureCom->Bind_Texture(static_cast<_uint>(m_fFrame))))		
+				return E_FAIL;
+			break;
+		case::DIMENSION::TOPDEE:
+			if (FAILED(m_pTextureCom->Bind_Texture(0)))
+				return E_FAIL;
+			break;
+		}
 	}
 	else
 	{
-		m_pTransformCom->Bind_Matrix();
-
-		if (FAILED(m_pTextureCom->Bind_Texture(m_iTextureIndex)))
+		if (FAILED(m_pTextureCom->Bind_Texture(0)))
 			return E_FAIL;
-
-		m_pVIBufferCom->Bind_Buffers();
-
-		m_pVIBufferCom->Render();
 	}
+	
+	
+	m_pVIBufferCom->Bind_Buffers();
+	
+	m_pVIBufferCom->Render();
+
 	return S_OK;
 }
 
@@ -108,8 +127,4 @@ CComponent* CPart_Body::Clone(void* pArg)
 void CPart_Body::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTextureCom);
 }

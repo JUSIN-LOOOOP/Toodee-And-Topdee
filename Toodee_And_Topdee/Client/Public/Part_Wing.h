@@ -11,12 +11,12 @@ END
 
 BEGIN(Client)
 
-class CPart_Eyes final : public Engine::CParts
+class CPart_Wing final : public Engine::CParts
 {
 private:
-	CPart_Eyes(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CPart_Eyes(const CPart_Eyes& Prototype);
-	virtual ~CPart_Eyes() = default;
+	CPart_Wing(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CPart_Wing(const CPart_Wing& Prototype);
+	virtual ~CPart_Wing() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -25,11 +25,12 @@ public:
 	virtual HRESULT Render(void* pArg) override;
 
 private:
+	_float	m_fOldFrame{};
 	_int	m_iDeltaAngleX = {};
 	_int	m_iDeltaAngleY = {};
 	
 public:
-	static CPart_Eyes* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CPart_Wing* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
 };

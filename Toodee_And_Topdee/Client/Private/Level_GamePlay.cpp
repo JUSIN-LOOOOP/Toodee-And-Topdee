@@ -416,6 +416,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
 			return E_FAIL;
 	}
+
+	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_StageBoss(const _wstring& strLayerTag)
