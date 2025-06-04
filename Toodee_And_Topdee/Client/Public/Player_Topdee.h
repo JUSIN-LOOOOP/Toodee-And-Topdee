@@ -28,9 +28,6 @@ public:
 	virtual void Stop() override;									// Stop State 트리거
 	virtual void Clear() override;									// Clear State 트리거
 
-	/* Observer */
-	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) override;					// Observer가 주는 REPORT 처리
-
 	/* State Action */
 	_bool IsAttach() const { return m_bIsAttach; }					// Box 들고 있는지 Check
 	_float3 ComputeTileOutlinePosition();							// TileOutline Position Return
@@ -93,7 +90,6 @@ private:
 
 	HRESULT Ready_Components();
 	HRESULT Ready_States();
-	HRESULT Ready_Observers();
 	HRESULT Ready_Outline();
 
 	HRESULT Begin_RenderState();

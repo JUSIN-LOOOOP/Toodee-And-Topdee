@@ -34,8 +34,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+		return E_FAIL;*/
 
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Back"))))
 		return E_FAIL;
@@ -52,8 +52,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if(FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -281,6 +281,7 @@ _float3(2.f,2.f,2.f),
 	return S_OK;
 }
 
+/*
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
 	/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
@@ -321,6 +322,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
 
 	return S_OK;
 }
+*/
 
 HRESULT CLevel_GamePlay::Ready_Layer_Back(const _wstring& strLayerTag)
 {
@@ -414,7 +416,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
 			return E_FAIL;
 	}
-
+}
 
 HRESULT CLevel_GamePlay::Ready_Layer_StageBoss(const _wstring& strLayerTag)
 {

@@ -218,15 +218,18 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Background_Tile.png"), 1))))
 		return E_FAIL;
 
-	/* Prototype_GameObject_BackDrop */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"),
-		CBackdrop::Create(m_pGraphic_Device))))
-		return E_FAIL;
+	
 
 	/* Prototype_GameObject_BackWall */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackWall"),
 		CBackWall::Create(m_pGraphic_Device))))
 		return E_FAIL;
+	/* Prototype_GameObject_BackDrop */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"),
+		CBackdrop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
 
 	/* Prototype_GameObject_BackTile */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"),

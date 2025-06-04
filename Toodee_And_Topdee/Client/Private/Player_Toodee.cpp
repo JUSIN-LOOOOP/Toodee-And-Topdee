@@ -55,9 +55,6 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (FAILED(Ready_States()))
         return E_FAIL;
 
-    if (FAILED(Ready_Observers()))
-        return E_FAIL;
-
     if (nullptr == pArg)
     {
         m_vPotalPosition = { 0.f, 0.f, 0.f };
@@ -92,8 +89,6 @@ void CPlayer_Toodee::Priority_Update(_float fTimeDelta)
 
     m_pGroundCheckColliderCom->Collision_Off();
 
-    if (GetKeyState('1') & 0x8000)
-        Notify(EVENT::ENTER_PORTAL);
 
 }
 
@@ -268,12 +263,6 @@ void CPlayer_Toodee::Clear()
     m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 }
 
-void CPlayer_Toodee::onReport(REPORT eReport, CSubjectObject* pSubject)
-{
-    if (eReport == REPORT::REPORT_CANCLEAR)
-        m_bCanClear = true;
-}
-
 
 _uint CPlayer_Toodee::KeyInput()
 {
@@ -434,15 +423,6 @@ HRESULT CPlayer_Toodee::End_RenderState()
     return S_OK;
 }
 
-HRESULT CPlayer_Toodee::Ready_Observers()
-{
-    m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_ClearTrigger"), this);
-
-    m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"), this);
-
-    return S_OK;
-}
-
 void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
 {
     //중력 계산
@@ -506,7 +486,7 @@ void CPlayer_Toodee::Check_Collision()
     else
     {
         if (m_bEnterPortal)
-            Notify(EVENT::EXIT_PORTAL);
+        { }
     }
 }
 
@@ -544,7 +524,7 @@ void CPlayer_Toodee::Check_Collision_BlockBreak(CGameObject* pGameObject)
         COLLIDER_DIR eBreakCollider_Dir = m_pGroundCheckColliderCom->DetectCollisionDirection();
     
         if (eBreakCollider_Dir == COLLIDER_DIR::BACK)
-            Notify(EVENT::BLOCK_BREAK);
+        { }
     }
 }
 
@@ -560,7 +540,6 @@ void CPlayer_Toodee::Check_Collision_Portal(CGameObject* pGameObject)
 {
     if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
     {
-        Notify(EVENT::ENTER_PORTAL);
         m_bEnterPortal = true;
     }
 }

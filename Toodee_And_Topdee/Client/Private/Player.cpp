@@ -18,7 +18,6 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CPlayer::CPlayer(const CPlayer& Prototype)
 	: CGameObject { Prototype }
-	, CSubjectObject { Prototype }
 	, m_fPotalDistance { Prototype.m_fPotalDistance }
 	, m_bMoveInAction { Prototype.m_bMoveInAction }
 	, m_eCurrentTextureDir { Prototype.m_eCurrentTextureDir }
@@ -164,8 +163,7 @@ void CPlayer::Check_Dimension()
 
 void CPlayer::Free()
 {
-	CGameObject::Free();
-	CSubjectObject::SubjectFree();
+	__super::Free();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

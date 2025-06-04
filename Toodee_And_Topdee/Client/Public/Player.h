@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "SubjectObject.h"
 #include "GameObject.h"
 
 BEGIN(Engine)
@@ -9,14 +8,13 @@ class CTransform;
 class CTexture;
 class CVIBuffer_Rect;
 class CCollider;
-class CObserver;
 END
 
 BEGIN(Client)
 
 class CPlayerState;
 
-class CPlayer abstract : public CGameObject, public CSubjectObject
+class CPlayer abstract : public CGameObject
 {
 public:
 	typedef struct tagPlayerDesc {
@@ -46,9 +44,6 @@ public:
 	virtual void Action() PURE;											// Action State 트리거
 	virtual void Stop() PURE;											// Stop State 트리거
 	virtual void Clear() PURE;											// Clear State 트리거
-
-	/* Observer */
-	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) PURE;							// Observer가 주는 REPORT 처리
 
 	_bool CanMoveInAction() const { return m_bMoveInAction; }
 	_bool InAction() const { return m_bInAction; }						

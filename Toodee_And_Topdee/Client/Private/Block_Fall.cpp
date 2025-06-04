@@ -22,8 +22,6 @@ HRESULT CBlock_Fall::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Observer()))
-		return E_FAIL;
 
 	__super::Ready_State();
 
@@ -90,9 +88,6 @@ HRESULT CBlock_Fall::Render()
 	return S_OK;
 }
 
-void CBlock_Fall::onReport(REPORT eReport, CSubjectObject* pSubject)
-{
-}
 
 void CBlock_Fall::CheckDimension()
 {
@@ -156,7 +151,9 @@ void CBlock_Fall::CheckCollisionToodeeState()
 					COLLIDER_DIR eBreakCollider_Dir = m_pGroundCheckColliderCom->DetectCollisionDirection();
 
 					if (eBreakCollider_Dir == COLLIDER_DIR::BACK)
-						Notify(EVENT::BLOCK_BREAK);
+					{
+
+					}
 				}
 			}
 		}
@@ -239,12 +236,6 @@ HRESULT CBlock_Fall::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CBlock_Fall::Ready_Observer()
-{
-	m_pGameInstance->Subscribe_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"), this);
-
-	return S_OK;
-}
 
 void CBlock_Fall::SetUp_RenderState()
 {
@@ -284,8 +275,7 @@ CGameObject* CBlock_Fall::Clone(void* pArg)
 
 void CBlock_Fall::Free()
 {
-	CInteractionBlock::Free();
-	CSubjectObject::SubjectFree();
+	__super::Free();
 
 	Safe_Release(m_pGroundCheckColliderCom);
 	Safe_Release(m_pGroundCheckTransformCom);
