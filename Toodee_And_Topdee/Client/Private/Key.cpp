@@ -29,7 +29,9 @@ HRESULT CKey::Initialize(void* pArg)
 	m_pTransformCom->Scaling(2, 2, 2);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
-	name = TEXT("Block_Wall");
+	name = TEXT("Key");
+
+	m_pGameInstance->Add_Key();
 
     return S_OK;
 }
@@ -44,7 +46,8 @@ void CKey::Update(_float fTimeDelta)
 
 void CKey::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+	if(!IsDead())
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 
 }
 
@@ -67,6 +70,12 @@ HRESULT CKey::Render()
 	return S_OK;
 }
 
+void CKey::Get_Key()
+{
+	m_Dead = true;
+	m_pColliderCom->Collision_Off();
+}
+
 HRESULT CKey::Ready_Components()
 {
 
@@ -87,6 +96,17 @@ HRESULT CKey::Ready_Components()
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+	CCollider::COLLIDER_DESC ColliderDesc{};
+	ColliderDesc.pOwner = this;
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.vColliderScale = { 1.5f, 1.5f, 1.5f };
+	ColliderDesc.bIsFixed = false;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_KeyCollider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 
@@ -123,6 +143,7 @@ void CKey::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);

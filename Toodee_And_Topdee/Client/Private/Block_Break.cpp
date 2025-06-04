@@ -23,6 +23,10 @@ HRESULT CBlock_Break::Initialize(void* pArg)
 		return E_FAIL;
 
 
+	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
+
+	Ready_SubscribeEvent(m_iPlayLevel);
+
 	__super::SetUp_BlockInfo(pArg);
 
 	m_bIsStepOn = false;
@@ -72,10 +76,17 @@ HRESULT CBlock_Break::Render()
 	return S_OK;
 }
 
-void CBlock_Break::StepOn()
+void CBlock_Break::StepOn(const BLOCKBREAKEVENT& Event)
 {
-	m_bIsStepOn = true;
-	m_vCenterPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	if (false == m_bIsStepOn && IsNearBlock(Event.vPosition))
+	{
+		m_bIsStepOn = true;
+		m_vCenterPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		BLOCKBREAKEVENT Event;
+		Event.vPosition = m_vCenterPosition;
+		
+		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::BLOCK_BREAK, Event);
+	}
 }
 
 _bool CBlock_Break::Compute_Near(const _float3& vOtherPosition)
@@ -87,6 +98,14 @@ _bool CBlock_Break::Compute_Near(const _float3& vOtherPosition)
 	_float fLength = D3DXVec3Length(&vDistance);
 
 	return fLength <= 2.2f; //오차 범위 0.5f
+}
+
+_bool CBlock_Break::IsNearBlock(_float3 vPosition)
+{
+	_float3 fDistance = m_pTransformCom->Get_State(STATE::POSITION) - vPosition;
+	fDistance.y = 0;
+
+	return D3DXVec3Length(&fDistance) <= 2.2f;
 }
 
 
@@ -132,6 +151,14 @@ HRESULT CBlock_Break::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CBlock_Break::Ready_SubscribeEvent(_uint iPlayerLevel)
+{
+	m_pGameInstance->Subscribe<BLOCKBREAKEVENT>(iPlayerLevel, EVENT_KEY::BLOCK_BREAK, [this](const BLOCKBREAKEVENT& Event) {
+		this->StepOn(Event); });
 
 	return S_OK;
 }

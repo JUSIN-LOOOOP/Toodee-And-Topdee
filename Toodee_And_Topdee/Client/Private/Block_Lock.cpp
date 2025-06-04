@@ -22,9 +22,15 @@ HRESULT CBlock_Lock::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
+	
+	if (FAILED(Ready_SubscribeEvent(m_iPlayLevel)))
+		return E_FAIL;
 
 	__super::SetUp_BlockInfo(pArg);
-
+	
+	m_bOpenLock = false;
+	
 	name = TEXT("Block_Lock");
 
     return S_OK;
@@ -46,10 +52,23 @@ void CBlock_Lock::Late_Update(_float fTimeDelta)
 
 HRESULT CBlock_Lock::Render()
 {
-	if(false == IsDead())
+	if(false == m_bOpenLock)
 		__super::Render();
 
 	return S_OK;
+}
+
+void CBlock_Lock::Get_Key(const GETKEYEVENT& Event)
+{
+	m_iGetKeyCount++;
+
+	m_iTotalKeyCount = m_pGameInstance->GetKeyCount();
+
+	if (m_iTotalKeyCount <= m_iGetKeyCount)
+	{
+		m_bOpenLock = true;
+		m_pColliderCom->Collision_Off();
+	}
 }
 
 HRESULT CBlock_Lock::Ready_Components()
@@ -85,6 +104,15 @@ HRESULT CBlock_Lock::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CBlock_Lock::Ready_SubscribeEvent(_uint iPlayLevel)
+{
+	m_pGameInstance->Subscribe<GETKEYEVENT>(iPlayLevel, EVENT_KEY::GET_KEY, [this](const GETKEYEVENT& Event) {
+		this->Get_Key(Event);
+		});
 
 	return S_OK;
 }

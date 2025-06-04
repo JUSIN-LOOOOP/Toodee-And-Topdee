@@ -97,18 +97,6 @@
     <Filter Include="00. Dummys">
       <UniqueIdentifier>{0c21a478-c6bf-4b26-b8fa-297055cc0b63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Utility\03. GameObject\Subject">
-      <UniqueIdentifier>{c1d2ba68-b1bd-4591-be36-c8ad55687aef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Utility\07. Observer">
-      <UniqueIdentifier>{75b2561b-499a-4eb4-9b9d-888e33686a33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Utility\07. Observer\Base">
-      <UniqueIdentifier>{1942243e-990c-4d1d-b0e2-69a1688890d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Utility\07. Observer\Manager">
-      <UniqueIdentifier>{9e18b38a-5140-4aa1-be3c-529f16a6b283}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Utility\05. Component\Parts">
       <UniqueIdentifier>{fd925870-128e-4b6b-b65b-7981ac831d45}</UniqueIdentifier>
     </Filter>
@@ -129,6 +117,12 @@
     </Filter>
     <Filter Include="01. Utility\03. GameObject\00. Base">
       <UniqueIdentifier>{d4f551a2-3747-4662-8797-f40338341a3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\EventBus">
+      <UniqueIdentifier>{7609ded8-9dd5-4549-993e-e64224e2e25d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\Event">
+      <UniqueIdentifier>{c84a9487-3203-443a-953f-90bc3becbb82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -219,15 +213,6 @@
     <ClInclude Include="..\Public\Tile.h">
       <Filter>01. Utility\03. GameObject\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SubjectObject.h">
-      <Filter>01. Utility\03. GameObject\Subject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Observer.h">
-      <Filter>01. Utility\07. Observer\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Observer_Manager.h">
-      <Filter>01. Utility\07. Observer\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Collision_Manager.h">
       <Filter>01. Utility\06 Collision\Manager</Filter>
     </ClInclude>
@@ -249,17 +234,14 @@
     <ClInclude Include="..\public\PoolableObject.h">
       <Filter>01. Utility\03. GameObject\Poolable</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ClearTriggerObserver.h">
-      <Filter>01. Utility\07. Observer\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\GameObject.h">
       <Filter>01. Utility\03. GameObject\00. Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\BreakTriggerObserver.h">
-      <Filter>01. Utility\07. Observer\Base</Filter>
+    <ClInclude Include="..\public\EventBus.h">
+      <Filter>00. Dummys\EventBus</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\KeyTriggerObserver.h">
-      <Filter>01. Utility\07. Observer\Base</Filter>
+    <ClInclude Include="..\Public\Event.h">
+      <Filter>00. Dummys\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,15 +314,6 @@
     <ClCompile Include="..\Private\Tile.cpp">
       <Filter>01. Utility\03. GameObject\Tile</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SubjectObject.cpp">
-      <Filter>01. Utility\03. GameObject\Subject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Observer.cpp">
-      <Filter>01. Utility\07. Observer\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Observer_Manager.cpp">
-      <Filter>01. Utility\07. Observer\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Collider.cpp">
       <Filter>01. Utility\05. Component\Collider</Filter>
     </ClCompile>
@@ -362,17 +335,11 @@
     <ClCompile Include="..\private\PoolableObject.cpp">
       <Filter>01. Utility\03. GameObject\Poolable</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ClearTriggerObserver.cpp">
-      <Filter>01. Utility\07. Observer\Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\GameObject.cpp">
       <Filter>01. Utility\03. GameObject\00. Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\BreakTriggerObserver.cpp">
-      <Filter>01. Utility\07. Observer\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\KeyTriggerObserver.cpp">
-      <Filter>01. Utility\07. Observer\Base</Filter>
+    <ClCompile Include="..\Private\EventBus.cpp">
+      <Filter>00. Dummys\EventBus</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

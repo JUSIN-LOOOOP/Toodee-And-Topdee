@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Event.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -36,6 +37,8 @@ public:
 	virtual HRESULT Render() PURE;
 
 public:
+	void ClearReady(const CANCLEAREVENT& Event);
+
 	/* State */
 	HRESULT Change_State(PLAYERSTATE eNewState);						
 	virtual HRESULT Return_PrevState() PURE;							// Stop -> 이전 상태로 돌아가기
@@ -43,7 +46,7 @@ public:
 	virtual void Move(_float fTimeDelta) PURE;							// Move State 트리거
 	virtual void Action() PURE;											// Action State 트리거
 	virtual void Stop() PURE;											// Stop State 트리거
-	virtual void Clear() PURE;											// Clear State 트리거
+	virtual void Clear(_float3 vPortalPosition) PURE;											// Clear State 트리거
 
 	_bool CanMoveInAction() const { return m_bMoveInAction; }
 	_bool InAction() const { return m_bInAction; }						

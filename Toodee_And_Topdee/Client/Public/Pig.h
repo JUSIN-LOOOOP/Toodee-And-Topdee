@@ -1,15 +1,10 @@
 #pragma once
 
-#include "Client_Defines.h"
 #include "Monster.h"
 
 BEGIN(Engine)
-class CVIBuffer_Rect;
-class CTransform;
 class CParts;
-class CCollider;
 END
-
 BEGIN(Client)
 
 class CPig final : public CMonster
@@ -33,16 +28,14 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
-	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
-	CTransform*			m_pTransformCom = { nullptr };
-	CCollider*			m_pColliderCom = { nullptr };
+
 
 private:
-	map<const _wstring, CParts*>  m_vParts;
-	_bool		m_bLeft{};
-	_bool		m_bMotion{};
-	_bool		m_bGravity{};
+	map<const _wstring, CParts*>  m_vParts{};
+	// vector<CParts*>  m_vParts;
+	_bool		m_bLeft{}, m_bMotion{}, m_bGravity{};
+	_float3		m_vColliderScale{};
+	
 
 private:
 	HRESULT Ready_Components();
@@ -50,11 +43,16 @@ private:
 	void	Render_Parts();
 
 	_bool	Check_Gravity(_float fTimeDelta);
+	void	Compute_Collision(_float3 vDir = _float3(0.f,0.f,0.f));
 
 private : // Test¿ë
 	void Move_Patrol(_float fTimeDelta);
 	_float m_fMaxPat{}, m_fPatrol{};
-	_float3 m_vScale{};
+	_float3		m_vOldPos{};
+	_float3 absfloat3(const _float3& vec3) { return _float3(fabsf(vec3.x), fabsf(vec3.y), fabsf(vec3.z)); }
+
+	_float3 Move_To_Target(_float fTimeDelta);
+	
 
 public:
 	static CPig* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

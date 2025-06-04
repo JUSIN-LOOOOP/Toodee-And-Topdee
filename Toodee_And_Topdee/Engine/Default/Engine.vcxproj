@@ -159,15 +159,13 @@ call Copy.bat
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
-    <ClCompile Include="..\Private\BreakTriggerObserver.cpp" />
-    <ClCompile Include="..\Private\ClearTriggerObserver.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
     <ClCompile Include="..\private\Collision.cpp" />
     <ClCompile Include="..\Private\Collision_Manager.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
+    <ClCompile Include="..\Private\EventBus.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\private\GameObject.cpp" />
-    <ClCompile Include="..\Private\KeyTriggerObserver.cpp" />
     <ClCompile Include="..\private\Key_Manager.cpp" />
     <ClCompile Include="..\Private\Map_Manager.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />
@@ -176,15 +174,12 @@ call Copy.bat
     <ClCompile Include="..\private\Level.cpp" />
     <ClCompile Include="..\private\Level_Manager.cpp" />
     <ClCompile Include="..\Private\Parts.cpp" />
-    <ClCompile Include="..\Private\Observer.cpp" />
-    <ClCompile Include="..\Private\Observer_Manager.cpp" />
     <ClCompile Include="..\private\Pool.cpp" />
     <ClCompile Include="..\private\PoolableObject.cpp" />
     <ClCompile Include="..\private\Pool_Manager.cpp" />
     <ClCompile Include="..\private\Prototype_Manager.cpp" />
     <ClCompile Include="..\private\Renderer.cpp" />
     <ClCompile Include="..\private\Sound_Manager.cpp" />
-    <ClCompile Include="..\Private\SubjectObject.cpp" />
     <ClCompile Include="..\private\Texture.cpp" />
     <ClCompile Include="..\Private\Tile.cpp" />
     <ClCompile Include="..\private\Timer.cpp" />
@@ -198,8 +193,6 @@ call Copy.bat
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
-    <ClInclude Include="..\Public\BreakTriggerObserver.h" />
-    <ClInclude Include="..\Public\ClearTriggerObserver.h" />
     <ClInclude Include="..\Public\Collider.h" />
     <ClInclude Include="..\public\Collision.h" />
     <ClInclude Include="..\Public\Collision_Manager.h" />
@@ -210,9 +203,10 @@ call Copy.bat
     <ClInclude Include="..\Public\Engine_Macro.h" />
     <ClInclude Include="..\Public\Engine_Struct.h" />
     <ClInclude Include="..\Public\Engine_Typedef.h" />
+    <ClInclude Include="..\Public\Event.h" />
+    <ClInclude Include="..\public\EventBus.h" />
     <ClInclude Include="..\public\GameInstance.h" />
     <ClInclude Include="..\public\GameObject.h" />
-    <ClInclude Include="..\Public\KeyTriggerObserver.h" />
     <ClInclude Include="..\public\Key_Manager.h" />
     <ClInclude Include="..\Public\Map_Manager.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
@@ -221,15 +215,12 @@ call Copy.bat
     <ClInclude Include="..\public\Level.h" />
     <ClInclude Include="..\public\Level_Manager.h" />
     <ClInclude Include="..\Public\Parts.h" />
-    <ClInclude Include="..\Public\Observer.h" />
-    <ClInclude Include="..\Public\Observer_Manager.h" />
     <ClInclude Include="..\public\Pool.h" />
     <ClInclude Include="..\public\PoolableObject.h" />
     <ClInclude Include="..\public\Pool_Manager.h" />
     <ClInclude Include="..\public\Prototype_Manager.h" />
     <ClInclude Include="..\public\Renderer.h" />
     <ClInclude Include="..\public\Sound_Manager.h" />
-    <ClInclude Include="..\Public\SubjectObject.h" />
     <ClInclude Include="..\public\Texture.h" />
     <ClInclude Include="..\Public\Tile.h" />
     <ClInclude Include="..\public\Timer.h" />

@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "Block.h"
+#include "Event.h"
 
 BEGIN(Client)
 
@@ -19,10 +20,11 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void StepOn();
+	void StepOn(const BLOCKBREAKEVENT& Event);
 	
-
 private:
+	_uint m_iPlayLevel = {};
+
 	_bool m_bIsStepOn = {};
 	_float m_fBreakDelay = {};
 	_float m_fCurrentBreakTime = {};
@@ -32,11 +34,12 @@ private:
 	_float m_fShakingPower = {};
 private:
 	_bool Compute_Near(const _float3& vOtherPosition);
-//	_bool IsNearBlock(CSubjectObject* pSubject);
+	_bool IsNearBlock(_float3 vPosition);
 
 	void Shaking();
 
 	HRESULT Ready_Components();
+	HRESULT Ready_SubscribeEvent(_uint iPlayerLevel);
 	void	SetUp_RenderState();
 	void	Reset_RenderState();
 

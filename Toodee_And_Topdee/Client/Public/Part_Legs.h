@@ -25,8 +25,10 @@ public:
 	virtual HRESULT Render(void* pArg) override;
 
 private:
-	_int   m_iTextureIndex = {};
-	_float m_fFrame{};
+
+	_float m_fOldFrame{};
+	_int	m_iDeltaAngleX = {};
+	_int	m_iDeltaAngleY = {};
 	
 public:
 	static CPart_Legs* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

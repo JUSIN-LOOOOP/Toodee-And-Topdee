@@ -122,7 +122,7 @@
       <Filter>01. Levels\03. GamePlay\06. Stage06</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Pig.cpp">
-      <Filter>02. GameObjects\Monster\Pig</Filter>
+      <Filter>02. GameObjects\Monster\01. Pig</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02. GameObjects\Monster\00. Base</Filter>
@@ -215,11 +215,18 @@
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
+    </ClCompile> 
     <ClCompile Include="..\Private\Cloud.cpp">
       <Filter>02. GameObjects\Cloud</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Cannon.cpp">
       <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Part_Wing.cpp">
+      <Filter>02. GameObjects\Monster\99. Parts\Wing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bat.cpp">
+      <Filter>02. GameObjects\Monster\02. Bat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -359,7 +366,7 @@
       <Filter>01. Levels\03. GamePlay\06. Stage06</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Pig.h">
-      <Filter>02. GameObjects\Monster\Pig</Filter>
+      <Filter>02. GameObjects\Monster\01. Pig</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02. GameObjects\Monster\00. Base</Filter>
@@ -452,11 +459,18 @@
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\InteractionBlock.h" />
+    </ClInclude>
     <ClInclude Include="..\Public\Cloud.h">
       <Filter>02. GameObjects\Cloud</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Cannon.h">
       <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Part_Wing.h">
+      <Filter>02. GameObjects\Monster\99. Parts\Wing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bat.h">
+      <Filter>02. GameObjects\Monster\02. Bat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -573,9 +587,6 @@
     <Filter Include="00. Dummys\T Y J\BackGroundObj">
       <UniqueIdentifier>{96055de1-5330-42e8-85aa-b908c8d83573}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\Monster\Pig">
-      <UniqueIdentifier>{86693a8f-a6f9-4b8c-9911-aae56790beef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\Monster\00. Base">
       <UniqueIdentifier>{1089356b-ed67-44e5-a1aa-296608b29758}</UniqueIdentifier>
     </Filter>
@@ -683,6 +694,15 @@
     </Filter>
     <Filter Include="02. GameObjects\Cloud">
       <UniqueIdentifier>{6aed162d-f917-45c0-a454-13970b6127fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\02. Bat">
+      <UniqueIdentifier>{89711057-b887-4a36-a4ea-e2a173f3c943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\01. Pig">
+      <UniqueIdentifier>{86693a8f-a6f9-4b8c-9911-aae56790beef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Monster\99. Parts\Wing">
+      <UniqueIdentifier>{0d1704c7-682b-418a-92d2-a3b155752b74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

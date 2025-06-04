@@ -25,7 +25,6 @@ public:
 	virtual HRESULT Render(void* pArg) override;
 
 private:
-	_int   m_iTextureIndex = {};
 	_int	m_iDeltaAngleX = {};
 	_int	m_iDeltaAngleY = {};
 	
