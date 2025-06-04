@@ -94,8 +94,15 @@ public:
 
 	//Dimension
 public:
-	void			Change_Dimension(DIMENSION eDimension) { m_eCurrentDimension = eDimension; }
+	void			Change_Dimension(DIMENSION eDimension) 
+	{
+		if(DIMENSION::CHANGE != eDimension)
+		m_ePreviousDimension = m_ePreviousDimension == DIMENSION::NONE ? eDimension : m_eCurrentDimension;
+		m_eCurrentDimension = eDimension; 
+	}
 	DIMENSION		Get_CurrentDimension() { return m_eCurrentDimension; }
+	DIMENSION		Get_PreviousDimension() { return m_ePreviousDimension; }
+
 
 
 private:
@@ -114,14 +121,11 @@ private:
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 
 private:
-	DIMENSION					m_eCurrentDimension = {};
-	_uint						m_iNextLevelID = { 0 };
-	_uint						m_iCurrentLevelID = { 0 };
-
-
-	_uint						m_iFPS = { 0 };
+	DIMENSION					m_ePreviousDimension = { DIMENSION::NONE };
+	DIMENSION					m_eCurrentDimension = { DIMENSION::NONE };
+	_uint						  m_iFPS = { 0 };
 	_ulong						m_ulIntervalTime_FPS = { GetTickCount() };
-	TCHAR						m_szFPS[16] = {};
+	TCHAR						  m_szFPS[16] = {};
 
 public:
 	void Release_Engine();

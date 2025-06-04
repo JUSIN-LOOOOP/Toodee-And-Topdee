@@ -17,6 +17,8 @@ CLevel_Stage5::CLevel_Stage5(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_Stage5::Initialize()
 {
+	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+
 	if (FAILED(Ready_Observer()))
 		return E_FAIL;
 

@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "PlayerState.h"
 #include "InteractionBlock.h"
+#include "ColliderMap_Object.h"
 
 CPlayer_Topdee::CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPlayer { pGraphic_Device }
@@ -39,7 +40,7 @@ HRESULT CPlayer_Topdee::Initialize_Prototype()
 	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::CLEAR)].iMaxAnimCount = 17;
 
 	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].eState = PLAYERSTATE::DEAD;
-	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].iMaxAnimCount = 1;
+	m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].iMaxAnimCount = 5;
 
 
 	return S_OK;
@@ -63,21 +64,20 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (nullptr == pArg)
 	{
 		m_vPotalPosition = { 0.f, 0.f, 0.f };
-		m_pTransformCom->Set_State(STATE::POSITION, _float3(1.f, 1.f, 1.f));
+		m_pTransformCom->Set_State(STATE::POSITION, _float3(1.f, 0.5f, 1.f));
 	}
 	else
 	{
-		PLAYERDESC* pDesc = static_cast<PLAYERDESC*>(pArg);
+		BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
-		m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPlayerStartPosition);
-		m_vPotalPosition = pDesc->vPotalPosition;
+		m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
 	}
 
 	m_bCanClear = false;
 	m_fTurnDownTime = 0.f;
 	m_fTurnDownDelay = 0.04f;
 	m_vPotalPosition = { 0.f, 0.f, 0.f };
-	m_vNextMovePosition = { -1.f, 0.f, -1.f };
+
 	m_fMaxDot = -2.f;
 
 	m_pTransformCom->Scaling(12.f, 12.f, 0.f); 
@@ -116,7 +116,7 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 
 			m_pGameInstance->Check_Collision(m_pColliderCom);
 
-			Check_CollisionState();
+			Check_Collision();
 
 			if (m_bInAction)
 			{
@@ -167,6 +167,9 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 
 void CPlayer_Topdee::Late_Update(_float fTimeDelta)
 {
+	if (m_eCurrentState == PLAYERSTATE::DEAD)
+		int a = 10;
+
 	m_iCurrentAnimCount = m_pCurrentState->GetAnimCount() + ( ENUM_CLASS(m_eCurrentMoveDir) * m_pCurrentState->GetMaxAnimCount());
 
 
@@ -253,7 +256,7 @@ void CPlayer_Topdee::Action()
 void CPlayer_Topdee::Stop()
 {
 	m_pColliderCom->Collision_Off();
-	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+	//m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
 
 	m_ePrevMoveDir = m_eCurrentMoveDir;
 	m_bIsTurnDown = false;
@@ -351,6 +354,33 @@ _float3 CPlayer_Topdee::ComputeTileOutlinePosition()
 	_float3 vOutlinePosition = { vCenter.x + fDistanceX, vCenter.y, vCenter.z + fDistanceZ};
 
 	return vOutlinePosition;
+}
+
+void CPlayer_Topdee::Check_Dimension()
+{
+	if (m_eActivateDimension == m_pGameInstance->Get_CurrentDimension())
+	{
+		m_pColliderCom->Collision_On();
+		m_bCanActive = true;
+	}
+	else
+	{
+		m_pColliderCom->Collision_Off();
+		m_bCanActive = false;
+		
+		if (m_pAttachBlock)
+		{
+			Check_DetachCollisionState();
+			
+			if (true == m_bCanDetach)
+			{
+				m_pAttachBlock->Request_Change_State(BLOCKSTATE::DETACH);
+				m_pAttachBlock->Detach(m_vDetachPosition, 20.f);
+				m_pAttachBlock = nullptr;
+				m_bIsAttach = false;
+			}
+		}
+	}
 }
 
 _uint CPlayer_Topdee::KeyInput()
@@ -469,18 +499,18 @@ void CPlayer_Topdee::Check_AttachCollisionState()
 					m_pFocuseBlock = pBlock;
 				}
 			}
-			
+
 		}
 	}
 }
 
 _float3 CPlayer_Topdee::Compute_Look()
 {
-	_float3 vLook = {0.f, 0.f, 0.f};
+	_float3 vLook = { 0.f, 0.f, 0.f };
 
 	switch (m_eCurrentMoveDir)
 	{
-	case MOVEDIRECTION::DOWN :
+	case MOVEDIRECTION::DOWN:
 		vLook.z = -1.f;
 		break;
 	case MOVEDIRECTION::DIAGONAL_DOWN:
@@ -541,7 +571,7 @@ void CPlayer_Topdee::Check_DetachCollisionState()
 
 		for (auto iter : *Overlaps)
 		{
-			if ((iter->Get_Name().find(TEXT("Block")) != string::npos || iter->Get_Name().find(TEXT("Wall")) != string::npos))
+			if ((iter->Get_Name().find(TEXT("Block")) != string::npos))
 			{
 				CBlock* pBlock = dynamic_cast<CBlock*>(iter);
 
@@ -555,6 +585,27 @@ void CPlayer_Topdee::Check_DetachCollisionState()
 				for (_uint i = 0; i < 4; i++)
 				{
 					_float fDotByDir = pBlock->ComputeDirDotLook(vPosition, Dir[i]);
+
+					if (fDotByDir > m_fDotByDir[i])
+					{
+						m_fDotByDir[i] = fDotByDir;
+					}
+				}
+			}
+			else if (iter->Get_Name().find(TEXT("Wall")) != string::npos)
+			{
+				CColliderMap_Object* pWall = dynamic_cast<CColliderMap_Object*>(iter);
+
+				_float fResult = static_cast<_float>(pWall->IsOverlappingWall(vPosition, vLook));
+
+				if (fResult > m_fMaxDot)
+				{
+					m_fMaxDot = fResult;
+				}
+
+				for (_uint i = 0; i < 4; i++)
+				{
+					_float fDotByDir = static_cast<_float>(pWall->IsOverlappingWall(vPosition, Dir[i]));
 
 					if (fDotByDir > m_fDotByDir[i])
 					{
@@ -691,6 +742,9 @@ HRESULT CPlayer_Topdee::Ready_Components()
 		TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::CLEAR)]))))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Dead"),
+		TEXT("Com_Dead_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::DEAD)]))))
+		return E_FAIL;
 #pragma endregion
 
 	return S_OK;
@@ -778,61 +832,75 @@ void CPlayer_Topdee::TurnDownOnStop(_float fTimeDelta)
 	m_bIsTurnDown = m_eCurrentMoveDir == MOVEDIRECTION::DOWN;
 }
 
-void CPlayer_Topdee::Check_CollisionState()
+void CPlayer_Topdee::Check_Collision()
 {
 	if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
 	{
-		if (nullptr != m_pColliderCom->GetOverlapTarget() && 
-			m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Interaction")) != string::npos)
+		vector<CGameObject*>* Overlaps = { nullptr };
+		if (false == m_pColliderCom->GetOverlapAll(Overlaps))
+			return;
 		{
-			CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(m_pColliderCom->GetOverlapTarget());
-			if (false == pBlock->IsPush() && false == pBlock->IsFall())
+			for (auto iter : *Overlaps)
 			{
-				pBlock->Request_Change_State(BLOCKSTATE::PUSH);
-				pBlock->Push(m_eCurrentMoveDir, m_eCurrentTextureDir, 8.f);
+				Check_Collision_Dead(iter);
+				Check_Collision_InteractionBlock(iter);
 			}
 		}
 
-		//_float fDist = {};
-		//_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		Check_Collision_PlayerState();
+	}
+	else
+	{
+		if (m_bEnterPortal)
+			Notify(EVENT::EXIT_PORTAL);
+	}
 
-		_float3 temp;
-		if (m_pColliderCom->GetCollisionsOffset(&temp))
-		{
-			_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-			vPosition.x = vPosition.x + temp.x;
-			vPosition.z = vPosition.z + temp.z;
+}
 
+void CPlayer_Topdee::Check_Collision_PlayerState()
+{
+	_float3 temp;
+	if (m_pColliderCom->GetCollisionsOffset(&temp))
+	{
+		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		vPosition.x = vPosition.x + temp.x;
+		vPosition.z = vPosition.z + temp.z;
 
-			m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-			m_vNextMovePosition = vPosition;
-		}
-
-	/*	COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
-
-		switch (eCollider_Dir)
-		{
-		case COLLIDER_DIR::LEFT:
-			vPosition.x -= fDist;
-			break;
-		case COLLIDER_DIR::RIGHT:
-			vPosition.x += fDist;
-			break;
-		case COLLIDER_DIR::TOP:
-			vPosition.y += fDist;
-			break;
-		case COLLIDER_DIR::BOTTOM:
-			vPosition.y -= fDist;
-			break;
-		case COLLIDER_DIR::FRONT:
-			vPosition.z -= fDist;
-			break;
-		case COLLIDER_DIR::BACK:
-			vPosition.z += fDist;
-			break;
-		}
 		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-		m_vNextMovePosition = vPosition;*/
+		m_vNextMovePosition = vPosition;
+	}
+
+}
+
+void CPlayer_Topdee::Check_Collision_Dead(CGameObject* pGameObject)
+{
+	if (pGameObject->Get_Name().find(TEXT("Enemy")) != string::npos)
+	{
+		m_eCurrentMoveDir = MOVEDIRECTION::DOWN;
+
+		m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::DEAD);
+	}
+}
+
+void CPlayer_Topdee::Check_Collision_InteractionBlock(CGameObject* pGameObject)
+{
+	if(pGameObject->Get_Name().find(TEXT("Interaction")) != string::npos)
+	{
+		CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(m_pColliderCom->GetOverlapTarget());
+		if (false == pBlock->IsPush() && false == pBlock->IsFall())
+		{
+			pBlock->Request_Change_State(BLOCKSTATE::PUSH);
+			pBlock->Push(m_eCurrentMoveDir, m_eCurrentTextureDir, 8.f);
+		}
+	}
+}
+
+void CPlayer_Topdee::Check_Collision_Portal(CGameObject* pGameObject)
+{
+	if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
+	{
+		Notify(EVENT::ENTER_PORTAL);
+		m_bEnterPortal = true;
 	}
 }
 

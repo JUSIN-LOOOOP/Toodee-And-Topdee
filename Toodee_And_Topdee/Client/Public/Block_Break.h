@@ -23,7 +23,7 @@ public:
 	void StepOn();
 	
 
-	void onReport(REPORT eReport, CSubjectObject* pSubject) override;
+	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) override;
 
 private:
 	_bool m_bIsStepOn = {};

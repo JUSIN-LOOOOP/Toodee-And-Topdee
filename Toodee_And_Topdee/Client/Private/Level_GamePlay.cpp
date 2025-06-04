@@ -7,6 +7,7 @@
 #include "Level_Loading.h"
 #include "ClearTriggerObserver.h"
 #include "BreakTriggerObserver.h"
+#include "KeyTriggerObserver.h"
 #include "Test_Cube2.h"
 #include "Cannon.h"
 #include "Pig.h"
@@ -19,9 +20,10 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+
 	if (FAILED(Ready_Observer()))
 		return E_FAIL;
-
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
@@ -266,6 +268,23 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"))))
+		return E_FAIL;
+
+
+	BLOCK_INFO info = {
+		_float3(3.f, 0.f, 3.f),
+		_float3(2.f,2.f,2.f),
+		0,
+		0,
+		0,
+		0
+	};
+	if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallFall"),&info)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -335,6 +354,10 @@ HRESULT CLevel_GamePlay::Ready_Observer()
 
 	if (FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_BreakTrigger"),
 		CBreakTriggerObserver::Create())))
+		return E_FAIL;
+
+	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Observer_KeyTrigger"),
+		CKeyTriggerObserver::Create())))
 		return E_FAIL;
 
 	return S_OK;

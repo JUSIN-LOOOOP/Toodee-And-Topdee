@@ -55,6 +55,7 @@ protected:
 	CBlockState*					m_pCurrentState = { nullptr };
 	BLOCKSTATE						m_eCurrentState = {};
 	/* State Stop */
+	_bool						m_bFallinHole = {};
 	_bool						m_bFalling = {};
 	_float						m_fMaxFallHeight = {};
 	_float						m_fTotalFallHeight = {};
@@ -86,7 +87,8 @@ protected:
 	void Update_PushState(CInteractionBlock* pBlock);
 	
 	/* Collision */
-	void CheckCollisionState();												// 충돌 쳌
+	void CheckCollisionTopdeeState();												// 충돌 쳌
+
 	_bool IsOnHole();													// Topdee 일때 밑이 구멍인지 확인?
 
 	virtual HRESULT	Ready_State();

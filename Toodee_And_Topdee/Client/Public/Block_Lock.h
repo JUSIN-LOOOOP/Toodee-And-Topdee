@@ -1,10 +1,11 @@
 #pragma once
 #include "Client_Defines.h"
+#include "SubjectObject.h"
 #include "Block.h"
 
 BEGIN(Client)
 
-class CBlock_Lock final : public CBlock
+class CBlock_Lock final : public CBlock, public CSubjectObject
 {
 private:
 	CBlock_Lock(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -19,8 +20,11 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	virtual void onReport(REPORT eReport, CSubjectObject* pSubject) override;
+
 private: 
 	HRESULT Ready_Components();
+	HRESULT Ready_Observer();
 	void	SetUp_RenderState();
 	void	Reset_RenderState();
 

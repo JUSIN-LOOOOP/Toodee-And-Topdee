@@ -42,7 +42,7 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::CLEAR)].iMaxAnimCount = 17;
 
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].eState = PLAYERSTATE::DEAD;
-    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].iMaxAnimCount = 0;
+    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::DEAD)].iMaxAnimCount = 5;
 
     return S_OK;
 }
@@ -61,14 +61,13 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     if (nullptr == pArg)
     {
         m_vPotalPosition = { 0.f, 0.f, 0.f };
-        m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, 1.f, 10.f));
+        m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, 0.5f, 10.f));
     }
     else
     {
-        PLAYERDESC* pDesc = static_cast<PLAYERDESC*>(pArg);
+        BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
-        m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPlayerStartPosition);
-        m_vPotalPosition = pDesc->vPotalPosition;
+        m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
     }
   
     //Test true = 클리어모션 false = 플레이모션
@@ -76,8 +75,8 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     m_fCurrentJumpPower = 0.f;
     m_fStartJumpPower = 10.f;
     m_fAccumulationJumpPower = 0.f;
-    m_fIncreaseJumpPower = 5.f;
-    m_fMaxIncreaseJumpPower = 25.f; //임시
+    m_fIncreaseJumpPower = 2.f;
+    m_fMaxIncreaseJumpPower = 14.f; //임시
     m_fGravityPower = 0.f;
 
     m_pTransformCom->Scaling(12.f, 12.f, 0.f);
@@ -116,9 +115,7 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
             }
 
             m_pGameInstance->Check_Collision(m_pColliderCom);
-
-            Check_CollisionState();
-
+            Check_Collision();
             Check_Grounded();
         }
 
@@ -253,7 +250,7 @@ void CPlayer_Toodee::Action()
 void CPlayer_Toodee::Stop()
 {
     m_pColliderCom->Collision_Off();
-    m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
+   // m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 }
 
 void CPlayer_Toodee::Clear()
@@ -308,7 +305,7 @@ HRESULT CPlayer_Toodee::Ready_Components()
 #pragma region Transform
     /* For.Com_Transform*/
     CTransform::TRANSFORM_DESC		TransformDesc{};
-    TransformDesc.fSpeedPerSec = 10.f;
+    TransformDesc.fSpeedPerSec = 12.f;
     TransformDesc.fRotationPerSec = D3DXToRadian(90.f);
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
@@ -373,6 +370,10 @@ HRESULT CPlayer_Toodee::Ready_Components()
         TEXT("Com_Clear_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::CLEAR)]))))
         return E_FAIL;
   
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Dead"),
+        TEXT("Com_Dead_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::DEAD)]))))
+        return E_FAIL;
+
 #pragma endregion
 
     return S_OK;
@@ -445,7 +446,7 @@ HRESULT CPlayer_Toodee::Ready_Observers()
 void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
 {
     //중력 계산
-    if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
+   // if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
     {
         Compute_Gravity(fTimeDelta);
     }
@@ -458,7 +459,7 @@ void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
     }
 
     //점프 높이 적용
-    if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
+ //   if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
     {
         Gravity(fTimeDelta);
     }
@@ -475,7 +476,7 @@ void CPlayer_Toodee::Gravity(_float fTimeDelta)
 
 void CPlayer_Toodee::Compute_Gravity(_float fTimeDelta)
 {
-    m_fGravityPower -= (GRAVITY * fTimeDelta) * 0.6f;
+    m_fGravityPower -= (GRAVITY * fTimeDelta) * 0.3f;
 
     if (m_fGravityPower <= -10.f)
         m_fGravityPower = -10.f;
@@ -486,67 +487,81 @@ void CPlayer_Toodee::Compute_Gravity(_float fTimeDelta)
         m_fCurrentJumpPower = -20.f;
 }
 
-void CPlayer_Toodee::Check_CollisionState()
+void CPlayer_Toodee::Check_Collision()
 {
-
-    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-
     if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
     {
         vector<CGameObject*>* Overlaps = { nullptr };
         if (false == m_pColliderCom->GetOverlapAll(Overlaps))
             return;
-        
+
         for (auto iter : *Overlaps)
         {
-            if (iter->Get_Name().find(TEXT("Break")) != string::npos)
-            {
-
-                COLLIDER_DIR eBreakCollider_Dir = m_pColliderCom->DetectCollisionDirection();
-
-                if(eBreakCollider_Dir == COLLIDER_DIR::BACK)
-                    Notify(EVENT::BLOCK_BREAK);
-            }
+            Check_Collision_Dead(iter);
+            Check_Collision_Portal(iter);
         }
-            _float fDist = {};
-            COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection(&fDist);
 
-            switch (eCollider_Dir)
-            {
-            case COLLIDER_DIR::LEFT:
-                vPosition.x -= fDist;
-                break;
-            case COLLIDER_DIR::RIGHT:
-                vPosition.x += fDist;
-                break;
-            case COLLIDER_DIR::TOP:
-                vPosition.y += fDist;
-                break;
-            case COLLIDER_DIR::BOTTOM:
-                vPosition.y -= fDist;
-                break;
-            case COLLIDER_DIR::FRONT:
-            {
-                vPosition.z -= fDist;
-                m_fCurrentJumpPower = 0.f;
+        Check_Collision_PlayerState();
+    }
+    else
+    {
+        if (m_bEnterPortal)
+            Notify(EVENT::EXIT_PORTAL);
+    }
+}
 
-                break;
-            }
-            case COLLIDER_DIR::BACK:
-            {
-                if (m_bInAction && m_eJumpState != JUMPSTATE::JUMPING)
-                {
-                    m_bInAction = false;
-                    m_fAccumulationJumpPower = 0.f;
-                    m_fGravityPower = 0.f;
-                    vPosition.z += fDist;
-                }
-                break;
-            }
-            }
-            m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-        //}
-       
+void CPlayer_Toodee::Check_Collision_PlayerState()
+{
+    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+    //위치 보정
+    _float3 temp;
+    if (m_pColliderCom->GetCollisionsOffset(&temp))
+    {
+        _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+        vPosition.x = vPosition.x + temp.x;
+        vPosition.z = vPosition.z + temp.z;
+
+        m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+    }
+
+    COLLIDER_DIR eCollider_Dir = m_pColliderCom->DetectCollisionDirection();
+
+    switch (eCollider_Dir)
+    {
+        case COLLIDER_DIR::FRONT:
+        {
+            m_fCurrentJumpPower = 0.f;
+            break;
+        }
+    }
+}
+
+void CPlayer_Toodee::Check_Collision_BlockBreak(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Break")) != string::npos)
+    {
+        COLLIDER_DIR eBreakCollider_Dir = m_pGroundCheckColliderCom->DetectCollisionDirection();
+    
+        if (eBreakCollider_Dir == COLLIDER_DIR::BACK)
+            Notify(EVENT::BLOCK_BREAK);
+    }
+}
+
+void CPlayer_Toodee::Check_Collision_Dead(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Enemy")) != string::npos)
+    {
+        m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::DEAD);
+    }
+}
+
+void CPlayer_Toodee::Check_Collision_Portal(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
+    {
+        Notify(EVENT::ENTER_PORTAL);
+        m_bEnterPortal = true;
     }
 }
 
@@ -563,6 +578,22 @@ void CPlayer_Toodee::Check_Grounded()
 
     if (m_pGroundCheckColliderCom->OnCollisionEnter() || m_pGroundCheckColliderCom->OnCollisionStay())
     {
+        vector<CGameObject*>* Overlaps = { nullptr };
+        if (false == m_pGroundCheckColliderCom->GetOverlapAll(Overlaps))
+            return;
+
+        for (auto iter : *Overlaps)
+        {
+            Check_Collision_BlockBreak(iter);
+            Check_Collision_Dead(iter);
+        }
+
+        if(m_eJumpState != JUMPSTATE::JUMPING)
+        {
+            m_bInAction = false;
+            m_fAccumulationJumpPower = 0.f;
+            m_fGravityPower = 0.f;
+        }
     }
     else
     {
@@ -570,7 +601,7 @@ void CPlayer_Toodee::Check_Grounded()
         {
             m_bInAction = true;
             m_fGravityPower = 0.f;
-            m_fCurrentJumpPower = 0.f;
+            m_fCurrentJumpPower = -5.f;
             m_eJumpState = JUMPSTATE::JUMPING;
             m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::ACTION);
         }
