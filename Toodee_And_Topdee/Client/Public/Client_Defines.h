@@ -26,7 +26,9 @@ namespace Client
 
 	enum class MAPOBJECT { NONE, WALL, WOOD, BREAK, LOCK, FALL, SPARK, METAL, HOLE, KEY, PORTAL, TOPDEE, TOODEE, MAPOBJECT_END };
 
-	enum class STAGEMONERSTATE { IDLE, CHASE, TURN, ATTACK, };
+	enum class STAGEMONERSTATE { IDLE, CHASE, TURN, ATTACK, VIEWTURN, FIRE };
+
+	enum class VIEWMODE { TOODEE, TOPDEE };
 
 
 	typedef struct tagStateDesc {

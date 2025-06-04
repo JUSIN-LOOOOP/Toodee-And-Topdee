@@ -43,8 +43,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
 	//	return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -170,13 +170,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::TOODEE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TooDee"),
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"), &info)))
 				return E_FAIL;
 			break;
 
 		case MAPOBJECT::TOPDEE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TopDee"),
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
 				return E_FAIL;
 			break;

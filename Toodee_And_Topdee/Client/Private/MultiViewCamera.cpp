@@ -94,10 +94,7 @@ void CMultiViewCamera::ChangeView(_float fTimeDelta)
     {
         m_fCurrentAngle = 0;
         m_bRotating = false;
-        if (m_bType == CAM_TYPE::TOP)
-            m_bType = CAM_TYPE::QURTER;
-        else
-            m_bType = CAM_TYPE::TOP;
+        m_bType = (m_bType == CAM_TYPE::TOP) ? CAM_TYPE::QURTER : CAM_TYPE::TOP;
     }
 }
 

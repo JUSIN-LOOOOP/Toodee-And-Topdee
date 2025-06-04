@@ -18,9 +18,9 @@
 #include "Fire_Projectile.h"
 #include "BackCloud.h"
 
-//#include "StageBoss.h"
-//#include "StageBoss_Body.h"
-//#include "StageBoss_Hand.h"
+#include "StageBoss.h"
+#include "StageBoss_Body.h"
+#include "StageBoss_Hand.h"
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
@@ -155,15 +155,13 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 #pragma endregion
 
 #pragma region TEXTURE_STAGEBOSS
-	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Body"),
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Body"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/StageBoss/StageBoss.dds"), 1))))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Eye"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBossEye.png"), 1))))
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Parts"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBossParts%d.png"), 5))))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Mouth"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBossMouth.png"), 1))))
-		return E_FAIL;*/
 
 	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Hand"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBoss_hand%d.png"), 1))))
@@ -264,9 +262,9 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	//	return E_FAIL;
 
 	/* Prototype_GameObject_StageBoss_Body*/
-	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Body"),
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Body"),
 		CStageBoss_Body::Create(m_pGraphic_Device))))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	///* Prototype_GameObject_StageBoss_Hand*/
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Hand"),
