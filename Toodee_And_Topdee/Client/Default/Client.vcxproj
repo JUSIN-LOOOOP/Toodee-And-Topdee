@@ -165,9 +165,10 @@
     <ClInclude Include="..\Public\Block_Wall.h" />
     <ClInclude Include="..\Public\Block_Wood.h" />
     <ClInclude Include="..\public\Camera.h" />
+    <ClInclude Include="..\Public\Cannon.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
-    <ClInclude Include="..\public\Cannon.h" />
     <ClInclude Include="..\Public\Client_Extension.h" />
+    <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
@@ -243,7 +244,8 @@
     <ClCompile Include="..\Private\Block_Wall.cpp" />
     <ClCompile Include="..\Private\Block_Wood.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
-    <ClCompile Include="..\private\Cannon.cpp" />
+    <ClCompile Include="..\Private\Cannon.cpp" />
+    <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />

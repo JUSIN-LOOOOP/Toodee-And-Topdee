@@ -75,19 +75,6 @@ void CCannon::Update(_float fTimeDelta)
 {
     Shooting(fTimeDelta);
     Motion(fTimeDelta);
-
-
-    if (m_pGameInstance->Key_Pressing(VK_UP))
-        m_pTransformCom->Go_Straight(fTimeDelta);
-
-    if (m_pGameInstance->Key_Pressing(VK_DOWN))
-        m_pTransformCom->Go_Backward(fTimeDelta);
-
-    if (m_pGameInstance->Key_Pressing(VK_LEFT))
-        m_pTransformCom->Go_Left(fTimeDelta);
-
-    if (m_pGameInstance->Key_Pressing(VK_RIGHT))
-        m_pTransformCom->Go_Right(fTimeDelta);
 }
 
 void CCannon::Late_Update(_float fTimeDelta)

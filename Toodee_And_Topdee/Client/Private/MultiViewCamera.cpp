@@ -70,7 +70,7 @@ void CMultiViewCamera::Priority_Update(_float fTimeDelta)
 
 void CMultiViewCamera::Update(_float fTimeDelta)
 {
-    if(GetAsyncKeyState(VK_F5)& 0x8000)
+    if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
 }
 

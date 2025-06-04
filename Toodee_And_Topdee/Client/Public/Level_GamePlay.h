@@ -26,6 +26,7 @@ private:
 	HRESULT Ready_Layer_Back(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_ColliderMap(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Cloud(const _wstring& strLayerTag);
 
 	HRESULT Ready_Layer_StageBoss(const _wstring& strLayerTag);
 
