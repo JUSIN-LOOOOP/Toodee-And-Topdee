@@ -252,7 +252,7 @@ void CPlayer_Toodee::Action()
 void CPlayer_Toodee::Stop()
 {
     m_pColliderCom->Collision_Off();
-    m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
+   // m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 }
 
 void CPlayer_Toodee::Clear()

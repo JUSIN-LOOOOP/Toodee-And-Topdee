@@ -32,12 +32,18 @@ HRESULT CMultiViewCamera::Initialize(void* pArg)
     m_fAspect = static_cast<_float>(g_iWinSizeX) / g_iWinSizeY;
     m_fNear = pDesc->fNear;
     m_fFar = pDesc->fFar;
+
+    if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
+        m_bType = CAM_TYPE::TOP;
+    if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
+        m_bType = CAM_TYPE::QURTER;
+
     return S_OK;
 }
 
 void CMultiViewCamera::Priority_Update(_float fTimeDelta)
 {
-    _bool newkey = GetKeyState('X') & 0x8000;
+    /*_bool newkey = GetKeyState('X') & 0x8000;
 
     if (!m_bOldKey && newkey)
         m_bRotating = true;
@@ -45,7 +51,17 @@ void CMultiViewCamera::Priority_Update(_float fTimeDelta)
     m_bOldKey = newkey;
 
     if (m_bRotating == true)
+        ChangeView(fTimeDelta);*/
+
+    if (m_pGameInstance->Key_Down('X') && m_pGameInstance->Get_CurrentDimension() != DIMENSION::CHANGE) {
+        m_bRotating = true;
+        m_pGameInstance->Change_Dimension(DIMENSION::CHANGE);
+    }
+
+    if (m_bRotating) {
+    
         ChangeView(fTimeDelta);
+    }
 
     m_ProjMatrix = *(D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
@@ -96,10 +112,14 @@ void CMultiViewCamera::ChangeView(_float fTimeDelta)
     {
         m_fCurrentAngle = 0;
         m_bRotating = false;
-        if (m_bType == CAM_TYPE::TOP)
+        if (m_bType == CAM_TYPE::TOP) {
             m_bType = CAM_TYPE::QURTER;
-        else
+            m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
+        }
+        else {
             m_bType = CAM_TYPE::TOP;
+            m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+        }
     }
 }
 
