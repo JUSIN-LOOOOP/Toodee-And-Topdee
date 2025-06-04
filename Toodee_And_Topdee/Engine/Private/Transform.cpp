@@ -278,6 +278,15 @@ _bool CTransform::Spiral(const _float3& vTarget, const _float3& vAxis, _float fR
 	return false;
 }
 
+void CTransform::Adjust_Scale(const _float3& vScale)
+{
+	_float3 vRight{ Get_State(STATE::RIGHT) }, vUp{ Get_State(STATE::UP) }, vLook{ Get_State(STATE::LOOK) };
+
+	Set_State(STATE::RIGHT, vRight * vScale.x);
+	Set_State(STATE::UP, vUp * vScale.y);
+	Set_State(STATE::LOOK, vLook * vScale.z);
+}
+
 void CTransform::Bind_Matrix()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
