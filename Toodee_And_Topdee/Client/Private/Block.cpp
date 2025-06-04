@@ -83,7 +83,6 @@ HRESULT CBlock::Ready_Components()
 void CBlock::SetUp_BlockInfo(void* pArg)
 {
 	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
-
 	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
 	m_pTransformCom->Scaling(pDesc->vScale.x, pDesc->vScale.y, 2);
 	m_pTransformCom->Go_Up(0.2f);

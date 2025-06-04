@@ -2,7 +2,8 @@
 #include "GameInstance.h"
 #include "PlayerState.h"
 #include "Block.h"
-#include "Block_Break.h"
+#include "Event.h"
+#include "Key.h"
 
 CPlayer_Toodee::CPlayer_Toodee(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CPlayer { pGraphic_Device }
@@ -49,10 +50,15 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
 
 HRESULT CPlayer_Toodee::Initialize(void* pArg)
 {
+    m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
+
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
     if (FAILED(Ready_States()))
+        return E_FAIL;
+
+    if (FAILED(Ready_SubscribeEvent(m_iPlayLevel)))
         return E_FAIL;
 
     if (nullptr == pArg)
@@ -63,8 +69,9 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     else
     {
         BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
-
-        m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+        _float3 vPosition = pDesc->vPos;
+        vPosition.y += 1.f;
+        m_pTransformCom->Set_State(STATE::POSITION, vPosition);
     }
   
     //Test true = 클리어모션 false = 플레이모션
@@ -248,7 +255,7 @@ void CPlayer_Toodee::Stop()
    // m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 }
 
-void CPlayer_Toodee::Clear()
+void CPlayer_Toodee::Clear(_float3 vPortalPosition)
 {
     m_bMoveToPotal = false;
 
@@ -256,11 +263,15 @@ void CPlayer_Toodee::Clear()
 
     _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
-    m_vPotalStartPosition = { m_vPotalPosition.x + m_fPotalDistance, m_vPotalPosition.y, m_vPotalPosition.z };
+    m_vPotalStartPosition = { vPortalPosition.x + m_fPotalDistance, vPortalPosition.y, vPortalPosition.z };
+  
+    m_vPotalPosition = vPortalPosition;
 
     _float3 vSpeed = m_vPotalStartPosition - vPosition;
 
     m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
+
+    m_pColliderCom->Collision_Off();
 }
 
 
@@ -364,6 +375,15 @@ HRESULT CPlayer_Toodee::Ready_Components()
         return E_FAIL;
 
 #pragma endregion
+
+    return S_OK;
+}
+
+HRESULT CPlayer_Toodee::Ready_SubscribeEvent(_uint iPlayerLevel)
+{
+    m_pGameInstance->Subscribe<CANCLEAREVENT>(m_iPlayLevel, EVENT_KEY::CAN_CLEAR, [this](const CANCLEAREVENT& Event) {
+        this->ClearReady(Event);
+        });
 
     return S_OK;
 }
@@ -479,6 +499,7 @@ void CPlayer_Toodee::Check_Collision()
         {
             Check_Collision_Dead(iter);
             Check_Collision_Portal(iter);
+            Check_Collision_Key(iter);
         }
 
         Check_Collision_PlayerState();
@@ -486,7 +507,12 @@ void CPlayer_Toodee::Check_Collision()
     else
     {
         if (m_bEnterPortal)
-        { }
+        {
+            m_bEnterPortal = false;
+            EXITPORTALEVENT Event;
+            Event.pPlayer = this;
+            m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::EXIT_PORTAL, Event);
+        }
     }
 }
 
@@ -524,7 +550,12 @@ void CPlayer_Toodee::Check_Collision_BlockBreak(CGameObject* pGameObject)
         COLLIDER_DIR eBreakCollider_Dir = m_pGroundCheckColliderCom->DetectCollisionDirection();
     
         if (eBreakCollider_Dir == COLLIDER_DIR::BACK)
-        { }
+        {
+            BLOCKBREAKEVENT Event;
+            Event.vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+            m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::BLOCK_BREAK, Event);
+        }
     }
 }
 
@@ -541,6 +572,23 @@ void CPlayer_Toodee::Check_Collision_Portal(CGameObject* pGameObject)
     if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
     {
         m_bEnterPortal = true;
+        m_bOnThePortal = true;
+        ENTERPORTALEVENT Event;
+        Event.pPlayer = this;
+        m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::ENTER_PORTAL, Event);
+    }
+    else
+        m_bOnThePortal = false;
+}
+
+void CPlayer_Toodee::Check_Collision_Key(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Key")) != string::npos)
+    {
+        GETKEYEVENT Event;
+        m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
+        CKey* pKey = dynamic_cast<CKey*>(pGameObject);
+        pKey->Get_Key();
     }
 }
 
@@ -563,11 +611,13 @@ void CPlayer_Toodee::Check_Grounded()
 
         for (auto iter : *Overlaps)
         {
+            Check_Collision_Portal(iter);
             Check_Collision_BlockBreak(iter);
             Check_Collision_Dead(iter);
+            Check_Collision_Key(iter);
         }
 
-        if(m_eJumpState != JUMPSTATE::JUMPING)
+        if(m_eJumpState != JUMPSTATE::JUMPING && false == m_bOnThePortal)
         {
             m_bInAction = false;
             m_fAccumulationJumpPower = 0.f;

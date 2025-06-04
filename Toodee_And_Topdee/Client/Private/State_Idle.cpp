@@ -50,14 +50,6 @@ void CState_Idle::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDe
     {
         pPlayer->Stop();
     }
-
-    //Test
-    if ((iInputData & ENUM_CLASS(KEYINPUT::KEY_X)) && (iInputData & ENUM_CLASS(KEYINPUT::KEY_Z)))
-    {
-        pPlayer->Clear();
-        if (FAILED(pPlayer->Change_State(PLAYERSTATE::CLEAR)))
-            MSG_BOX(TEXT("Failed Change State : CLEAR"));
-    }
 }
 
 void CState_Idle::Update(CPlayer* pPlayer, _float fTimeDelta)
@@ -66,7 +58,6 @@ void CState_Idle::Update(CPlayer* pPlayer, _float fTimeDelta)
 
     if (pPlayer->CanClear())
     {
-        pPlayer->Clear();
         if (FAILED(pPlayer->Change_State(PLAYERSTATE::CLEAR)))
             MSG_BOX(TEXT("Failed Change State : CLEAR"));
     }

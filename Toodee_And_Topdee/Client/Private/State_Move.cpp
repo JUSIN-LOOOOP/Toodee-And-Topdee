@@ -57,7 +57,6 @@ void CState_Move::Update(CPlayer* pPlayer, _float fTimeDelta)
 
     if (pPlayer->CanClear())
     {
-        pPlayer->Clear();
         if (FAILED(pPlayer->Change_State(PLAYERSTATE::CLEAR)))
             MSG_BOX(TEXT("Failed Change State : CLEAR"));
     }

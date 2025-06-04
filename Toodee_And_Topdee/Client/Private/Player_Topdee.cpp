@@ -3,6 +3,7 @@
 #include "PlayerState.h"
 #include "InteractionBlock.h"
 #include "ColliderMap_Object.h"
+#include "Key.h"
 
 CPlayer_Topdee::CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPlayer { pGraphic_Device }
@@ -48,6 +49,8 @@ HRESULT CPlayer_Topdee::Initialize_Prototype()
 
 HRESULT CPlayer_Topdee::Initialize(void* pArg)
 {
+	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
+
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -55,8 +58,10 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 	
+	if (FAILED(Ready_SubscribeEvent(m_iPlayLevel)))
+		return E_FAIL;
 
-	if (FAILED(Ready_Outline()))
+	if (FAILED(Ready_Outline(m_iPlayLevel)))
 		return E_FAIL;
 
 	if (nullptr == pArg)
@@ -67,8 +72,9 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	else
 	{
 		BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
-
-		m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+		_float3 vPosition = pDesc->vPos;
+		vPosition.y += 1.f;
+		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 	}
 
 	m_bCanClear = false;
@@ -260,7 +266,7 @@ void CPlayer_Topdee::Stop()
 	m_bInAction = false;
 }
 
-void CPlayer_Topdee::Clear()
+void CPlayer_Topdee::Clear(_float3 vPortalPosition)
 {
 	m_bMoveToPotal = false;
 
@@ -269,11 +275,15 @@ void CPlayer_Topdee::Clear()
 
 	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
-	m_vPotalStartPosition = { m_vPotalPosition.x + m_fPotalDistance, m_vPotalPosition.y, m_vPotalPosition.z };
+	m_vPotalStartPosition = { vPortalPosition.x + m_fPotalDistance, vPortalPosition.y, vPortalPosition.z };
+
+	m_vPotalPosition = vPortalPosition;
 
 	_float3 vSpeed = m_vPotalStartPosition - vPosition;
 
 	m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
+
+	m_pColliderCom->Collision_Off();
 }
 
 void CPlayer_Topdee::Interaction()
@@ -653,7 +663,7 @@ _float3 CPlayer_Topdee::Compute_Detach_Position(DETACHDIRECTION eDir)
 		break;
 	}
 
-	_float3 vDetachPosition = { vCenter.x + fDistanceX, vCenter.y, vCenter.z + fDistanceZ};
+	_float3 vDetachPosition = { vCenter.x + fDistanceX, vCenter.y + 1.f, vCenter.z + fDistanceZ};
 	return vDetachPosition;
 }
 
@@ -760,9 +770,18 @@ HRESULT CPlayer_Topdee::Ready_States()
 	return S_OK;
 }
 
-HRESULT CPlayer_Topdee::Ready_Outline()
+HRESULT CPlayer_Topdee::Ready_SubscribeEvent(_uint iPlayerLevel)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Effect"),
+	m_pGameInstance->Subscribe<CANCLEAREVENT>(m_iPlayLevel, EVENT_KEY::CAN_CLEAR, [this](const CANCLEAREVENT& Event) {
+		this->ClearReady(Event);
+		});
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Topdee::Ready_Outline(_uint iPlayLevel)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPlayLevel, TEXT("Layer_Effect"),
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"), this)))
 		return E_FAIL;
 
@@ -825,8 +844,10 @@ void CPlayer_Topdee::Check_Collision()
 		{
 			for (auto iter : *Overlaps)
 			{
+				Check_Collision_Portal(iter);
 				Check_Collision_Dead(iter);
 				Check_Collision_InteractionBlock(iter);
+				Check_Collision_Key(iter);
 			}
 		}
 
@@ -835,7 +856,12 @@ void CPlayer_Topdee::Check_Collision()
 	else
 	{
 		if (m_bEnterPortal)
-		{ }
+		{ 
+			m_bEnterPortal = false;
+			EXITPORTALEVENT Event;
+			Event.pPlayer = this;
+			m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::EXIT_PORTAL, Event);
+		}
 	}
 
 }
@@ -883,6 +909,20 @@ void CPlayer_Topdee::Check_Collision_Portal(CGameObject* pGameObject)
 	if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
 	{
 		m_bEnterPortal = true;
+		ENTERPORTALEVENT Event;
+		Event.pPlayer = this;
+		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::ENTER_PORTAL, Event);
+	}
+}
+
+void CPlayer_Topdee::Check_Collision_Key(CGameObject* pGameObject)
+{
+	if (pGameObject->Get_Name().find(TEXT("Key")) != string::npos)
+	{
+		GETKEYEVENT Event;
+		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
+		CKey* pKey = dynamic_cast<CKey*>(pGameObject);
+		pKey->Get_Key();
 	}
 }
 
