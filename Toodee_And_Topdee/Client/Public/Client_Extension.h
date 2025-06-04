@@ -30,6 +30,8 @@ inline const _uint Stage_ColliderCount(LEVEL eLevel)
 	if (eLevel == LEVEL::LEVEL_STAGE5) return 8;  //LEVEL_STAGE5
 	if (eLevel == LEVEL::LEVEL_STAGE6) return 29;  //LEVEL_STAGE6
 	//LEVEL_FINALBOSS
+
+	return 0;
 }
 
 inline const  pair<_float3, _float3> MapCollider_Builder(LEVEL eLevel, _uint iNum)

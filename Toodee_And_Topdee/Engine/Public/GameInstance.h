@@ -123,9 +123,11 @@ private:
 private:
 	DIMENSION					m_ePreviousDimension = { DIMENSION::NONE };
 	DIMENSION					m_eCurrentDimension = { DIMENSION::NONE };
-	_uint						  m_iFPS = { 0 };
+	_uint						m_iCurrentLevelID = { 0 };
+	_uint						m_iNextLevelID = { 0 };
+	_uint						m_iFPS = { 0 };
 	_ulong						m_ulIntervalTime_FPS = { GetTickCount() };
-	TCHAR						  m_szFPS[16] = {};
+	TCHAR						m_szFPS[16] = {};
 
 public:
 	void Release_Engine();

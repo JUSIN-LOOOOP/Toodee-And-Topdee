@@ -87,7 +87,7 @@ void CMultiViewCamera::ChangeView(_float fTimeDelta)
 {
     // [카메라 속도 기반 세팅]
     _float fDelta = m_ChangeSpeed * fTimeDelta;             //Angle 움직임 속도 제어
-    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3;     //Position 움직임 속도 제어
+    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3f;     //Position 움직임 속도 제어
     m_fCurrentAngle += fDelta;
 
     // [카메라 회전->이동->zoom 적용]

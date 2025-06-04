@@ -90,7 +90,7 @@ HRESULT CBackCloud::Ready_Components()
         return E_FAIL;
 
     CTransform::TRANSFORM_DESC desc;
-    desc.fRotationPerSec = 0.1;
+    desc.fRotationPerSec = 0.1f;
     //desc.fSpeedPerSec = 0.02f;
 
     /* For.Com_Transform */
