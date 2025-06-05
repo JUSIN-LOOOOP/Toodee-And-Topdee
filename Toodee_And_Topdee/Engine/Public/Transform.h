@@ -77,7 +77,8 @@ public:
 	/* vTarget 위치까지 vAxis 축 회전, fRotationDegree = 도착할때까지 회전할 각도, fDistance = 시작기준 타겟과의 거리*/
 	_bool Spiral(const _float3& vTarget, const _float3& vAxis, _float fRotationDegree, _float fDistance, _float fTimeDelta);
 	void Adjust_Scale(const _float3& vScale);
-	
+	void Set_Matrix(const _float4x4& matrix);
+
 public:
 	void Bind_Matrix();
 
