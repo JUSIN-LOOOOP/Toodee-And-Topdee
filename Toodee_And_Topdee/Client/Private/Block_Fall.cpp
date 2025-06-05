@@ -19,6 +19,8 @@ HRESULT CBlock_Fall::Initialize_Prototype()
 
 HRESULT CBlock_Fall::Initialize(void* pArg)
 {
+	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -152,7 +154,10 @@ void CBlock_Fall::CheckCollisionToodeeState()
 
 					if (eBreakCollider_Dir == COLLIDER_DIR::BACK)
 					{
+						BLOCKBREAKEVENT Event;
+						Event.vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
+						m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::BLOCK_BREAK, Event);
 					}
 				}
 			}

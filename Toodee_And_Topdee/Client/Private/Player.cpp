@@ -29,6 +29,13 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 	}
 }
 
+void CPlayer::ClearReady(const CANCLEAREVENT& Event)
+{
+	Clear(Event.vPosition);
+
+	m_bCanClear = true;
+}
+
 HRESULT CPlayer::Change_State(PLAYERSTATE eNewState)
 {
 	if (m_eCurrentState == eNewState)

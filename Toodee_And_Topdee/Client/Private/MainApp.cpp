@@ -366,6 +366,8 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Parts()
 	return S_OK;
 }
 
+
+
 HRESULT CMainApp::Start_Level(LEVEL eStartLevelID)
 {
 	if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, eStartLevelID))))

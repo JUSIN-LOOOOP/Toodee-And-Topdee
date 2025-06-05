@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "Block.h"
+#include "Event.h"
 
 BEGIN(Client)
 
@@ -19,8 +20,16 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void Get_Key(const GETKEYEVENT& Event);
+private:
+	_uint	m_iPlayLevel = {};
+	_uint	m_iTotalKeyCount = {};
+	_uint	m_iGetKeyCount = {};
+	_bool	m_bOpenLock = {};
 private: 
+
 	HRESULT Ready_Components();
+	HRESULT Ready_SubscribeEvent(_uint iPlayLevel);
 	void	SetUp_RenderState();
 	void	Reset_RenderState();
 

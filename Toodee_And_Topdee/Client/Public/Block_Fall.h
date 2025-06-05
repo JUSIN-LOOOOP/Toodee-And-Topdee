@@ -21,6 +21,8 @@ public:
 
 
 private:
+	_uint		m_iPlayLevel = {};
+
 	CCollider* m_pGroundCheckColliderCom = { nullptr };
 	CTransform* m_pGroundCheckTransformCom = { nullptr };
 

@@ -10,7 +10,6 @@ CPart_Legs::CPart_Legs(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CPart_Legs::CPart_Legs(const CPart_Legs& Prototype)
 	: CParts {Prototype}
-	, m_iTextureIndex{ Prototype.m_iTextureIndex }
 {
 }
 
@@ -24,13 +23,27 @@ HRESULT CPart_Legs::Initialize_Prototype()
 HRESULT CPart_Legs::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
+		return S_OK;
 
 	PART_DESC* pDesc = reinterpret_cast<PART_DESC*>(pArg);
-	m_iTextureIndex = pDesc->iTextureIndex;
+	m_strOtherName = pDesc->strOtherName;
+	m_eState = pDesc->eState;
+	m_fFrame = pDesc->fFrame;
+	m_fMaxFrame = pDesc->fMaxFrame;
 
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
+	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
+	{	m_fAngleX = -(pDesc->fAngleX);	m_fAngleY = -(pDesc->fAngleY);	}
+	else
+	{	m_fAngleX = pDesc->fAngleX;		m_fAngleY = pDesc->fAngleY;	}
+
+	m_pVIBufferCom = pDesc->pVIBufferCom;
+	m_pTextureCom = pDesc->pTextureCom;
+
+	Safe_AddRef(m_pVIBufferCom);
+
+	m_pTransformCom = static_cast<CTransform*>(m_pGameInstance->
+		Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform")));
+
 
 
 	return S_OK;
@@ -39,18 +52,29 @@ HRESULT CPart_Legs::Initialize(void* pArg)
 
 void CPart_Legs::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
-	__super::RevolveAround(pTransform, 0, 0);
-	m_fFrame += 9 * fTimeDelta;
-	if (m_fFrame >= 8)
-		m_fFrame = 0;
+
+
+
+
+	
+	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY);
+
+	if (m_fMaxFrame > 0)
+	{		m_fFrame += m_fMaxFrame * fTimeDelta;
+		if (m_fFrame >= m_fMaxFrame)
+			m_fFrame = m_fOldFrame;
+	}
 }
 
 HRESULT CPart_Legs::Render(void* pArg)
 {
+
 	m_pTransformCom->Bind_Matrix();
 
-	if (FAILED(m_pTextureCom->Bind_Texture(static_cast<_uint>(m_fFrame))))
-		return E_FAIL;
+	if (m_strOtherName.find(TEXT("Pig")))
+	{	if (FAILED(m_pTextureCom->Bind_Texture(static_cast<_uint>(m_fFrame))))		return E_FAIL;	}
+	else
+	{	if (FAILED(m_pTextureCom->Bind_Texture(0)))		return E_FAIL;	}
 
 	m_pVIBufferCom->Bind_Buffers();
 
@@ -86,7 +110,4 @@ void CPart_Legs::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTextureCom);
 }

@@ -150,6 +150,7 @@
     <ClInclude Include="..\Public\BackTile.h" />
     <ClInclude Include="..\Public\BackWall.h" />
     <ClInclude Include="..\Public\BasicTile.h" />
+    <ClInclude Include="..\Public\Bat.h" />
     <ClInclude Include="..\Public\Block.h" />
     <ClInclude Include="..\Public\BlockState.h" />
     <ClInclude Include="..\Public\BlockState_Attach.h" />
@@ -164,9 +165,10 @@
     <ClInclude Include="..\Public\Block_Wall.h" />
     <ClInclude Include="..\Public\Block_Wood.h" />
     <ClInclude Include="..\public\Camera.h" />
+    <ClInclude Include="..\Public\Cannon.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
-    <ClInclude Include="..\public\Cannon.h" />
     <ClInclude Include="..\Public\Client_Extension.h" />
+    <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
@@ -194,6 +196,7 @@
     <ClInclude Include="..\Public\Part_Legs.h" />
     <ClInclude Include="..\Public\Part_Nose.h" />
     <ClInclude Include="..\Public\Part_Tail.h" />
+    <ClInclude Include="..\Public\Part_Wing.h" />
     <ClInclude Include="..\Public\Pig.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\Public\PlayerState.h" />
@@ -226,6 +229,7 @@
     <ClCompile Include="..\Private\BackTile.cpp" />
     <ClCompile Include="..\Private\BackWall.cpp" />
     <ClCompile Include="..\Private\BasicTile.cpp" />
+    <ClCompile Include="..\Private\Bat.cpp" />
     <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\BlockState.cpp" />
     <ClCompile Include="..\Private\BlockState_Attach.cpp" />
@@ -240,7 +244,8 @@
     <ClCompile Include="..\Private\Block_Wall.cpp" />
     <ClCompile Include="..\Private\Block_Wood.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
-    <ClCompile Include="..\private\Cannon.cpp" />
+    <ClCompile Include="..\Private\Cannon.cpp" />
+    <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
@@ -268,6 +273,7 @@
     <ClCompile Include="..\Private\Part_Legs.cpp" />
     <ClCompile Include="..\Private\Part_Nose.cpp" />
     <ClCompile Include="..\Private\Part_Tail.cpp" />
+    <ClCompile Include="..\Private\Part_Wing.cpp" />
     <ClCompile Include="..\Private\Pig.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\Private\PlayerState.cpp" />

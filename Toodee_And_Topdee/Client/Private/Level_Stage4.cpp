@@ -5,7 +5,6 @@
 #include "Camera.h"
 #include "Level_MapEdit.h"
 #include "Level_Loading.h"
-#include "ClearTriggerObserver.h"
 #include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
@@ -18,10 +17,7 @@ CLevel_Stage4::CLevel_Stage4(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_Stage4::Initialize()
 {
 	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
-
-	if (FAILED(Ready_Observer()))
-		return E_FAIL;
-
+	m_pGameInstance->Reset_KeyCount();
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
@@ -182,15 +178,6 @@ HRESULT CLevel_Stage4::Ready_Layer_Back(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_Stage4::Ready_Observer()
-{
-	// 옵저버 매니저에 Observer_ClearTrigger Key값을 가진 CClearTriggerObserver 생성
-	if(FAILED(m_pGameInstance->Add_Observer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Observer_ClearTrigger"),
-		CClearTriggerObserver::Create())))
-		return E_FAIL;
-
-	return S_OK;
-}
 
 HRESULT CLevel_Stage4::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 {

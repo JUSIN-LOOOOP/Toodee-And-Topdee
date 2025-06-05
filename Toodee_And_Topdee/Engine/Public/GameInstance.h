@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Prototype_Manager.h"
+#include "EventBus.h"
 
 BEGIN(Engine)
 
@@ -73,10 +74,13 @@ public:
 	void			Delete_Collider(_uint iLevelIndex, CCollider** pCollider);
 	void			Check_Collision(class CCollider* pCollider);
 
-	//Observer
-public:
-	HRESULT			Add_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CObserver* pObserver);
-	HRESULT			Subscribe_Observer(_uint iObserverLevelndex, const _wstring& strObserverTag, class CSubjectObject* pSubject);
+	//EventBus
+	template <typename EventType>
+	void Subscribe(_uint iSubscribeLevel, EVENT_KEY eEventKey, function<void(const EventType&)> Callback) {
+		m_pEventBus->Subscribe(iSubscribeLevel, eEventKey, Callback);
+	}
+
+	void Publish(_uint iSubscribeLevel, EVENT_KEY eEventKey, const class CEvent& Event);
 
 	//Sound
 public:
@@ -103,7 +107,14 @@ public:
 	DIMENSION		Get_CurrentDimension() { return m_eCurrentDimension; }
 	DIMENSION		Get_PreviousDimension() { return m_ePreviousDimension; }
 
+	//Key Count
+private:
+	_uint m_iTotalKey = {};
 
+public:
+	void Reset_KeyCount() { m_iTotalKey = 0; }
+	void Add_Key() { m_iTotalKey++; }
+	_uint GetKeyCount() { return m_iTotalKey; }
 
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -116,9 +127,10 @@ private:
 	class CCollision_Manager*	m_pCollision_Manager = { nullptr };
 
 	class CMap_Manager*			m_pMap_Manager = { nullptr };
-	class CObserver_Manager*	m_pObserver_Manager = { nullptr };
 	class CSound_Manager*		m_pSound_Manager = { nullptr };
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
+
+	CEventBus* m_pEventBus = { nullptr };
 
 private:
 	DIMENSION					m_ePreviousDimension = { DIMENSION::NONE };
