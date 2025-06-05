@@ -21,6 +21,7 @@
 #include "StageBoss.h"
 #include "StageBoss_Body.h"
 #include "StageBoss_Hand.h"
+#include "FireBall.h"
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
@@ -160,7 +161,11 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Parts"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBossParts%d.png"), 5))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBossParts%d.png"), 8))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_FireBall"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/FireballSpr_%d.png"), 9))))
 		return E_FAIL;
 
 	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Hand"),
@@ -270,10 +275,16 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CStageBoss_Body::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_FireBall"),
+		CFireBall::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	///* Prototype_GameObject_StageBoss_Hand*/
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Hand"),
 	//	CFire_Projectile::Create(m_pGraphic_Device))))
 	//	return E_FAIL;
+
+
 #pragma endregion
 
 

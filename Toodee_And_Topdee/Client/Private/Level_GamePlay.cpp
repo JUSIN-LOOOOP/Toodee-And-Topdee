@@ -52,8 +52,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if(FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -35,24 +35,26 @@ protected:
 	HRESULT	Turn(_float fTimeDelta);
 	HRESULT	HIT(_float fTimeDelta);
 	HRESULT	ChangeView(_float fTimeDelta);
-	
 
 protected:
-	CVIBuffer_Cube* m_pVIBufferCom	= { nullptr };
-	CTexture*		m_pTextureCom	= { nullptr };
-	CTransform*		m_pTransformCom = { nullptr };
-	CComponent*		m_pTopDee		= { nullptr };
-	CComponent*		m_pTooDee		= { nullptr };
+	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+	CComponent* m_pTopDee = { nullptr };
+	CComponent* m_pTooDee = { nullptr };
 
 	STAGEMONERSTATE	m_eState = { STAGEMONERSTATE::IDLE };
 	VIEWMODE		m_eViewMode = { VIEWMODE::TOODEE };
 	_float			m_fTurnTime = {};		//공격하기 전에 뱅글뱅글 도는 거
 	_float			m_fIdleTurnTime = {};	//가만히 있을 때 조금씩 좌우로 움직이는 거
-	_float			m_fIdleTurnDir = 1.f ;	//좌우로 움직이는 거 방향 조절
+	_float			m_fIdleTurnDir = 1.f;	//좌우로 움직이는 거 방향 조절
+	_bool			m_eTurnFlag = { true };
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
 	virtual void Free() override;
+
+
 };
 
 END
