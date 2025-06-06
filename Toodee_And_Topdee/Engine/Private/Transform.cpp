@@ -292,14 +292,15 @@ void CTransform::Set_Matrix(const _float4x4& matrix)
 	_float3 vRight = _float3(1.f, 0.f, 0.f);
 	_float3 vUp = _float3(0.f, 1.f, 0.f);
 	_float3 vLook = _float3(0.f, 0.f, 1.f);
+	_float3 vScale = Get_Scaled();
 
 	D3DXVec3TransformNormal(&vRight, &vRight, &matrix);
 	D3DXVec3TransformNormal(&vUp, &vUp, &matrix);
 	D3DXVec3TransformNormal(&vLook, &vLook, &matrix);
 
-	Set_State(STATE::RIGHT, vRight);
-	Set_State(STATE::UP, vUp);
-	Set_State(STATE::LOOK, vLook);
+	Set_State(STATE::RIGHT, vRight * vScale.x);
+	Set_State(STATE::UP, vUp * vScale.y);
+	Set_State(STATE::LOOK, vLook * vScale.z);
 }
 
 void CTransform::Bind_Matrix()
