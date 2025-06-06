@@ -37,4 +37,12 @@ typedef struct tagAddKey : public CEvent {
 /* GET_KEY */
 typedef struct tagGetKey : public CEvent {
 }GETKEYEVENT;
+
+/* BOSS_STATE */
+typedef struct tagMonsterSignal : public CEvent {
+	_uint iState;
+	_uint iViewMode;
+}MONSTERSIGNAL;
+
 END
+
