@@ -12,80 +12,55 @@ CStageBoss_Body::CStageBoss_Body(const CStageBoss_Body& Prototype)
 {
 }
 
-HRESULT CStageBoss_Body::Initialize_Prototype()
-{
-    return S_OK;
-}
-
-HRESULT CStageBoss_Body::Initialize(void* pArg)
+HRESULT CStageBoss_Body::Initialize_Prototype(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	Ready_PartsData();
-	m_pTransformCom->Scaling(8.f, 7.5f, 8.f);
-	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90));
+	m_pTransformCom->Scaling(9.f, 8.f, 9.f);
 	m_eState = STAGEMONERSTATE::IDLE;
 	m_eViewMode = VIEWMODE::TOODEE;
 
 	m_pTopDee = m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0);
 	m_pTooDee = m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TooDee"), TEXT("Com_Transform"), 0);
 
-    name = TEXT("StageBoss_Body");
+	_float4x4	matRotX, matRotZ, finalmat;
+	D3DXMatrixRotationX(&matRotX, D3DXToRadian(90.f));
+	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(130.f));
+	finalmat = matRotX * matRotZ;
+	m_pTransformCom->Set_Matrix(finalmat);
 
-    return S_OK;
+	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
+	Ready_SubscribeEvent(m_iPlayLevel);
+
+	name = TEXT("StageBoss_Body");
+
+	return S_OK;
+}
+
+HRESULT CStageBoss_Body::Initialize(void* pArg)
+{
+	return S_OK;
 }
 
 void CStageBoss_Body::Priority_Update(_float fTimeDelta)
 {
-	//시그널 확인 (ViewMode, STAGEMONERSTATE)
-	/*
-	ViewMode는 그냥 넣어주고
-	STAGEMONERSTATE는 ViewMode에 따라서 상태 다르게 넣어주기 -> 이 함수만 Hand랑 다르게 처리하면 될듯
-	*/
-	
-	//임시 시그널 
-	if (m_pGameInstance->Key_Down('X'))
-	{
-		if (m_eState == STAGEMONERSTATE::VIEWTURN)
-			return;
-		m_eViewMode = (m_eViewMode == VIEWMODE::TOPDEE) ? VIEWMODE::TOODEE : VIEWMODE::TOPDEE;
-		m_eState = STAGEMONERSTATE::VIEWTURN;
-		IdleTime = 0;
-	}
 }
 
 void CStageBoss_Body::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	switch (m_eState)
+	if (m_eViewMode == VIEWMODE::TOODEE)
 	{
-	case STAGEMONERSTATE::CHASE:
-		Chase(fTimeDelta);
-		break;
-	case STAGEMONERSTATE::TURN:
-		Turn(fTimeDelta);
-		break;
-	case STAGEMONERSTATE::ATTACK:
-		HIT(fTimeDelta);
-		break;
-	case STAGEMONERSTATE::VIEWTURN:
-		ChangeView(fTimeDelta);
-		break;
-	case STAGEMONERSTATE::FIRE:
-		Create_Fire();
-		break;
-	}
-
-	if (m_eState == STAGEMONERSTATE::IDLE)
-	{
-		IdleTime += fTimeDelta;
-		if (IdleTime > 3.f)
+		if (m_fIdleTime >= 2.f)
 		{
-			m_eState = STAGEMONERSTATE::FIRE;
-			IdleTime = 0;
+			Create_Fire();
+			m_fIdleTime = 0;
 		}
+		else
+			m_fIdleTime += fTimeDelta;
 	}
 
 	Calculate_Pupil_Pos();
@@ -115,7 +90,7 @@ HRESULT CStageBoss_Body::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 
-	for (auto& parts : m_sParts)	
+	for (auto& parts : m_sParts)
 	{
 		_float4x4 localScale, localRotY, localRotOrbit, localTrans, local;
 		D3DXMatrixScaling(&localScale, parts.fScale.x, parts.fScale.y, parts.fScale.z);
@@ -127,11 +102,8 @@ HRESULT CStageBoss_Body::Render()
 		_float4x4 world;
 		if (parts.TextureIdx == 5)
 		{
-			D3DXMatrixRotationZ(&localRotOrbit, - m_fAngle);
-			if (flag == false)
-				world = local * localRotOrbit * EyeWOrldMatrix[0];
-			else
-				world = local * localRotOrbit * EyeWOrldMatrix[1];
+			D3DXMatrixRotationZ(&localRotOrbit, -m_fAngle);
+			world = local * localRotOrbit * EyeWOrldMatrix[(flag == false) ? 0 : 1];
 			flag = true;
 		}
 		else
@@ -146,16 +118,12 @@ HRESULT CStageBoss_Body::Render()
 		parts.pVIPartsBufferCom->Render();
 
 		if (parts.TextureIdx == 0)
-		{
-			if(parts.fOffset.x >  .5f)
-				EyeWOrldMatrix[0] = world;
-			else
-				EyeWOrldMatrix[1] = world;
-		}
-
+			EyeWOrldMatrix[ (parts.fOffset.x > .5f) ? 0 : 1] = world;
 	}
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	flag = false;
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CStageBoss_Body::Ready_Components()
@@ -203,7 +171,7 @@ HRESULT CStageBoss_Body::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Parts"),
 		TEXT("Com_Texture_Parts"), reinterpret_cast<CComponent**>(&m_pPartsTextureCom))))
 		return E_FAIL;
-	
+
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{};
@@ -225,21 +193,21 @@ void CStageBoss_Body::Ready_PartsData()
 	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN1)].fOffset = _float3{ .35f, .55f, .1f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN2)].fOffset = _float3{ 0.f, .55f, .35f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN3)].fOffset = _float3{ .05f, .55f, 0.f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::Pupil1)].fOffset = _float3{ .1f, .1f, .1f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::Pupil2)].fOffset = _float3{ .1f, .1f, .1f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::Pupil1)].fOffset = _float3{ .14f, .14f, .14f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::Pupil2)].fOffset = _float3{ .14f, .14f, .14f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::CORN1)].fOffset = _float3{ .6f, .4f, .1f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::CORN2)].fOffset = _float3{ .1f, .4f, .6f };
 
 	m_sParts[ENUM_CLASS(PARTS_TYPE::EYE_L)].fScale = _float3{ .45f, .5f, .45f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::EYE_R)].fScale = _float3{ .45f, .5f, .45f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::MOUTH)].fScale = _float3{ 1.0f, .4f, .4f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN1)].fScale = _float3{ .2f, .2f, .2f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN2)].fScale = _float3{ .2f, .3f, .2f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN3)].fScale = _float3{ .2f, .4f, .2f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN1)].fScale = _float3{ .22f, .22f, .22f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN2)].fScale = _float3{ .22f, .33f, .22f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN3)].fScale = _float3{ .22f, .44f, .22f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::Pupil1)].fScale = _float3{ .6f, .6f, .6f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::Pupil2)].fScale = _float3{ .6f, .6f, .6f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::CORN1)].fScale = _float3{ .3f, .3f, .3f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::CORN2)].fScale = _float3{ .3f, .3f, .3f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::CORN1)].fScale = _float3{ .35f, .35f, .35f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::CORN2)].fScale = _float3{ .35f, .35f, .35f };
 
 	m_sParts[ENUM_CLASS(PARTS_TYPE::EYE_L)].fRot = 45;
 	m_sParts[ENUM_CLASS(PARTS_TYPE::EYE_R)].fRot = 45;
@@ -271,8 +239,6 @@ HRESULT CStageBoss_Body::Create_Fire()
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_FireBall"), m_pTransformCom->Get_State(STATE::POSITION))))
 		return E_FAIL;
 
-	m_eState = STAGEMONERSTATE::IDLE;
-	
 	return S_OK;
 }
 
@@ -283,14 +249,13 @@ void CStageBoss_Body::Calculate_Pupil_Pos()
 	m_fAngle = atan2f(fTargetPos.z - m_pTransformCom->Get_State(STATE::POSITION).z,
 		fTargetPos.x - m_pTransformCom->Get_State(STATE::POSITION).x) + D3DXToRadian(220);
 
-
 }
 
-CStageBoss_Body* CStageBoss_Body::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CStageBoss_Body* CStageBoss_Body::Create(LPDIRECT3DDEVICE9 pGraphic_Device, void* pArg)
 {
 	CStageBoss_Body* pInstance = new CStageBoss_Body(pGraphic_Device);
 
-	if (FAILED(pInstance->Initialize_Prototype()))
+	if (FAILED(pInstance->Initialize_Prototype(pArg)))
 	{
 		MSG_BOX(TEXT("Failed to Created : CStageBoss_Body"));
 		Safe_Release(pInstance);

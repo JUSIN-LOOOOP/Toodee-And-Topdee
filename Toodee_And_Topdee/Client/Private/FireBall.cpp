@@ -40,23 +40,10 @@ HRESULT CFireBall::Initialize(void* pArg)
 
     _float4x4 matFinal = matRotX * matRotZ;
 
-    _float3 vScale = m_pTransformCom->Get_Scaled();
-    _float3 vRight = _float3(1.f, 0.f, 0.f) * vScale.x;
-    _float3 vUp = _float3(0.f, 1.f, 0.f) * vScale.y;
-    _float3 vLook = _float3(0.f, 0.f, 1.f) * vScale.z;
-
-    D3DXVec3TransformNormal(&vRight, &vRight, &matFinal);
-    D3DXVec3TransformNormal(&vUp, &vUp, &matFinal);
-    D3DXVec3TransformNormal(&vLook, &vLook, &matFinal);
-
-    m_pTransformCom->Set_State(STATE::RIGHT, vRight);
-    m_pTransformCom->Set_State(STATE::UP, vUp);
-    m_pTransformCom->Set_State(STATE::LOOK, vLook);
-    /*m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-    m_pTransformCom->Rotation(m_pTransformCom->Get_State(STATE::UP), m_fAngle);*/
+    m_pTransformCom->Set_Matrix(matFinal);
     m_pTransformCom->Scaling(10.f, 4.5f, 10.f);
 
-    m_fAngle = m_fAngle * (180.f / 3.141592);
+    m_fAngle = (_float)m_fAngle * (180.f / 3.141592);
 
     return S_OK;
 }
@@ -73,13 +60,13 @@ void CFireBall::Update(_float fTimeDelta)
     if (m_eState == FIREBALLSTATE::CREATE)
     {
         _float3 scale = m_pTransformCom->Get_Scaled();
-        m_pTransformCom->Scaling(scale.x + .30, scale.y + .30, scale.z + .30);
+        m_pTransformCom->Scaling(scale.x + .30f, scale.y + .30f, scale.z + .30f);
         if (scale.x > 5)
             m_eState = FIREBALLSTATE::CHASE;
     }
 
-    _float fX = Position.x + cosf(m_fAngle * (3.141592 / 180.f)) * fTimeDelta * 10;
-    _float fZ = Position.z + sinf(m_fAngle * (3.141592 / 180.f)) * fTimeDelta * 10;
+    _float fX = Position.x + cosf((_float)m_fAngle * (3.141592 / 180.f)) * fTimeDelta * 10;
+    _float fZ = Position.z + sinf((_float)m_fAngle * (3.141592 / 180.f)) * fTimeDelta * 10;
 
     m_pTransformCom->Set_State(STATE::POSITION, _float3{ fX, Position.y, fZ });
 

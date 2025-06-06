@@ -177,9 +177,9 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/FireballSpr_%d.png"), 9))))
 		return E_FAIL;
 
-	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Hand"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/StageBoss/StageBoss_hand%d.png"), 1))))
-		return E_FAIL;*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Hand"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/StageBoss/StageBoss_hand.dds"), 1))))
+		return E_FAIL;
 
 #pragma endregion
 
@@ -275,23 +275,23 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 #pragma region GameObject_StageBoss
 
 	///* Prototype_GameObject_StageBoss*/
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss"),
-	//	CFire_Projectile::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss"),
+		CStageBoss::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	/* Prototype_GameObject_StageBoss_Body*/
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Body"),
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Body"),
 		CStageBoss_Body::Create(m_pGraphic_Device))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_FireBall"),
 		CFireBall::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	///* Prototype_GameObject_StageBoss_Hand*/
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Hand"),
-	//	CFire_Projectile::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Hand"),
+		CStageBoss_Hand::Create(m_pGraphic_Device))))
+		return E_FAIL;*/
 
 
 #pragma endregion
