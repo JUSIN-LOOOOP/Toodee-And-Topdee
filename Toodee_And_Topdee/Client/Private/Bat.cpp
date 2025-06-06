@@ -25,22 +25,24 @@ HRESULT CBat::Initialize(void* pArg)
 {
 	name = TEXT("Monster_Bat");
 	m_bLeft = false;
+	m_eState = FLYSTATE::FLY_NON;
+	m_fMaxDistance = 5.f * 5.f;
 
 	// m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	BAT_DESC* pDesc = static_cast<BAT_DESC*>(pArg);
+	m_fSpeedPerSec = pDesc->fSpeedPerSec;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	BAT_DESC* pDesc = static_cast<BAT_DESC*>(pArg);
-	
+
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	m_pTransformCom->Scaling(4.f, 4.f, 4.f);
 	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPosSet);
-
-	
 
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
@@ -52,16 +54,68 @@ void CBat::Priority_Update(_float fTimeDelta)
 {
 
 	m_pGameInstance->Check_Collision(m_pColliderCom);
+	
 }
 
 void CBat::Update(_float fTimeDelta)
 {
+
+	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::CHANGE)
+	{
+		_float3 vPos{};
+		DIMENSION eDim = m_pGameInstance->Get_PreviousDimension();
+
+		switch (eDim)
+		{
+		case::DIMENSION::TOODEE:
+			vPos = m_pTransformCom->Get_State(STATE::POSITION);
+		/*	if (vPos.y < 3.f)	vPos.y += m_fSpeedPerSec * fTimeDelta;
+
+			if (vPos.y >= 3.f)	
+			vPos.y = 3.f;*/
+			vPos.y = 3.f;
+			m_pTransformCom->Set_State(STATE::POSITION, vPos);
+			m_bLeft = false;
+
+			break;
+
+		case::DIMENSION::TOPDEE:
+			vPos = m_pTransformCom->Get_State(STATE::POSITION);
+			/*if (vPos.y > 0.f)	vPos.y -= m_fSpeedPerSec * fTimeDelta;
+
+			if (vPos.y <= 0.f)	*/
+			
+			vPos.y = 0.f;
+
+			m_pTransformCom->Set_State(STATE::POSITION, vPos);
+			m_bLeft = false;
+
+			break;
+		}
+	}
+	
+	
 	Key_Input(fTimeDelta);
 	
-	for (auto& Pair : m_vParts)
+	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
 	{
-		if (nullptr != Pair.second)
-			Pair.second->Update(m_pTransformCom, fTimeDelta, m_pTargetTransformCom->Get_State(STATE::POSITION));
+		
+		Move_Patrol(fTimeDelta);
+		for (auto& Pair : m_vParts)
+		{
+			if (nullptr != Pair.second)
+				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vToodeePos);
+		}
+	}
+	else
+	{
+		if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)		Move_To_Target(fTimeDelta);
+			
+		for (auto& Pair : m_vParts)
+		{
+			if (nullptr != Pair.second)
+				Pair.second->Update(m_pTransformCom, fTimeDelta, m_pTargetTransformCom->Get_State(STATE::POSITION));
+		}
 	}
 		
 }
@@ -105,7 +159,7 @@ HRESULT CBat::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC	TransformDesc{};
-	TransformDesc.fSpeedPerSec = 5.f;
+	TransformDesc.fSpeedPerSec = m_fSpeedPerSec;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.f);
 	
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
@@ -221,8 +275,9 @@ HRESULT CBat::Ready_Parts()
 	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Bat_Legs")));
 	PartDesc.pTextureCom = pTexture;
 	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
-	PartDesc.fAngleY = 150.f;
-	PartDesc.fAngleX = 135.f;
+	PartDesc.fAngleX = 65.f;
+	PartDesc.fAngleY = 145.f;
+	
 
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Legs"),
@@ -232,8 +287,9 @@ HRESULT CBat::Ready_Parts()
 
 	Safe_AddRef(pTexture);
 	PartDesc.eState = CParts::PARTSTATE::PARTS_RIGHT;
-
-
+	PartDesc.fAngleX = -125.f;
+	PartDesc.fAngleY = 145.f;
+	
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Legs"),
 		TEXT("Com_Bat_Right_Legs"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
@@ -241,13 +297,13 @@ HRESULT CBat::Ready_Parts()
 
 #pragma endregion
 
-#pragma region Parts_Legs
+#pragma region Parts_Wing
 
 	// 날개 추가
 	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Bat_Wing")));
-	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
-	PartDesc.fAngleY = 90.f;
-	PartDesc.fAngleX = 180.f;
+	PartDesc.eState = CParts::PARTSTATE::PARTS_CENTER;
+	PartDesc.fAngleX = 1.f;
+	PartDesc.fAngleY = -90.f;
 	PartDesc.fMaxFrame = 5;
 
 
@@ -255,9 +311,10 @@ HRESULT CBat::Ready_Parts()
 		TEXT("Com_Bat_Left_Wing"), reinterpret_cast<CComponent**>(&pComponent), &PartDesc)))
 		return E_FAIL;
 	m_vParts.emplace(TEXT("Left_Wing"), pComponent);
-
+	
 	Safe_AddRef(pTexture);
-	PartDesc.eState = CParts::PARTSTATE::PARTS_RIGHT;
+	PartDesc.fAngleX = 0.f;
+	PartDesc.fAngleY = 90.f;
 	
 	
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Wing"),
@@ -278,14 +335,112 @@ void CBat::Render_Parts()
 	for (auto& Pair : m_vParts)
 	{
 		if (nullptr != Pair.second)
-			Pair.second->Render(&m_bMotion);
+			Pair.second->Render();
 	}
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
+void CBat::Move_To_Target(_float fTimeDelta)
+{
+	_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION);
+	_float3 vTargetPos = m_pTargetTransformCom->Get_State(STATE::POSITION);
+	_float3 vDeltaPos = vTargetPos - vMyPos;
+	_float fDistanceXZ = vDeltaPos.x * vDeltaPos.x + vDeltaPos.z * vDeltaPos.z;
+	_float fPosY{}, fDistance{};
+	
+	if(fDistanceXZ > m_fMaxDistance)
+		m_eState = FLYSTATE::FLY_NON;
+	
+	switch (m_eState)
+	{
+	case::CBat::FLYSTATE::FLY_UP:
+		
+		
+		vMyPos.x += m_vTargetDir.x * m_fSpeedPerSec * fTimeDelta;
+		vMyPos.z += m_vTargetDir.z * m_fSpeedPerSec * fTimeDelta;
+		fDistance = clamp(fDistanceXZ / m_fMaxDistance, 0.f, 1.f);
+		fPosY = MoveHeight(0.f, 3.f, fDistance);
+		if (fDistanceXZ >= m_fMaxDistance)
+		{
+			fPosY = 3.f;
+			m_eState = FLYSTATE::FLY_NON;
+		}
+
+		vMyPos.y = fPosY;
+		m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
+		break;
+
+	case::CBat::FLYSTATE::FLY_DOWN:
+
+		vMyPos.x += m_vTargetDir.x * m_fSpeedPerSec * fTimeDelta;
+		vMyPos.z += m_vTargetDir.z * m_fSpeedPerSec * fTimeDelta;
+		fDistance = clamp(1.f - (fDistanceXZ / m_fMaxDistance), 0.f, 1.f);
+		fPosY = MoveHeight(3.f, 0.f, fDistance);
+
+		if (fDistanceXZ <= 0.1f)
+		{
+			fPosY = 0.f;
+			m_eState = FLYSTATE::FLY_UP;
+		}
+
+		vMyPos.y = fPosY;
+
+		m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
+		break;
+
+	case::CBat::FLYSTATE::FLY_NON:
+	
+
+		if (m_pTransformCom->Move_To_LimitY(vTargetPos, fTimeDelta, m_fMaxDistance))
+		{
+			m_eState = FLYSTATE::FLY_DOWN;
+			D3DXVec3Normalize(&m_vTargetDir, &vDeltaPos);
+		}
+
+		break;
+	}
+
+
+}
+
 void CBat::Move_Patrol(_float fTimeDelta)
 {
+	m_vToodeePos = m_pTransformCom->Get_State(STATE::POSITION);
+	m_vToodeePos.z -= 3.f;
+
+	if (m_bLeft)
+	{
+		m_pTransformCom->Go_Right(fTimeDelta);
+		if(m_fMoveX < 3.f)	m_fMoveX += 0.5f;
+	}
+	else
+	{
+		m_pTransformCom->Go_Left(fTimeDelta);
+		if(m_fMoveX > -3.f)	m_fMoveX -= 0.5f;
+	}
 	
+	if (m_pColliderCom->OnCollisionEnter())
+	{
+		if (m_bLeft)
+		{
+			m_bLeft = false;
+			m_pTransformCom->Go_Left(fTimeDelta * 2);
+	
+		}
+		else
+		{
+			m_bLeft = true;
+			m_pTransformCom->Go_Right(fTimeDelta * 2);
+		}
+	}
+
+	m_vToodeePos.x += m_fMoveX;
+}
+
+_float CBat::MoveHeight(_float fStart, _float fEnd, _float fDistance)
+{
+	_float ft = fDistance * fDistance * (3.f - 2.f * fDistance);
+	return _float((1 - ft) * fStart + ft * fEnd);
 }
 
 void CBat::Key_Input(_float fTimeDelta)

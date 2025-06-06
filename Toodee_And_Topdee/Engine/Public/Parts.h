@@ -30,8 +30,8 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-	virtual void	Update(class CTransform* pTransform, _float fTimeDelta, _float3	vFocusPos = _float3(0.f,0.f,0.f));
-	virtual HRESULT Render(void* pArg = 0);
+	virtual void	Update(class CTransform* pTransform, _float fTimeDelta, _float3	vFocusPos = _float3(0.f, 0.f, 0.f));
+	virtual HRESULT Render();
 
 protected:
 	class CVIBuffer_Rect*	m_pVIBufferCom	= { nullptr };
@@ -47,8 +47,9 @@ protected:
 
 protected:
 	// 파츠가 객체를 중심으로 공전(궤도공전)
-	void RevolveAround(class CTransform* pTransform, _int iAngleX, _int iAngleY, _float fRadius = 0.f);
-	void Check_To_FocusDelta(_int* pOutX, _int* pOutY, _float3 vFocusPos, _float3 vMyPos);
+	void RevolveAround(class CTransform* pTransform, _float fAngleX, _float fAngleY, _float fRightLength = 0.f, _float fUpLength = 0.f);
+	void	Look_At_degree(_float* pAngleXOut, _float* pAngleYOut, CTransform* pTransform, _float3 vTargetPos);
+	void Check_To_FocusDelta(_float* pOutX, _float* pOutY, _float3 vFocusPos, _float3 vMyPos);
 
 
 public:
