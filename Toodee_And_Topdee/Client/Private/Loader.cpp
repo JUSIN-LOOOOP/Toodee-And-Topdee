@@ -595,7 +595,7 @@ HRESULT CLoader::Ready_PigTexture()
 
 	/* Prototype_Component_Texture_Pig_Eyes */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Eyes"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEyeSpr_%d.png"), 2))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEyesSpr_%d.png"), 2))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_Pig_Legs */
