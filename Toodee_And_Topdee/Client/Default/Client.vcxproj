@@ -208,6 +208,7 @@
     <ClInclude Include="..\Public\Potal.h" />
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\Public\RainSplash.h" />
+    <ClInclude Include="..\Public\Sink.h" />
     <ClInclude Include="..\Public\Spikes.h" />
     <ClInclude Include="..\Public\StageBoss.h" />
     <ClInclude Include="..\Public\StageBoss_Body.h" />
@@ -224,6 +225,7 @@
     <ClInclude Include="..\Public\Test_Cube2.h" />
     <ClInclude Include="..\Public\TileOutline.h" />
     <ClInclude Include="..\Public\TextureUI.h" />
+    <ClInclude Include="..\Public\Water.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -291,6 +293,7 @@
     <ClCompile Include="..\Private\Potal.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\Private\RainSplash.cpp" />
+    <ClCompile Include="..\Private\Sink.cpp" />
     <ClCompile Include="..\Private\Spikes.cpp" />
     <ClCompile Include="..\Private\StageBoss.cpp" />
     <ClCompile Include="..\Private\StageBoss_Body.cpp" />
@@ -307,6 +310,7 @@
     <ClCompile Include="..\Private\Test_Cube2.cpp" />
     <ClCompile Include="..\Private\TileOutline.cpp" />
     <ClCompile Include="..\Private\TextureUI.cpp" />
+    <ClCompile Include="..\Private\Water.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

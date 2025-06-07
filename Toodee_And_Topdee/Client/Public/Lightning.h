@@ -14,12 +14,15 @@ END
 
 BEGIN(Client)
 
+/* 플레이어가 스파크블럭을 들고 있으면 아예 번개의 콜라이더 작동 안하게 꺼놨습니다.*/
+
 class CLightning : public CPoolableObject
 {
 public:
 	typedef struct Lightining_Position_Info {
 		_float3				vStartPosition = { };
 		_float3				vCrashPosition = { };
+		_bool				bSparkBlock = { false };
 	}LIGHTNING;
 
 private:
@@ -37,24 +40,34 @@ public:
 
 	HRESULT				Initialize_Pool(void* pArg);
 
-
 private:
 	CVIBuffer_Cube*		m_pVIBufferCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CTexture*			m_pTextureCom = { nullptr };
 	CCollider*			m_pColliderCom = { nullptr };
 
-	_uint				m_iMotionNumber = {};
-	_float				m_fIntervalMotion = {};
-	_float				m_fAccumulateMotion = {};
+	_float3				m_vStartPosition = { };
+	_float3				m_vCrashPosition = { };
+
+	_uint				m_iNeedTextureCount = { 1 };
+	_float				m_fLightningIntervalDistance = { };
+	vector<_float3>		m_vecPositionCenters;
+
+	_uint				m_iMotionNum = { 0 };
+	_float				m_fMotionIntervalTime = { 1.f };
+	_float				m_fAccumulateMotionTime = { 0.f };
+
 
 private:
-	void				Motion(_float fTimeDelta);
+	void				Change_Motion(_float fTimeDelta);
+	HRESULT				Bind_Lightning();
 
 private:
 	HRESULT				Ready_Components();
 	void				SetUp_RenderState();
 	void				Reset_RenderState();
+
+	
 
 public:
 	static CLightning* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

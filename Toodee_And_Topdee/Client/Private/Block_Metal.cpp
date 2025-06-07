@@ -24,7 +24,7 @@ HRESULT CBlock_Metal::Initialize(void* pArg)
 
 	__super::SetUp_BlockInfo(pArg);
 
-	name = TEXT("Block_Wall");
+	name = TEXT("Interaction_Block_Metal");
 
     return S_OK;
 }

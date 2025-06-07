@@ -4,6 +4,8 @@
 #include "InteractionBlock.h"
 #include "ColliderMap_Object.h"
 #include "Key.h"
+#include "Block.h"
+#include "Block_Spark.h"
 
 CPlayer_Topdee::CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPlayer { pGraphic_Device }
@@ -88,6 +90,7 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	m_pTransformCom->Scaling(12.f, 12.f, 0.f); 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	
+	name = TEXT("Topdee");
 	ComputeTileCenter();
 
 	return S_OK;
@@ -355,6 +358,14 @@ _float3 CPlayer_Topdee::ComputeTileOutlinePosition()
 	_float3 vOutlinePosition = { vCenter.x + fDistanceX, vCenter.y, vCenter.z + fDistanceZ};
 
 	return vOutlinePosition;
+}
+
+_bool CPlayer_Topdee::IsAttackSparkBlock( )
+{
+	if (m_bIsAttach && reinterpret_cast<CGameObject*>(m_pAttachBlock)->CompareName(TEXT("Interaction_Block_Spark")))
+		return true;
+
+	return false;
 }
 
 void CPlayer_Topdee::Check_Dimension()
