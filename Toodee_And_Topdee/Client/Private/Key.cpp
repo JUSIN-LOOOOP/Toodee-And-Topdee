@@ -8,7 +8,7 @@ CKey::CKey(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CKey::CKey(const CKey& Prototype)
-    : CGameObject{ Prototype }
+    : CGameObject(Prototype)
 {
 }
 

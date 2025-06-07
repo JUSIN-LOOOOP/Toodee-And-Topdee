@@ -114,7 +114,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
+	m_pGameInstance->Load_File(TEXT("new"));
+	//m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
 
@@ -443,7 +444,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Cloud(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_StageBoss(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Body"))))
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss"))))
 		return E_FAIL;
 	return S_OK;
 }

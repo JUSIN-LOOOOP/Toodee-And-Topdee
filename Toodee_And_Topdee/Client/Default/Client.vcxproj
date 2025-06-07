@@ -170,6 +170,7 @@
     <ClInclude Include="..\Public\Client_Extension.h" />
     <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
+    <ClInclude Include="..\Public\FireBall.h" />
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\Hole.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="..\Public\Level_Stage4.h" />
     <ClInclude Include="..\Public\Level_Stage5.h" />
     <ClInclude Include="..\Public\Level_Stage6.h" />
+    <ClInclude Include="..\Public\Level_StageBoss.h" />
     <ClInclude Include="..\Public\Level_Test.h" />
     <ClInclude Include="..\public\Lightning.h" />
     <ClInclude Include="..\public\Loader.h" />
@@ -251,6 +253,7 @@
     <ClCompile Include="..\Private\Cannon.cpp" />
     <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
+    <ClCompile Include="..\Private\FireBall.cpp" />
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
@@ -266,6 +269,7 @@
     <ClCompile Include="..\Private\Level_Stage4.cpp" />
     <ClCompile Include="..\Private\Level_Stage5.cpp" />
     <ClCompile Include="..\Private\Level_Stage6.cpp" />
+    <ClCompile Include="..\Private\Level_StageBoss.cpp" />
     <ClCompile Include="..\Private\Level_Test.cpp" />
     <ClCompile Include="..\private\Lightning.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
