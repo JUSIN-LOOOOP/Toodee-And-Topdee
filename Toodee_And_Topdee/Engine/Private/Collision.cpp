@@ -19,12 +19,81 @@ CCollision::CCollision()
 {
 }
 
+_bool CCollision::IsAxisAligned(const OBB& info, float epsilon = 0.0001f)
+{
+    //const _float3 worldAxis[3] = {
+    //    {1.f, 0.f, 0.f},
+    //    {0.f, 1.f, 0.f},
+    //    {0.f, 0.f, 1.f}
+    //};
+
+    //for (int i = 0; i < 3; ++i)
+    //{
+    ///*    _float3 diff = info.axis[i] - worldAxis[i];
+    //    if (D3DXVec3Length(&diff) > epsilon)
+    //        return false;*/
+    //    float dot = D3DXVec3Dot(&info.axis[i], &worldAxis[i]);
+    //    if (fabs(dot - 1.0f) > epsilon)
+    //        return false;
+    //}
+    //return true;
+
+    const _float3 worldAxisX = { 1.f, 0.f, 0.f };
+    const _float3 worldAxisZ = { 0.f, 0.f, 1.f };
+
+    _float dotX = fabs(D3DXVec3Dot(&info.axis[0], &worldAxisX)); // Right
+    _float dotZ = fabs(D3DXVec3Dot(&info.axis[2], &worldAxisZ)); // Look
+
+    // dot 값이 1에 가까우면 회전 없음
+    return (fabs(dotX - 1.0f) <= epsilon || fabs(dotZ - 1.0f) <= epsilon);
+}
+
 CCollision::AABB CCollision::Create_AABB(const OBB& info)
 {
     CCollision::AABB box;
-    box.vMin = info.center - info.halfSize;
-    box.vMax = info.center + info.halfSize;
+    //box.vMin = info.center - info.halfSize;
+    //box.vMax = info.center + info.halfSize;
+    if (IsAxisAligned(info))
+    {
+        // 회전 없는 경우가 많아서 최적화했습니다.
+        box.vMin = info.center - info.halfSize;
+        box.vMax = info.center + info.halfSize;
+    }
+    else
+    {
+        // 회전 있음 -> 꼭짓점 기반 AABB 계산
+        _float3 corners[8];
 
+        _float3 center = info.center;
+        _float3 right = info.axis[0] * info.halfSize.x;
+        _float3 up = info.axis[1] * info.halfSize.y;
+        _float3 look = info.axis[2] * info.halfSize.z;
+
+        _int i = 0;
+        for (_int x = -1; x <= 1; x += 2)
+            for (_int y = -1; y <= 1; y += 2)
+                for (_int z = -1; z <= 1; z += 2)
+                    corners[i++] = center + static_cast<_float>(x) * right + static_cast<_float>(y) * up + static_cast<_float>(z) * look;
+
+        box.vMin = corners[0];
+        box.vMax = corners[0];
+
+        for (int i = 1; i < 8; ++i)
+        {
+            box.vMin.x = min(box.vMin.x, corners[i].x);
+            box.vMin.y = min(box.vMin.y, corners[i].y);
+            box.vMin.z = min(box.vMin.z, corners[i].z);
+
+            box.vMax.x = max(box.vMax.x, corners[i].x);
+            box.vMax.y = max(box.vMax.y, corners[i].y);
+            box.vMax.z = max(box.vMax.z, corners[i].z);
+        }
+    }
+    _float3 a = box.vMax;
+    _float3 b = box.vMin;
+
+
+ 
     return box;
 }
 

@@ -3,6 +3,11 @@
 
 #include "GameObject.h"
 
+
+/*
+stage1 clouds Position -> { 25.f, 1.9f, 9.f };
+*/
+
 BEGIN(Engine)
 
 class CTexture;
@@ -15,6 +20,13 @@ BEGIN(Client)
 
 class CCloud final : public CGameObject
 {
+public:
+	enum class CLOUD_TYPES { WHITE, BLACK };
+	typedef struct tagClouds_Description
+	{
+		_float3 vPosition;
+		CLOUD_TYPES eType;
+	}CLOUD_DESC;
 
 private:
 	CCloud(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -30,11 +42,13 @@ public:
 	HRESULT				Render() override;
 
 private:
-	CVIBuffer_Cube*		m_pVIBufferCom = { nullptr };
-	CTransform*			m_pTransformCom = { nullptr };
-	CTexture*			m_pTextureCom = { nullptr };
-	CCollider*			m_pColliderCom = { nullptr };
+	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
 
+	CLOUD_TYPES			m_eMyType = { CLOUD_TYPES::WHITE };
+	_wstring			m_strTexture = { TEXT("Prototype_Component_Texture_Cloud") };
 	_uint				m_iMotionNumber = {};
 	_float				m_fIntervalMotion = {};
 	_float				m_fAccumulateMotion = {};
@@ -50,7 +64,7 @@ private:
 private:
 	void				Motion(_float fTimeDelta);
 	void				PositionChangeForCameraSwitch(_float fTimeDelta);
-	
+
 private:
 	HRESULT				Ready_Components();
 	void				SetUp_RenderState();

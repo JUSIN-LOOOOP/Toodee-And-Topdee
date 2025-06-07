@@ -46,8 +46,12 @@ public:
 
 	_float4x4	Get_ProjMatrix() { return m_ProjMatrix; };
 	void		ChangeView(_float fTimeDelta);
-
-	HANDLE							m_hThread = {};
+	_float3		Get_LookDirection()
+	{
+		_float3 dir = _float3(0.f,0.f,0.f) - m_pTransformCom->Get_State(STATE::POSITION);
+		D3DXVec3Normalize(&dir, &dir);
+		return dir;
+	}
 
 private:
 	CTransform* m_pTransformCom = { nullptr };
@@ -68,7 +72,8 @@ private:
 
 private:
 	HRESULT Ready_Components(void* pArg);
-
+	void	CameraTestMoveInitialize();
+	void	CameraTestMove(_float fTimeDelta);
 
 public:
 	static CMultiViewCamera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

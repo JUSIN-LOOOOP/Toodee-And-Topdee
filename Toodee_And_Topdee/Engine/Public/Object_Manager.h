@@ -27,6 +27,7 @@ public:
 
 public:
 	class CComponent* Get_Component(_uint iLayerLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
+	class CGameObject* Get_BackGameObject(_uint iLayerLevelIndex, const _wstring& strLayerTag);
 
 private:
 	class CGameInstance*					m_pGameInstance = { nullptr };
