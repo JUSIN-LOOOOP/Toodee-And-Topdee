@@ -8,7 +8,7 @@ CBlock_Break::CBlock_Break(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CBlock_Break::CBlock_Break(const CBlock_Break& Prototype)
-    : CBlock { Prototype }
+	: CBlock ( Prototype )
 {
 }
 

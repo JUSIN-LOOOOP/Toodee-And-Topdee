@@ -201,7 +201,7 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 
 	/* Prototype_Component_Texture_BackWall */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackWall"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Backtile%d.png"), 2))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Backtile%d.png"), 3))))
 		return E_FAIL;
 	/* Prototype_Component_Texture_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Wood"),

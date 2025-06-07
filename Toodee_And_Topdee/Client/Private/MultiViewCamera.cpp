@@ -39,22 +39,14 @@ HRESULT CMultiViewCamera::Initialize(void* pArg)
         m_bType = CAM_TYPE::QURTER;
 
     CameraTestMoveInitialize();
+    m_pGameInstance->Subscribe<CHANGECAM>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CHANGE_CAM, [this](const CHANGECAM& Event) {
+        this->SetViewFlag(); });
 
     return S_OK;
 }
 
 void CMultiViewCamera::Priority_Update(_float fTimeDelta)
 {
-    /*_bool newkey = GetKeyState('X') & 0x8000;
-
-    if (!m_bOldKey && newkey)
-        m_bRotating = true;
-
-    m_bOldKey = newkey;
-
-    if (m_bRotating == true)
-        ChangeView(fTimeDelta);*/
-
     if (m_pGameInstance->Key_Down('X') && m_pGameInstance->Get_CurrentDimension() != DIMENSION::CHANGE) {
         m_bRotating = true;
         m_pGameInstance->Change_Dimension(DIMENSION::CHANGE);
@@ -89,12 +81,10 @@ HRESULT CMultiViewCamera::Render()
 
 void CMultiViewCamera::ChangeView(_float fTimeDelta)
 {
-    // [ī�޶� �ӵ� ��� ����]
-    _float fDelta = m_ChangeSpeed * fTimeDelta;             //Angle ������ �ӵ� ����
-    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3f;     //Position ������ �ӵ� ����
+    _float fDelta = m_ChangeSpeed * fTimeDelta;
+    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3f;
     m_fCurrentAngle += fDelta;
 
-    // [ī�޶� ȸ��->�̵�->zoom ����]
     if (m_bType == CAM_TYPE::TOP)
     {
         m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), -D3DXToRadian(fDelta));
@@ -110,8 +100,6 @@ void CMultiViewCamera::ChangeView(_float fTimeDelta)
         m_pTransformCom->Go_Straight(fTimeDelta * 3.f);
     }
 
-    _float3 tmp = m_pTransformCom->Get_State(STATE::POSITION);
-    // [��ǥ ���� �޼��ϸ� Flag ����]
     if (m_fCurrentAngle >= m_fTargetAngle)
     {
         m_fCurrentAngle = 0;

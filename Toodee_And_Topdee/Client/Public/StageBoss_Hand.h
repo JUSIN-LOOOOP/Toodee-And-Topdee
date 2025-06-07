@@ -12,7 +12,7 @@ private:
 	virtual ~CStageBoss_Hand() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();
+	virtual HRESULT Initialize_Prototype(void* pArg);
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Priority_Update(_float fTimeDelta);
 	virtual void Update(_float fTimeDelta);
@@ -23,7 +23,7 @@ private:
 	virtual HRESULT Ready_Components();
 
 public:
-	static CStageBoss_Hand* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CStageBoss_Hand* Create(LPDIRECT3DDEVICE9 pGraphic_Device, void* pArg);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
 };

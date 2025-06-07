@@ -38,7 +38,7 @@ void CLevel_Stage3::Update(_float fTimeDelta)
 	// -- 임시 --
 	if (m_pGameInstance->Key_Down(VK_RETURN))
 	{
-		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_STAGE4))))
+		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_STAGEBOSS))))
 			return;
 	}
 

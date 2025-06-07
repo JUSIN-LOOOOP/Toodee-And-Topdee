@@ -7,7 +7,7 @@
 BEGIN(Client)
 
 /*
-	[Level¿¡¼­ ¼¼ÆÃÇÒ CAMERA_DESC ±¸Á¶Ã¼ °ª]
+	[Levelï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CAMERA_DESC ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½]
  
 	CameraDesc.vEye = _float3(0.f, 250.f, 0.f);
 	CameraDesc.vAt = _float3(0.f, 0.f, 1.f );
@@ -74,6 +74,7 @@ private:
 	HRESULT Ready_Components(void* pArg);
 	void	CameraTestMoveInitialize();
 	void	CameraTestMove(_float fTimeDelta);
+	void	SetViewFlag() { m_bRotating = true; };
 
 public:
 	static CMultiViewCamera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

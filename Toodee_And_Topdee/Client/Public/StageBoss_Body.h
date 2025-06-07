@@ -2,12 +2,12 @@
 #include "Client_Defines.h"
 #include "StageBoss_limb.h"
 
-BEGIN (Client)
+BEGIN(Client)
 
 class CStageBoss_Body : public CStageBoss_limb
 {
 private:
-	enum class PARTS_TYPE {EYE_L, EYE_R, MOUTH, HORN1, HORN2, HORN3, PARTS_END};
+	enum class PARTS_TYPE { EYE_L, EYE_R, MOUTH, HORN1, HORN2, HORN3, Pupil1, Pupil2, CORN1, CORN2, PARTS_END };
 
 	typedef struct PARTS_DESC
 	{
@@ -25,7 +25,7 @@ private:
 	virtual ~CStageBoss_Body() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();
+	virtual HRESULT Initialize_Prototype(void* pArg);
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Priority_Update(_float fTimeDelta);
 	virtual void Update(_float fTimeDelta);
@@ -34,15 +34,20 @@ public:
 
 private:
 	virtual HRESULT Ready_Components();
-	HRESULT	Create_Fire();
+	void			Ready_PartsData();
+	HRESULT			Create_Fire();
+	void			Calculate_Pupil_Pos();
 
-	CTexture* m_pPartsTextureCom = {  };
+	CTexture*		m_pPartsTextureCom = {  };
+	_float			m_fAngle = {};
+	_float			m_fIdleTime = {};
 
 private:
-	PARTS_DESC m_sParts[ENUM_CLASS(PARTS_TYPE::PARTS_END)];
+	PARTS_DESC		m_sParts[ENUM_CLASS(PARTS_TYPE::PARTS_END)];
+	_float			IdleTime = {};
 
 public:
-	static CStageBoss_Body* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CStageBoss_Body* Create(LPDIRECT3DDEVICE9 pGraphic_Device, void* pArg);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
 };
