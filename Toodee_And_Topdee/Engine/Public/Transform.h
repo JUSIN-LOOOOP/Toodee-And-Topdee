@@ -53,6 +53,8 @@ public:
 		memcpy(&m_WorldMatrix.m[ENUM_CLASS(eState)][0], &vState, sizeof(_float3));
 	}
 
+	void Set_WorldMatrix(const _float4x4& matrix) { m_WorldMatrix = matrix; }
+
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
