@@ -239,6 +239,12 @@
     <ClCompile Include="..\Private\RainSplash.cpp">
       <Filter>02. GameObjects\Cloud\Storm</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\FireBall.cpp">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_StageBoss.cpp">
+      <Filter>01. Levels\03. GamePlay\03. Stage_Boss01</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -493,6 +499,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\RainSplash.h">
       <Filter>02. GameObjects\Cloud\Storm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FireBall.h">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_StageBoss.h">
+      <Filter>01. Levels\03. GamePlay\03. Stage_Boss01</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@ CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CTransform::CTransform(const CTransform& Prototype)
-	:CComponent{ Prototype }
+	:CComponent( Prototype )
 	, m_WorldMatrix{ Prototype.m_WorldMatrix }
 {
 }
@@ -259,12 +259,13 @@ _bool CTransform::Spiral(const _float3& vTarget, const _float3& vAxis, _float fR
 	//원래 위치벡터를 회전한 위치벡터로 갱신
 	vPosition = vTarget + vRotatePosition;
 
+	
 	//방향벡터 구하기
+	
 	_float3 vMoveDir = vTarget - vPosition;
 
 	//타겟과의 거리와 회전할 각도를 통해 스피드 구하기 , Distance Toodee가 음수 들어가서 abs
 	_float fSpeedPerSec = abs(fDistance) * (fRotationPerSec / (2.f * D3DX_PI));
-
 	_float3 vMove = *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * fSpeedPerSec * fTimeDelta;
 
 	vPosition += vMove;
@@ -292,11 +293,11 @@ _bool CTransform::Move_To_LimitY(const _float3& vTarget, _float fTimeDelta, _flo
 	_float3 vPosition = Get_State(STATE::POSITION);
 	_float3 vMoveDir = vTarget - vPosition;
 	_float fDistanceXZ = vMoveDir.x * vMoveDir.x + vMoveDir.z * vMoveDir.z;
-	
-	 D3DXVec3Normalize(&vMoveDir, &vMoveDir);
+
+	D3DXVec3Normalize(&vMoveDir, &vMoveDir);
 
 
-	
+
 	if (fDistanceXZ >= fLimitY)
 	{
 		vPosition.x += vMoveDir.x * m_fSpeedPerSec * fTimeDelta;
@@ -304,8 +305,9 @@ _bool CTransform::Move_To_LimitY(const _float3& vTarget, _float fTimeDelta, _flo
 		Set_State(STATE::POSITION, vPosition);
 		return false;
 	}
-	else 
+	else
 		return true;
+}
 		
 void CTransform::Set_Matrix(const _float4x4& matrix)
 {

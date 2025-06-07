@@ -239,7 +239,7 @@ HRESULT CStageBoss_Body::Create_Fire()
 	_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
 	//pos.z -= 5.f;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_FireBall"),
-		ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_FireBall"), pos)));
+		ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_FireBall"), pos)))
 		return E_FAIL;
 
 	return S_OK;

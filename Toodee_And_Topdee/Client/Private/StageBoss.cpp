@@ -116,6 +116,7 @@ HRESULT CStageBoss::Render()
 	_float3 vPosition = BodyPos;
 	_float3 legnth;
 	_uint	textureIdx = 0;
+	D3DXMatrixIdentity(&WorldMatrix);
 
 	Begin_RenderState();
 	for (_uint idx = 0; idx < ENUM_CLASS(LIMB::LIMB_END) - 1; idx++)
@@ -123,16 +124,16 @@ HRESULT CStageBoss::Render()
 		legnth = TargetPos[idx] - vPosition;
 		while (D3DXVec3Length(&legnth) > 1.f)
 		{
-			WorldMatrix = matFinal[idx];
-			vPosition += vMoveDir[idx] * 2.f;
+			WorldMatrix._11 *= 2.f;
+			if ((textureIdx % 2) == 0)
+				WorldMatrix._22 *= 2.f;
 
+			WorldMatrix *= matFinal[idx];
+			
+			vPosition += vMoveDir[idx] * 2.f;
 			WorldMatrix._41 = vPosition.x;
 			WorldMatrix._42 = vPosition.y;
 			WorldMatrix._43 = vPosition.z;
-
-			WorldMatrix._11 *= 3.f;
-			WorldMatrix._22 *= 3.f;
-			WorldMatrix._33 *= 3.f;
 
 			m_pGraphic_Device->SetTransform(D3DTS_WORLD, &WorldMatrix);
 
@@ -140,6 +141,8 @@ HRESULT CStageBoss::Render()
 				return E_FAIL;
 			m_pVIBufferCom->Bind_Buffers();
 			m_pVIBufferCom->Render();
+
+			D3DXMatrixIdentity(&WorldMatrix);
 
 			++textureIdx;
 			legnth = TargetPos[idx] - vPosition;

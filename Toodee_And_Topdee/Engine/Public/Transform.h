@@ -91,7 +91,7 @@ private:
 	_float					m_fSpeedPerSec = { };
 	_float					m_fRotationPerSec = { };
 	_float					m_fTotalRotation = {};
-
+	_float3					m_movedirection = {};
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
