@@ -33,6 +33,10 @@
 #include "Test_Cube2.h"
 #include "Collider_Cube.h"
 
+#include "Sink.h"
+#include "Water.h"
+#include "VIBuffer_Terrain.h"
+
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:m_pGraphic_Device{ pGraphic_Device },
@@ -537,6 +541,34 @@ HRESULT CLoader::Loading_For_Stage5()
 	/* Prototype_GameObject_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Sink"),
+		CSink::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Water"),
+		CWater::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_Component_VIBuffer_Rect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 20, 18))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Water */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_Texture_Water"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Water/Water_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Sink */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_Texture_Sink"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Water/Sink_0.png"), 1))))
+		return E_FAIL;
+	
+	/* Prototype_Component_Shader_Water */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_Shader_Water"),
+		CShader_Water::Create(m_pGraphic_Device, TEXT("../Resources/Shader/Water.txt")))))
 		return E_FAIL;
 
 #pragma endregion

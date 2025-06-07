@@ -1,0 +1,178 @@
+//전역 상수
+static const float g_TotalHeight = 16;
+static const float PI = 3.14159265;
+static const float g_SinkRange = 12;
+// 공통 상수
+float4x4    g_WorldMatrix;
+float4x4    g_ViewMatrix;
+float4x4    g_ProjMatrix;
+float       g_FillHeight;
+float3      g_SinkPosition;
+float       g_SinkPower;
+float		g_TimeDelta;
+float		g_Speed;
+
+texture g_BaseTexture;
+sampler2D g_BaseSampler = sampler_state {
+    Texture = <g_BaseTexture>;
+    MinFilter = LINEAR;
+    MagFilter = LINEAR;
+    MipFilter = LINEAR;
+};
+
+float2 WaveUV(float2 Tex)
+{
+    float WaveStrength = 0.03;
+    float WaveFreqX = 20.0;
+    float WaveFreqY = 15.0;
+    float WaveSpeed = 3.0;
+
+//    Tex.y += sin(Tex.x * wWveFreqX + g_TimeDelta * WaveSpeed) * WaveStrength;
+    Tex.x += cos(Tex.y * WaveFreqY + g_TimeDelta * WaveSpeed) * WaveStrength;
+
+    return Tex;
+}
+
+
+// VS 입력 구조체
+struct VS_INPUT {
+    float4 Pos : POSITION;
+    float2 Tex : TEXCOORD0;
+};
+
+// VS 출력 구조체
+struct VS_OUTPUT {
+    float4 Pos : POSITION;
+    float  RenderFlag : TEXCOORD0;
+    float  DistanceAlpha : TEXCOORD1;
+    float2 Tex : TEXCOORD2;
+};
+
+
+// 정점 셰이더
+VS_OUTPUT VS_Main(VS_INPUT input) {
+    VS_OUTPUT output;
+
+    float4 LocalPos = input.Pos;
+
+    float Height = input.Pos.z;
+
+    float FillHeight = g_TotalHeight - (g_TotalHeight * g_FillHeight);
+
+    output.DistanceAlpha = 0.6;
+
+    if( Height > FillHeight)
+    {    
+        LocalPos.z -= FillHeight;
+        output.RenderFlag = 1.0;
+
+        output.Pos = mul(LocalPos, g_WorldMatrix);
+        output.Pos = mul(output.Pos, g_ViewMatrix);
+        output.Pos = mul(output.Pos, g_ProjMatrix);
+    }
+    else
+    {
+        LocalPos.z -= FillHeight;
+        output.RenderFlag = 0;
+
+        output.Pos = mul(LocalPos, g_WorldMatrix);
+        output.Pos = mul(output.Pos, g_ViewMatrix);
+        output.Pos = mul(output.Pos, g_ProjMatrix);
+    }
+
+    if(g_SinkPower > 0)
+    {
+        float4 WorldPos = mul(LocalPos, g_WorldMatrix);
+        
+        WorldPos.z += g_Speed * g_TimeDelta;
+
+        if(WorldPos.z > g_SinkPosition.z - 1)
+            WorldPos.z = g_SinkPosition.z -1;
+
+        float2 Direction = g_SinkPosition.xz - WorldPos.xz;
+        
+        float Distance = length(Direction);
+
+        float DistanceZ = abs(Direction.y);
+
+        float MaxDirectionZ = g_SinkPosition.z - (g_WorldMatrix._43 + (g_Speed * g_TimeDelta)); 
+        MaxDirectionZ = max(MaxDirectionZ, 1);
+
+        output.DistanceAlpha = 1 - saturate(DistanceZ / MaxDirectionZ);
+        
+        if(Distance <= g_SinkRange)
+        {
+            float SinkDistance = saturate(1.0 - (Distance / g_SinkRange));
+
+            float Radian = (6 * PI) * SinkDistance * g_SinkPower;
+            
+            float RotateX = (Direction.x * cos(Radian)) - (Direction.y * sin(Radian));   
+            float RotateZ = (Direction.x * sin(Radian)) + (Direction.y * cos(Radian));   
+   
+            float Limit = 1.0 - (g_SinkPower);
+            
+            RotateX *= Limit;
+            RotateZ *= Limit;
+
+            WorldPos.x = g_SinkPosition.x - RotateX;
+            WorldPos.z = g_SinkPosition.z - RotateZ;
+            
+            WorldPos.x = clamp(WorldPos.x, g_WorldMatrix._41, g_WorldMatrix._41 + 14.0);
+            WorldPos.z = min(WorldPos.z, g_SinkPosition.z + 4.0);
+        }
+
+        float2 CurrentDirection = g_SinkPosition.xz - WorldPos.xz;
+        float CurrentDistance = length(CurrentDirection);
+
+        if(CurrentDistance < 0.5 )
+        {
+            output.RenderFlag = 0;
+            output.DistanceAlpha = 0;
+        }
+        else
+            output.RenderFlag = 1.0;
+
+        output.Pos = mul(WorldPos, g_ViewMatrix);
+        output.Pos = mul(output.Pos, g_ProjMatrix);
+    }
+
+    output.Tex = input.Tex;
+    return output;
+}
+
+
+// 픽셀 셰이더
+float4 PS_Main(VS_OUTPUT input) : COLOR {
+    
+    if(input.RenderFlag < 0.5)
+        discard;
+
+    if(input.DistanceAlpha < 0.1)
+        discard;
+
+    float2 Tex = input.Tex;
+
+    float2 distortedUV = WaveUV(Tex);
+
+    float4 texColor = tex2D(g_BaseSampler, distortedUV);
+ 
+    float3 blueTint = float3(0.0, 0.5, 1.0);
+    
+    float3 finalColor;
+    float finalAlpha;
+
+    if (texColor.a < 0.2) {
+        finalColor = blueTint;
+        finalAlpha = input.DistanceAlpha;
+    }
+    else
+    {
+        finalColor = texColor.rgb;
+        finalAlpha = input.DistanceAlpha;
+        //finalAlpha = texColor.a * 0.6;
+    }
+
+
+    
+    return float4(finalColor, finalAlpha);
+}
