@@ -54,12 +54,15 @@ void CPart_Body::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocu
 {
 	Pos_Set(pTransform);
 
-	m_fFrame += m_fMaxFrame * fTimeDelta;
-	if (m_fFrame >= m_fMaxFrame)
-		m_fFrame = m_fOldFrame;
+	if(m_fMaxFrame != 0)
+	{
+		m_fFrame += m_fMaxFrame * fTimeDelta;
+		if (m_fFrame >= m_fMaxFrame)
+			m_fFrame = m_fOldFrame;
+	}
 }
 
-HRESULT CPart_Body::Render(void* pArg)
+HRESULT CPart_Body::Render()
 {
 
 	m_pTransformCom->Bind_Matrix();

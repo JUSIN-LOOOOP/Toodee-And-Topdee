@@ -30,12 +30,8 @@ HRESULT CPart_Wing::Initialize(void* pArg)
 	m_eState = pDesc->eState;
 	m_fFrame = pDesc->fFrame;
 	m_fMaxFrame = pDesc->fMaxFrame;
-
-	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
-	{	m_fAngleX = -(pDesc->fAngleX);	m_fAngleY = -(pDesc->fAngleY);	}
-	else
-	{	m_fAngleX = pDesc->fAngleX;		m_fAngleY = pDesc->fAngleY;	}
-
+	m_fAngleX = pDesc->fAngleX;
+	m_fAngleY = pDesc->fAngleY;
 	m_pVIBufferCom = pDesc->pVIBufferCom;
 	m_pTextureCom = pDesc->pTextureCom;
 
@@ -52,20 +48,44 @@ HRESULT CPart_Wing::Initialize(void* pArg)
 
 void CPart_Wing::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
+	if (GetKeyState('W') & 0x8000)
+		m_fDeltaAngleY += 1;
+
+	if (GetKeyState('S') & 0x8000)
+		m_fDeltaAngleY -= 1;
+
+	if (GetKeyState('A') & 0x8000)
+		m_fDeltaAngleX -= 1;
+
+	if (GetKeyState('D') & 0x8000)
+		m_fDeltaAngleX += 1;
+
+
+
 
 	m_fFrame += m_fMaxFrame * fTimeDelta;
 	if (m_fFrame >= m_fMaxFrame)
 		m_fFrame = m_fOldFrame;
 
-	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
-	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, 0.3f);
-	m_pTransformCom->Adjust_Scale(_float3(1.f, 2.f, 1.f));
-	if (m_eState == PARTSTATE::PARTS_RIGHT)
-		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
 	
+
+	__super::Look_At_degree(&m_fDeltaAngleX, &m_fDeltaAngleY, pTransform, vFocusPos);
+
+	__super::RevolveAround(pTransform, m_fDeltaAngleX, m_fDeltaAngleY, 0.4f, -0.8f);
+
+	m_pTransformCom->Adjust_Scale(_float3(1.f, 2.f, 1.f));
+
+	_float3 vOtherPos = pTransform->Get_State(STATE::POSITION);
+	_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION);
+
+
+
+	if (vOtherPos.x < vMyPos.x)
+		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
+
 }
 
-HRESULT CPart_Wing::Render(void* pArg)
+HRESULT CPart_Wing::Render()
 {
 
 	m_pTransformCom->Bind_Matrix();

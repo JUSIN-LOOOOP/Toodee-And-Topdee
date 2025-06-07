@@ -287,6 +287,27 @@ void CTransform::Adjust_Scale(const _float3& vScale)
 	Set_State(STATE::LOOK, vLook * vScale.z);
 }
 
+_bool CTransform::Move_To_LimitY(const _float3& vTarget, _float fTimeDelta, _float fLimitY)
+{
+	_float3 vPosition = Get_State(STATE::POSITION);
+	_float3 vMoveDir = vTarget - vPosition;
+	_float fDistanceXZ = vMoveDir.x * vMoveDir.x + vMoveDir.z * vMoveDir.z;
+	
+	 D3DXVec3Normalize(&vMoveDir, &vMoveDir);
+
+
+	
+	if (fDistanceXZ >= fLimitY)
+	{
+		vPosition.x += vMoveDir.x * m_fSpeedPerSec * fTimeDelta;
+		vPosition.z += vMoveDir.z * m_fSpeedPerSec * fTimeDelta;
+		Set_State(STATE::POSITION, vPosition);
+		return false;
+	}
+	else 
+		return true;
+}
+
 void CTransform::Bind_Matrix()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);

@@ -62,7 +62,7 @@ void CPart_Ears::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocu
 	}
 	
 
-	__super::RevolveAround(pTransform, static_cast<_int>(m_fDeltaAngleX), 0);
+	__super::RevolveAround(pTransform, m_fDeltaAngleX, 0);
 
 	if (m_strOtherName.find(TEXT("Bat")) != string::npos && m_eState == PARTSTATE::PARTS_RIGHT)
 		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
@@ -71,7 +71,7 @@ void CPart_Ears::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocu
 		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
 }
 
-HRESULT CPart_Ears::Render(void* pArg)
+HRESULT CPart_Ears::Render()
 {
 	m_pTransformCom->Bind_Matrix();
 
