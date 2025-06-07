@@ -22,8 +22,8 @@ HRESULT CStageBoss_Body::Initialize_Prototype(void* pArg)
 	m_eState = STAGEMONERSTATE::IDLE;
 	m_eViewMode = VIEWMODE::TOODEE;
 
-	m_pTopDee = m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0);
-	m_pTooDee = m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TooDee"), TEXT("Com_Transform"), 0);
+	m_pTopDee = m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0);
+	m_pTooDee = m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Player_TooDee"), TEXT("Com_Transform"), 0);
 
 	_float4x4	matRotX, matRotZ, finalmat;
 	D3DXMatrixRotationX(&matRotX, D3DXToRadian(90.f));
@@ -33,6 +33,7 @@ HRESULT CStageBoss_Body::Initialize_Prototype(void* pArg)
 
 	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 	Ready_SubscribeEvent(m_iPlayLevel);
+	m_fInitPos = m_pTransformCom->Get_State(STATE::POSITION);
 
 	name = TEXT("StageBoss_Body");
 
@@ -165,18 +166,18 @@ HRESULT CStageBoss_Body::Ready_Components()
 
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Body"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_Component_Texture_StageBoss_Body"),
 		TEXT("Com_Texture_Body"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Parts"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_Component_Texture_StageBoss_Parts"),
 		TEXT("Com_Texture_Parts"), reinterpret_cast<CComponent**>(&m_pPartsTextureCom))))
 		return E_FAIL;
 
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 15.f;
-	TransformDesc.fRotationPerSec = D3DXToRadian(40.0f);
+	TransformDesc.fSpeedPerSec = 20.f;
+	TransformDesc.fRotationPerSec = D3DXToRadian(40.f);
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_Body"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
@@ -201,9 +202,9 @@ void CStageBoss_Body::Ready_PartsData()
 	m_sParts[ENUM_CLASS(PARTS_TYPE::EYE_L)].fScale = _float3{ .45f, .5f, .45f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::EYE_R)].fScale = _float3{ .45f, .5f, .45f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::MOUTH)].fScale = _float3{ 1.0f, .4f, .4f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN1)].fScale = _float3{ .22f, .22f, .22f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN2)].fScale = _float3{ .22f, .33f, .22f };
-	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN3)].fScale = _float3{ .22f, .44f, .22f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN1)].fScale = _float3{ .25f, .25f, .25f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN2)].fScale = _float3{ .25f, .35f, .25f };
+	m_sParts[ENUM_CLASS(PARTS_TYPE::HORN3)].fScale = _float3{ .25f, .45f, .25f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::Pupil1)].fScale = _float3{ .6f, .6f, .6f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::Pupil2)].fScale = _float3{ .6f, .6f, .6f };
 	m_sParts[ENUM_CLASS(PARTS_TYPE::CORN1)].fScale = _float3{ .35f, .35f, .35f };
@@ -235,8 +236,10 @@ void CStageBoss_Body::Ready_PartsData()
 
 HRESULT CStageBoss_Body::Create_Fire()
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_FireBall"),
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_FireBall"), m_pTransformCom->Get_State(STATE::POSITION))))
+	_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+	//pos.z -= 5.f;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_FireBall"),
+		ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_FireBall"), pos)));
 		return E_FAIL;
 
 	return S_OK;

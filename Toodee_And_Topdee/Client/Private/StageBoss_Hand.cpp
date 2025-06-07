@@ -21,21 +21,17 @@ HRESULT CStageBoss_Hand::Initialize_Prototype(void* pArg)
 	m_pTransformCom->Scaling(6.f, 6.f, 6.f);
 	m_eState = STAGEMONERSTATE::IDLE;
 	m_eViewMode = VIEWMODE::TOODEE;
-
-	m_pTopDee = m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0);
-
-	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90));
-
-	_float4x4	matRotX, matRotZ, finalmat;
-	D3DXMatrixRotationX(&matRotX, D3DXToRadian(90.f));
-	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(130.f));
-	finalmat = matRotX * matRotZ;
-	m_pTransformCom->Set_Matrix(finalmat);
+	m_pTopDee = m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0);
+	
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90));
 
 	_float3* pos = static_cast<_float3*>(pArg);
 	m_pTransformCom->Set_State(STATE::POSITION, *pos);
 	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 	Ready_SubscribeEvent(m_iPlayLevel);
+
+	m_fInitPos = m_pTransformCom->Get_State(STATE::POSITION);
+
 
 	name = TEXT("StageBoss_Hand");
 
@@ -84,14 +80,14 @@ HRESULT CStageBoss_Hand::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_StageBoss_Hand"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_Component_Texture_StageBoss_Hand"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 15.f;
-	TransformDesc.fRotationPerSec = D3DXToRadian(40.0f);
+	TransformDesc.fSpeedPerSec = 20.f;
+	TransformDesc.fRotationPerSec = D3DXToRadian(40.f);
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))

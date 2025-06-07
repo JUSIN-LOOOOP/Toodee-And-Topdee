@@ -25,7 +25,7 @@ private:
 	virtual ~CStageBoss_Body() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();
+	virtual HRESULT Initialize_Prototype(void* pArg);
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Priority_Update(_float fTimeDelta);
 	virtual void Update(_float fTimeDelta);
@@ -40,13 +40,14 @@ private:
 
 	CTexture*		m_pPartsTextureCom = {  };
 	_float			m_fAngle = {};
+	_float			m_fIdleTime = {};
 
 private:
 	PARTS_DESC		m_sParts[ENUM_CLASS(PARTS_TYPE::PARTS_END)];
-	_float			IdleTime = 0;
+	_float			IdleTime = {};
 
 public:
-	static CStageBoss_Body* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CStageBoss_Body* Create(LPDIRECT3DDEVICE9 pGraphic_Device, void* pArg);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
 };

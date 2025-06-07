@@ -68,7 +68,7 @@ private:
 
 private:
 	HRESULT Ready_Components(void* pArg);
-
+	void	SetViewFlag() { m_bRotating = true; };
 
 public:
 	static CMultiViewCamera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

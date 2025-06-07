@@ -25,7 +25,7 @@ void CStageBoss_limb::Update(_float fTimeDelta)
 {
     m_fIdleTurnTime += fTimeDelta;
 
-    if (m_fIdleTurnTime >= 1.f)
+    if (m_fIdleTurnTime >= .5f)
     {
         m_fIdleTurnDir *= -1.f;
         m_fIdleTurnTime = 0;
@@ -45,6 +45,9 @@ void CStageBoss_limb::Update(_float fTimeDelta)
         break;
     case STAGEMONERSTATE::VIEWTURN:
         ChangeView(fTimeDelta);
+        break;
+    case STAGEMONERSTATE::DAMAGE:
+        MoveToOrigin(fTimeDelta);
         break;
     }
 }
@@ -106,9 +109,9 @@ HRESULT CStageBoss_limb::HIT(_float fTimeDelta)
     m_pTransformCom->Go_Down(fTimeDelta);
 
     _float3 pos = m_pTransformCom->Get_State(Engine::STATE::POSITION);
-    if (pos.y <= 4.f)
+    if (pos.y <= 2.f)
     {
-        pos.y = 4.f;
+        pos.y = 2.f;
         m_pTransformCom->Set_State(Engine::STATE::POSITION, pos);
         m_eState = STAGEMONERSTATE::IDLE;
         MONSTERSIGNAL mode;
@@ -122,15 +125,16 @@ HRESULT CStageBoss_limb::ChangeView(_float fTimeDelta)
 {
     _float fDelta = 80.f * fTimeDelta;
 
-    if (m_AccAngle + fDelta >= 125)
+    if (m_AccAngle + fDelta >= 120)
     {
-        fDelta = 125 - m_AccAngle;
+        fDelta = 120 - m_AccAngle;
         m_eState = STAGEMONERSTATE::IDLE;
     }
 
     m_AccAngle += fDelta;
 
-    m_pTransformCom->Turn({ 1.f, 0.f, 0.f }, D3DXToRadian(((m_eViewMode == VIEWMODE::TOODEE)) ? fDelta : -fDelta));
+    if (m_AccAngle <= 120)
+        m_pTransformCom->Turn({ 1.f, 0.f, 0.f }, D3DXToRadian(((m_eViewMode == VIEWMODE::TOODEE)) ? fDelta : -fDelta));
 
     if (m_eTurnFlag == true)
         RotateToFace(fDelta);
@@ -145,7 +149,7 @@ HRESULT CStageBoss_limb::ChangeView(_float fTimeDelta)
         }
     }
 
-    if (m_eState != STAGEMONERSTATE::VIEWTURN)
+    if (m_eState == STAGEMONERSTATE::IDLE)
     {
         m_AccAngle = 0.f;
         m_eTurnFlag = true;
@@ -153,6 +157,24 @@ HRESULT CStageBoss_limb::ChangeView(_float fTimeDelta)
         m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::FIN_ACTION, mode);
     }
 
+    return S_OK;
+}
+
+HRESULT CStageBoss_limb::MoveToOrigin(_float fTimeDelta)
+{
+    _float3 Length = m_pTransformCom->Get_State(Engine::STATE::POSITION) - m_fInitPos;
+    if (D3DXVec3Length(&Length) > 0.f || m_eState == STAGEMONERSTATE::DAMAGE)
+    {
+        m_pTransformCom->Move_To(m_fInitPos, fTimeDelta * 0.8f);
+        ChangeView(fTimeDelta);
+    }
+    else
+    {
+        m_eState = STAGEMONERSTATE::IDLE;
+        MONSTERSIGNAL mode;
+        m_eTurnFlag = true;
+        m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::FIN_ACTION, mode);
+    }
     return S_OK;
 }
 
@@ -184,7 +206,7 @@ void CStageBoss_limb::GetSignal(const MONSTERSIGNAL& Event)
 
 HRESULT CStageBoss_limb::Ready_SubscribeEvent(_uint iPlayerLevel)
 {
-    m_pGameInstance->Subscribe<MONSTERSIGNAL>(iPlayerLevel, EVENT_KEY::CHANGE_VIEW, [this](const MONSTERSIGNAL& Event) {
+    m_pGameInstance->Subscribe<MONSTERSIGNAL>(iPlayerLevel, EVENT_KEY::SIG_MONSTER, [this](const MONSTERSIGNAL& Event) {
         this->GetSignal(Event); });
 
     return S_OK;

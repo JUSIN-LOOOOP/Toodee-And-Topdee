@@ -6,7 +6,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Cube;
+class CVIBuffer_Rect;
 class CCollider;
 END
 
@@ -32,11 +32,23 @@ public:
 	void						SetParts(CStageBoss_limb* Parts){ m_vlimbs.push_back(Parts); };
 
 private :
-	vector<CStageBoss_limb*>	m_vlimbs	= {};
-	STAGEMONERSTATE				m_eState	= {};
-	LIMB						m_eAtkLimb	= { LIMB::LIMB_END };
-	_float						m_fIdleTime = {};
-	VIEWMODE					m_eViewMode = {};
+	vector<CStageBoss_limb*>	m_vlimbs		= {};
+	STAGEMONERSTATE				m_eState		= {};
+	VIEWMODE					m_eViewMode		= {};
+	_float						m_fIdleTime		= {};
+	_uint						m_iPlayLevel	= {};
+	CVIBuffer_Rect*				m_pVIBufferCom	= { nullptr };
+	CTexture*					m_pTextureCom	= { nullptr };
+
+private :
+	HRESULT						Ready_SubscribeEvent(_uint iPlayerLevel);
+
+private :
+	HRESULT						Ready_LimbObject(const _wstring& strLayerTag);
+	HRESULT						Ready_Component(const _wstring& strLayerTag);
+	HRESULT						Begin_RenderState();
+	HRESULT						End_RenderState();
+	void						isFinish();
 
 public:
 	static CStageBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -44,4 +56,4 @@ public:
 	virtual void Free() override;
 };
 
-END
+END 

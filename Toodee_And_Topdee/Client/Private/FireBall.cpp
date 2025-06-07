@@ -20,31 +20,21 @@ HRESULT CFireBall::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
-    m_fTargetPos = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TooDee"), TEXT("Com_Transform"), 0))->Get_State(STATE::POSITION);
+    m_fTargetPos = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Player_TooDee"), TEXT("Com_Transform"), 0))->Get_State(STATE::POSITION);
    
     m_pTransformCom->Set_State(STATE::POSITION, *(static_cast<_float3*>(pArg)));
 
     m_fAngle = atan2f(m_fTargetPos.z - m_pTransformCom->Get_State(STATE::POSITION).z,
         m_fTargetPos.x - m_pTransformCom->Get_State(STATE::POSITION).x);
 
-    if (m_fTargetPos.z > m_pTransformCom->Get_State(STATE::POSITION).z)
-        m_fAngle *= -1.f;
-
     _float3 Right = _float3(1.f, 0.f, 0.f);
     _float3 Up = _float3(0.f, 1.f, 0.f);
-    _float4x4 matRotX;
+    _float4x4 matRotX, matRotZ;
     D3DXMatrixRotationAxis(&matRotX, &Right, D3DXToRadian(90.f));
-
-    _float4x4 matRotZ;
     D3DXMatrixRotationAxis(&matRotZ, &Up, -m_fAngle + D3DXToRadian(180));
-
-    _float4x4 matFinal = matRotX * matRotZ;
-
-    m_pTransformCom->Set_Matrix(matFinal);
+    m_pTransformCom->Set_Matrix(matRotX * matRotZ);
     m_pTransformCom->Scaling(10.f, 4.5f, 10.f);
-
-    m_fAngle = (_float)m_fAngle * (180.f / 3.141592);
-
+    
     return S_OK;
 }
 
@@ -65,27 +55,20 @@ void CFireBall::Update(_float fTimeDelta)
             m_eState = FIREBALLSTATE::CHASE;
     }
 
-    _float fX = Position.x + cosf((_float)m_fAngle * (3.141592 / 180.f)) * fTimeDelta * 10;
-    _float fZ = Position.z + sinf((_float)m_fAngle * (3.141592 / 180.f)) * fTimeDelta * 10;
+    _float fX = Position.x + cosf(m_fAngle) * fTimeDelta * 10;
+    _float fZ = Position.z + sinf(m_fAngle) * fTimeDelta * 10;
 
     m_pTransformCom->Set_State(STATE::POSITION, _float3{ fX, Position.y, fZ });
 
     if (uFrameDelay > .2f)
     {
         ++ m_iTextureIdx;
-        if (m_iTextureIdx == 10)
+        if (m_iTextureIdx == 9)
             m_iTextureIdx = 0;
         uFrameDelay = 0;
     }
 
-    /*m_pGameInstance->Check_Collision(m_pColliderCom);
-    if (m_pColliderCom->OnCollisionStay())
-        m_Dead = true;*/
-
-    
-    if (Position.x < - 24 || Position.x > 24)
-        m_Dead = true;
-    if(Position.z < -13 || Position.z > 13)
+    if (Position.x < - 24 || Position.x > 24 || Position.z < -13 || Position.z > 13)
         m_Dead = true;
 }
 
@@ -116,7 +99,7 @@ HRESULT CFireBall::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_FireBall"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_Component_Texture_FireBall"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 

@@ -44,5 +44,9 @@ typedef struct tagMonsterSignal : public CEvent {
 	_uint iViewMode;
 }MONSTERSIGNAL;
 
+/* CHANGE_CAMERA */
+typedef struct tagChangeCam : public CEvent {
+}CHANGECAM;
+
 END
 

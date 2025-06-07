@@ -23,6 +23,9 @@ HRESULT CStageBoss::Initialize(void* pArg)
 	if (FAILED(Ready_LimbObject(TEXT("Layer_BossLimb"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Component(TEXT("Layer_BossChain"))))
+		return E_FAIL;
+
 	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 	name = TEXT("StageBoss");
 	m_eViewMode = VIEWMODE::TOODEE;
@@ -39,7 +42,18 @@ void CStageBoss::Priority_Update(_float fTimeDelta)
 		MONSTERSIGNAL mode;
 		mode.iViewMode = ENUM_CLASS(m_eViewMode);
 		mode.iState = ENUM_CLASS(STAGEMONERSTATE::VIEWTURN);
- 		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::CHANGE_VIEW, mode);
+ 		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::SIG_MONSTER, mode);
+	}
+	if (m_pGameInstance->Key_Down(VK_SPACE)) //임시! 나중에 충돌 시그널 받기
+	{
+		m_eViewMode = VIEWMODE::TOODEE;
+		m_eState = STAGEMONERSTATE::DAMAGE;
+		CHANGECAM tmp;
+		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::CHANGE_CAM, tmp);
+		MONSTERSIGNAL mode;
+		mode.iViewMode = ENUM_CLASS(m_eViewMode);
+		mode.iState = ENUM_CLASS(STAGEMONERSTATE::DAMAGE);
+		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::SIG_MONSTER, mode);
 	}
 	for (auto limb : m_vlimbs)
 		limb->Priority_Update(fTimeDelta);
@@ -70,6 +84,8 @@ void CStageBoss::Late_Update(_float fTimeDelta)
 	for (auto limb : m_vlimbs)
 		limb->Late_Update(fTimeDelta);
 
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+
 }
 
 HRESULT CStageBoss::Render()
@@ -77,12 +93,101 @@ HRESULT CStageBoss::Render()
 	for (auto limb : m_vlimbs)
 		limb->Render();
 
+	_float3 BodyPos = dynamic_cast<CTransform*>(m_vlimbs[ENUM_CLASS(LIMB::BODY)]->Get_Component(TEXT("Com_Transform_Body")))->Get_State(STATE::POSITION);
+	_float3 TargetPos[2] = {};
+	TargetPos[0] = dynamic_cast<CTransform*>(m_vlimbs[ENUM_CLASS(LIMB::LEFT_HAND)]->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
+	TargetPos[1] = dynamic_cast<CTransform*>(m_vlimbs[ENUM_CLASS(LIMB::RIGHT_HAND)]->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
+
+	_float3 vMoveDir[2] = {};
+	_float4x4 matRotX, matRotZ, matFinal[2];
+	_float fAngle; 
+
+	for (_uint idx = 0; idx < ENUM_CLASS(LIMB::LIMB_END) - 1; idx++)
+	{
+		vMoveDir[idx] = TargetPos[idx] - BodyPos;
+		D3DXVec3Normalize(&vMoveDir[idx], &vMoveDir[idx]);
+		fAngle = atan2f(TargetPos[idx].z - BodyPos.z, TargetPos[idx].x - BodyPos.x);
+		D3DXMatrixRotationX(&matRotX, D3DXToRadian(90.f));
+		D3DXMatrixRotationY(&matRotZ, -fAngle - D3DXToRadian(10.f));
+		matFinal[idx] = matRotX * matRotZ;
+	}
+
+	_float4x4 WorldMatrix = {};
+	_float3 vPosition = BodyPos;
+	_float3 legnth;
+	_uint	textureIdx = 0;
+
+	Begin_RenderState();
+	for (_uint idx = 0; idx < ENUM_CLASS(LIMB::LIMB_END) - 1; idx++)
+	{
+		legnth = TargetPos[idx] - vPosition;
+		while (D3DXVec3Length(&legnth) > 1.f)
+		{
+			WorldMatrix = matFinal[idx];
+			vPosition += vMoveDir[idx] * 2.f;
+
+			WorldMatrix._41 = vPosition.x;
+			WorldMatrix._42 = vPosition.y;
+			WorldMatrix._43 = vPosition.z;
+
+			WorldMatrix._11 *= 3.f;
+			WorldMatrix._22 *= 3.f;
+			WorldMatrix._33 *= 3.f;
+
+			m_pGraphic_Device->SetTransform(D3DTS_WORLD, &WorldMatrix);
+
+			if (FAILED(m_pTextureCom->Bind_Texture(textureIdx % 2)))
+				return E_FAIL;
+			m_pVIBufferCom->Bind_Buffers();
+			m_pVIBufferCom->Render();
+
+			++textureIdx;
+			legnth = TargetPos[idx] - vPosition;
+		}
+		vPosition = BodyPos;
+	}
+
+	End_RenderState();
+
+	return S_OK;
+}
+
+HRESULT CStageBoss::Begin_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+
+	return S_OK;
+}
+
+HRESULT CStageBoss::End_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
 	return S_OK;
 }
 
 void CStageBoss::isFinish()
 {
-	m_eState = STAGEMONERSTATE::IDLE;
+	static _uint ResetFlag = 0;
+
+	if (m_eState == STAGEMONERSTATE::DAMAGE)
+	{
+		++ ResetFlag;
+		if (ResetFlag == 3)
+		{
+			m_eState = STAGEMONERSTATE::IDLE;
+			ResetFlag = 0;
+		}
+	}
+	else
+		m_eState = STAGEMONERSTATE::IDLE;
 }
 
 HRESULT CStageBoss::Ready_SubscribeEvent(_uint iPlayerLevel)
@@ -105,6 +210,19 @@ HRESULT CStageBoss::Ready_LimbObject(const _wstring& strLayerTag)
 	pos = { 12.f , 5.f, 0.f };
 	limb = CStageBoss_Hand::Create(m_pGraphic_Device, pos);
 	m_vlimbs.push_back(limb);
+
+	return S_OK;
+}
+
+HRESULT CStageBoss::Ready_Component(const _wstring& strLayerTag)
+{
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_Component_Texture_StageBoss_Chain"),
+		TEXT("Com_Texture_Chain"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer_Chain"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -143,5 +261,8 @@ void CStageBoss::Free()
 
 	for (auto limb : m_vlimbs)
 		Safe_Release(limb);
+
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pVIBufferCom);
 
 }
