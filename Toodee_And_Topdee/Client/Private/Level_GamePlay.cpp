@@ -51,6 +51,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Cloud(TEXT("Layer_Cloud"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Cloud(TEXT("Layer_Cloud"))))
+		return E_FAIL;
+
 	/*if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
 		return E_FAIL;*/
 
@@ -403,6 +406,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Cloud(const _wstring& strLayerTag)
 {
+
 	CCloud::CLOUD_DESC desc;
 	desc.eType = CCloud::CLOUD_TYPES::WHITE;
 	desc.vPosition = { 25.f, 1.9f, 8.f };
