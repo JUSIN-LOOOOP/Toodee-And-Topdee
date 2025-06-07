@@ -105,6 +105,14 @@ HRESULT CCollider::Initialize(void* pArg)
 }
 
 
+void CCollider::Set_Scaling(_float fScaleX, _float fScaleY, _float fScaleZ)
+{
+    /* 절대 비율 */
+    m_vScale.x = fScaleX;
+    m_vScale.y = fScaleY;
+    m_vScale.z = fScaleZ;
+}
+
 _bool CCollider::GetOverlapAll(vector<class CGameObject*>*& pList)
 {
     if (m_eState == COLLIDER_STATE::NONE) return false;
@@ -202,8 +210,8 @@ const COLLIDER_DIR CCollider::DetectCollisionDirection(_float* distance) const
 
 const _bool CCollider::GetCollisionsOffset(_float3* distance, const _wstring strComponentTag) const
 {
-    if (m_eState == COLLIDER_STATE::NONE || m_pOthers.size() == 0 || distance == nullptr ) return false;
-
+    if (m_eState == COLLIDER_STATE::NONE || m_pOthers.size() == 0) return false;
+    if(distance == nullptr)return false;
     _float3  result = { 0.f, 0.f, 0.f };
     _float3  myPosition = m_pTransform->Get_State(STATE::POSITION);
     _float3  myScale = m_vScale;
@@ -218,12 +226,18 @@ const _bool CCollider::GetCollisionsOffset(_float3* distance, const _wstring str
 
         _wstring strOtherName = iter->Get_Name();
 
-        /* 이름이 strCompare가 아닌 오브젝트는 패스 */
-        for (_uint i = 0; i < strCompare.size(); ++i)
-            if ((strOtherName.size() >= strCompare[i].size() && strOtherName.substr(0, strCompare[i].size()).compare(strCompare[i]) != 0))
-                continue;
+        /* m_strCompares[]에 있는 단어가 앞에 붙어 있는 것만 검사  */
+        _bool bIsPass = false;
+        /* 이름에 strCompare가 붙어 있으면 검사시작*/
+        for (_uint i = 0; i < m_strCompares.size(); ++i) {
+            if ((strOtherName.size() >= m_strCompares[i].size() && strOtherName.substr(0, m_strCompares[i].size()).compare(m_strCompares[i]) == false))
+            {
+                bIsPass = true;
+            }
+        }
+            
+        if (!bIsPass) continue;
 
-        //CTransform* otherTransform = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")));
         CCollider* otherCollider = dynamic_cast<CCollider*>(iter->Get_Component(strComponentTag));
 
         if (otherCollider == nullptr) continue;
@@ -232,7 +246,7 @@ const _bool CCollider::GetCollisionsOffset(_float3* distance, const _wstring str
         _float3  otherPosition = otherCollider->Get_ColliderPosition();
         _float3  otherScale = otherCollider->Get_ColliderScaled();
    
-        /* 혹시라도 콜라이더에 포지션이 없으면   */
+        /* 혹시라도 콜라이더에 포지션이 없으면 */
         if (D3DXVec3Length(&otherPosition) == 0.f)
             otherPosition = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
 
@@ -348,6 +362,75 @@ HRESULT CCollider::Render()
     return S_OK;
 }
 
+HRESULT CCollider::OBB_Render()
+{
+    //세계 변환 행렬 가져오기
+    _float4x4 matWorld = *m_pTransform->Get_WorldMatrix();
+
+    _float3 Temp = { matWorld._11 , matWorld._12, matWorld._13 };
+    D3DXVec3Normalize(&Temp, &Temp);
+    matWorld._11 = Temp.x; matWorld._12 = Temp.y; matWorld._13 = Temp.z;
+
+    Temp = { matWorld._21 , matWorld._22, matWorld._23 };
+    D3DXVec3Normalize(&Temp, &Temp);
+    matWorld._21 = Temp.x; matWorld._22 = Temp.y; matWorld._23 = Temp.z;
+
+    Temp = { matWorld._31 , matWorld._32, matWorld._33 };
+    D3DXVec3Normalize(&Temp, &Temp);
+    matWorld._31 = Temp.x; matWorld._32 = Temp.y; matWorld._33 = Temp.z;
+
+
+    if (m_bIsFixed)
+        memcpy(&matWorld.m[ENUM_CLASS(STATE::POSITION)][0], &m_vPosition, sizeof(_float3));
+
+
+    // 변환 행렬 적용
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
+
+    // 와이어프레임 모드 설정 및 컬모드 설정
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+    // 충돌 여부에 따른 색상 적용
+    if (m_eState != COLLIDER_STATE::NONE)
+    {
+        m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(0, 0, 255, 0));
+        m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+        m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TFACTOR);
+    }
+    else
+    {
+        // 원래 텍스처 사용
+        m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+        m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+        m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    }
+
+    // 정점 및 인덱스 버퍼 설정
+    m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, m_iVertexStride);
+    m_pGraphic_Device->SetFVF(m_iFVF);
+    m_pGraphic_Device->SetIndices(m_pIB);
+
+    // 도형 그리기
+    m_pGraphic_Device->DrawIndexedPrimitive(m_ePrimitiveType, 0, 0, m_iNumVertices, 0, m_iNumPrimitive);
+
+    // 상태 복구 - 솔리드 모드로 변경 및 컬모드
+    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+
+    // 상태 복구 - 텍스처 팩터 기본값으로 변경
+    m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFFFFFFFF);
+
+    // 텍스처 단계 원래대로 복구
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+
+
+    return S_OK;
+}
+
 COLLIDER_SHAPE CCollider::Reference_Collider_Info(COLLIDER_DESC& desc)
 {
     desc.pOwner = m_pOwner;
@@ -364,15 +447,15 @@ void CCollider::Add_Others(const vector<CGameObject*>& currentCollisions)
 {
     m_pOthers = currentCollisions;
 
-    for (auto& pGameObject : m_pOthers)
-        Safe_AddRef(pGameObject);
+    //for (auto& pGameObject : m_pOthers)
+    //    Safe_AddRef(pGameObject);
 
 }
 
 void CCollider::Remove_Others()
 {
-    for (auto& pGameObject : m_pOthers)
-        Safe_Release(pGameObject);
+    //for (auto& pGameObject : m_pOthers)
+    //    Safe_Release(pGameObject);
     m_pOthers.clear();
 }
 
@@ -406,8 +489,8 @@ void CCollider::Free()
     Safe_Release(m_pIB);
     Safe_Release(m_pVB);
 
-    for (auto& pGameObject : m_pOthers)
-        Safe_Release(pGameObject);
+ /*   for (auto& pGameObject : m_pOthers)
+        Safe_Release(pGameObject);*/
     m_pOthers.clear();
 
     Safe_Release(m_pTransform);

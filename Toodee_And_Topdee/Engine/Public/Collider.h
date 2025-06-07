@@ -42,33 +42,41 @@ public:
 
 	/* 사용자가 쓰는 함수들 */
 public:
+	/* 충돌 진입 시점 */
 	const _bool				OnCollisionEnter() const { return m_eState == COLLIDER_STATE::ENTRY; }
 	const _bool				OnCollisionStay()  const { return m_eState == COLLIDER_STATE::STAY; }
 	const _bool				OnCollisionExit()  const { return m_eState == COLLIDER_STATE::EXIT; }
 
-	const _bool				Collision_IsActive()  const {
-		return m_bisTrigger;
-	}
-	void					Collision_Off() {
-		Remove_Others();
-		m_bisTrigger = false;
-	}
+	/* 충돌 on/off */
+	const _bool				Collision_IsActive()  const { return m_bisTrigger; }
+	void					Collision_Off() { Remove_Others(); m_bisTrigger = false; }
 	void					Collision_On() { Remove_Others(); m_bisTrigger = true; }
+
+	/* 콜라이더 상태 변경 */
 	void					ApplyFixedPosition(_float3 vPosition) { m_vPosition = vPosition; m_bIsFixed = true; }
 	void					SyncWithOwner() { m_bIsFixed = false; }
+	void					Set_Scaling(_float fScaleX, _float fScaleY, _float fScaleZ);
 
+	/* 충돌중인 객체 찾기 (마지막 충돌체 or 모든 충돌체) */
 	_bool					GetOverlapAll(vector<class CGameObject*>*& pList);
 	class CGameObject*		GetOverlapTarget();
 
+	/* 단일 or 여러 충돌체와의 침투거리등등 (GetCollisionsOffset은 현재 m_strCompares하고만 충돌중  */
 	const COLLIDER_DIR		DetectCollisionDirection(_float* distance = nullptr) const;
 	const _bool				GetCollisionsOffset(_float3* distance,const _wstring strComponentTag = TEXT("Com_Collider")) const;
 	
+	/*  가장 가까운 충돌체의 정보 꺼내오기 */
 	TARGET_RESULT			FindNearestTarget(const _wstring strName = TEXT(""));
-	HRESULT					Render();
 
+	/* 렌더 방법 */
+	HRESULT					Render();
+	HRESULT					OBB_Render();
+
+	/* 현재 콜라이더의 정보 */
 	const _float3			Get_ColliderScaled() { return m_vScale; };
 	const _float3			Get_ColliderPosition() { return m_vPosition; };
-
+	class CTransform*		Get_Transform() { return m_pTransform; };
+	class CGameObject*		Get_GameObject() { return	m_pOwner; }
 
 	/* Engine 함수 */
 public:
@@ -78,7 +86,7 @@ public:
 	void					Set_State(COLLIDER_STATE eState) { m_eState = eState; }
 
 private:
-	array<_wstring, 2>			strCompare = { TEXT("Interaction"), TEXT("Wall") };
+	array<_wstring, 4>			m_strCompares = { TEXT("Interaction"), TEXT("Wall"), TEXT("Block"),TEXT("Hole") };
 
 	_float3						m_vScale = { };
 	_float3						m_vPosition = { };

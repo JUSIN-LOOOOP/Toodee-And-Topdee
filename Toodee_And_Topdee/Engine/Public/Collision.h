@@ -24,6 +24,7 @@ private:
 	virtual ~CCollision() = default;
 
 public:
+	static _bool			IsAxisAligned(const OBB& info, float epsilon);
 	static AABB				Create_AABB(const OBB& info);
 	static _bool			Collision_AABB(const AABB& A, const AABB& B);
 	static _bool			Collision_Rect_Rect(const OBB& RectA, const OBB& RectB);
