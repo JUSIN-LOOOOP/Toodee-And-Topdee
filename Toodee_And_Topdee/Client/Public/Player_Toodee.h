@@ -44,6 +44,7 @@ private:
 	_float		m_fMaxIncreaseJumpPower = {};						// 점프 증가량 최대치
 	_float		m_fGravityPower = {};								// 중력
 	_bool		m_bOnThePortal = {};
+	_bool		m_bOnTheStorm = { false };
 private:															   
 	_uint KeyInput();												//  키 입력 Return
 																	   
@@ -57,8 +58,9 @@ private:
 	void Check_Collision_Dead(CGameObject* pGameObject);
 	void Check_Collision_Portal(CGameObject* pGameObject);
 	void Check_Collision_Key(CGameObject* pGameObject);
+	void Check_Collision_Storm(CGameObject* pGameObject);
 	void Check_Grounded();											// 지면 체크
-
+	void Check_OnGround(CGameObject* pGameObject);
 ;	HRESULT Ready_Components();
 	HRESULT Ready_SubscribeEvent(_uint iPlayerLevel);
 	HRESULT Ready_States();

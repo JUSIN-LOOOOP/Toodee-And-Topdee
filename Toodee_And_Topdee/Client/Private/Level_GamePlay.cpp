@@ -9,6 +9,8 @@
 #include "Cannon.h"
 #include "Pig.h"
 #include "ColliderMap_Object.h"
+#include "Cloud.h"
+#include "Storm.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -40,10 +42,10 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tiler"))))
 	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
-		return E_FAIL;
-	
-	if(FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
+	//if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
+	//	return E_FAIL;
+
+	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Cloud(TEXT("Layer_Cloud"))))
@@ -63,7 +65,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_STAGE1))))
 			return;
 	}
-	
+
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -75,20 +77,20 @@ HRESULT CLevel_GamePlay::Render()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	/*CCamera::CAMERA_DESC			CameraDesc{};
-	CameraDesc.vEye = _float3(0.f, 10.f, -10.f);
-	CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
-	CameraDesc.fFovy = D3DXToRadian(60.0f);
-	CameraDesc.fNear = 0.1f;
-	CameraDesc.fFar = 1000.f;
-	CameraDesc.fSpeedPerSec = 10.f;
-	CameraDesc.fRotationPerSec = D3DXToRadian(90.0f);
-	CameraDesc.fMouseSensor = 0.1f;
+	//CCamera::CAMERA_DESC			CameraDesc{};
+	//CameraDesc.vEye = _float3(0.f, 10.f, -10.f);
+	//CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
+	//CameraDesc.fFovy = D3DXToRadian(60.0f);
+	//CameraDesc.fNear = 0.1f;
+	//CameraDesc.fFar = 1000.f;
+	//CameraDesc.fSpeedPerSec = 10.f;
+	//CameraDesc.fRotationPerSec = D3DXToRadian(90.0f);
+	//CameraDesc.fMouseSensor = 0.1f;
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Camera"), &CameraDesc)))
-		return E_FAIL;*/
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+	//	ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Camera"), &CameraDesc)))
+	//	return E_FAIL;
 
 	CCamera::CAMERA_DESC			CameraDesc{};
 	CameraDesc.vEye = _float3(0.f, 34.f, 0.f);
@@ -175,7 +177,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 
 		case MAPOBJECT::PORTAL:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &info)))			
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &info)))
 				return E_FAIL;
 			break;
 
@@ -191,10 +193,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 				return E_FAIL;
 			break;
 
-		default :
+		default:
 			MSG_BOX(TEXT("Error : Block Index error!"));
 		}
-		
+
 	}
 	return S_OK;
 }
@@ -230,7 +232,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube2(const _wstring& strLayerTag)
 		0,
 		0
 	};
-	
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Block_Wood"), &info)))
 		return E_FAIL;
@@ -261,7 +263,7 @@ _float3(2.f,2.f,2.f),
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"), &info2)))
 		return E_FAIL;
 
-	BLOCK_INFO info3= {
+	BLOCK_INFO info3 = {
 _float3(1.f, 1.f, 1.f),
 _float3(2.f,2.f,2.f),
 0,
@@ -285,41 +287,41 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"))))
 		return E_FAIL;*/
 
-	/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"))))
-		return E_FAIL;
+		/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"))))
+			return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"))))
-		return E_FAIL;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"))))
+			return E_FAIL;
 
 
-	BLOCK_INFO info = {
-		_float3(3.f, 0.f, 3.f),
-		_float3(2.f,2.f,2.f),
-		0,
-		0,
-		0,
-		0
-	};
-	if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallFall"),&info)))
-		return E_FAIL;
+		BLOCK_INFO info = {
+			_float3(3.f, 0.f, 3.f),
+			_float3(2.f,2.f,2.f),
+			0,
+			0,
+			0,
+			0
+		};
+		if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_WallFall"),&info)))
+			return E_FAIL;
 
-	return S_OK;
-}
+		return S_OK;
+	}
 
-HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
-{
-	_float3 vPotalPosition = { 5.f, 0.f, 0.f }; //TEST
+	HRESULT CLevel_GamePlay::Ready_Layer_Potal(const _wstring& strLayerTag)
+	{
+		_float3 vPotalPosition = { 5.f, 0.f, 0.f }; //TEST
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
-		return E_FAIL;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &vPotalPosition)))
+			return E_FAIL;
 
-	return S_OK;
-}
-*/
+		return S_OK;
+	}
+	*/
 
 HRESULT CLevel_GamePlay::Ready_Layer_Back(const _wstring& strLayerTag)
 {
@@ -357,7 +359,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Cannon(const _wstring& strLayerTag)
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cannon"), &info)))
 		return E_FAIL;
 
-		/* Prototype_GameObject_Projectile */
+	/* Prototype_GameObject_Projectile */
 	for (_uint i = 0; i < 20; ++i) {
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"),
 			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Fire"))))
@@ -401,9 +403,36 @@ HRESULT CLevel_GamePlay::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Cloud(const _wstring& strLayerTag)
 {
+	CCloud::CLOUD_DESC desc;
+	desc.eType = CCloud::CLOUD_TYPES::WHITE;
+	desc.vPosition = { 25.f, 1.9f, 8.f };
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cloud"))))
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cloud"), &desc)))
 		return E_FAIL;
+
+	for (_uint i = 0; i < 40; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Rain"),
+			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Rain"))))
+			return E_FAIL;
+	}
+
+	for (_uint i = 0; i < 4; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_RainSplash"),
+			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_RainSplash"))))
+			return E_FAIL;
+	}
+
+	//for (_uint i = 0; i < 3; ++i) {
+	//	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Lightning"),
+	//		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Lightning"))))
+	//		return E_FAIL;
+	//}
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Storm"),
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Storm"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
+#include "PoolableObject.h"
 
-#include "GameObject.h"
 
 BEGIN(Engine)
 
@@ -9,27 +9,23 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Cube;
 class CCollider;
+
 END
 
 BEGIN(Client)
 
-class CCannon final : public CGameObject
+class CLightning : public CPoolableObject
 {
 public:
-	/* 쏘는 방향 기준 */
-	enum class CANNON_DIRECTION { RGIHT, LEFT, UP, DOWN, NONE };
-	enum class CANNON_TYPE { FIRE, LASER, NONE };
-
-	struct CANNON_INFO
-	{
-		CANNON_DIRECTION eDir;
-		CANNON_TYPE  eType;
-	};
+	typedef struct Lightining_Position_Info {
+		_float3				vStartPosition = { };
+		_float3				vCrashPosition = { };
+	}LIGHTNING;
 
 private:
-	CCannon(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CCannon(const CCannon& Prototype);
-	virtual ~CCannon() = default;
+	CLightning(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CLightning(const CLightning& Prototype);
+	virtual ~CLightning() = default;
 
 public:
 	HRESULT				Initialize_Prototype() override;
@@ -39,39 +35,31 @@ public:
 	void				Late_Update(_float fTimeDelta) override;
 	HRESULT				Render() override;
 
+	HRESULT				Initialize_Pool(void* pArg);
+
+
 private:
 	CVIBuffer_Cube*		m_pVIBufferCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CTexture*			m_pTextureCom = { nullptr };
-	CCollider* m_pColliderCom = { nullptr };
+	CCollider*			m_pColliderCom = { nullptr };
 
-	CANNON_TYPE			m_eType {};
-	_uint				m_iCannonDir = { };
-
-	_float				m_fIntervalShooting = {0.f};
-	_float				m_fAccumulateShootingTime = {0.f};
-
-	_bool				m_bMotion = { false };
-	_float				m_fIntervalMotion = { 0.f };
-	_float				m_fAccumulateMotionTime = { 0.f };
-
-	_float3				m_vOriginalPosition = {};
-
+	_uint				m_iMotionNumber = {};
+	_float				m_fIntervalMotion = {};
+	_float				m_fAccumulateMotion = {};
 
 private:
-	void				Shooting(_float fTimeDelta);
 	void				Motion(_float fTimeDelta);
-	
+
 private:
 	HRESULT				Ready_Components();
 	void				SetUp_RenderState();
 	void				Reset_RenderState();
 
 public:
-	static CCannon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CLightning* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
-
 };
 
 END
