@@ -51,8 +51,6 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	/*if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
 		return E_FAIL;*/
-	if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -111,7 +109,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
+	m_pGameInstance->Load_File(TEXT("new"));
+	//m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
 

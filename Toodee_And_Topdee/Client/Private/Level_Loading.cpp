@@ -11,6 +11,7 @@
 #include "Level_Stage4.h"
 #include "Level_Stage5.h"
 #include "Level_Stage6.h"
+#include "Level_StageBoss.h"
 #include "Level_Test.h"
 
 
@@ -67,6 +68,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			break;
 		case LEVEL::LEVEL_STAGE6:
 			pNewLevel = CLevel_Stage6::Create(m_pGraphic_Device);
+			break;
+		case LEVEL::LEVEL_STAGEBOSS:
+			pNewLevel = CLevel_StageBoss::Create(m_pGraphic_Device);
 			break;
 
 		}
