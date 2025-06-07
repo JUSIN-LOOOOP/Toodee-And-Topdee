@@ -16,13 +16,13 @@ HRESULT CPool_Manager::Initialize(_uint iNumLevels)
 	return S_OK;
 }
 
-void CPool_Manager::Push(_uint iNumLevels,const _wstring& strPoolTag, CPoolableObject* pGameObject)
+void CPool_Manager::Push(_uint iCurrentLevel,const _wstring& strPoolTag, CPoolableObject* pGameObject)
 {
-	CPool* pPool = Find_Pools(iNumLevels, strPoolTag);
+	CPool* pPool = Find_Pools(iCurrentLevel, strPoolTag);
 	if (pPool == nullptr)
 	{
 		pPool = CPool::Create();
-  		m_pPools[iNumLevels].emplace(strPoolTag, pPool);
+  		m_pPools[iCurrentLevel].emplace(strPoolTag, pPool);
 	}
 
 	if (pGameObject != nullptr) {
@@ -32,33 +32,33 @@ void CPool_Manager::Push(_uint iNumLevels,const _wstring& strPoolTag, CPoolableO
 
 }
 
-CPoolableObject* CPool_Manager::Pop(_uint iNumLevels, const _wstring& strPoolTag)
+CPoolableObject* CPool_Manager::Pop( _uint iNumLevels, _uint iPrototypeLevelIndex, const _wstring& strPoolTag)
 {
 	CPool* pPool = Find_Pools(iNumLevels, strPoolTag);
+
 	if (pPool != nullptr) {
 		CPoolableObject* object = pPool->Pop();
-		if(object != nullptr)
-			object->Set_Active(true);
+
+		if(object != nullptr) object->Set_Active(true);
+
 		return object;
 	}
+	/* pool에 없으면 새로 만들고 바로 사용 */
 	else
 	{
-		if (strPoolTag == TEXT("Layer_Projectile_Fire"))
-		{
-			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strPoolTag,
-				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Fire"));
-		}
-		if (strPoolTag == TEXT("Layer_Projectile_Laser")) 
-		{
-			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strPoolTag,
-				ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Laser"));
-		}
+		_wstring strPrototypeTag = strPoolTag.substr(6);
+		strPrototypeTag = TEXT("Prototype_GameObject_") + strPrototypeTag;
+	
+		if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(iNumLevels, strPoolTag,iPrototypeLevelIndex, strPrototypeTag)))
+			return nullptr;
 
-		//return Pop(iNumLevels, strPoolTag);
-		MSG_BOX(TEXT("Failed to Pop : CPool_Manager"));
+		CPoolableObject* pGameObject = static_cast<CPoolableObject*>(m_pGameInstance->Get_BackGameObject(iNumLevels, strPoolTag));
+		if (pGameObject == nullptr) return nullptr;
+
+		 pGameObject->Set_Active(true);
+		return pGameObject;
 
 	}
-
 }
 
 void CPool_Manager::Clear(_uint iNumLevels)

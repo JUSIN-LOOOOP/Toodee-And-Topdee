@@ -45,9 +45,10 @@ public:
 
 	//Object
 public:
-	class CComponent* Find_Component(_uint iLayerLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
-	HRESULT			Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg = nullptr);
-	
+	class CComponent*	Find_Component(_uint iLayerLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
+	HRESULT				Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg = nullptr);
+	class CGameObject*	Get_BackGameObject(_uint iLayerLevelIndex, const _wstring& strLayerTag); /* 인 게임단계에서 오브젝트 찾기용 */
+	class CGameObject*	Get_Ready_BackGameObject(const _wstring& strLayerTag); /* Ready_Layer_GameObject 단계에서 사용하는 오브젝트 찾기용 */
 	//key
 public:
 	_bool			Key_Pressing(int _iKey);
@@ -94,7 +95,7 @@ public:
 public:
 	void					First_Push(const _wstring& strPoolTag,  class CPoolableObject* pGameObject);
 	void					Push(const _wstring& strPoolTag, class CPoolableObject* pGameObject);
-	class CPoolableObject*	Pop(const _wstring& strPoolTag);
+	class CPoolableObject*	Pop(_uint iPrototypeLevelIndex, const _wstring& strPoolTag);
 
 	//Dimension
 public:

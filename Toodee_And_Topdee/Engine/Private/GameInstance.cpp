@@ -222,6 +222,22 @@ HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wst
 	return m_pObject_Manager->Add_GameObject_ToLayer(iLayerLevelIndex, strLayerTag, iPrototypeLevelIndex, strPrototypeTag, pArg);
 }
 
+CGameObject* CGameInstance::Get_BackGameObject(_uint iLayerLevelIndex, const _wstring& strLayerTag)
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Get_BackGameObject(iLayerLevelIndex, strLayerTag);
+}
+
+CGameObject* CGameInstance::Get_Ready_BackGameObject( const _wstring& strLayerTag)
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Get_BackGameObject(m_iNextLevelID, strLayerTag);
+}
+
 #pragma endregion
 
 #pragma region RENDERER
@@ -381,12 +397,12 @@ void CGameInstance::Push(const _wstring& strPoolTag, CPoolableObject* pGameObjec
 	m_pPool_Manager->Push(m_iCurrentLevelID,strPoolTag, pGameObject);
 }
 
-CPoolableObject* CGameInstance::Pop(const _wstring& strPoolTag)
+CPoolableObject* CGameInstance::Pop(_uint iPrototypeLevelIndex, const _wstring& strPoolTag)
 {
 	if (nullptr == m_pPool_Manager)
 		return nullptr;
 
-	return m_pPool_Manager->Pop(m_iCurrentLevelID, strPoolTag);
+	return m_pPool_Manager->Pop(m_iCurrentLevelID, iPrototypeLevelIndex, strPoolTag);
 }
 
 #pragma endregion
