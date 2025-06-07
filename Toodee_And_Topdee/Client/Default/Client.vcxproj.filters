@@ -215,7 +215,7 @@
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
-    </ClCompile> 
+  
     <ClCompile Include="..\Private\Cloud.cpp">
       <Filter>02. GameObjects\Cloud</Filter>
     </ClCompile>
@@ -459,7 +459,6 @@
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\InteractionBlock.h" />
-    </ClInclude>
     <ClInclude Include="..\Public\Cloud.h">
       <Filter>02. GameObjects\Cloud</Filter>
     </ClInclude>
