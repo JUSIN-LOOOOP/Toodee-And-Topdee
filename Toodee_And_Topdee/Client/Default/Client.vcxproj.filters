@@ -245,6 +245,12 @@
     <ClCompile Include="..\Private\Level_StageBoss.cpp">
       <Filter>01. Levels\03. GamePlay\03. Stage_Boss01</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Sink.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Water.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -505,6 +511,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_StageBoss.h">
       <Filter>01. Levels\03. GamePlay\03. Stage_Boss01</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sink.h">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Water.h">
+      <Filter>00. Dummys\K J H</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
