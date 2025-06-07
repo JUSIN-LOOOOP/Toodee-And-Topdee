@@ -34,6 +34,10 @@ public:
 	_bool IsAttach() const { return m_bIsAttach; }					// Box 들고 있는지 Check
 	_float3 ComputeTileOutlinePosition();							// TileOutline Position Return
 
+public:
+	_bool	IsAttackSparkBlock( );
+
+
 private:
 	_uint			m_iPlayLevel = {};
 

@@ -87,7 +87,8 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
     m_pTransformCom->Scaling(12.f, 12.f, 0.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
-    
+    name = TEXT("Toodee");
+
     return S_OK;
 }
 

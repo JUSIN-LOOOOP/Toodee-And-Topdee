@@ -33,7 +33,7 @@ HRESULT CCollider::Initialize(void* pArg)
     if (pDesc->bIsFixed)
     {   
         m_vPosition = pDesc->vColliderPosion;
-        m_bIsFixed = true;
+        m_bIsFixed = pDesc->bIsFixed;
     }
     else
         m_vPosition = pDesc->pTransform->Get_State(STATE::POSITION);
@@ -111,6 +111,22 @@ void CCollider::Set_Scaling(_float fScaleX, _float fScaleY, _float fScaleZ)
     m_vScale.x = fScaleX;
     m_vScale.y = fScaleY;
     m_vScale.z = fScaleZ;
+
+    /* 버텍스 버퍼 다시 설정 */
+    VTXCUBETEX* pVertices = { nullptr };
+
+    m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
+
+    pVertices[0].vPosition = m_vPoint[0] = _float3(-m_vScale.x, m_vScale.y, -m_vScale.z) * 0.5f + m_vPosition;
+    pVertices[1].vPosition = m_vPoint[1] = _float3(m_vScale.x, m_vScale.y, -m_vScale.z) * 0.5f + m_vPosition;
+    pVertices[2].vPosition = m_vPoint[2] = _float3(m_vScale.x, -m_vScale.y, -m_vScale.z) * 0.5f + m_vPosition;
+    pVertices[3].vPosition = m_vPoint[3] = _float3(-m_vScale.x, -m_vScale.y, -m_vScale.z) * 0.5f + m_vPosition;
+    pVertices[4].vPosition = m_vPoint[4] = _float3(-m_vScale.x, m_vScale.y, m_vScale.z) * 0.5f + m_vPosition;
+    pVertices[5].vPosition = m_vPoint[5] = _float3(m_vScale.x, m_vScale.y, m_vScale.z) * 0.5f + m_vPosition;
+    pVertices[6].vPosition = m_vPoint[6] = _float3(m_vScale.x, -m_vScale.y, m_vScale.z) * 0.5f + m_vPosition;
+    pVertices[7].vPosition = m_vPoint[7] = _float3(-m_vScale.x, -m_vScale.y, m_vScale.z) * 0.5f + m_vPosition;
+
+    m_pVB->Unlock();
 }
 
 _bool CCollider::GetOverlapAll(vector<class CGameObject*>*& pList)

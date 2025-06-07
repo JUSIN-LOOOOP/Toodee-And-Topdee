@@ -24,7 +24,7 @@ HRESULT CBlock_Spark::Initialize(void* pArg)
 
 	__super::SetUp_BlockInfo(pArg);
 
-	name = TEXT("Block_Wall");
+	name = TEXT("Interaction_Block_Spark");
 
     return S_OK;
 }

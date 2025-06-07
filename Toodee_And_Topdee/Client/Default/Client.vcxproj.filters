@@ -68,25 +68,25 @@
       <Filter>00. Dummys\T Y J\MapObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Break.cpp">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Break</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Break</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Fall.cpp">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Fall</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Fall</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Lock.cpp">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Lock</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Lock</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Wall.cpp">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Wall</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Wall</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Wood.cpp">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Wood</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Wood</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Metal.cpp">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Metal</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Metal</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block_Spark.cpp">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Spark</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Spark</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Hole.cpp">
       <Filter>00. Dummys\T Y J\MapObject\Hole</Filter>
@@ -323,25 +323,25 @@
       <Filter>00. Dummys\T Y J\MapObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Break.h">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Break</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Break</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Fall.h">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Fall</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Fall</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Lock.h">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Lock</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Lock</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Wall.h">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Wall</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Wall</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Wood.h">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Wood</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Wood</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Metal.h">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Metal</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Metal</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block_Spark.h">
-      <Filter>00. Dummys\T Y J\MapObject\Block\Spark</Filter>
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Spark</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Hole.h">
       <Filter>00. Dummys\T Y J\MapObject\Hole</Filter>
@@ -687,30 +687,6 @@
     <Filter Include="00. Dummys\T Y J\MapObject\Hole">
       <UniqueIdentifier>{bd7bd66b-82af-499a-bffe-acc70c5da4b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\T Y J\MapObject\Block">
-      <UniqueIdentifier>{231421e6-3c58-4010-bac5-da96001f5bb9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\MapObject\Block\Break">
-      <UniqueIdentifier>{6a0c54f5-3a89-4934-ba1d-19776beaa6cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\MapObject\Block\Fall">
-      <UniqueIdentifier>{930abd54-aa14-4957-8186-40a603d64e97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\MapObject\Block\Lock">
-      <UniqueIdentifier>{b22a7b49-a210-4ed2-9198-d2e246c6fb77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\MapObject\Block\Metal">
-      <UniqueIdentifier>{ec6d845a-a69d-41e5-b796-d9c8c42676b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\MapObject\Block\Spark">
-      <UniqueIdentifier>{0856da92-c18c-47e2-b81c-bc886450ee5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\MapObject\Block\Wall">
-      <UniqueIdentifier>{615247ea-a0ea-4cfd-916b-cfa233363194}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\T Y J\MapObject\Block\Wood">
-      <UniqueIdentifier>{6ce54d61-43ac-4f1a-a44f-c003d9fdc1ab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Dummys\T Y J\MapObject\Key">
       <UniqueIdentifier>{4361f3e3-3789-4f80-bc48-404f1b9bfce7}</UniqueIdentifier>
     </Filter>
@@ -728,6 +704,30 @@
     </Filter>
     <Filter Include="02. GameObjects\Cloud\Storm">
       <UniqueIdentifier>{6d4d3211-bf84-4809-949d-aece98806416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks">
+      <UniqueIdentifier>{231421e6-3c58-4010-bac5-da96001f5bb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Break">
+      <UniqueIdentifier>{6a0c54f5-3a89-4934-ba1d-19776beaa6cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Fall">
+      <UniqueIdentifier>{930abd54-aa14-4957-8186-40a603d64e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Lock">
+      <UniqueIdentifier>{b22a7b49-a210-4ed2-9198-d2e246c6fb77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Metal">
+      <UniqueIdentifier>{ec6d845a-a69d-41e5-b796-d9c8c42676b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Spark">
+      <UniqueIdentifier>{0856da92-c18c-47e2-b81c-bc886450ee5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Wall">
+      <UniqueIdentifier>{615247ea-a0ea-4cfd-916b-cfa233363194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Wood">
+      <UniqueIdentifier>{6ce54d61-43ac-4f1a-a44f-c003d9fdc1ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
