@@ -22,12 +22,11 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void	Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos) override;
-	virtual HRESULT Render(void* pArg) override;
+	virtual HRESULT Render() override;
 
 private:
-	_int	m_iDeltaAngleX = {};
-	_int	m_iDeltaAngleY = {};
-	
+	_float	m_fDeltaAngleX = {}, m_fDeltaAngleY = {};
+	void	Look_At_degree(_float& pAngleXOut, _float& pAngleYOut, CTransform* pTransform, _float3 vTargetPos);
 public:
 	static CPart_Eyes* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;

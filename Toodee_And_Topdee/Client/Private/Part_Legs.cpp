@@ -32,7 +32,7 @@ HRESULT CPart_Legs::Initialize(void* pArg)
 	m_fMaxFrame = pDesc->fMaxFrame;
 
 	if (pDesc->eState == PARTSTATE::PARTS_RIGHT)
-	{	m_fAngleX = -(pDesc->fAngleX);	m_fAngleY = -(pDesc->fAngleY);	}
+	{	m_fAngleX = -(pDesc->fAngleX);	m_fAngleY = (pDesc->fAngleY);	}
 	else
 	{	m_fAngleX = pDesc->fAngleX;		m_fAngleY = pDesc->fAngleY;	}
 
@@ -52,21 +52,44 @@ HRESULT CPart_Legs::Initialize(void* pArg)
 
 void CPart_Legs::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
+	
 
 
+	if(m_strOtherName.find(TEXT("Bat")) != string::npos)
+	{
+		if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
+		{
+			_float3 vOtherPos = pTransform->Get_State(STATE::POSITION);
+			_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION);
+			__super::Look_At_degree(&m_fDeltaAngleX, &m_fDeltaAngleY, pTransform, vFocusPos);
+			__super::RevolveAround(pTransform, -m_fDeltaAngleX, 0);
 
+			if (vOtherPos.x < vMyPos.x)
+				m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
+		}
+		else if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
+		{
+			__super::Look_At_degree(&m_fDeltaAngleX, &m_fDeltaAngleY, pTransform, vFocusPos);
+			__super::RevolveAround(pTransform, -m_fDeltaAngleX, 0);
+			if (m_fDeltaAngleX > 0) { m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f)); }
+		}
+	}
+
+	if (m_strOtherName.find(TEXT("Pig")) != string::npos)
+	{
+		if (m_fMaxFrame != 0)
+		{
+			m_fFrame += m_fMaxFrame * fTimeDelta;
+			if (m_fFrame >= m_fMaxFrame)
+				m_fFrame = m_fOldFrame;
+		}
+	}
+	
 
 	
-	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY);
-
-	if (m_fMaxFrame > 0)
-	{		m_fFrame += m_fMaxFrame * fTimeDelta;
-		if (m_fFrame >= m_fMaxFrame)
-			m_fFrame = m_fOldFrame;
-	}
 }
 
-HRESULT CPart_Legs::Render(void* pArg)
+HRESULT CPart_Legs::Render()
 {
 
 	m_pTransformCom->Bind_Matrix();

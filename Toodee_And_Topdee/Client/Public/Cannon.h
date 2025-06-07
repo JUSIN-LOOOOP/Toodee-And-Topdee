@@ -8,7 +8,7 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Cube;
-
+class CCollider;
 END
 
 BEGIN(Client)
@@ -43,6 +43,7 @@ private:
 	CVIBuffer_Cube*		m_pVIBufferCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CTexture*			m_pTextureCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
 
 	CANNON_TYPE			m_eType {};
 	_uint				m_iCannonDir = { };

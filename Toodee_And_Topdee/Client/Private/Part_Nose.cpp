@@ -53,14 +53,13 @@ HRESULT CPart_Nose::Initialize(void* pArg)
 void CPart_Nose::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
 	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
-	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
-		__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
+	__super::Look_At_degree(&m_fDeltaAngleX, &m_fDeltaAngleY, pTransform, vFocusPos);
 
 
-	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, -0.3f);
+	__super::RevolveAround(pTransform, m_fDeltaAngleX, m_fDeltaAngleY, 0.1f, -0.2f);
 }
 
-HRESULT CPart_Nose::Render(void* pArg)
+HRESULT CPart_Nose::Render()
 {
 	m_pTransformCom->Bind_Matrix();
 

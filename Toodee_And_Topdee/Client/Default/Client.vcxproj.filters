@@ -215,7 +215,6 @@
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
-  
     <ClCompile Include="..\Private\Cloud.cpp">
       <Filter>02. GameObjects\Cloud</Filter>
     </ClCompile>
@@ -227,6 +226,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Bat.cpp">
       <Filter>02. GameObjects\Monster\02. Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Lightning.cpp">
+      <Filter>02. GameObjects\Cloud\Storm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Rain.cpp">
+      <Filter>02. GameObjects\Cloud\Storm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Storm.cpp">
+      <Filter>02. GameObjects\Cloud\Storm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RainSplash.cpp">
+      <Filter>02. GameObjects\Cloud\Storm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -471,6 +482,18 @@
     <ClInclude Include="..\Public\Bat.h">
       <Filter>02. GameObjects\Monster\02. Bat</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Lightning.h">
+      <Filter>02. GameObjects\Cloud\Storm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Rain.h">
+      <Filter>02. GameObjects\Cloud\Storm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Storm.h">
+      <Filter>02. GameObjects\Cloud\Storm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RainSplash.h">
+      <Filter>02. GameObjects\Cloud\Storm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -702,6 +725,9 @@
     </Filter>
     <Filter Include="02. GameObjects\Monster\99. Parts\Wing">
       <UniqueIdentifier>{0d1704c7-682b-418a-92d2-a3b155752b74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Cloud\Storm">
+      <UniqueIdentifier>{6d4d3211-bf84-4809-949d-aece98806416}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -50,14 +50,14 @@ HRESULT CPart_Tail::Initialize(void* pArg)
 void CPart_Tail::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
 	_float3 vMyPos = pTransform->Get_State(STATE::POSITION);
-	__super::Check_To_FocusDelta(&m_iDeltaAngleX, &m_iDeltaAngleY, vFocusPos, vMyPos);
-	__super::RevolveAround(pTransform, m_iDeltaAngleX, m_iDeltaAngleY, -0.2f);
+	__super::Look_At_degree(&m_fDeltaAngleX, &m_fDeltaAngleY, pTransform, vFocusPos);
+	__super::RevolveAround(pTransform, m_fDeltaAngleX, m_fDeltaAngleY, 0.1f, -0.2f);
 
-	if (m_iDeltaAngleX < 0)
+	if (m_fDeltaAngleX < 0)
 		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
 }
 
-HRESULT CPart_Tail::Render(void* pArg)
+HRESULT CPart_Tail::Render()
 {
 	
 	m_pTransformCom->Bind_Matrix();

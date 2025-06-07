@@ -593,6 +593,15 @@ void CPlayer_Toodee::Check_Collision_Key(CGameObject* pGameObject)
     }
 }
 
+void CPlayer_Toodee::Check_Collision_Storm(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Storm")) != string::npos)
+        m_bOnTheStorm = true;
+    else
+        m_bOnTheStorm = false;
+    
+}
+
 void CPlayer_Toodee::Check_Grounded()
 {
     _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
@@ -612,18 +621,14 @@ void CPlayer_Toodee::Check_Grounded()
 
         for (auto iter : *Overlaps)
         {
+            Check_OnGround(iter);
             Check_Collision_Portal(iter);
             Check_Collision_BlockBreak(iter);
             Check_Collision_Dead(iter);
             Check_Collision_Key(iter);
+            Check_Collision_Storm(iter);
         }
 
-        if(m_eJumpState != JUMPSTATE::JUMPING && false == m_bOnThePortal)
-        {
-            m_bInAction = false;
-            m_fAccumulationJumpPower = 0.f;
-            m_fGravityPower = 0.f;
-        }
     }
     else
     {
@@ -635,6 +640,17 @@ void CPlayer_Toodee::Check_Grounded()
             m_eJumpState = JUMPSTATE::JUMPING;
             m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::ACTION);
         }
+    }
+}
+
+void CPlayer_Toodee::Check_OnGround(CGameObject* pGameObject)
+{
+    if (m_eJumpState != JUMPSTATE::JUMPING &&( pGameObject->Get_Name().find(TEXT("Wall")) != string::npos
+        || pGameObject->Get_Name().find(TEXT("Block")) != string::npos))
+    {
+        m_bInAction = false;
+        m_fAccumulationJumpPower = 0.f;
+        m_fGravityPower = 0.f;
     }
 }
 

@@ -27,6 +27,7 @@ public:
 		m_GameObjects.push_back(pGameObject);
 		return S_OK;
 	}
+	class CGameObject*  Get_BackGameObject() { return m_GameObjects.back(); }
 
 
 

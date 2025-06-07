@@ -38,6 +38,7 @@ HRESULT CMultiViewCamera::Initialize(void* pArg)
     if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
         m_bType = CAM_TYPE::QURTER;
 
+    CameraTestMoveInitialize();
     m_pGameInstance->Subscribe<CHANGECAM>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CHANGE_CAM, [this](const CHANGECAM& Event) {
         this->SetViewFlag(); });
 
@@ -65,6 +66,8 @@ void CMultiViewCamera::Update(_float fTimeDelta)
 {
     if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
+
+    CameraTestMove(fTimeDelta);
 }
 
 void CMultiViewCamera::Late_Update(_float fTimeDelta)
@@ -120,6 +123,62 @@ HRESULT CMultiViewCamera::Ready_Components(void* pArg)
         return E_FAIL;
 
     return S_OK;
+}
+
+void CMultiViewCamera::CameraTestMoveInitialize()
+{
+    m_OldPoint.x = g_iWinSizeX >> 1;
+    m_OldPoint.y = g_iWinSizeY >> 1;
+
+    POINT		ptMouse = m_OldPoint;
+    ClientToScreen(g_hWnd, &ptMouse);
+
+    SetCursorPos(ptMouse.x, ptMouse.y);
+}
+
+void CMultiViewCamera::CameraTestMove(_float fTimeDelta)
+{
+    if (GetKeyState('W') < 0)
+    {
+        m_pTransformCom->Go_Straight(fTimeDelta);
+    }
+
+    if (GetKeyState('S') < 0)
+    {
+        m_pTransformCom->Go_Backward(fTimeDelta);
+    }
+
+    if (GetKeyState('A') < 0)
+    {
+        m_pTransformCom->Go_Left(fTimeDelta);
+    }
+
+    if (GetKeyState('D') < 0)
+    {
+        m_pTransformCom->Go_Right(fTimeDelta);
+    }
+
+   /* POINT			ptMouse{};
+
+    GetCursorPos(&ptMouse);
+    ScreenToClient(g_hWnd, &ptMouse);
+
+    _int		iMouseMove = {};
+
+    if (iMouseMove = ptMouse.x - m_OldPoint.x)
+    {
+        m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), iMouseMove * fTimeDelta * 0.1f);
+    }
+
+    if (iMouseMove = ptMouse.y - m_OldPoint.y)
+    {
+        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * 0.1f);
+    }
+
+    m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
+    m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
+
+    m_OldPoint = ptMouse;*/
 }
 
 CMultiViewCamera* CMultiViewCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

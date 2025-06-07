@@ -20,18 +20,22 @@ HRESULT CCloud::Initialize_Prototype()
 
 HRESULT CCloud::Initialize(void* pArg)
 {
+    name = TEXT("Cloud");
+
+    CLOUD_DESC* pDesc = reinterpret_cast<CLOUD_DESC*>(pArg);
+    m_eMyType = pDesc->eType;
+    m_ToodeePosition = pDesc->vPosition;
+    m_TopdeePosition = { m_ToodeePosition.x - CLOUD_INTERVAL_POSITION_X, m_ToodeePosition.y + CLOUD_INTERVAL_POSITION_Y*2.f ,m_ToodeePosition.z - CLOUD_INTERVAL_POSITION_Y };
+
+    if (m_eMyType == CLOUD_TYPES::BLACK)
+        m_strTexture = TEXT("Prototype_Component_Texture_BlackCloud");
+
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    name = TEXT("Cloud");
-
-    m_iMotionNumber = {0};
-    m_fIntervalMotion = {0.25f};
-    m_fAccumulateMotion = {0.f};
-
-    m_ToodeePosition = { 25.f, 1.9f, 9.f };
-    m_TopdeePosition = { 23.f, 5.f, 9.f };
-
+    m_iMotionNumber = { 0 };
+    m_fIntervalMotion = { 0.25f };
+    m_fAccumulateMotion = { 0.f };
 
     if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
     {
@@ -42,12 +46,11 @@ HRESULT CCloud::Initialize(void* pArg)
     {
         m_pTransformCom->Set_State(STATE::POSITION, m_TopdeePosition);
         m_eDimension = DIMENSION::TOPDEE;
-
     }
 
     m_pTransformCom->Scaling(9.f, 4.f, 1.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90));
-   
+
 
 
     return S_OK;
@@ -60,9 +63,10 @@ void CCloud::Priority_Update(_float fTimeDelta)
 void CCloud::Update(_float fTimeDelta)
 {
     Motion(fTimeDelta);
+
     if (!m_bIsChangeCamera && m_pGameInstance->Get_CurrentDimension() == DIMENSION::CHANGE)
         m_bIsChangeCamera = true;
-   
+
     PositionChangeForCameraSwitch(fTimeDelta);
 }
 
@@ -87,7 +91,7 @@ HRESULT CCloud::Render()
 
     Reset_RenderState();
 
-    m_pColliderCom->Render();
+   // m_pColliderCom->Render();
 
     return S_OK;
 }
@@ -103,37 +107,37 @@ void CCloud::Motion(_float fTimeDelta)
     }
     else
         m_fAccumulateMotion += fTimeDelta;
-    
+
 }
 
 void CCloud::PositionChangeForCameraSwitch(_float fTimeDelta)
 {
     if (!m_bIsChangeCamera) return;
 
-	if (m_eDimension == DIMENSION::TOODEE)
-	{
-		_float3 vTemp = m_pTransformCom->Get_State(STATE::POSITION);
+    if (m_eDimension == DIMENSION::TOODEE)
+    {
+        _float3 vTemp = m_pTransformCom->Get_State(STATE::POSITION);
 
-        if (vTemp.y <= m_TopdeePosition.y) vTemp.y += fTimeDelta * 5.5f;
+        if (vTemp.y <= m_TopdeePosition.y) vTemp.y += fTimeDelta * CLOUD_INTERVAL_POSITION_Y * 2.f;
         else vTemp.y = m_TopdeePosition.y;
 
-        if (vTemp.x >= m_TopdeePosition.x) vTemp.x -= fTimeDelta * 1.f ;
+		if (vTemp.x >= m_TopdeePosition.x) vTemp.x -= fTimeDelta * CLOUD_INTERVAL_POSITION_X * 1.5f;
         else vTemp.x = m_TopdeePosition.x;
 
-		m_pTransformCom->Set_State(STATE::POSITION, vTemp);
-	}
-	else
-	{
-		_float3 vTemp = m_pTransformCom->Get_State(STATE::POSITION);
+        m_pTransformCom->Set_State(STATE::POSITION, vTemp);
+    }
+    else
+    {
+        _float3 vTemp = m_pTransformCom->Get_State(STATE::POSITION);
 
-		if (vTemp.y >= m_ToodeePosition.y) vTemp.y -= fTimeDelta * 5.5f;
+        if (vTemp.y >= m_ToodeePosition.y) vTemp.y -= fTimeDelta * CLOUD_INTERVAL_POSITION_Y * 2.f;
         else  vTemp.y = m_ToodeePosition.y;
 
-        if (vTemp.x <= m_ToodeePosition.x) vTemp.x += fTimeDelta * 1.f;
+        if (vTemp.x <= m_ToodeePosition.x) vTemp.x += fTimeDelta * CLOUD_INTERVAL_POSITION_X * 1.5f;
         else vTemp.x = m_ToodeePosition.x;
 
-		m_pTransformCom->Set_State(STATE::POSITION, vTemp);
-	}
+        m_pTransformCom->Set_State(STATE::POSITION, vTemp);
+    }
 
     if (m_pGameInstance->Get_CurrentDimension() != DIMENSION::CHANGE)
     {
@@ -160,22 +164,22 @@ HRESULT CCloud::Ready_Components()
     TransformDesc.fSpeedPerSec = 5.f;
     TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
-        TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom),&TransformDesc)))
+        TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
         return E_FAIL;
 
     /* For.Com_Collision */
-    CCollider::COLLIDER_DESC  ColliderDesc{};
-    ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
-    ColliderDesc.pTransform = m_pTransformCom;
-    ColliderDesc.vColliderScale = _float3(7.f, 3.0f, 2.0f);
-    ColliderDesc.bIsFixed = false;
+    //CCollider::COLLIDER_DESC  ColliderDesc{};
+    //ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
+    //ColliderDesc.pTransform = m_pTransformCom;
+    //ColliderDesc.vColliderScale = _float3(7.f, 3.0f, 2.0f);
+    //ColliderDesc.bIsFixed = false;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
-        TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-    {
-        MSG_BOX(TEXT("Failed to Add_Component : Com_Collision"));
-        return E_FAIL;
-    }
+    //if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+    //    TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+    //{
+    //    MSG_BOX(TEXT("Failed to Add_Component : Com_Collision"));
+    //    return E_FAIL;
+    //}
 
     return S_OK;
 }

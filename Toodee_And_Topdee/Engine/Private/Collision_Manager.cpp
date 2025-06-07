@@ -137,7 +137,11 @@ void CCollision_Manager::Check_Collision(_uint iLevelIndex, CCollider* pCollider
         /* 자기자신 pass , 반복문 상대가 비어있으면 pass, 콜라이더 비활성 pass*/
         if (myIter == otherIter || otherIter->first == nullptr|| !otherIter->first->Collision_IsActive())
             continue;
-   
+
+        /* 같은 오브젝트에 붙어 있는 콜라이더는 Pass */
+        if (myIter->first->Get_GameObject() == otherIter->first->Get_GameObject())
+            continue;
+
         /*  Other OBB 정보 설정 */
         COLLIDER_SHAPE otherShape = otherIter->first->Reference_Collider_Info(otherDesc);
        

@@ -2,8 +2,8 @@
 
 #include "Component.h"
 
-/* °´Ã¼µéÀ» ±¸¼ºÇÏ´Â Á¤Á¡µéÀ» ¿ùµå·Î º¯È¯ÇØÁÖ±âÀ§ÇÑ »óÅÂÇà·ÄÀ» º¸°ü. */
-/* ¿ùµåÇà·ÄÀÇ »óÅÂ¸¦ ¹Ù²ãÁÖ±âÀ§ÇÑ ´Ù¾çÇÑ ÇÔ¼ö¸¦ Á¦°ø.(¾ÕÀ¸·Î°£´Ù. È¸ÀüÇÑ´Ù. ÃÄ´Ùº»´Ù.) */
+/* ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¾ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.(ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½. È¸ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½Ä´Ùºï¿½ï¿½ï¿½.) */
 
 BEGIN(Engine)
 
@@ -53,6 +53,8 @@ public:
 		memcpy(&m_WorldMatrix.m[ENUM_CLASS(eState)][0], &vState, sizeof(_float3));
 	}
 
+	void Set_WorldMatrix(const _float4x4& matrix) { m_WorldMatrix = matrix; }
+
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
@@ -74,9 +76,10 @@ public:
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void TurnToRadian(const _float3& vAxis, _float fRadian);
 	void Scaling(_float fScaleX, _float fScaleY, _float fScaleZ);
-	/* vTarget À§Ä¡±îÁö vAxis Ãà È¸Àü, fRotationDegree = µµÂøÇÒ¶§±îÁö È¸ÀüÇÒ °¢µµ, fDistance = ½ÃÀÛ±âÁØ Å¸°Ù°úÀÇ °Å¸®*/
+	/* vTarget ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ vAxis ï¿½ï¿½ È¸ï¿½ï¿½, fRotationDegree = ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, fDistance = ï¿½ï¿½ï¿½Û±ï¿½ï¿½ï¿½ Å¸ï¿½Ù°ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½*/
 	_bool Spiral(const _float3& vTarget, const _float3& vAxis, _float fRotationDegree, _float fDistance, _float fTimeDelta);
 	void Adjust_Scale(const _float3& vScale);
+	_bool Move_To_LimitY(const _float3& vTarget, _float fTimeDelta, _float fLimitY = 0.f);
 	void Set_Matrix(const _float4x4& matrix);
 
 public:
