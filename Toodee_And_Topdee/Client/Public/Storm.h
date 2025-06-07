@@ -53,7 +53,10 @@ private:
 	DIMENSION				m_eDimension = { DIMENSION::NONE };
 	_bool					m_bOnceToodee = { false };
 
-	_float					m_fRainSplashIntervalTime = { 1.f }, m_fRainSplashAccumulateTime = { 0.f };
+	_float					m_fRainSplashIntervalTime = { 1.f };
+	_float					m_fRainSplashAccumulateTime = { 0.f };
+
+	pair<_uint, _bool>		m_IsAttackSparkBlock = { };
 
 private:
 	void					Compute_CrashSite(_float fTimeDelta);

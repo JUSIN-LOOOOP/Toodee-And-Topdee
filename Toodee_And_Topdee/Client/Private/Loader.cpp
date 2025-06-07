@@ -338,10 +338,10 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_RainSplash"),
 		CRainSplash::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Lightning"),
-	//	CLightning::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
-
+	/* Prototype_GameObject_Lightning */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Lightning"),
+		CLightning::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 #pragma endregion
 
