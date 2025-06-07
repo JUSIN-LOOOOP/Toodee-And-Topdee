@@ -896,7 +896,7 @@ void CPlayer_Topdee::Check_Collision_InteractionBlock(CGameObject* pGameObject)
 {
 	if(pGameObject->Get_Name().find(TEXT("Interaction")) != string::npos)
 	{
-		CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(m_pColliderCom->GetOverlapTarget());
+		CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(pGameObject);
 		if (false == pBlock->IsPush() && false == pBlock->IsFall())
 		{
 			pBlock->Request_Change_State(BLOCKSTATE::PUSH);
