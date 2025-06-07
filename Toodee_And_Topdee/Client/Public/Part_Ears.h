@@ -22,7 +22,7 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void	Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos) override;
-	virtual HRESULT Render(void* pArg) override;
+	virtual HRESULT Render() override;
 
 private:
 	_float  m_fDeltaAngleX = {};

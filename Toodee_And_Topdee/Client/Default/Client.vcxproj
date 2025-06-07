@@ -170,6 +170,7 @@
     <ClInclude Include="..\Public\Client_Extension.h" />
     <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
+    <ClInclude Include="..\Public\FireBall.h" />
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\Hole.h" />
@@ -185,7 +186,9 @@
     <ClInclude Include="..\Public\Level_Stage4.h" />
     <ClInclude Include="..\Public\Level_Stage5.h" />
     <ClInclude Include="..\Public\Level_Stage6.h" />
+    <ClInclude Include="..\Public\Level_StageBoss.h" />
     <ClInclude Include="..\Public\Level_Test.h" />
+    <ClInclude Include="..\public\Lightning.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\Monster.h" />
@@ -203,6 +206,8 @@
     <ClInclude Include="..\public\Player_Toodee.h" />
     <ClInclude Include="..\public\Player_Topdee.h" />
     <ClInclude Include="..\Public\Potal.h" />
+    <ClInclude Include="..\public\Rain.h" />
+    <ClInclude Include="..\Public\RainSplash.h" />
     <ClInclude Include="..\Public\Spikes.h" />
     <ClInclude Include="..\Public\StageBoss.h" />
     <ClInclude Include="..\Public\StageBoss_Body.h" />
@@ -214,6 +219,7 @@
     <ClInclude Include="..\Public\State_Idle.h" />
     <ClInclude Include="..\Public\State_Move.h" />
     <ClInclude Include="..\Public\State_Stop.h" />
+    <ClInclude Include="..\Public\Storm.h" />
     <ClInclude Include="..\public\Test_Cube.h" />
     <ClInclude Include="..\Public\Test_Cube2.h" />
     <ClInclude Include="..\Public\TileOutline.h" />
@@ -247,6 +253,7 @@
     <ClCompile Include="..\Private\Cannon.cpp" />
     <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
+    <ClCompile Include="..\Private\FireBall.cpp" />
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
@@ -262,7 +269,9 @@
     <ClCompile Include="..\Private\Level_Stage4.cpp" />
     <ClCompile Include="..\Private\Level_Stage5.cpp" />
     <ClCompile Include="..\Private\Level_Stage6.cpp" />
+    <ClCompile Include="..\Private\Level_StageBoss.cpp" />
     <ClCompile Include="..\Private\Level_Test.cpp" />
+    <ClCompile Include="..\private\Lightning.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
@@ -280,6 +289,8 @@
     <ClCompile Include="..\private\Player_Toodee.cpp" />
     <ClCompile Include="..\private\Player_Topdee.cpp" />
     <ClCompile Include="..\Private\Potal.cpp" />
+    <ClCompile Include="..\private\Rain.cpp" />
+    <ClCompile Include="..\Private\RainSplash.cpp" />
     <ClCompile Include="..\Private\Spikes.cpp" />
     <ClCompile Include="..\Private\StageBoss.cpp" />
     <ClCompile Include="..\Private\StageBoss_Body.cpp" />
@@ -291,6 +302,7 @@
     <ClCompile Include="..\Private\State_Idle.cpp" />
     <ClCompile Include="..\Private\State_Move.cpp" />
     <ClCompile Include="..\Private\State_Stop.cpp" />
+    <ClCompile Include="..\Private\Storm.cpp" />
     <ClCompile Include="..\private\Test_Cube.cpp" />
     <ClCompile Include="..\Private\Test_Cube2.cpp" />
     <ClCompile Include="..\Private\TileOutline.cpp" />

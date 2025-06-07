@@ -38,21 +38,15 @@ HRESULT CMultiViewCamera::Initialize(void* pArg)
     if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
         m_bType = CAM_TYPE::QURTER;
 
+    CameraTestMoveInitialize();
+    m_pGameInstance->Subscribe<CHANGECAM>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CHANGE_CAM, [this](const CHANGECAM& Event) {
+        this->SetViewFlag(); });
+
     return S_OK;
 }
 
 void CMultiViewCamera::Priority_Update(_float fTimeDelta)
 {
-    /*_bool newkey = GetKeyState('X') & 0x8000;
-
-    if (!m_bOldKey && newkey)
-        m_bRotating = true;
-
-    m_bOldKey = newkey;
-
-    if (m_bRotating == true)
-        ChangeView(fTimeDelta);*/
-
     if (m_pGameInstance->Key_Down('X') && m_pGameInstance->Get_CurrentDimension() != DIMENSION::CHANGE) {
         m_bRotating = true;
         m_pGameInstance->Change_Dimension(DIMENSION::CHANGE);
@@ -72,6 +66,8 @@ void CMultiViewCamera::Update(_float fTimeDelta)
 {
     if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
+
+    CameraTestMove(fTimeDelta);
 }
 
 void CMultiViewCamera::Late_Update(_float fTimeDelta)
@@ -85,12 +81,10 @@ HRESULT CMultiViewCamera::Render()
 
 void CMultiViewCamera::ChangeView(_float fTimeDelta)
 {
-    // [ī�޶� �ӵ� ��� ����]
-    _float fDelta = m_ChangeSpeed * fTimeDelta;             //Angle ������ �ӵ� ����
-    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3f;     //Position ������ �ӵ� ����
+    _float fDelta = m_ChangeSpeed * fTimeDelta;
+    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3f;
     m_fCurrentAngle += fDelta;
 
-    // [ī�޶� ȸ��->�̵�->zoom ����]
     if (m_bType == CAM_TYPE::TOP)
     {
         m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), -D3DXToRadian(fDelta));
@@ -106,8 +100,6 @@ void CMultiViewCamera::ChangeView(_float fTimeDelta)
         m_pTransformCom->Go_Straight(fTimeDelta * 3.f);
     }
 
-    _float3 tmp = m_pTransformCom->Get_State(STATE::POSITION);
-    // [��ǥ ���� �޼��ϸ� Flag ����]
     if (m_fCurrentAngle >= m_fTargetAngle)
     {
         m_fCurrentAngle = 0;
@@ -131,6 +123,62 @@ HRESULT CMultiViewCamera::Ready_Components(void* pArg)
         return E_FAIL;
 
     return S_OK;
+}
+
+void CMultiViewCamera::CameraTestMoveInitialize()
+{
+    m_OldPoint.x = g_iWinSizeX >> 1;
+    m_OldPoint.y = g_iWinSizeY >> 1;
+
+    POINT		ptMouse = m_OldPoint;
+    ClientToScreen(g_hWnd, &ptMouse);
+
+    SetCursorPos(ptMouse.x, ptMouse.y);
+}
+
+void CMultiViewCamera::CameraTestMove(_float fTimeDelta)
+{
+    if (GetKeyState('W') < 0)
+    {
+        m_pTransformCom->Go_Straight(fTimeDelta);
+    }
+
+    if (GetKeyState('S') < 0)
+    {
+        m_pTransformCom->Go_Backward(fTimeDelta);
+    }
+
+    if (GetKeyState('A') < 0)
+    {
+        m_pTransformCom->Go_Left(fTimeDelta);
+    }
+
+    if (GetKeyState('D') < 0)
+    {
+        m_pTransformCom->Go_Right(fTimeDelta);
+    }
+
+   /* POINT			ptMouse{};
+
+    GetCursorPos(&ptMouse);
+    ScreenToClient(g_hWnd, &ptMouse);
+
+    _int		iMouseMove = {};
+
+    if (iMouseMove = ptMouse.x - m_OldPoint.x)
+    {
+        m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), iMouseMove * fTimeDelta * 0.1f);
+    }
+
+    if (iMouseMove = ptMouse.y - m_OldPoint.y)
+    {
+        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * 0.1f);
+    }
+
+    m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
+    m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
+
+    m_OldPoint = ptMouse;*/
 }
 
 CMultiViewCamera* CMultiViewCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

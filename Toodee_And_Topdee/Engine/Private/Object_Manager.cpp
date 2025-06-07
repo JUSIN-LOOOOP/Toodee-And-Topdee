@@ -41,10 +41,20 @@ HRESULT CObject_Manager::Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _w
 	if (strLayerTag == L"Layer_Tile")
 		m_pGameInstance->Add_Tile(pGameObject);
 
+	/* Object Pooling */
 	if (strLayerTag == L"Layer_Projectile_Fire")
 		m_pGameInstance->First_Push(strLayerTag,dynamic_cast<CPoolableObject*>(pGameObject));
 
 	if (strLayerTag == L"Layer_Projectile_Laser")
+		m_pGameInstance->First_Push(strLayerTag, dynamic_cast<CPoolableObject*>(pGameObject));
+
+	if (strLayerTag == L"Layer_Rain")
+		m_pGameInstance->First_Push(strLayerTag, dynamic_cast<CPoolableObject*>(pGameObject));
+
+	if (strLayerTag == L"Layer_RainSplash")
+		m_pGameInstance->First_Push(strLayerTag, dynamic_cast<CPoolableObject*>(pGameObject));
+
+	if (strLayerTag == L"Layer_Lightning")
 		m_pGameInstance->First_Push(strLayerTag, dynamic_cast<CPoolableObject*>(pGameObject));
 
 	return S_OK;
@@ -104,6 +114,15 @@ CComponent* CObject_Manager::Get_Component(_uint iLayerLevelIndex, const _wstrin
 		return nullptr;
 
 	return pLayer->Get_Component(strComponentTag, iIndex);
+}
+
+CGameObject* CObject_Manager::Get_BackGameObject(_uint iLayerLevelIndex, const _wstring& strLayerTag)
+{
+	CLayer* pLayer = Find_Layer(iLayerLevelIndex, strLayerTag);
+	if (pLayer != nullptr)
+		return pLayer->Get_BackGameObject();
+
+	return nullptr;
 }
 
 CLayer* CObject_Manager::Find_Layer(_uint iLayerLevelIndex, const _wstring& strLayerTag)

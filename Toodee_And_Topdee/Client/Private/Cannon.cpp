@@ -104,7 +104,7 @@ HRESULT CCannon::Render()
 
 void CCannon::Shooting(_float fTimeDelta)
 {
-    if (0.4f <= m_fAccumulateShootingTime + fTimeDelta)
+    if (m_fIntervalShooting <= m_fAccumulateShootingTime + fTimeDelta)
     {
         m_fAccumulateShootingTime = 0.f;
 
@@ -122,27 +122,27 @@ void CCannon::Shooting(_float fTimeDelta)
         {
         case 0:                 /* Right */
             if (m_eType == CANNON_TYPE::FIRE)
-                 pProjectile =  m_pGameInstance->Pop(TEXT("Layer_Projectile_Fire"));
+                 pProjectile =  m_pGameInstance->Pop( ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY) ,TEXT("Layer_Projectile_Fire"));
              if (m_eType == CANNON_TYPE::LASER)
-                  pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Laser"));
+                  pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Laser"));
             break;
         case 1:                 /* Left */
             if (m_eType == CANNON_TYPE::FIRE)
-                 pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Fire"));
+                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"));
              if (m_eType == CANNON_TYPE::LASER)
-                  pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Laser"));
+                  pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Laser"));
             break;
         case 2:                 /* Up */
             if (m_eType == CANNON_TYPE::FIRE)
-                 pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Fire"));
+                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"));
             if (m_eType == CANNON_TYPE::LASER)
-                pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Laser"));
+                pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Laser"));
             break;
         case 3:                 /* Down */
             if (m_eType == CANNON_TYPE::FIRE)
-                pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Fire"));
+                pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"));
             if (m_eType == CANNON_TYPE::LASER)
-               pProjectile = m_pGameInstance->Pop(TEXT("Layer_Projectile_Laser"));
+               pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Laser"));
             break;
         }
 

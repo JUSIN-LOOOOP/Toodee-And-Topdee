@@ -3,6 +3,11 @@
 #include "../Default/framework.h"
 #include <process.h>
 
+#define	CLOUD_INTERVAL_POSITION_X		2.f
+#define	CLOUD_INTERVAL_POSITION_Y		4.f
+
+
+
 /* 클라이언트에서 사용할 수 있는 공통적인 정의를 모아놓은 파일 */
 namespace Client
 {
@@ -26,11 +31,11 @@ namespace Client
 
 	enum class DETACHDIRECTION { LEFT, UP, RIGHT, DOWN, DETACHDIRECTION_END};
 
-	enum JUMPSTATE { JUMPING, HANGSTART, HANGING, HANGEND, FALLING };
+	enum JUMPSTATE { JUMPING, HANGSTART, HANGING, HANGEND, FALLING, VIEWTURN };
 
 	enum class MAPOBJECT { NONE, WALL, WOOD, BREAK, LOCK, FALL, SPARK, METAL, HOLE, KEY, PORTAL, TOPDEE, TOODEE, MAPOBJECT_END };
 
-	enum class STAGEMONERSTATE { IDLE, CHASE, TURN, ATTACK, VIEWTURN, FIRE };
+	enum class STAGEMONERSTATE { IDLE, ATTACK, CHASE, TURN, HIT, FIRE, VIEWTURN, BOOST, DAMAGE };
 
 	enum class VIEWMODE { TOODEE, TOPDEE };
 
