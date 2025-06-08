@@ -68,6 +68,11 @@ HRESULT CMainApp::Initialize()
 	return S_OK;
 }
 
+void CMainApp::Post_Update()
+{
+	m_pGameInstance->Post_Update();
+}
+
 void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);

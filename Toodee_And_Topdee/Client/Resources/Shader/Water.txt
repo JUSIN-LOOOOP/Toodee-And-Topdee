@@ -1,5 +1,5 @@
 //전역 상수
-static const float g_TotalHeight = 16.0;
+static const float g_TotalHeight = 19.0;
 static const float PI = 3.14159265;
 static const float g_SinkRange = 12.0;
 // 공통 상수
@@ -125,8 +125,8 @@ VS_OUTPUT VS_Main(VS_INPUT input) {
             WorldPos.x = g_SinkPosition.x - RotateX;
             WorldPos.z = g_SinkPosition.z - RotateZ;
             
-            WorldPos.x = clamp(WorldPos.x, g_WorldMatrix._41, g_WorldMatrix._41 + 14.0);
-            WorldPos.z = min(WorldPos.z, g_SinkPosition.z + 4.0);
+            WorldPos.x = clamp(WorldPos.x, g_WorldMatrix._41, g_WorldMatrix._41 + 20.0);
+            WorldPos.z = min(WorldPos.z, g_SinkPosition.z + 6.0);
         }
 
         float2 CurrentDirection = g_SinkPosition.xz - WorldPos.xz;

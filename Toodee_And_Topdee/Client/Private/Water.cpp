@@ -32,7 +32,7 @@ HRESULT CWater::Initialize(void* pArg)
 
 	vPosition.x -= 10.f;
 	vPosition.y = 1.1f;
-	vPosition.z -= 18.f;
+	vPosition.z -= 16.f;
 
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 
