@@ -138,9 +138,9 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	/* Prototype_Component_VIBuffer_Sphere */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Sphere"),
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Sphere"),
 		CVIBuffer_Sphere::Create(m_pGraphic_Device, 20, 20))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	/* Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
@@ -438,9 +438,9 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 
 #pragma region TEXTURE THIRDEE
 	/* Prototype_Component_Texture_Thirdee_Head*/
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Thirdee_Head"),
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Thirdee_Head"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Thridee/ThirdeeHead.png"), 1))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	/* Prototype_Component_Texture_Thirdee_Body*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Thirdee_Body"),
