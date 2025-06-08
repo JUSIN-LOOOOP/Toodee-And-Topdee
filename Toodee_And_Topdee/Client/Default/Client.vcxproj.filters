@@ -263,6 +263,24 @@
     <ClCompile Include="..\private\Broken_Block.cpp">
       <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear\Broken_Block</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\FPSCamera.cpp">
+      <Filter>02. GameObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Semicolon.cpp">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Toodoo.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_FinalBoss01.cpp">
+      <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss01</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_FinalBoss02.cpp">
+      <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss02</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_FinalBoss03.cpp">
+      <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -542,6 +560,24 @@
     <ClInclude Include="..\public\Broken_Block.h">
       <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear\Broken_Block</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\FPSCamera.h">
+      <Filter>02. GameObjects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Semicolon.h">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Toodoo.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_FinalBoss01.h">
+      <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss01</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_FinalBoss02.h">
+      <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss02</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_FinalBoss03.h">
+      <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -650,9 +686,6 @@
     </Filter>
     <Filter Include="01. Levels\03. GamePlay\06. Stage06">
       <UniqueIdentifier>{4a5272c6-0002-4e42-a084-8d052085742d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\07. Stage_Boss02">
-      <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. Dummys\T Y J\BackGroundObj">
       <UniqueIdentifier>{96055de1-5330-42e8-85aa-b908c8d83573}</UniqueIdentifier>
@@ -785,6 +818,18 @@
     </Filter>
     <Filter Include="02. GameObjects\Cannon\Projectile\Laser">
       <UniqueIdentifier>{e7f456fe-e6b4-4e0e-bed7-0ba4538dc7cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss">
+      <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss01">
+      <UniqueIdentifier>{6ab22999-aa06-4f10-8f20-d72c23240afd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss02">
+      <UniqueIdentifier>{e114c4cc-c88d-4b97-98c4-4735ffc76177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03">
+      <UniqueIdentifier>{8d2bf573-1f4e-4358-b01b-ac4c2010e77c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
