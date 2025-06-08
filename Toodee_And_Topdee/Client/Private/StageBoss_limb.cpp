@@ -65,21 +65,20 @@ HRESULT CStageBoss_limb::Chase(_float fTimeDelta)
 
     D3DXVec3Normalize(&Length, &Length);
 
-    if (D3DXVec3Dot(&Length, &Upvec) < 0.95)
+    if (D3DXVec3Dot(&Length, &Upvec) < 0.85)
     {
-        m_pTransformCom->Move_To(fPlayerPos, fTimeDelta * 3);
+        m_pTransformCom->Move_To(fPlayerPos, fTimeDelta * 30.f);
 
         _float4x4 RotMatrix = {};
         _float m_fAngle = atan2f(fPlayerPos.z - m_pTransformCom->Get_State(STATE::POSITION).z,
             fPlayerPos.x - m_pTransformCom->Get_State(STATE::POSITION).x);
-        D3DXMatrixRotationY(&RotMatrix, -m_fAngle + D3DXToRadian(45));
+        D3DXMatrixRotationY(&RotMatrix, -m_fAngle + D3DXToRadian(40));
         m_pTransformCom->Set_Matrix(RotMatrix);
         flag[0] = true;
     }
-
     if (m_pTransformCom->Get_State(STATE::POSITION).y < 7.f)
     {
-        m_pTransformCom->Go_Up(fTimeDelta * 2.f);
+        m_pTransformCom->Go_Up(fTimeDelta * 22.f);
         flag[1] = true;
     }
         
@@ -106,7 +105,7 @@ HRESULT CStageBoss_limb::Turn(_float fTimeDelta)
 
 HRESULT CStageBoss_limb::HIT(_float fTimeDelta)
 {
-    m_pTransformCom->Go_Down(fTimeDelta);
+    m_pTransformCom->Go_Down(fTimeDelta * 20.f);
 
     _float3 pos = m_pTransformCom->Get_State(Engine::STATE::POSITION);
     if (pos.y <= 2.f)
@@ -125,15 +124,15 @@ HRESULT CStageBoss_limb::ChangeView(_float fTimeDelta)
 {
     _float fDelta = 80.f * fTimeDelta;
 
-    if (m_AccAngle + fDelta >= 120)
+    if (m_AccAngle + fDelta >= 90)
     {
-        fDelta = 120 - m_AccAngle;
+        fDelta = 90 - m_AccAngle;
         m_eState = STAGEMONERSTATE::IDLE;
     }
 
     m_AccAngle += fDelta;
 
-    if (m_AccAngle <= 120)
+    if (m_AccAngle <= 90)
         m_pTransformCom->Turn({ 1.f, 0.f, 0.f }, D3DXToRadian(((m_eViewMode == VIEWMODE::TOODEE)) ? fDelta : -fDelta));
 
     if (m_eTurnFlag == true)
@@ -163,9 +162,9 @@ HRESULT CStageBoss_limb::ChangeView(_float fTimeDelta)
 HRESULT CStageBoss_limb::MoveToOrigin(_float fTimeDelta)
 {
     _float3 Length = m_pTransformCom->Get_State(Engine::STATE::POSITION) - m_fInitPos;
-    if (D3DXVec3Length(&Length) > 0.f || m_eState == STAGEMONERSTATE::DAMAGE)
+    if (D3DXVec3Length(&Length) > 1.f || m_eState == STAGEMONERSTATE::DAMAGE)
     {
-        m_pTransformCom->Move_To(m_fInitPos, fTimeDelta * 0.8f);
+        m_pTransformCom->MoveUntilInRange(m_fInitPos, fTimeDelta * 25.f, 1.f);
         ChangeView(fTimeDelta);
     }
     else
@@ -185,15 +184,17 @@ void CStageBoss_limb::RotateToFace(_float fTimeDelta)
 
     _float3 Lookvec = m_pTransformCom->Get_State(STATE::LOOK);
     _float4x4 rotationMatrix{};
-    D3DXMatrixRotationAxis(&rotationMatrix, &WorldLookvec, -D3DXToRadian(45));
+    D3DXMatrixRotationAxis(&rotationMatrix, &WorldLookvec, - D3DXToRadian(30));
     _float3 FixedWorldRight;
     D3DXVec3TransformNormal(&FixedWorldRight, &Rightvec, &rotationMatrix);
-    (&Lookvec, &Lookvec);
+    D3DXVec3TransformNormal(&FixedWorldRight, &Rightvec, &rotationMatrix);
+
+    D3DXVec3Normalize(&Lookvec, &Lookvec);
     D3DXVec3Normalize(&FixedWorldRight, &FixedWorldRight);
     float dot = D3DXVec3Dot(&Lookvec, &FixedWorldRight);
 
-    if (fabs(dot) > 0.1f)
-        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::UP), D3DXToRadian(((dot <= 0)) ? -fTimeDelta : fTimeDelta * 2.f));
+    if (fabs(dot) > 0.01f)
+        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::UP), D3DXToRadian(((dot <= 0)) ? -fTimeDelta : fTimeDelta));
     else
         m_eTurnFlag = false;
 }

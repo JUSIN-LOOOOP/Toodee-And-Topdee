@@ -86,8 +86,10 @@ HRESULT CStageBoss_Hand::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 20.f;
-	TransformDesc.fRotationPerSec = D3DXToRadian(40.f);
+	/*TransformDesc.fSpeedPerSec = 20.f;
+	TransformDesc.fRotationPerSec = D3DXToRadian(40.f);*/
+	TransformDesc.fSpeedPerSec = 1.f;
+	TransformDesc.fRotationPerSec = 1.f;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
