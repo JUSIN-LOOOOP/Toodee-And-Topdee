@@ -7,6 +7,7 @@ BEGIN(Client)
 inline const pair<_float3, _float3> Stage1_ColliderInfo(_uint iNum);
 inline const pair<_float3, _float3> Stage2_ColliderInfo(_uint iNum);
 inline const pair<_float3, _float3> Stage3_ColliderInfo(_uint iNum);
+inline const pair<_float3, _float3> StageBoss_ColliderInfo(_uint iNum);
 inline const pair<_float3, _float3> Stage4_ColliderInfo(_uint iNum);
 inline const pair<_float3, _float3> Stage5_ColliderInfo(_uint iNum);
 inline const pair<_float3, _float3> Stage6_ColliderInfo(_uint iNum);
@@ -25,7 +26,7 @@ inline const _uint Stage_ColliderCount(LEVEL eLevel)
 	if (eLevel == LEVEL::LEVEL_STAGE1) return 14;	//LEVEL_STAGE1
 	if (eLevel == LEVEL::LEVEL_STAGE2) return 22;	//LEVEL_STAGE2
 	if (eLevel == LEVEL::LEVEL_STAGE3) return 11;	//LEVEL_STAGE3
-	//LEVEL_STAGEBOSS
+	if (eLevel == LEVEL::LEVEL_STAGEBOSS) return 7;	//LEVEL_STAGEBOSS
 	if (eLevel == LEVEL::LEVEL_STAGE4) return 21;	//LEVEL_STAGE4
 	if (eLevel == LEVEL::LEVEL_STAGE5) return 8;  //LEVEL_STAGE5
 	if (eLevel == LEVEL::LEVEL_STAGE6) return 29;  //LEVEL_STAGE6
@@ -41,7 +42,7 @@ inline const  pair<_float3, _float3> MapCollider_Builder(LEVEL eLevel, _uint iNu
 	if (eLevel ==  LEVEL::LEVEL_STAGE1) return Stage1_ColliderInfo(iNum);	//LEVEL_STAGE1
 	if (eLevel ==  LEVEL::LEVEL_STAGE2) return Stage2_ColliderInfo(iNum);	//LEVEL_STAGE2
 	if (eLevel ==  LEVEL::LEVEL_STAGE3) return Stage3_ColliderInfo(iNum);	//LEVEL_STAGE3
-	//LEVEL_STAGEBOSS
+	if (eLevel == LEVEL::LEVEL_STAGEBOSS) return StageBoss_ColliderInfo(iNum);	//LEVEL_STAGEBOSS
 	if (eLevel ==  LEVEL::LEVEL_STAGE4) return Stage4_ColliderInfo(iNum);	//LEVEL_STAGE4
 	if (eLevel ==  LEVEL::LEVEL_STAGE5) return Stage5_ColliderInfo(iNum);  //LEVEL_STAGE5
 	if (eLevel ==  LEVEL::LEVEL_STAGE6) return Stage6_ColliderInfo(iNum);  //LEVEL_STAGE6
@@ -188,6 +189,35 @@ inline const pair<_float3, _float3> Stage3_ColliderInfo(_uint iNum)
 		{	2.f,	2.f,	26.f},
 		{	2.f,	2.f,	4.f},
 
+	};
+
+	return { Position[iNum],Scale[iNum] };
+}
+
+inline const pair<_float3, _float3> StageBoss_ColliderInfo(_uint iNum)
+{
+	static const _float3 Position[] = {
+		/* 가로 벽*/
+		{0.f,		1.f,	-17.f},
+		{-25.f,		1.f,	9.f},
+		{25.f,		1.f,	9.f},
+		{0.f,		1.f,	17.f},
+
+		/* 세로 벽*/
+		{-31.f,		1.f,	0.f},
+		{31.f ,		1.f,	0.f},
+		{29.f ,		1.f,	4.f},
+
+	};
+	static const _float3 Scale[] = {
+		{	64.f,	2.f,	2.f	},
+		{	10.f,	2.f,	2.f },
+		{	6.f,	2.f,	2.f },
+		{	64.f,	2.f,	2.f	},
+
+		{	2.f,	2.f,	32.f},
+		{	2.f,	2.f,	32.f},
+		{	2.f,	2.f,	12.f},
 	};
 
 	return { Position[iNum],Scale[iNum] };

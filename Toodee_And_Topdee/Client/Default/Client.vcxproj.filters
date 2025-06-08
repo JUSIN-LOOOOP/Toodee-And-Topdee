@@ -146,10 +146,10 @@
       <Filter>02. GameObjects\Monster\99. Parts\Tail</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Test.cpp">
-      <Filter>00. Dummys\K S H\Level_Test</Filter>
+      <Filter>00. Dummys\T Y J\Level_Test</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Collider_Cube.cpp">
-      <Filter>00. Dummys\K S H\Level_Test\Collider_Cube</Filter>
+      <Filter>00. Dummys\T Y J\Level_Test\Collider_Cube</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Fire_Projectile.cpp">
       <Filter>00. Dummys\J O H\Cannon\Projectile\Fire</Filter>
@@ -254,6 +254,16 @@
       <Filter>02. GameObjects\Player\03. State</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
+
+    <ClCompile Include="..\private\Block_Disappear.cpp">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RedButton.cpp">
+      <Filter>00. Dummys\T Y J\MapObject\RedButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Broken_Block.cpp">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear\Broken_Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -416,10 +426,10 @@
       <Filter>02. GameObjects\Monster\99. Parts\Tail</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Test.h">
-      <Filter>00. Dummys\K S H\Level_Test</Filter>
+      <Filter>00. Dummys\T Y J\Level_Test</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Collider_Cube.h">
-      <Filter>00. Dummys\K S H\Level_Test\Collider_Cube</Filter>
+      <Filter>00. Dummys\T Y J\Level_Test\Collider_Cube</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Fire_Projectile.h">
       <Filter>00. Dummys\J O H\Cannon\Projectile\Fire</Filter>
@@ -523,6 +533,15 @@
     </ClInclude>
     <ClInclude Include="..\public\State_Swim.h">
       <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Block_Disappear.h">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RedButton.h">
+      <Filter>00. Dummys\T Y J\MapObject\RedButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Broken_Block.h">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear\Broken_Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -663,12 +682,6 @@
     <Filter Include="02. GameObjects\Monster\99. Parts\Legs">
       <UniqueIdentifier>{66c3e759-8847-41a2-a74a-e6b4647fe842}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\K S H\Level_Test">
-      <UniqueIdentifier>{fa53b99f-20ec-4ab9-9e77-b5847208079d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\K S H\Level_Test\Collider_Cube">
-      <UniqueIdentifier>{2bcb6edc-4b44-425d-826a-60c1848ebc01}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Dummys\J O H\Cannon">
       <UniqueIdentifier>{f2f223d0-a7f3-4475-a569-709c683fda0b}</UniqueIdentifier>
     </Filter>
@@ -758,6 +771,21 @@
     </Filter>
     <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Wood">
       <UniqueIdentifier>{6ce54d61-43ac-4f1a-a44f-c003d9fdc1ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Level_Test">
+      <UniqueIdentifier>{fa53b99f-20ec-4ab9-9e77-b5847208079d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Level_Test\Collider_Cube">
+      <UniqueIdentifier>{2bcb6edc-4b44-425d-826a-60c1848ebc01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Disaapear">
+      <UniqueIdentifier>{4c79ffff-db7e-4098-b374-d2f7e354282f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\RedButton">
+      <UniqueIdentifier>{f8bd61cd-d195-448c-8cfd-42a34681ef1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Disaapear\Broken_Block">
+      <UniqueIdentifier>{e42be82b-c1eb-42d2-b532-7c4160138efe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
