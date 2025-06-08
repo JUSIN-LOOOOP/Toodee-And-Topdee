@@ -175,9 +175,13 @@
     <ClInclude Include="..\Public\FireBall.h" />
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
+    <ClInclude Include="..\Public\FPSCamera.h" />
     <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\Public\InteractionBlock.h" />
     <ClInclude Include="..\Public\Key.h" />
+    <ClInclude Include="..\Public\Level_FinalBoss01.h" />
+    <ClInclude Include="..\Public\Level_FinalBoss02.h" />
+    <ClInclude Include="..\Public\Level_FinalBoss03.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
@@ -211,6 +215,7 @@
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\Public\RainSplash.h" />
     <ClInclude Include="..\public\RedButton.h" />
+    <ClInclude Include="..\Public\Semicolon.h" />
     <ClInclude Include="..\Public\Sink.h" />
     <ClInclude Include="..\Public\Spikes.h" />
     <ClInclude Include="..\Public\StageBoss.h" />
@@ -229,6 +234,7 @@
     <ClInclude Include="..\Public\Test_Cube2.h" />
     <ClInclude Include="..\Public\TileOutline.h" />
     <ClInclude Include="..\Public\TextureUI.h" />
+    <ClInclude Include="..\Public\Toodoo.h" />
     <ClInclude Include="..\Public\Water.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -264,9 +270,13 @@
     <ClCompile Include="..\Private\FireBall.cpp" />
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
+    <ClCompile Include="..\Private\FPSCamera.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
     <ClCompile Include="..\Private\Key.cpp" />
+    <ClCompile Include="..\Private\Level_FinalBoss01.cpp" />
+    <ClCompile Include="..\Private\Level_FinalBoss02.cpp" />
+    <ClCompile Include="..\Private\Level_FinalBoss03.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
@@ -300,6 +310,7 @@
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\Private\RainSplash.cpp" />
     <ClCompile Include="..\private\RedButton.cpp" />
+    <ClCompile Include="..\Private\Semicolon.cpp" />
     <ClCompile Include="..\Private\Sink.cpp" />
     <ClCompile Include="..\Private\Spikes.cpp" />
     <ClCompile Include="..\Private\StageBoss.cpp" />
@@ -318,6 +329,7 @@
     <ClCompile Include="..\Private\Test_Cube2.cpp" />
     <ClCompile Include="..\Private\TileOutline.cpp" />
     <ClCompile Include="..\Private\TextureUI.cpp" />
+    <ClCompile Include="..\Private\Toodoo.cpp" />
     <ClCompile Include="..\Private\Water.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
