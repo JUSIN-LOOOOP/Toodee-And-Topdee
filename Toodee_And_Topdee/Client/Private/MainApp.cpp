@@ -8,6 +8,8 @@
 #include "BackWall.h"
 #include "BackTile.h"
 #include "Block_Wall.h"
+#include "Block_Disappear.h"
+#include "RedButton.h"
 
 #include "Part_Body.h"
 #include "Part_Eyes.h"
@@ -130,35 +132,14 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 		CMultiViewCamera::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Prototype_Component_Texture_Potal */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Potal"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Potal/portalSpr_%d.png"), 11))))
-		return E_FAIL;
 
-	/* Prototype_GameObject_Potal */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"),
-		CPotal::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* Prototypee_Component_Texture_TileOutline */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_TileOutline"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Test/TileOutline%d.png"), 4))))
-		return E_FAIL;
-
-	/* Prototype_GameObject_TileOutline */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"),
-		CTileOutline::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* Prototype_GameObject_Collider_Map */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"),
-		CColliderMap_Object::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	return S_OK;
 }
 HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 {
+#pragma region TEXTURE_MAP_OBJECT
+
 	/* Prototype_Texture_Block_Wall */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Wall"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Wall/Wall%d.dds"), 93))))
@@ -218,29 +199,6 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Background_Tile.png"), 1))))
 		return E_FAIL;
 
-	
-
-	/* Prototype_GameObject_BackWall */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackWall"),
-		CBackWall::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	/* Prototype_GameObject_BackDrop */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"),
-		CBackdrop::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-
-
-	/* Prototype_GameObject_BackTile */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"),
-		CBackTile::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* Prototype_GameObject_WallBlock */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"),
-		CBlock_Wall::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 	/* Prototype_Component_Texture_BackCloud */
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackCloud"),
@@ -252,10 +210,71 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Spikes/Spikes%d.png"), 6))))
 		return E_FAIL;
 
+	/* Prototype_Component_Texture_Block_Disappear_Side */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Disappear_Side"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Disappear_Side.dds"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Block_Disappear_Center */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Disappear_Center"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/Disappear_Center.dds"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_RedButton_ButtonFace */
+ 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_RedButton_ButtonFace"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/RedButton/ButtonFace%d.png"), 4))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_RedButton_ButtonPush */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_RedButton_ButtonPush"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/RedButton/ButtonPush%d.png"), 2))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region GAMEOBJECT_MAP_OBJECT
+
+	/* Prototype_GameObject_Collider_Map */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"),
+		CColliderMap_Object::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_BackWall */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackWall"),
+		CBackWall::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_GameObject_BackDrop */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"),
+		CBackdrop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_BackTile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"),
+		CBackTile::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_WallBlock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"),
+		CBlock_Wall::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Spikes */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"),
 		CSpikes::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_GameObject_Block_Disappear */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Block_Disappear"),
+		CBlock_Disappear::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	/* Prototype_GameObject_RedButton */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_RedButton"),
+		CRedButton::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+#pragma endregion
 
 	return S_OK;
 }
@@ -321,6 +340,8 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region GAMEOBJECT_PLAYERS
+
 	/* Prototype_GameObject_Player_Toodee */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"),
 		CPlayer_Toodee::Create(m_pGraphic_Device))))
@@ -330,6 +351,30 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"),
 		CPlayer_Topdee::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+#pragma endregion
+
+#pragma region PLAYERS_ETC...
+	/* Prototype_Component_Texture_Potal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Potal"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Potal/portalSpr_%d.png"), 11))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Potal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"),
+		CPotal::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototypee_Component_Texture_TileOutline */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_TileOutline"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Test/TileOutline%d.png"), 4))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_TileOutline */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"),
+		CTileOutline::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
 
 	return S_OK;
 }

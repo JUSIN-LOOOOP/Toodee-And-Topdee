@@ -165,7 +165,7 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 						_float halfSizeZ = D3DXVec3Length(&look) * 0.5f;
 
 						/* 탑디가 스파크 블럭을 들고 있을 때 */
-						if (other->CompareName(TEXT("Topdee"))/* &&reinterpret_cast<CPlayer_Topdee*>(other)->IsAttackSparkBlock()*/)
+						if (other->CompareName(TEXT("Topdee"))&&reinterpret_cast<CPlayer_Topdee*>(other)->IsAttackSparkBlock())
 						{
 							m_CrashAnyPosition[i] = { otherPos.x + 1.f, otherPos.y + 5.f , otherPos.z + halfSizeZ };
 							m_IsAttackSparkBlock = { i, true };
