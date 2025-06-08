@@ -77,7 +77,7 @@ void CMultiViewCamera::Update(_float fTimeDelta)
     if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
 
-    CameraTestMove(fTimeDelta);
+  //  CameraTestMove(fTimeDelta);
 }
 
 void CMultiViewCamera::Late_Update(_float fTimeDelta)
@@ -168,7 +168,7 @@ void CMultiViewCamera::CameraTestMove(_float fTimeDelta)
         m_pTransformCom->Go_Right(fTimeDelta);
     }
 
-   /* POINT			ptMouse{};
+    POINT			ptMouse{};
 
     GetCursorPos(&ptMouse);
     ScreenToClient(g_hWnd, &ptMouse);
@@ -188,7 +188,7 @@ void CMultiViewCamera::CameraTestMove(_float fTimeDelta)
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
 
-    m_OldPoint = ptMouse;*/
+    m_OldPoint = ptMouse;
 }
 
 CMultiViewCamera* CMultiViewCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

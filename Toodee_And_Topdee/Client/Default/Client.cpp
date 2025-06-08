@@ -90,6 +90,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         fTimeAcc += pGameInstance->Get_TimeDelta(TEXT("Timer_Default"));
 
+        pMainApp->Post_Update();
+
         /* 1초에 60번만 들어온다. */
         if (fTimeAcc >= 1.f / 60.f)
         {

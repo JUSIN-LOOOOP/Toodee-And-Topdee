@@ -34,10 +34,16 @@ private:
 	class CTexture* m_pTextureCom = { nullptr };
 	class CTransform* m_pTransformCom = { nullptr };
 	class CCollider* m_pColliderCom = { nullptr };
+
+	_bool	m_bTextureChangeDirection = { false };
 	_uint	m_iTextureIdx = {};
+	_float	m_iIntervalTime = {0.07f};
+	_float	m_iAccumulateTime = { 0.f };
+
 
 private:
 	HRESULT Ready_Components();
+	void	Change_Motion(_float fTimeDelta);
 
 public:
 	static CKey* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

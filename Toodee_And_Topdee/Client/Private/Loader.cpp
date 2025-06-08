@@ -18,7 +18,7 @@
 #include "Cannon.h"
 #include "Fire_Projectile.h"
 #include "BackCloud.h"
-#include "Cloud.h"
+//#include "Cloud.h"
 #include "Storm.h"
 #include "Rain.h"
 #include "RainSplash.h"
@@ -35,6 +35,10 @@
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
 #include "Collider_Cube.h"
+
+#include "Sink.h"
+#include "Water.h"
+#include "VIBuffer_Terrain.h"
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -154,43 +158,6 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 
 #pragma endregion
 
-
-#pragma region TEXTURE_CANNON
-	/* Prototype_Component_Texture_Cannon */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Cannon"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Cannon/Cannon%d.png"), 4))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Projectile_Fire */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Projectile_Fire"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Projectile/Fire/Projectile_Fire%d.png"), 40))))
-		return E_FAIL;
-
-#pragma endregion
-
-#pragma region TEXTURE_CLOUD
-	/* Prototype_Component_Texture_Cloud */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Cloud"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Clouds/Cloud%d.png"), 6))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Rain */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Rain"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Rain/Rain.png"), 1))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_RainSplash */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_RainSplash"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/RainSplash/RainSplash%d.png"), 6))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Lightning */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Lightning"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Lightning/Lightning%d.png"), 8))))
-		return E_FAIL;
-
-#pragma endregion
-
 #pragma region TEXTURE_MONSTER
   
 	/* Prototype_Component_Texture_Pig */
@@ -293,20 +260,6 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		return E_FAIL;
   
 
-#pragma region GameObject_Cannon
-  
-	/* Prototype_GameObject_Cannon*/
- 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cannon"),
-		CCannon::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* Prototype_GameObject_Projectile_Fire*/
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Fire"),
-		CFire_Projectile::Create(m_pGraphic_Device))))
-		return E_FAIL;
-  
-#pragma endregion
-
 #pragma region GameObject_StageBoss
 
 	///* Prototype_GameObject_StageBoss*/
@@ -327,32 +280,6 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_StageBoss_Hand"),
 		CStageBoss_Hand::Create(m_pGraphic_Device))))
 		return E_FAIL;*/
-
-
-#pragma endregion
-
-
-#pragma region GameObject_Cloud
-
-	/* Prototype_GameObject_Cannon*/
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cloud"),
-		CCloud::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	/* Prototype_GameObject_Storm */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Storm"),
-		CStorm::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	/* Prototype_GameObject_Rain */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Rain"),
-		CRain::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	/* Prototype_GameObject_RainSplash */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_RainSplash"),
-		CRainSplash::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Lightning"),
-	//	CLightning::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
 
 
 #pragma endregion
@@ -392,6 +319,12 @@ HRESULT CLoader::Loading_For_MapEdit_Level()
 
 HRESULT CLoader::Loading_For_Stage1()
 {
+#pragma region TEXTURE
+
+#pragma endregion
+
+#pragma region GAMEOBJECT
+
 	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))
@@ -417,17 +350,14 @@ HRESULT CLoader::Loading_For_Stage1()
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-#pragma endregion
-
-#pragma region TEXTURE Back
-
 	/* Prototype_GameObject_BackCloud */
-	
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_BackCloud"),
 		CBackCloud::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion
+
+
 
 	m_isFinished = true;
 
@@ -552,7 +482,34 @@ HRESULT CLoader::Loading_For_Stage5()
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-#pragma endregion
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Sink"),
+		CSink::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Water"),
+		CWater::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_Component_VIBuffer_Rect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 20, 20))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Water */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_Texture_Water"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Water/Water_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Sink */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_Texture_Sink"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Water/Sink_0.png"), 1))))
+		return E_FAIL;
+	
+	/* Prototype_Component_Shader_Water */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_Shader_Water"),
+		CShader_Water::Create(m_pGraphic_Device, TEXT("../Resources/Shader/Water.txt")))))
+		return E_FAIL;
+
 
 
 	m_isFinished = true;
@@ -585,6 +542,47 @@ HRESULT CLoader::Loading_For_Stage6()
 	/* Prototype_GameObject_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+
+
+#pragma region TEXTURE_CLOUD
+
+	/* Prototype_Component_Texture_Rain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_Component_Texture_Rain"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Rain/Rain.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_RainSplash */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_Component_Texture_RainSplash"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/RainSplash/RainSplash%d.png"), 6))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Lightning */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_Component_Texture_Lightning"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Lightning/Lightning%d.png"), 8))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region GameObject_Cloud
+
+	/* Prototype_GameObject_Storm */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Storm"),
+		CStorm::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_GameObject_Rain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Rain"),
+		CRain::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_GameObject_RainSplash */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_RainSplash"),
+		CRainSplash::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_GameObject_Lightning */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Lightning"),
+		CLightning::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion

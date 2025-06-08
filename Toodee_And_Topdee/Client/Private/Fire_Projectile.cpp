@@ -24,7 +24,7 @@ HRESULT CFire_Projectile::Initialize(void* pArg)
 	m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	m_pTransformCom->Scaling(2.f, 1.f, 2.f);
-	name = TEXT("Projectile");
+	name = TEXT("EnemyProjectile");
 
     return S_OK;
 }
@@ -45,8 +45,11 @@ void CFire_Projectile::Update(_float fTimeDelta)
 
 	if (m_pColliderCom->OnCollisionEnter()|| m_pColliderCom->OnCollisionStay())
 	{		
-		m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
-		m_pGameInstance->Push(TEXT("Layer_Projectile_Fire"), this);
+		if (!m_pColliderCom->GetOverlapTarget()->CompareName(TEXT("Hole")))
+		{
+			m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
+			m_pGameInstance->Push(TEXT("Layer_Projectile_Fire"), this);
+		}
 
 	}
 
@@ -112,7 +115,7 @@ HRESULT CFire_Projectile::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Projectile_Fire"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Projectile_Fire"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -129,7 +132,7 @@ HRESULT CFire_Projectile::Ready_Components()
 	CCollider::COLLIDER_DESC  ColliderDesc{};
 	ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(1.5f, 3.0f, 1.0f);
+	ColliderDesc.vColliderScale = _float3(1.5f, 1.0f, 1.0f);
 	ColliderDesc.bIsFixed = false;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),

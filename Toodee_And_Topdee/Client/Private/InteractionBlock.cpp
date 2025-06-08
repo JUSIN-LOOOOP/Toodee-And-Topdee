@@ -5,6 +5,7 @@
 #include "BlockState_Attach.h"
 #include "BlockState_Detach.h"
 #include "Hole.h"
+#include "Sink.h"
 
 CInteractionBlock::CInteractionBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CBlock{ pGraphic_Device }
@@ -24,6 +25,7 @@ HRESULT CInteractionBlock::Initialize_Prototype()
 HRESULT CInteractionBlock::Initialize(void* pArg)
 {
 	m_bFallinHole = false;
+	m_bSinkBlock = false;
 
 	return S_OK;
 }
@@ -32,6 +34,7 @@ void CInteractionBlock::Priority_Update(_float fTimeDelta)
 {
 	if (m_bBlock)
 		m_bBlock = false;
+
 }
 
 void CInteractionBlock::Update(_float fTimeDelta)
@@ -255,10 +258,34 @@ void CInteractionBlock::CheckCollisionTopdeeState()
 						m_fTotalFallHeight = 0.f;
 						m_bFalling = true;
 					}
+
+					if (iter->Get_Name().find(TEXT("Sink")) != string::npos && nullptr == m_pBlockSink)
+					{
+						m_pBlockSink = dynamic_cast<CSink*>(iter);
+						m_pBlockSink->OnBlock();
+						Safe_AddRef(m_pBlockSink);
+
+						m_bSinkBlock = true;
+
+						SINKBLOCKEVENT Event{};
+						m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::SINK_BLOCK, Event);
+					}
 				}
 			}
 		}
+	}
+	else
+	{
+		if (m_bSinkBlock && m_pBlockSink)
+		{
+			m_pBlockSink->OnOpen();
+			Safe_Release(m_pBlockSink);
+			m_pBlockSink = nullptr;
 
+			m_bSinkBlock = false;
+			SINKOPENEVENT Event{};
+			m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::SINK_OPEN, Event);
+		}
 	}
 }
 
@@ -304,6 +331,17 @@ void CInteractionBlock::Attach(CTransform* pPlayerTransform, _float fSpeed)
 
 	m_vTargetPosition = vBoxPosition;
 	m_fMoveSpeed = fSpeed;
+
+	if (m_bSinkBlock && m_pBlockSink)
+	{
+		m_pBlockSink->OnOpen();
+		Safe_Release(m_pBlockSink);
+		m_pBlockSink = nullptr;
+
+		m_bSinkBlock = false;
+		SINKOPENEVENT Event{};
+		m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::SINK_OPEN, Event);
+	}
 
 	m_pColliderCom->Collision_Off();
 }
@@ -380,6 +418,7 @@ void CInteractionBlock::Free()
 		Safe_Release(StatePair.second);
 	m_States.clear();
 
+	Safe_Release(m_pBlockSink);
 	Safe_Release(m_pCurrentState);
 	Safe_Release(m_pOwnerTransform);
 }

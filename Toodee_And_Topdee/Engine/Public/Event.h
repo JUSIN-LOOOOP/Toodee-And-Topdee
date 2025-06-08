@@ -48,5 +48,20 @@ typedef struct tagMonsterSignal : public CEvent {
 typedef struct tagChangeCam : public CEvent {
 }CHANGECAM;
 
+typedef struct tagSinkBlock : public CEvent {
+}SINKBLOCKEVENT;
+
+typedef struct tagSinkeOpen : public CEvent {
+}SINKOPENEVENT;
+
+/* RED_BUTTON AND BLOCK_DISAPPEAR Pressed*/
+typedef struct tagRedButtonPressed : public CEvent {
+}EVENT_REDBUTTON_PRESSED;
+
+/* RED_BUTTON AND BLOCK_DISAPPEAR Unpressed*/
+typedef struct tagRedButtonUnpressed : public CEvent {
+}EVENT_REDBUTTON_UNPRESSED;
+
+
 END
 

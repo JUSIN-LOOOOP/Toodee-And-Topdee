@@ -23,10 +23,15 @@ public:
 
 	virtual HRESULT Return_PrevState() override;						
 	virtual void Idle() override;									
-	virtual void Move(_float fTimeDelta) override;					
+	virtual void Move(_uint iInputData, _float fTimeDelta) override;
+	void Swim(_uint iInputData, _float fTimeDelta);
 	virtual void Action() override;									
 	virtual void Stop() override;									
 	virtual void Clear(_float3 vPortalPosition) override;
+	virtual void Dead() override;
+
+	_bool InWater() { return m_bInWater; }
+	void OutWater() { m_bOutWater = true; }
 
 private:								
 	_uint		m_iPlayLevel = {};
@@ -45,6 +50,8 @@ private:
 	_float		m_fGravityPower = {};								// 중력
 	_bool		m_bOnThePortal = {};
 	_bool		m_bOnTheStorm = { false };
+	_bool		m_bInWater = { false };
+	_bool		m_bOutWater = { false };
 private:															   
 	_uint KeyInput();												//  키 입력 Return
 																	   
@@ -59,6 +66,7 @@ private:
 	void Check_Collision_Portal(CGameObject* pGameObject);
 	void Check_Collision_Key(CGameObject* pGameObject);
 	void Check_Collision_Storm(CGameObject* pGameObject);
+	void Check_Collision_Water(CGameObject* pGameObject);
 	void Check_Grounded();											// 지면 체크
 	void Check_OnGround(CGameObject* pGameObject);
 ;	HRESULT Ready_Components();

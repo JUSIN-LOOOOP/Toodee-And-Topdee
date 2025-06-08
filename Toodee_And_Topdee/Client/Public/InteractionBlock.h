@@ -75,6 +75,9 @@ protected:
 	_float3						m_vTargetPosition = {};
 	_float						m_fMoveSpeed = {};
 
+
+	_bool						m_bSinkBlock = {};
+	class CSink*				m_pBlockSink = {};
 	
 #pragma endregion
 

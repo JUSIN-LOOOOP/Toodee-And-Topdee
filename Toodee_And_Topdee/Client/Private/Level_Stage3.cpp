@@ -30,6 +30,11 @@ HRESULT CLevel_Stage3::Initialize()
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Block_Disappear(TEXT("Layer_Block_Disappear"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_RedButton(TEXT("Layer_RedButton"))))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -201,6 +206,40 @@ HRESULT CLevel_Stage3::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_Stage3::Ready_Layer_Block_Disappear(const _wstring& strLayerTag)
+{
+	_float3 pos = { -27.f,1.f,1.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE3), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Block_Disappear"), &pos)))
+		return E_FAIL;
+
+	pos.x = -21.f;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE3), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Block_Disappear"), &pos)))
+		return E_FAIL;
+
+	pos.x = 19.f;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE3), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Block_Disappear"), &pos)))
+		return E_FAIL;
+
+	pos.x = 27.f;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE3), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Block_Disappear"), &pos)))
+		return E_FAIL;
+	return S_OK;
+}
+
+HRESULT CLevel_Stage3::Ready_Layer_RedButton(const _wstring& strLayerTag)
+{
+	_float3 pos = { -13.f,2.01f,1.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE3), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_RedButton"), &pos)))
+		return E_FAIL;
+
+	return S_OK;
+}
 CLevel_Stage3* CLevel_Stage3::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CLevel_Stage3* pInstance = new CLevel_Stage3(pGraphic_Device);

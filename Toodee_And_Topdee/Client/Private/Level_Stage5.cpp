@@ -8,6 +8,7 @@
 #include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
+#include <Cannon.h>
 
 CLevel_Stage5::CLevel_Stage5(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -29,7 +30,9 @@ HRESULT CLevel_Stage5::Initialize()
 
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
-
+	
+		if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
+			return E_FAIL;
 	return S_OK;
 }
 
@@ -158,8 +161,26 @@ HRESULT CLevel_Stage5::Ready_Layer_MapObject(const _wstring& strLayerTag)
 		default:
 			MSG_BOX(TEXT("Error : Block Index error!"));
 		}
-
 	}
+
+	BLOCK_INFO	info1 = {};
+	info1.vPos = _float3(1.f, 1.f, -1.f);
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Sink"), &info1)))
+		return E_FAIL;
+
+	BLOCK_INFO	info2 = {};
+	info2.vPos = _float3(-21.f, 1.f, -1.f);
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Sink"), &info2)))
+		return E_FAIL;
+
+	BLOCK_INFO	info3 = {};
+	info3.vPos = _float3(21.f, 1.f, -1.f);
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Sink"), &info3)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -199,6 +220,46 @@ HRESULT CLevel_Stage5::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage5::Ready_Layer_Cannon(const _wstring& strLayerTag)
+{
+	/* Prototype_GameObject_Cannon */
+	CCannon::CANNON_INFO info1{};
+	info1.eDir = CCannon::CANNON_DIRECTION::RGIHT;
+	info1.eType = CCannon::CANNON_TYPE::FIRE;
+	info1.vPosition = { -32.f,1.f,0.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cannon"), &info1)))
+		return E_FAIL;
+
+	CCannon::CANNON_INFO info2{};
+	info2.eDir = CCannon::CANNON_DIRECTION::LEFT;
+	info2.eType = CCannon::CANNON_TYPE::FIRE;
+	info2.vPosition = { 30.f,1.f,-10.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cannon"), &info2)))
+		return E_FAIL;
+
+	CCannon::CANNON_INFO info3{};
+	info3.eDir = CCannon::CANNON_DIRECTION::RGIHT;
+	info3.eType = CCannon::CANNON_TYPE::FIRE;
+	info3.vPosition = { 12.f,1.f,-12.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cannon"), &info3)))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Projectile */
+	for (_uint i = 0; i < 40; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Layer_Projectile_Fire"),
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Projectile_Fire"))))
 			return E_FAIL;
 	}
 

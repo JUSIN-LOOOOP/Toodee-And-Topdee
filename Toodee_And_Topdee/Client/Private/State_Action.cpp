@@ -39,7 +39,7 @@ void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTime
     if ((iInputData & ENUM_CLASS(KEYINPUT::KEY_MOVES)) != 0)
     {
         if(pPlayer->CanMoveInAction())
-            pPlayer->Move(fTimeDelta);
+            pPlayer->Move(iInputData, fTimeDelta);
 
         if (!pPlayer->InAction())
             if (FAILED(pPlayer->Change_State(PLAYERSTATE::MOVE)))

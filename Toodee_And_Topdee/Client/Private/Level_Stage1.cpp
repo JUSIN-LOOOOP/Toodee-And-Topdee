@@ -8,6 +8,7 @@
 #include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
+#include "Cloud.h"
 
 CLevel_Stage1::CLevel_Stage1(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -28,6 +29,9 @@ HRESULT CLevel_Stage1::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Cloud(TEXT("Layer_Cloud"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -200,6 +204,18 @@ HRESULT CLevel_Stage1::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 	}
 
 
+	return S_OK;
+}
+
+HRESULT CLevel_Stage1::Ready_Layer_Cloud(const _wstring& strLayerTag)
+{
+	CCloud::CLOUD_DESC desc;
+	desc.eType = CCloud::CLOUD_TYPES::WHITE;
+	desc.vPosition = { 25.f, 1.9f, 8.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cloud"), &desc)))
+		return E_FAIL;
 	return S_OK;
 }
 

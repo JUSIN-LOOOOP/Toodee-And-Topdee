@@ -4,6 +4,7 @@
 #include "Lightning.h"
 #include "Rain.h"
 #include "MultiViewCamera.h"
+#include "Player_Topdee.h"
 
 CStorm::CStorm(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject { pGraphic_Device }
@@ -24,8 +25,8 @@ HRESULT CStorm::Initialize_Prototype()
 HRESULT CStorm::Initialize(void* pArg)
 {
 	/* Get Cloud - Transform */
-	CGameObject* pGameObject = m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_Cloud"));
-	m_pCloudTransformCom = static_cast< CTransform* >(m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_Cloud"))->Get_Component(TEXT("Com_Transform") ));
+	CGameObject* pGameObject = m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_DarkCloud"));
+	m_pCloudTransformCom = static_cast< CTransform* >(m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_DarkCloud"))->Get_Component(TEXT("Com_Transform") ));
 	if (m_pCloudTransformCom == nullptr) return E_FAIL;
 	Safe_AddRef(m_pCloudTransformCom);
 
@@ -45,8 +46,8 @@ HRESULT CStorm::Initialize(void* pArg)
 	_float3 CloudPosition = m_pCloudTransformCom->Get_State(STATE::POSITION);
 	for (_int i = -1; i <= 1; ++i)
 	{
-		m_Toodee_StartPosition[i + 1] = { CloudPosition.x + static_cast<_float>(i) * 1.3f ,CloudPosition.y , CloudPosition.z };
-		m_Topdee_StartPosition[i + 1] = { CloudPosition.x + static_cast<_float>(i) * 1.3f - CLOUD_INTERVAL_POSITION_X ,CloudPosition.y + CLOUD_INTERVAL_POSITION_Y * 1.2f, CloudPosition.z - CLOUD_INTERVAL_POSITION_Y * 0.5f };
+		m_Toodee_StartPosition[i + 1] = { CloudPosition.x + static_cast<_float>(i) * 2.f ,CloudPosition.y , CloudPosition.z };
+		m_Topdee_StartPosition[i + 1] = { CloudPosition.x + static_cast<_float>(i) * 2.f - CLOUD_INTERVAL_POSITION_X ,CloudPosition.y + CLOUD_INTERVAL_POSITION_Y * 1.2f, CloudPosition.z - CLOUD_INTERVAL_POSITION_Y * 0.5f };
 	}
 
 
@@ -87,6 +88,7 @@ void CStorm::Update(_float fTimeDelta)
 
 	SpawnRainSplash(fTimeDelta);
 
+	SpawnLightning(fTimeDelta);
 }
 
 void CStorm::Late_Update(_float fTimeDelta)
@@ -96,8 +98,8 @@ void CStorm::Late_Update(_float fTimeDelta)
 
 HRESULT CStorm::Render()
 {
-	for (_uint i = 0; i < 3; ++i)
-		m_pColliderCom[i]->OBB_Render();
+	//for (_uint i = 0; i < 3; ++i)
+	//	m_pColliderCom[i]->OBB_Render();
 
 	return S_OK;
 }
@@ -114,7 +116,7 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 		_float fToodeeMinDist = FLT_MAX;
 		_float fToodeeGroundMinDist = FLT_MAX;
 
-		_float fTopdeeMinZ = { myPos.z + 3.f }, fMaxZ = { myPos.z + 4.f };
+		_float fTopdeeMinZ = { myPos.z - 14.f }, fTopdeeMaxZ = { myPos.z - 12.f };
 		_uint iCount = { 0 };
 
 		for (CGameObject* other : *others)
@@ -126,11 +128,12 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 			_float3 toOther = otherPos - myPos;
 			_float fDistSq = D3DXVec3LengthSq(&toOther);
 
+			/*  투디일 때*/
 			if (m_eDimension == DIMENSION::TOODEE) {
 				/* 구름보다 위에 있으면 */
 				if (otherPos.z > myPos.z) continue;
 
-
+				/* 가장 가까운 벽 위치 구하기 */
 				if (fDistSq < fToodeeGroundMinDist && other->CompareName(TEXT("Wall")))
 				{
 					fToodeeGroundMinDist = fDistSq;
@@ -139,6 +142,7 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 					m_CrashGroundPosition[i] = { myPos.x, otherPos.y, otherPos.z + halfSizeZ };
 				}
 
+				/*  가장 가까운 오브젝트 구하기 */
 				if (fDistSq < fToodeeMinDist)
 				{
 					fToodeeMinDist = fDistSq;
@@ -147,9 +151,11 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 					m_CrashAnyPosition[i] = { myPos.x, otherPos.y, otherPos.z + halfSizeZ };
 				}
 			}
+			/*  탑디일 때*/
 			else if (m_eDimension == DIMENSION::TOPDEE)
 			{
-				if (otherPos.z < fTopdeeMinZ || otherPos.z > fMaxZ) ++iCount;
+				/*  가장 가까운 오브젝트 구하기 */
+				if (otherPos.z < fTopdeeMinZ || otherPos.z > fTopdeeMaxZ ) ++iCount;
 				else
 				{
 					if (fDistSq < fToodeeMinDist)
@@ -157,14 +163,25 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 						fToodeeMinDist = fDistSq;
 						_float3 look = pOtherTransform->Get_State(STATE::LOOK);
 						_float halfSizeZ = D3DXVec3Length(&look) * 0.5f;
-						m_CrashAnyPosition[i] = { otherPos.x, otherPos.y, otherPos.z + halfSizeZ };
+
+						/* 탑디가 스파크 블럭을 들고 있을 때 */
+						if (other->CompareName(TEXT("Topdee"))&&reinterpret_cast<CPlayer_Topdee*>(other)->IsAttackSparkBlock())
+						{
+							m_CrashAnyPosition[i] = { otherPos.x + 1.f, otherPos.y + 5.f , otherPos.z + halfSizeZ };
+							m_IsAttackSparkBlock = { i, true };
+						}
+						else
+							m_CrashAnyPosition[i] = { otherPos.x + 1.f, otherPos.y, otherPos.z + halfSizeZ };
+					
 					}
 				}
 
+				/* 거리내에 오브젝트가 없으면 땅에 내려 꽂기 */
 				if (iCount == others->size())
-					m_CrashAnyPosition[i] = { myPos.x , 1.f , myPos.z - fMaxZ };
-				m_CrashGroundPosition[i] = { myPos.x , 1.f , myPos.z - fMaxZ };;
+					m_CrashAnyPosition[i] = { myPos.x + 1.f , -1.f ,fTopdeeMinZ + 2.f };
+				m_CrashGroundPosition[i] = { myPos.x + 1.f, -1.f , fTopdeeMinZ + 2.f };
 			}
+
 		}
 	}
 }
@@ -267,9 +284,30 @@ void CStorm::SpawnLightning(_float fTimeDelta)
 	for (_uint i = 0; i < 3; ++i) {
 		if (m_LightningSpawnTime[i].first + fTimeDelta >= m_LightningSpawnTime[i].second)
 		{
-			m_LightningSpawnTime[i] = { 0.f, m_pGameInstance->Rand(0.7f, 1.4f) };
+			m_LightningSpawnTime[i] = { 0.f, m_pGameInstance->Rand(1.f, 2.5f) };
 
-			//스폰
+			CPoolableObject* pLightning = { nullptr };
+			pLightning = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Lightning"));
+			if(pLightning != nullptr)
+			{
+				CLightning::LIGHTNING info;
+				info.vCrashPosition = m_CrashAnyPosition[i];
+
+				if (m_eDimension == DIMENSION::TOODEE)
+					info.vStartPosition = m_Toodee_StartPosition[i];
+				else 
+				{
+					info.vStartPosition = m_Topdee_StartPosition[i];
+
+					/* 탑디가 스파크 블럭을 들고 있는지? */
+					if (i == m_IsAttackSparkBlock.first && m_IsAttackSparkBlock.second) {
+						info.bSparkBlock = true;
+						m_IsAttackSparkBlock.second = false;
+					}
+				}
+
+				pLightning->Initialize_Pool(&info);
+			}
 		}
 		else
 		{
@@ -295,7 +333,7 @@ HRESULT CStorm::Ready_Components()
 		CCollider::COLLIDER_DESC  ColliderDesc{};
 		ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
 		ColliderDesc.pTransform = m_pTransformCom[i];
-		ColliderDesc.vColliderScale = _float3(1.f, 2.f, 68.f);
+		ColliderDesc.vColliderScale = _float3(1.f, 10.f, 68.f);
 		ColliderDesc.bIsFixed = false;
 
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),

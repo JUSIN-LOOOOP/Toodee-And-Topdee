@@ -1,14 +1,15 @@
 #include "Block_Spark.h"
 #include "GameInstance.h"
+#include "BlockState.h"
 
 
 CBlock_Spark::CBlock_Spark(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CBlock{ pGraphic_Device }
+    : CInteractionBlock{ pGraphic_Device }
 {
 }
 
 CBlock_Spark::CBlock_Spark(const CBlock_Spark& Prototype)
-    : CBlock{ Prototype }
+    : CInteractionBlock{ Prototype }
 {
 }
 
@@ -19,27 +20,46 @@ HRESULT CBlock_Spark::Initialize_Prototype()
 
 HRESULT CBlock_Spark::Initialize(void* pArg)
 {
-    if (FAILED(Ready_Components()))
-        return E_FAIL;
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	if (FAILED(__super::Ready_State()))
+		return E_FAIL;
 
 	__super::SetUp_BlockInfo(pArg);
 
-	name = TEXT("Block_Wall");
+	m_fMaxFallHeight = 1.7f;
+
+	name = TEXT("Interaction_Block_Spark");
 
     return S_OK;
 }
 
 void CBlock_Spark::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta); // Block 상태 초기화
 }
 
 void CBlock_Spark::Update(_float fTimeDelta)
 {
-}
+	if (m_bFallinHole)
+		return;
 
+	m_pCurrentState->Update(this, fTimeDelta);
+
+	m_pGameInstance->Check_Collision(m_pColliderCom);
+
+	__super::CheckCollisionTopdeeState();
+}
 void CBlock_Spark::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+
+	if (m_bFallinHole)
+		return;
+
+	if (m_eCurrentState == BLOCKSTATE::PUSH)
+		__super::Update_PushState(this);
 }
 
 HRESULT CBlock_Spark::Render()
@@ -71,6 +91,16 @@ HRESULT CBlock_Spark::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	CCollider::COLLIDER_DESC ColliderDesc{};
+	ColliderDesc.pOwner = this;
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(1.8f, 1.8f, 1.8f);
+	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.bIsFixed = false;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -27,8 +27,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_TestCube(TEXT("Layer_TestCube"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_TestCube2(TEXT("Layer_TestCube2"))))
+	//	return E_FAIL;
 
 	/*if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;*/
@@ -48,11 +48,17 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Cloud(TEXT("Layer_Cloud"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Cloud(TEXT("Layer_Cloud"))))
+	//	return E_FAIL;
 
 	/*if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
 		return E_FAIL;*/
+
+	//if (FAILED(Ready_Layer_Block_Disappear(TEXT("Layer_Block_Disappear"))))
+	//	return E_FAIL;
+
+	//if (FAILED(Ready_Layer_RedButton(TEXT("Layer_RedButton"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -352,26 +358,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Back(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Cannon(const _wstring& strLayerTag)
-{
-	/* Prototype_GameObject_Cannon */
-	CCannon::CANNON_INFO info{};
-	info.eDir = CCannon::CANNON_DIRECTION::RGIHT;
-	info.eType = CCannon::CANNON_TYPE::FIRE;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cannon"), &info)))
-		return E_FAIL;
-
-	/* Prototype_GameObject_Projectile */
-	for (_uint i = 0; i < 20; ++i) {
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"),
-			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Fire"))))
-			return E_FAIL;
-	}
-
-	return S_OK;
-}
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
@@ -428,14 +415,36 @@ HRESULT CLevel_GamePlay::Ready_Layer_Cloud(const _wstring& strLayerTag)
 			return E_FAIL;
 	}
 
-	//for (_uint i = 0; i < 3; ++i) {
-	//	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Lightning"),
-	//		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Lightning"))))
-	//		return E_FAIL;
-	//}
+	for (_uint i = 0; i < 4; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Lightning"),
+			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Lightning"))))
+			return E_FAIL;
+	}
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Storm"),
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Storm"))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Block_Disappear(const _wstring& strLayerTag)
+{
+	_float3 pos = { -10.f,8.f,0.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY),strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Block_Disappear"), &pos )))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_RedButton(const _wstring& strLayerTag)
+{
+	_float3 pos = { 12.f,1.f,4.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_RedButton"), &pos)))
 		return E_FAIL;
 
 	return S_OK;

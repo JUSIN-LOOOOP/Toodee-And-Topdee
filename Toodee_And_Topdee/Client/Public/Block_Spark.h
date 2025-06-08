@@ -1,10 +1,10 @@
 #pragma once
 #include "Client_Defines.h"
-#include "Block.h"
+#include "InteractionBlock.h"
 
 BEGIN(Client)
 
-class CBlock_Spark final : public CBlock
+class CBlock_Spark final : public CInteractionBlock
 {
 private:
 	CBlock_Spark(LPDIRECT3DDEVICE9 pGraphic_Device);

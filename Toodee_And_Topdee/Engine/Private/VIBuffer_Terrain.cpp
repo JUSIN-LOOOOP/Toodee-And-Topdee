@@ -42,8 +42,8 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 			_uint		iIndex = i * m_iNumVerticesX + j;
 
 			pVertices[iIndex].vPosition = _float3(static_cast<_float>(j), 0.f, static_cast<_float>(i));
-			//x 방향으로 50장 , z방향으로 50장
-			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 50.f, i / (m_iNumVerticesZ - 1.f) * 50.f);
+			pVertices[iIndex].vTexcoord = _float2(1 - (j / (m_iNumVerticesX - 1.f)), 1 - (i / (m_iNumVerticesZ - 1.f)));
+			//pVertices[iIndex].vTexcoord = _float2(1 - (j / (m_iNumVerticesX - 1.f) * (m_iNumVerticesX * 0.2f)), 1-(i / (m_iNumVerticesZ - 1.f) * (m_iNumVerticesZ * 0.2f)));
 		}
 	}
 

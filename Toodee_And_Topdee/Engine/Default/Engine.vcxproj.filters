@@ -243,6 +243,12 @@
     <ClInclude Include="..\public\EventBus.h">
       <Filter>00. Dummys\EventBus</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Shader.h">
+      <Filter>00. Dummys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shader_Water.h">
+      <Filter>00. Dummys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -340,6 +346,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\EventBus.cpp">
       <Filter>00. Dummys\EventBus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shader.cpp">
+      <Filter>00. Dummys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shader_Water.cpp">
+      <Filter>00. Dummys</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
