@@ -27,7 +27,7 @@ public:
 	virtual void Action() override;									// Action State 트리거
 	virtual void Stop() override;									// Stop State 트리거
 	virtual void Clear(_float3 vPortalPosition) override;									// Clear State 트리거
-
+	virtual void Dead() override;
 
 
 	/* State Action */

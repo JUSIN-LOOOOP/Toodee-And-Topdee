@@ -47,6 +47,7 @@ public:
 	virtual void Action() PURE;											// Action State 트리거
 	virtual void Stop() PURE;											// Stop State 트리거
 	virtual void Clear(_float3 vPortalPosition) PURE;											// Clear State 트리거
+	virtual void Dead() PURE;
 
 	_bool CanMoveInAction() const { return m_bMoveInAction; }
 	_bool InAction() const { return m_bInAction; }						

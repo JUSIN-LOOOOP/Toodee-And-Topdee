@@ -6,6 +6,7 @@
 #include "Key.h"
 #include "Block.h"
 #include "Block_Spark.h"
+#include "Level_Loading.h"
 
 CPlayer_Topdee::CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPlayer { pGraphic_Device }
@@ -290,6 +291,11 @@ void CPlayer_Topdee::Clear(_float3 vPortalPosition)
 	m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 
 	m_pColliderCom->Collision_Off();
+}
+
+void CPlayer_Topdee::Dead()
+{
+	m_pGameInstance->Ready_Open_Level(ENUM_CLASS(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, static_cast<LEVEL>(m_iPlayLevel)));
 }
 
 void CPlayer_Topdee::Interaction()

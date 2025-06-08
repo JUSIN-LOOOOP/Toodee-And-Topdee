@@ -28,6 +28,7 @@ public:
 	virtual void Action() override;									
 	virtual void Stop() override;									
 	virtual void Clear(_float3 vPortalPosition) override;
+	virtual void Dead() override;
 
 	_bool InWater() { return m_bInWater; }
 	void OutWater() { m_bOutWater = true; }

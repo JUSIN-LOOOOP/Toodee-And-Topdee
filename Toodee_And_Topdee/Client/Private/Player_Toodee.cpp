@@ -4,6 +4,7 @@
 #include "Block.h"
 #include "Event.h"
 #include "Key.h"
+#include "Level_Loading.h"
 
 CPlayer_Toodee::CPlayer_Toodee(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CPlayer { pGraphic_Device }
@@ -149,6 +150,9 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
             if (m_pTransformCom->Spiral(m_vPotalPosition, _float3(0.f, 1.f, 0.f), 480.f, m_fPotalDistance, fTimeDelta))
             {
                 m_bClear = true;
+
+                if(LEVEL::LEVEL_MAPEDIT != static_cast<LEVEL>(m_iPlayLevel + 1))
+                    m_pGameInstance->Ready_Open_Level(ENUM_CLASS(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, static_cast<LEVEL>(m_iPlayLevel + 1)));
             }
         }
     }
@@ -294,6 +298,11 @@ void CPlayer_Toodee::Clear(_float3 vPortalPosition)
     m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 
     m_pColliderCom->Collision_Off();
+}
+
+void CPlayer_Toodee::Dead()
+{
+    m_pGameInstance->Ready_Open_Level(ENUM_CLASS(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, static_cast<LEVEL>(m_iPlayLevel)));
 }
 
 
@@ -589,7 +598,8 @@ void CPlayer_Toodee::Check_Collision_PlayerState()
     {
         case COLLIDER_DIR::FRONT:
         {
-            m_fCurrentJumpPower = 0.f;
+            if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Key")) == std::string::npos)
+                m_fCurrentJumpPower = 0.f;
             break;
         }
     }
