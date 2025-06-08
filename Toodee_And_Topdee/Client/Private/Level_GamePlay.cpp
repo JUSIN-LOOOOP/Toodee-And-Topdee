@@ -54,11 +54,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	/*if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
 		return E_FAIL;*/
 
-	if (FAILED(Ready_Layer_Block_Disappear(TEXT("Layer_Block_Disappear"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Block_Disappear(TEXT("Layer_Block_Disappear"))))
+	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_RedButton(TEXT("Layer_RedButton"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_RedButton(TEXT("Layer_RedButton"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -355,26 +355,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Back(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Cannon(const _wstring& strLayerTag)
-{
-	/* Prototype_GameObject_Cannon */
-	CCannon::CANNON_INFO info{};
-	info.eDir = CCannon::CANNON_DIRECTION::RGIHT;
-	info.eType = CCannon::CANNON_TYPE::FIRE;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cannon"), &info)))
-		return E_FAIL;
-
-	/* Prototype_GameObject_Projectile */
-	for (_uint i = 0; i < 20; ++i) {
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"),
-			ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Fire"))))
-			return E_FAIL;
-	}
-
-	return S_OK;
-}
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {

@@ -67,7 +67,7 @@ void CMultiViewCamera::Update(_float fTimeDelta)
     if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
 
-    CameraTestMove(fTimeDelta);
+  //  CameraTestMove(fTimeDelta);
 }
 
 void CMultiViewCamera::Late_Update(_float fTimeDelta)

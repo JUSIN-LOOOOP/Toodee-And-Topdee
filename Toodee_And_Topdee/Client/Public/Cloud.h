@@ -21,7 +21,7 @@ BEGIN(Client)
 class CCloud final : public CGameObject
 {
 public:
-	enum class CLOUD_TYPES { WHITE, BLACK };
+	enum class CLOUD_TYPES { WHITE, DARK };
 	typedef struct tagClouds_Description
 	{
 		_float3 vPosition;

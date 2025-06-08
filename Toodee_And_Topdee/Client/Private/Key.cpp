@@ -32,6 +32,9 @@ HRESULT CKey::Initialize(void* pArg)
 	name = TEXT("Key");
 
 	m_pGameInstance->Add_Key();
+	m_iTextureIdx = static_cast<_uint>(m_pGameInstance->Rand(0.f, 11.f));
+	if (m_pGameInstance->Rand(0.f, 2.f) > 1.f)
+		m_bTextureChangeDirection = true;
 
     return S_OK;
 }
@@ -42,6 +45,7 @@ void CKey::Priority_Update(_float fTimeDelta)
 
 void CKey::Update(_float fTimeDelta)
 {
+	Change_Motion(fTimeDelta);
 }
 
 void CKey::Late_Update(_float fTimeDelta)
@@ -111,6 +115,35 @@ HRESULT CKey::Ready_Components()
 
 
 	return S_OK;
+}
+
+void CKey::Change_Motion(_float fTimeDelta)
+{
+	if (m_iIntervalTime <= m_iAccumulateTime + fTimeDelta)
+	{
+		m_iAccumulateTime = 0.f;
+		if (m_bTextureChangeDirection)
+		{
+			++m_iTextureIdx;
+			if (m_iTextureIdx == 12)
+			{
+				--m_iTextureIdx;
+				m_bTextureChangeDirection = !m_bTextureChangeDirection;
+			}
+		}
+		else
+		{
+			--m_iTextureIdx;
+			if (m_iTextureIdx == -1)
+			{
+				++m_iTextureIdx;
+				m_bTextureChangeDirection = !m_bTextureChangeDirection;
+			}
+		}
+	
+	}
+	else
+		m_iAccumulateTime += fTimeDelta;
 }
 
 CKey* CKey::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -24,6 +24,9 @@
 #include "Potal.h"
 #include "TileOutline.h"
 #include "Spikes.h"
+#include "Cloud.h"
+#include "Fire_Projectile.h"
+#include "Cannon.h"
 
 
 #include "ColliderMap_Object.h"
@@ -55,7 +58,8 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(Ready_Prototype_ForStatic_Background()))
 		return E_FAIL;
-	
+	if (FAILED(Ready_Prototype_ForStatic_Gimmick()))
+		return E_FAIL;
 	if (FAILED(Ready_Prototype_ForStatic_Player()))
 		return E_FAIL;
 
@@ -284,6 +288,59 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 	return S_OK;
 }
 
+HRESULT CMainApp::Ready_Prototype_ForStatic_Gimmick()
+{	
+#pragma region TEXTURE_Clouds
+	/* Prototype_Component_Texture_Cloud */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Cloud"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Clouds/Cloud%d.png"), 6))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_DarkCloud */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_DarkCloud"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Clouds/DarkCloud%d.png"), 6))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region GAMEOBJECT_CANNON
+
+	/* Prototype_GameObject_Cloud*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cloud"),
+		CCloud::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region TEXTURE_CANNON
+	/* Prototype_Component_Texture_Cannon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Cannon"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Cannon/Cannon%d.png"), 4))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Projectile_Fire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Projectile_Fire"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Projectile/Fire/Projectile_Fire%d.png"), 40))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region GameObject_Cannon
+
+	/* Prototype_GameObject_Cannon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cannon"),
+		CCannon::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Projectile_Fire*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Projectile_Fire"),
+		CFire_Projectile::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+#pragma endregion
+
+	return S_OK;
+}
+
 HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 {
 #pragma region TEXTURE TOODEE
@@ -446,10 +503,10 @@ CMainApp* CMainApp::Create()
 void Client::CMainApp::Free()
 {
 	__super::Free();
-	Safe_Release(m_pGraphic_Device);
+	//Safe_Release(m_pGraphic_Device);
 
 	m_pGameInstance->Release_Engine();
 
-	Safe_Release(m_pGameInstance);
+    Safe_Release(m_pGameInstance);
 
 }

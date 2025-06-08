@@ -22,6 +22,7 @@ public:
 
 	struct CANNON_INFO
 	{
+		_float3		vPosition = {};
 		CANNON_DIRECTION eDir;
 		CANNON_TYPE  eType;
 	};

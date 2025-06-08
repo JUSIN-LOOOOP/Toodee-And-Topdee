@@ -25,8 +25,8 @@ HRESULT CStorm::Initialize_Prototype()
 HRESULT CStorm::Initialize(void* pArg)
 {
 	/* Get Cloud - Transform */
-	CGameObject* pGameObject = m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_Cloud"));
-	m_pCloudTransformCom = static_cast< CTransform* >(m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_Cloud"))->Get_Component(TEXT("Com_Transform") ));
+	CGameObject* pGameObject = m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_DarkCloud"));
+	m_pCloudTransformCom = static_cast< CTransform* >(m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_DarkCloud"))->Get_Component(TEXT("Com_Transform") ));
 	if (m_pCloudTransformCom == nullptr) return E_FAIL;
 	Safe_AddRef(m_pCloudTransformCom);
 
@@ -116,7 +116,7 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 		_float fToodeeMinDist = FLT_MAX;
 		_float fToodeeGroundMinDist = FLT_MAX;
 
-		_float fTopdeeMinZ = { myPos.z - 10.f }, fTopdeeMaxZ = { myPos.z - 4.f };
+		_float fTopdeeMinZ = { myPos.z - 14.f }, fTopdeeMaxZ = { myPos.z - 12.f };
 		_uint iCount = { 0 };
 
 		for (CGameObject* other : *others)
