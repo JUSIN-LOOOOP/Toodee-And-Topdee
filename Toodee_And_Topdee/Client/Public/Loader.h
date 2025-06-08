@@ -46,7 +46,9 @@ private:
 	HRESULT Loading_For_Stage5();
 	HRESULT Loading_For_Stage6();
 	HRESULT Loading_For_StageBoss();
-	HRESULT Loading_For_FinalBoss();
+	HRESULT Loading_For_FinalBoss01();
+	HRESULT Loading_For_FinalBoss02();
+	HRESULT Loading_For_FinalBoss03();
 
 	HRESULT Ready_PigTexture();
 

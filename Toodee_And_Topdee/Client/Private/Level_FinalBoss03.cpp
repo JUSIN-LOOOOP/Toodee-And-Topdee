@@ -1,0 +1,265 @@
+﻿#include "Level_FinalBoss03.h"
+#include "Client_Extension.h"
+
+#include "GameInstance.h"
+#include "Camera.h"
+#include "Level_MapEdit.h"
+#include "Level_Loading.h"
+#include "ColliderMap_Object.h"
+
+#include "Test_Cube2.h"
+
+CLevel_FinalBoss03::CLevel_FinalBoss03(LPDIRECT3DDEVICE9 pGraphic_Device)
+	: CLevel{ pGraphic_Device }
+{
+}
+
+HRESULT CLevel_FinalBoss03::Initialize()
+{
+	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+	m_pGameInstance->Reset_KeyCount();
+	
+
+	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
+		return E_FAIL;
+	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
+	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
+		return E_FAIL;
+
+	/*if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
+		return E_FAIL;*/
+
+	return S_OK;
+}
+
+void CLevel_FinalBoss03::Update(_float fTimeDelta)
+{
+	if (m_pGameInstance->Key_Down(VK_RETURN))
+	{
+		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_STAGE1))))
+			return;
+	}
+
+	m_fIdleTime += fTimeDelta;
+
+	if (m_fIdleTime >= 5.f)
+		m_bAtkFlag = true;
+
+	if (m_bAtkFlag == true)
+		CreateSemiclon(fTimeDelta);
+}
+
+HRESULT CLevel_FinalBoss03::Render()
+{
+	SetWindowText(g_hWnd, TEXT("CLevel_FinalBoss03"));
+
+	return S_OK;
+}
+
+HRESULT CLevel_FinalBoss03::Ready_Layer_Camera(const _wstring& strLayerTag)
+{
+	CCamera::CAMERA_DESC			CameraDesc{};
+	//vEye, vAt 임시 -> 카메라에서 플레이어 바라보게 바꿔야함.
+	CameraDesc.vEye = _float3(-120.f, 8.f, 0.f);
+	CameraDesc.vAt = _float3(120.f, -100.f, 0.1f);
+	CameraDesc.fFovy = D3DXToRadian(60.0f);
+	CameraDesc.fNear = 0.1f;
+	CameraDesc.fFar = 1000.f;
+	CameraDesc.fSpeedPerSec = 10.f;
+	CameraDesc.fRotationPerSec = 1.f; // D3DXToRadian(90.0f);
+	CameraDesc.fMouseSensor = 0.1f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_FPSCam"), &CameraDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_FinalBoss03::Ready_Layer_MapObject(const _wstring& strLayerTag)
+{
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/FinalBoss3"));
+
+	BLOCK_INFO	info = {};
+	_uint		idx = {};
+
+	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
+	{
+		switch (static_cast<MAPOBJECT>(info.iBlockType))
+		{
+		case MAPOBJECT::NONE:
+			break;
+
+		case MAPOBJECT::WALL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"), &info)))
+				return E_FAIL;
+			break;
+		case MAPOBJECT::WOOD:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallWood"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::BREAK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallBreak"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::LOCK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallLock"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::FALL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallFall"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::SPARK:
+			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Spark"), &info)))
+				return E_FAIL;*/
+			//-> 2D Spike
+			break;
+
+		case MAPOBJECT::METAL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Metal"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::HOLE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Hole"), &info)))
+				return E_FAIL;
+			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Hole"), &info)))
+				return E_FAIL;*/
+			//-> Add another object here, only for rendering
+			break;
+
+		case MAPOBJECT::KEY:
+			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Key"), &info)))
+				return E_FAIL;*/
+			//-> [ Level_FinalBoss02 ] Cannon or laser position
+			break;
+
+		case MAPOBJECT::PORTAL:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::TOODEE:
+			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"), &info)))
+				return E_FAIL;*/
+			//이것도 임시!
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Player_TopDee"),
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
+				return E_FAIL;
+			break;
+
+		case MAPOBJECT::TOPDEE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
+				return E_FAIL;
+			break;
+
+		default:
+			MSG_BOX(TEXT("Error : Block Index error!"));
+		}
+
+	}
+	return S_OK;
+}
+
+HRESULT CLevel_FinalBoss03::Ready_Layer_Back(const _wstring& strLayerTag)
+{
+	_uint BackdropThemeIdx = 3;
+	_uint BackTileIdx[2];
+
+	BackTileIdx[0] = 116;
+	BackTileIdx[1] = 14;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"), &BackdropThemeIdx)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), &BackTileIdx)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Toodoo"))))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+
+HRESULT CLevel_FinalBoss03::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
+{
+	CColliderMap_Object::COLLIDER_MAP_DESC desc{};
+
+	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_FINALBOSS3); ++i)
+	{
+		auto Pair = MapCollider_Builder(LEVEL::LEVEL_FINALBOSS3, i);
+		desc.vPosition = Pair.first;
+		desc.vScale = Pair.second;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
+			return E_FAIL;
+	}
+
+
+	return S_OK;
+}
+
+void CLevel_FinalBoss03::CreateSemiclon(_float fTimeDelta)
+{
+	static _uint	Count = 0;
+	_float pos[12] = { -11.f, - 9.f, -7.f, -5.f, -3.f, -1.f, 1.f, 3.f, 5.f, 7.f, 9.f, 11.f };
+
+	m_fDelayTime += fTimeDelta;
+
+	if (m_fDelayTime >= 1.f)
+	{
+		_float3 vPos = { 115.f, 8.f, (_float)pos[rand() % 12] };
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Layer_Semiclon"),
+			ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Semiclon"), &vPos);
+		m_fDelayTime = 0;
+		++Count;
+
+		if (Count == 5)
+		{
+			m_bAtkFlag = false;
+			m_fIdleTime = 0;
+			Count = 0;
+		}
+	}
+	
+}
+
+CLevel_FinalBoss03* CLevel_FinalBoss03::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CLevel_FinalBoss03* pInstance = new CLevel_FinalBoss03(pGraphic_Device);
+
+	if (FAILED(pInstance->Initialize()))
+	{
+		MSG_BOX(TEXT("Failed to Created : CLevel_FinalBoss03"));
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+void CLevel_FinalBoss03::Free()
+{
+	__super::Free();
+}

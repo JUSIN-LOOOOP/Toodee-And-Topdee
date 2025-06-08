@@ -44,7 +44,11 @@ HRESULT CLevel_Stage6::Initialize()
 
 void CLevel_Stage6::Update(_float fTimeDelta)
 {
-	
+	if (m_pGameInstance->Key_Down(VK_RETURN))
+	{
+		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_FINALBOSS1))))
+			return;
+	}
 }
 
 HRESULT CLevel_Stage6::Render()
@@ -170,13 +174,16 @@ HRESULT CLevel_Stage6::Ready_Layer_Back(const _wstring& strLayerTag)
 {
 	_uint BackdropThemeIdx = 2;
 	_uint BackWallThemeIdx = 1;
+	_uint BackTileIdx[2];
 
+	BackTileIdx[0] = 32;
+	BackTileIdx[1] = 18;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"), &BackdropThemeIdx)))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"))))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), &BackTileIdx)))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,

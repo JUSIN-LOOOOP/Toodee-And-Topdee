@@ -28,7 +28,10 @@ public:
 private: 
 	class CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	class CTexture* m_pTextureCom = { nullptr };
+	class CTexture* m_pBossTextureCom = { nullptr };
 	class CTransform* m_pTransformCom = { nullptr };
+
+	_float	m_fMoveOffset = 0.f;
 
 	HRESULT				Ready_Components();
 	_uint				m_iThemeIdx;
