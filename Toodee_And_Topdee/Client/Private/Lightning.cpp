@@ -25,7 +25,7 @@ HRESULT CLightning::Initialize(void* pArg)
 
 	m_fMotionIntervalTime = { 0.08f };
 
-	name = TEXT("Lightning");
+	name = TEXT("EnemyLightning");
 
 	return S_OK;
 }

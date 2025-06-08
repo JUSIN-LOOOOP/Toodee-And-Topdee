@@ -34,7 +34,11 @@ HRESULT CFireBall::Initialize(void* pArg)
     D3DXMatrixRotationAxis(&matRotZ, &Up, -m_fAngle + D3DXToRadian(180));
     m_pTransformCom->Set_Matrix(matRotX * matRotZ);
     m_pTransformCom->Scaling(10.f, 4.5f, 10.f);
-    
+
+    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+    m_pTransformCom->Set_State(STATE::POSITION, _float3{ vPosition.x, vPosition.y + 1.01f, vPosition.z });
+
+
     return S_OK;
 }
 
