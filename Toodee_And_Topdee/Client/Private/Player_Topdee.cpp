@@ -181,6 +181,8 @@ void CPlayer_Topdee::Late_Update(_float fTimeDelta)
 
 	if (m_eCurrentState == PLAYERSTATE::STOP)
 		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+	else if (m_eCurrentState == PLAYERSTATE::CLEAR)
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
 	else
 		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
@@ -243,7 +245,7 @@ void CPlayer_Topdee::Idle()
 	ComputeTileCenter();
 }
 
-void CPlayer_Topdee::Move(_float fTimeDelta)
+void CPlayer_Topdee::Move(_uint iInputData, _float fTimeDelta)
 {
 	if (m_pColliderCom->OnCollisionExit())
 		return;
@@ -766,6 +768,9 @@ HRESULT CPlayer_Topdee::Ready_States()
 {
 	for (_uint i = 0; i < ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END); i++)
 	{
+		if (i == ENUM_CLASS(PLAYERSTATE::SWIM))
+			continue;
+
 		PLAYERSTATE eState = m_tStateInitDesc[i].eState;
 
 		if (FAILED(__super::Add_State(eState, &m_tStateInitDesc[i])))
@@ -812,6 +817,14 @@ HRESULT CPlayer_Topdee::Begin_RenderState()
 		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 		m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 	}
+	else if (m_eCurrentState == PLAYERSTATE::CLEAR)
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	}
 	else
 	{
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -825,7 +838,17 @@ HRESULT CPlayer_Topdee::Begin_RenderState()
 HRESULT CPlayer_Topdee::End_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	if (m_eCurrentState == PLAYERSTATE::STOP)
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	else if (m_eCurrentState == PLAYERSTATE::CLEAR)
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	}
+	else
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	return S_OK;
 }

@@ -1,11 +1,14 @@
 #pragma once
+
 #include "PlayerState.h"
 
-class CState_Action final : public CPlayerState
+BEGIN(Client)
+
+class CState_Swim final : public CPlayerState
 {
 private:
-	CState_Action();
-	virtual ~CState_Action() = default;
+	CState_Swim();
+	virtual ~CState_Swim() = default;
 
 public:
 	virtual HRESULT Initialize(void* pArg) override;
@@ -16,7 +19,9 @@ public:
 	virtual void UpdateAnim(_float fTimeDelta) override;
 
 public:
-	static CState_Action* Create(void* pArg);
-	virtual void Free() override;
+	static CState_Swim* Create(void* pArg);
+	virtual void Free();
+
 };
 
+END

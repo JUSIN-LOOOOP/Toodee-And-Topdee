@@ -214,7 +214,6 @@
     <ClCompile Include="..\Private\Key.cpp">
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\InteractionBlock.cpp" />
     <ClCompile Include="..\Private\Cloud.cpp">
       <Filter>02. GameObjects\Cloud</Filter>
     </ClCompile>
@@ -251,6 +250,10 @@
     <ClCompile Include="..\Private\Water.cpp">
       <Filter>00. Dummys\K J H</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\State_Swim.cpp">
+      <Filter>02. GameObjects\Player\03. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InteractionBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -517,6 +520,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Water.h">
       <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\State_Swim.h">
+      <Filter>02. GameObjects\Player\03. State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -36,7 +36,10 @@ HRESULT CHole::Initialize(void* pArg)
 
 void CHole::Priority_Update(_float fTimeDelta)
 {
-
+	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
+		m_pColliderCom->Collision_Off();
+	else
+		m_pColliderCom->Collision_On();
 }
 
 void CHole::Update(_float fTimeDelta)

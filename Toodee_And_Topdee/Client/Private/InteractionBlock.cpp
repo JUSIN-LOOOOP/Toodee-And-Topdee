@@ -418,7 +418,7 @@ void CInteractionBlock::Free()
 		Safe_Release(StatePair.second);
 	m_States.clear();
 
-	Safe_AddRef(m_pBlockSink);
+	Safe_Release(m_pBlockSink);
 	Safe_Release(m_pCurrentState);
 	Safe_Release(m_pOwnerTransform);
 }
