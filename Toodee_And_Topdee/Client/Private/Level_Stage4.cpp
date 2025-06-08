@@ -166,13 +166,16 @@ HRESULT CLevel_Stage4::Ready_Layer_MapObject(const _wstring& strLayerTag)
 HRESULT CLevel_Stage4::Ready_Layer_Back(const _wstring& strLayerTag)
 {
 	_uint BackdropThemeIdx = 1;
+	_uint BackTileIdx[2];
 
+	BackTileIdx[0] = 32;
+	BackTileIdx[1] = 18;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"), &BackdropThemeIdx)))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"))))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), &BackTileIdx)))
 		return E_FAIL;
 
 	return S_OK;

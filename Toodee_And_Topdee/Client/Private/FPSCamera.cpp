@@ -1,33 +1,30 @@
-#include "MultiViewCamera.h"
+#include "FPSCamera.h"
 #include "GameInstance.h"
 
 
-CMultiViewCamera::CMultiViewCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
+CFPSCamera::CFPSCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
 {
 }
 
-CMultiViewCamera::CMultiViewCamera(const CMultiViewCamera& Prototype)
-    : CGameObject{ Prototype }
+CFPSCamera::CFPSCamera(const CFPSCamera& Prototype)
+    : CGameObject( Prototype )
 {
 }
 
-HRESULT CMultiViewCamera::Initialize_Prototype()
+HRESULT CFPSCamera::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CMultiViewCamera::Initialize(void* pArg)
+HRESULT CFPSCamera::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components(pArg)))
         return E_FAIL;
 
     CAMERA_DESC* pDesc = static_cast<CAMERA_DESC*>(pArg);
-
-    m_pTransformCom->Set_State(STATE::POSITION, pDesc->vEye);
     m_pTransformCom->Look_At(pDesc->vAt);
 
-    m_OffsetLength = pDesc->vEye.y;
     m_fFovy = pDesc->fFovy;
     m_fAspect = static_cast<_float>(g_iWinSizeX) / g_iWinSizeY;
     m_fNear = pDesc->fNear;
@@ -42,10 +39,13 @@ HRESULT CMultiViewCamera::Initialize(void* pArg)
     m_pGameInstance->Subscribe<CHANGECAM>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CHANGE_CAM, [this](const CHANGECAM& Event) {
         this->SetViewFlag(); });
 
+
+     m_pPlayer = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(ENUM_CLASS(m_pGameInstance->Get_NextLevelID()), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0));
+
     return S_OK;
 }
 
-void CMultiViewCamera::Priority_Update(_float fTimeDelta)
+void CFPSCamera::Priority_Update(_float fTimeDelta)
 {
     if (m_pGameInstance->Key_Down('X') && m_pGameInstance->Get_CurrentDimension() != DIMENSION::CHANGE) {
         m_bRotating = true;
@@ -65,14 +65,15 @@ void CMultiViewCamera::Priority_Update(_float fTimeDelta)
     {
         m_pTransformCom->Go_Right(fTimeDelta * 2.f);
     }
-
+    const _float3 PlayerPos = m_pPlayer->Get_State(STATE::POSITION);
+    m_pTransformCom->Set_State(STATE::POSITION, { PlayerPos.x + m_offset.x, PlayerPos.y + m_offset.y, PlayerPos.z + m_offset.z });
 
     m_ProjMatrix = *(D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
 }
 
-void CMultiViewCamera::Update(_float fTimeDelta)
+void CFPSCamera::Update(_float fTimeDelta)
 {
     if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
@@ -80,35 +81,22 @@ void CMultiViewCamera::Update(_float fTimeDelta)
     CameraTestMove(fTimeDelta);
 }
 
-void CMultiViewCamera::Late_Update(_float fTimeDelta)
+void CFPSCamera::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CMultiViewCamera::Render()
+HRESULT CFPSCamera::Render()
 {
     return S_OK;
 }
 
-void CMultiViewCamera::ChangeView(_float fTimeDelta)
+void CFPSCamera::ChangeView(_float fTimeDelta)
 {
-    _float fDelta = m_ChangeSpeed * fTimeDelta;
-    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3f;
+    _float fDelta = fTimeDelta * 80;
     m_fCurrentAngle += fDelta;
 
-    if (m_bType == CAM_TYPE::TOP)
-    {
-        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), -D3DXToRadian(fDelta));
-        m_fCurrentPos -= fPosDelta;
-        m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, m_OffsetLength, m_fCurrentPos));
-        m_pTransformCom->Go_Straight(fTimeDelta * 3.f);
-    }
-    else
-    {
-        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), D3DXToRadian(fDelta));
-        m_fCurrentPos += fPosDelta;
-        m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, m_OffsetLength, m_fCurrentPos));
-        m_pTransformCom->Go_Straight(fTimeDelta * 3.f);
-    }
+    fDelta = (m_bType == CAM_TYPE::TOP) ? fDelta : -fDelta;
+    m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::LOOK), D3DXToRadian(fDelta));
 
     if (m_fCurrentAngle >= m_fTargetAngle)
     {
@@ -125,9 +113,9 @@ void CMultiViewCamera::ChangeView(_float fTimeDelta)
     }
 }
 
-HRESULT CMultiViewCamera::Ready_Components(void* pArg)
+HRESULT CFPSCamera::Ready_Components(void* pArg)
 {
-    /* For.Com_Transform */
+
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
         return E_FAIL;
@@ -135,7 +123,7 @@ HRESULT CMultiViewCamera::Ready_Components(void* pArg)
     return S_OK;
 }
 
-void CMultiViewCamera::CameraTestMoveInitialize()
+void CFPSCamera::CameraTestMoveInitialize()
 {
     m_OldPoint.x = g_iWinSizeX >> 1;
     m_OldPoint.y = g_iWinSizeY >> 1;
@@ -146,7 +134,7 @@ void CMultiViewCamera::CameraTestMoveInitialize()
     SetCursorPos(ptMouse.x, ptMouse.y);
 }
 
-void CMultiViewCamera::CameraTestMove(_float fTimeDelta)
+void CFPSCamera::CameraTestMove(_float fTimeDelta)
 {
     if (GetKeyState('W') < 0)
     {
@@ -191,33 +179,33 @@ void CMultiViewCamera::CameraTestMove(_float fTimeDelta)
     m_OldPoint = ptMouse;*/
 }
 
-CMultiViewCamera* CMultiViewCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CFPSCamera* CFPSCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CMultiViewCamera* pInstance = new CMultiViewCamera(pGraphic_Device);
+    CFPSCamera* pInstance = new CFPSCamera(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX(TEXT("Failed to Created : CMultiViewCamera"));
+        MSG_BOX(TEXT("Failed to Created : CFPSCamera"));
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CMultiViewCamera::Clone(void* pArg)
+CGameObject* CFPSCamera::Clone(void* pArg)
 {
-    CMultiViewCamera* pInstance = new CMultiViewCamera(*this);
+    CFPSCamera* pInstance = new CFPSCamera(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX(TEXT("Failed to Cloned : CMultiViewCamera"));
+        MSG_BOX(TEXT("Failed to Cloned : CFPSCamera"));
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CMultiViewCamera::Free()
+void CFPSCamera::Free()
 {
     __super::Free();
 

@@ -119,6 +119,7 @@ HRESULT CStageBoss::Render()
 	D3DXMatrixIdentity(&WorldMatrix);
 
 	Begin_RenderState();
+
 	for (_uint idx = 0; idx < ENUM_CLASS(LIMB::LIMB_END) - 1; idx++)
 	{
 		legnth = TargetPos[idx] - vPosition;

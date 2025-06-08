@@ -11,12 +11,12 @@ END
 
 BEGIN(Client)
 
-class CBackTile : public CGameObject
+class CToodoo : public CGameObject
 {
 private:
-	CBackTile(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CBackTile(const CBackTile& Prototype);
-	virtual ~CBackTile() = default;
+	CToodoo(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CToodoo(const CToodoo& Prototype);
+	virtual ~CToodoo() = default;
 public:
 	virtual			HRESULT Initialize_Prototype() override;
 	virtual			HRESULT Initialize(void* pArg) override;
@@ -29,16 +29,15 @@ private:
 	class CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	class CTexture* m_pTextureCom = { nullptr };
 	class CTransform* m_pTransformCom = { nullptr };
+	_bool				offsetFlag = false;
+	_float				m_fDeltaTime = {};
+	_float				m_fOffset = {};
 
 	HRESULT				Ready_Components();
-	HRESULT				Begin_RenderState();
-	HRESULT				End_RenderState();
-
-	_uint				m_pSize[2];
 
 public:
-	static CBackTile*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CBackTile*		Clone(void* pArg) override;
+	static CToodoo*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CToodoo*		Clone(void* pArg) override;
 	virtual void			Free() override;
 
 };
