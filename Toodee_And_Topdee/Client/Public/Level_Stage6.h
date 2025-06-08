@@ -22,7 +22,8 @@ private:
 	HRESULT Ready_Layer_Back(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_ColliderMap(const _wstring& strLayerTag);
-
+	HRESULT Ready_Layer_Cannon(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_DarkCloud(const _wstring& strLayerTag);
 
 public:
 	static CLevel_Stage6* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

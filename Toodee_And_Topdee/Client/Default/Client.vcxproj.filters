@@ -152,7 +152,7 @@
       <Filter>00. Dummys\T Y J\Level_Test\Collider_Cube</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Fire_Projectile.cpp">
-      <Filter>00. Dummys\J O H\Cannon\Projectile\Fire</Filter>
+      <Filter>02. GameObjects\Cannon\Projectile\Fire</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BlockState.cpp">
       <Filter>00. Dummys\K J H\BlockState</Filter>
@@ -218,7 +218,7 @@
       <Filter>02. GameObjects\Cloud</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Cannon.cpp">
-      <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
+      <Filter>02. GameObjects\Cannon\Cannon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Part_Wing.cpp">
       <Filter>02. GameObjects\Monster\99. Parts\Wing</Filter>
@@ -254,7 +254,6 @@
       <Filter>02. GameObjects\Player\03. State</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
-
     <ClCompile Include="..\private\Block_Disappear.cpp">
       <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear</Filter>
     </ClCompile>
@@ -432,7 +431,7 @@
       <Filter>00. Dummys\T Y J\Level_Test\Collider_Cube</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Fire_Projectile.h">
-      <Filter>00. Dummys\J O H\Cannon\Projectile\Fire</Filter>
+      <Filter>02. GameObjects\Cannon\Projectile\Fire</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BlockState.h">
       <Filter>00. Dummys\K J H\BlockState</Filter>
@@ -499,7 +498,7 @@
       <Filter>02. GameObjects\Cloud</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Cannon.h">
-      <Filter>00. Dummys\J O H\Cannon\Cannon</Filter>
+      <Filter>02. GameObjects\Cannon\Cannon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Part_Wing.h">
       <Filter>02. GameObjects\Monster\99. Parts\Wing</Filter>
@@ -682,21 +681,6 @@
     <Filter Include="02. GameObjects\Monster\99. Parts\Legs">
       <UniqueIdentifier>{66c3e759-8847-41a2-a74a-e6b4647fe842}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Dummys\J O H\Cannon">
-      <UniqueIdentifier>{f2f223d0-a7f3-4475-a569-709c683fda0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\J O H\Cannon\Cannon">
-      <UniqueIdentifier>{cda58e75-f076-4ee9-a5d4-3346eb6510ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\J O H\Cannon\Projectile">
-      <UniqueIdentifier>{b865314d-6f87-4d4d-8641-ac43833280c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\J O H\Cannon\Projectile\Fire">
-      <UniqueIdentifier>{960fd352-9956-4f1a-9d05-68dddf593f53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Dummys\J O H\Cannon\Projectile\Laser">
-      <UniqueIdentifier>{e7f456fe-e6b4-4e0e-bed7-0ba4538dc7cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Dummys\K J H\BlockState">
       <UniqueIdentifier>{3d1b66b6-15f1-4f92-a748-0a164246c4c1}</UniqueIdentifier>
     </Filter>
@@ -786,6 +770,21 @@
     </Filter>
     <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Disaapear\Broken_Block">
       <UniqueIdentifier>{e42be82b-c1eb-42d2-b532-7c4160138efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Cannon">
+      <UniqueIdentifier>{f2f223d0-a7f3-4475-a569-709c683fda0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Cannon\Cannon">
+      <UniqueIdentifier>{cda58e75-f076-4ee9-a5d4-3346eb6510ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Cannon\Projectile">
+      <UniqueIdentifier>{b865314d-6f87-4d4d-8641-ac43833280c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Cannon\Projectile\Fire">
+      <UniqueIdentifier>{960fd352-9956-4f1a-9d05-68dddf593f53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Cannon\Projectile\Laser">
+      <UniqueIdentifier>{e7f456fe-e6b4-4e0e-bed7-0ba4538dc7cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
