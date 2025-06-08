@@ -158,6 +158,7 @@
     <ClInclude Include="..\Public\BlockState_Push.h" />
     <ClInclude Include="..\Public\BlockState_Stop.h" />
     <ClInclude Include="..\Public\Block_Break.h" />
+    <ClInclude Include="..\public\Block_Disappear.h" />
     <ClInclude Include="..\Public\Block_Fall.h" />
     <ClInclude Include="..\Public\Block_Lock.h" />
     <ClInclude Include="..\Public\Block_Metal.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="..\Public\Potal.h" />
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\Public\RainSplash.h" />
+    <ClInclude Include="..\public\RedButton.h" />
     <ClInclude Include="..\Public\Sink.h" />
     <ClInclude Include="..\Public\Spikes.h" />
     <ClInclude Include="..\Public\StageBoss.h" />
@@ -245,6 +247,7 @@
     <ClCompile Include="..\Private\BlockState_Push.cpp" />
     <ClCompile Include="..\Private\BlockState_Stop.cpp" />
     <ClCompile Include="..\Private\Block_Break.cpp" />
+    <ClCompile Include="..\private\Block_Disappear.cpp" />
     <ClCompile Include="..\Private\Block_Fall.cpp" />
     <ClCompile Include="..\Private\Block_Lock.cpp" />
     <ClCompile Include="..\Private\Block_Metal.cpp" />
@@ -293,6 +296,7 @@
     <ClCompile Include="..\Private\Potal.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\Private\RainSplash.cpp" />
+    <ClCompile Include="..\private\RedButton.cpp" />
     <ClCompile Include="..\Private\Sink.cpp" />
     <ClCompile Include="..\Private\Spikes.cpp" />
     <ClCompile Include="..\Private\StageBoss.cpp" />
