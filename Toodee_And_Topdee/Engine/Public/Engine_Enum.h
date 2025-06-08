@@ -33,7 +33,7 @@ namespace Engine
 		SINK_OPEN,
 		REDBUTTON_PRESSED,
 		REDBUTTON_UNPRESSED,
-
+		CHANGE_LEVEL
 	};
 	
 

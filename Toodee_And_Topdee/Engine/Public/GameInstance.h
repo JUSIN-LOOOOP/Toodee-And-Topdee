@@ -15,7 +15,6 @@ private:
 	//Engine
 public:
 	HRESULT			Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut);
-	void			Post_Update();
 	void			Update_Engine(_float fTimeDelta);
 	HRESULT			Clear_Resources(_uint iClearLevelID);
 	void			Render_Begin(D3DXCOLOR Color);
@@ -33,7 +32,6 @@ public:
 
 	//Level
 public:
-	void			Ready_Open_Level(_uint iLevelID, class CLevel* pNewLevel);
 	HRESULT			Open_Level(_uint iLevelID, class CLevel* pNewLevel);
 	const _uint		Get_CurrentLevelID();
 	void			Set_CurrentLevelID(_uint ilevel);
@@ -143,10 +141,6 @@ private:
 	_uint						m_iFPS = { 0 };
 	_ulong						m_ulIntervalTime_FPS = { GetTickCount() };
 	TCHAR						m_szFPS[16] = {};
-
-	_bool						m_bChangeLevel = {};
-	_uint						m_iChangeLevel = {};
-	class CLevel*				m_pChangeLevel = {};
 
 public:
 	void Release_Engine();

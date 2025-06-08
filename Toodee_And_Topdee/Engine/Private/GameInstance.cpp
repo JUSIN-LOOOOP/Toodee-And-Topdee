@@ -73,17 +73,6 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
     return S_OK;
 }
 
-void CGameInstance::Post_Update()
-{
-	if (m_bChangeLevel)
-	{
-		m_pLevel_Manager->Open_Level(m_iChangeLevel, m_pChangeLevel);
-		m_bChangeLevel = false;
-		m_iChangeLevel = 0;
-		m_pChangeLevel = nullptr;
-	}
-}
-
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 
@@ -166,13 +155,6 @@ void CGameInstance::View_FrameRate(HWND hWnd)
 #pragma endregion
 
 #pragma region LEVEL_MANAGER
-
-void CGameInstance::Ready_Open_Level(_uint iLevelID, CLevel* pNewLevel)
-{
-	m_bChangeLevel = true;
-	m_iChangeLevel = iLevelID;
-	m_pChangeLevel = pNewLevel;
-}
 
 HRESULT CGameInstance::Open_Level(_uint iLevelID, CLevel* pNewLevel)
 {

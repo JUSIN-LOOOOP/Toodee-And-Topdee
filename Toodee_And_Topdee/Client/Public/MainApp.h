@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Base.h"
+#include "Event.h"
 
 BEGIN(Engine)
 class CGameInstance;
@@ -22,9 +23,14 @@ public:
 	void		Update(_float fTimeDelta);
 	HRESULT		Render();
 
+	void		Ready_Open_Level(const LEVELCHANGE_EVENT& Event);
+
 private:
 	CGameInstance*		m_pGameInstance = { nullptr };
 	LPDIRECT3DDEVICE9	m_pGraphic_Device = { nullptr };
+
+	_bool	m_bChangeLevel = {};
+	_uint	m_iChangeLevel = {};
 
 private:
 	HRESULT Ready_Default_Setting();

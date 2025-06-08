@@ -49,6 +49,7 @@ HRESULT CBackTile::Render()
     if (FAILED(m_pTextureCom->Bind_Texture(0)))
         return E_FAIL;
 
+
     for (_uint height = 0; height < m_pSize[1]; ++height)
     {
         for (_uint width = 0; width < m_pSize[0]; ++width)

@@ -66,6 +66,12 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_ForStatic_Parts()))
 		return E_FAIL;
 
+	m_pGameInstance->Subscribe<LEVELCHANGE_EVENT>(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, [this](const LEVELCHANGE_EVENT& Event) {
+		this->Ready_Open_Level(Event);
+		});
+
+	m_bChangeLevel = false;
+
 	if (FAILED(Start_Level(LEVEL::LEVEL_LOGO)))
 		return E_FAIL;
 
@@ -74,7 +80,12 @@ HRESULT CMainApp::Initialize()
 
 void CMainApp::Post_Update()
 {
-	m_pGameInstance->Post_Update();
+	if (m_bChangeLevel)
+	{
+		m_pGameInstance->Open_Level(ENUM_CLASS(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, static_cast<LEVEL>(m_iChangeLevel)));
+		m_bChangeLevel = false;
+	}
+
 }
 
 void CMainApp::Update(_float fTimeDelta)
@@ -91,6 +102,12 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Render_End();
 
 	return S_OK;
+}
+
+void CMainApp::Ready_Open_Level(const LEVELCHANGE_EVENT& Event)
+{
+	m_iChangeLevel = Event.iChangeLevel;
+	m_bChangeLevel = true;
 }
 
 HRESULT CMainApp::Ready_Default_Setting()
@@ -119,6 +136,10 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_VIBuffer_Rect */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_Component_VIBuffer_Sphere */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Sphere"),
+		CVIBuffer_Sphere::Create(m_pGraphic_Device, 20, 20))))
 		return E_FAIL;
 
 	/* Prototype_Component_Transform */
@@ -412,6 +433,28 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 	/* Prototype_Component_Texture_Topdee_Dead*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Topdee_Dead"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Topdee/Topdee_Dead%d.png"), 5))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region TEXTURE THIRDEE
+	/* Prototype_Component_Texture_Thirdee_Head*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Thirdee_Head"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Thridee/ThirdeeHead.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Thirdee_Body*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Thirdee_Body"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Thridee/ThirdeeBody.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Thirdee_Arm*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Thirdee_Arm"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Thridee/ThirdeeArm.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Thirdee_Leg*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Thirdee_Leg"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Player/Thridee/ThirdeeLeg.png"), 1))))
 		return E_FAIL;
 #pragma endregion
 

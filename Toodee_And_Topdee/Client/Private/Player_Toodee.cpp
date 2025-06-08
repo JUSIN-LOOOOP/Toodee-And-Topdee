@@ -152,7 +152,11 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
                 m_bClear = true;
 
                 if(LEVEL::LEVEL_MAPEDIT != static_cast<LEVEL>(m_iPlayLevel + 1))
-                    m_pGameInstance->Ready_Open_Level(ENUM_CLASS(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, static_cast<LEVEL>(m_iPlayLevel + 1)));
+                {
+                    LEVELCHANGE_EVENT Event;
+                    Event.iChangeLevel = m_iPlayLevel + 1;
+                    m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
+                }
             }
         }
     }
@@ -302,7 +306,9 @@ void CPlayer_Toodee::Clear(_float3 vPortalPosition)
 
 void CPlayer_Toodee::Dead()
 {
-    m_pGameInstance->Ready_Open_Level(ENUM_CLASS(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, static_cast<LEVEL>(m_iPlayLevel)));
+    LEVELCHANGE_EVENT Event;
+    Event.iChangeLevel = m_iPlayLevel;
+    m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 }
 
 
