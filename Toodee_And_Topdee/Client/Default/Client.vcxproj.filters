@@ -257,6 +257,9 @@
     <ClCompile Include="..\private\RedButton.cpp">
       <Filter>00. Dummys\T Y J\MapObject\RedButton</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Broken_Block.cpp">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear\Broken_Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -530,6 +533,9 @@
     <ClInclude Include="..\public\RedButton.h">
       <Filter>00. Dummys\T Y J\MapObject\RedButton</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Broken_Block.h">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear\Broken_Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -770,6 +776,9 @@
     </Filter>
     <Filter Include="00. Dummys\T Y J\MapObject\RedButton">
       <UniqueIdentifier>{f8bd61cd-d195-448c-8cfd-42a34681ef1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\MapObject\Blocks\Disaapear\Broken_Block">
+      <UniqueIdentifier>{e42be82b-c1eb-42d2-b532-7c4160138efe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

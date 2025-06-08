@@ -165,6 +165,7 @@
     <ClInclude Include="..\Public\Block_Spark.h" />
     <ClInclude Include="..\Public\Block_Wall.h" />
     <ClInclude Include="..\Public\Block_Wood.h" />
+    <ClInclude Include="..\public\Broken_Block.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Cannon.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="..\Private\Block_Spark.cpp" />
     <ClCompile Include="..\Private\Block_Wall.cpp" />
     <ClCompile Include="..\Private\Block_Wood.cpp" />
+    <ClCompile Include="..\private\Broken_Block.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\Private\Cannon.cpp" />
     <ClCompile Include="..\Private\Cloud.cpp" />
