@@ -62,6 +62,8 @@ typedef struct tagRedButtonPressed : public CEvent {
 typedef struct tagRedButtonUnpressed : public CEvent {
 }EVENT_REDBUTTON_UNPRESSED;
 
-
+typedef struct tagLevelChange : public CEvent {
+	_uint iChangeLevel;
+}LEVELCHANGE_EVENT;
 END
 

@@ -7,7 +7,7 @@ CBlock_Disappear::CBlock_Disappear(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CBlock_Disappear::CBlock_Disappear(const CBlock_Disappear& Prototype)
-    : CGameObject{ Prototype }
+    : CGameObject( Prototype )
 
 {
 }

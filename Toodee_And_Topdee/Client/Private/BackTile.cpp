@@ -49,9 +49,10 @@ HRESULT CBackTile::Render()
     if (FAILED(m_pTextureCom->Bind_Texture(0)))
         return E_FAIL;
 
-    for (_int height = 0; height < m_pSize[1]; ++height)
+
+    for (_uint height = 0; height < m_pSize[1]; ++height)
     {
-        for (_int width = 0; width < m_pSize[0]; ++width)
+        for (_uint width = 0; width < m_pSize[0]; ++width)
         {
             m_pTransformCom->Set_State(STATE::POSITION, { (FLOAT)((width + 0.5 - (m_pSize[0] / 2)) * 2) , 0.f,  (FLOAT)((height + 0.5 - (m_pSize[1] / 2)) * 2) });
             m_pTransformCom->Bind_Matrix();
