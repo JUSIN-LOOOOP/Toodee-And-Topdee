@@ -36,6 +36,9 @@ HRESULT CPlayer_Toodee::Initialize_Prototype()
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::ACTION)].eState = PLAYERSTATE::ACTION;
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::ACTION)].iMaxAnimCount = 5;
 
+    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::SWIM)].eState = PLAYERSTATE::SWIM;
+    m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::SWIM)].iMaxAnimCount = 8;
+
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].eState = PLAYERSTATE::STOP;
     m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::STOP)].iMaxAnimCount = 46;
 
@@ -113,13 +116,15 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
 
             ComputeTextureDirection(iInputData);
 
+           
             if (m_bInAction)
             {
                 Action_Jump(fTimeDelta);
-            }
+            }    
 
             m_pGameInstance->Check_Collision(m_pColliderCom);
             Check_Collision();
+
             Check_Grounded();
         }
 
@@ -161,6 +166,8 @@ void CPlayer_Toodee::Late_Update(_float fTimeDelta)
     
     if (m_eCurrentState == PLAYERSTATE::STOP)
         m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+    else if (m_eCurrentState == PLAYERSTATE::CLEAR)
+        m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
     else
         m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
@@ -223,14 +230,27 @@ void CPlayer_Toodee::Idle()
 {
 }
 
-void CPlayer_Toodee::Move(_float fTimeDelta)
+void CPlayer_Toodee::Move(_uint iInputData, _float fTimeDelta)
 {
-    m_pTransformCom->Go_Right(fTimeDelta);
+    if (iInputData & ENUM_CLASS(KEYINPUT::KEY_LEFT) || iInputData & ENUM_CLASS(KEYINPUT::KEY_RIGHT))
+        m_pTransformCom->Go_Right(fTimeDelta);
+}
+
+void CPlayer_Toodee::Swim(_uint iInputData, _float fTimeDelta)
+{
+    if (iInputData & ENUM_CLASS(KEYINPUT::KEY_UP))
+        m_pTransformCom->Go_Up(fTimeDelta);
+
+    if(iInputData & ENUM_CLASS(KEYINPUT::KEY_DOWN))
+        m_pTransformCom->Go_Down(fTimeDelta);
+
+    if (iInputData & ENUM_CLASS(KEYINPUT::KEY_LEFT) || iInputData & ENUM_CLASS(KEYINPUT::KEY_RIGHT))
+        m_pTransformCom->Go_Right(fTimeDelta);
 }
 
 void CPlayer_Toodee::Action()
 {
-    if (m_bInAction && m_eJumpState == JUMPSTATE::JUMPING) // 점프 중 이라면 점프 파워 상승
+    if (m_bInAction && m_eJumpState == JUMPSTATE::JUMPING && false == m_bOutWater) // 점프 중 이라면 점프 파워 상승
     {
         if (m_fAccumulationJumpPower + m_fIncreaseJumpPower <= m_fMaxIncreaseJumpPower)
         {
@@ -286,12 +306,21 @@ _uint CPlayer_Toodee::KeyInput()
 
     if(m_pGameInstance->Key_Pressing(VK_RIGHT))
         iInputData |= ENUM_CLASS(KEYINPUT::KEY_RIGHT);
-
+    
     if (m_pGameInstance->Key_Pressing('Z'))
         iInputData |= ENUM_CLASS(KEYINPUT::KEY_Z);
 
     if (m_pGameInstance->Key_Down('X'))
         iInputData |= ENUM_CLASS(KEYINPUT::KEY_X);
+
+    if (m_eCurrentState == PLAYERSTATE::SWIM)
+    {
+        if (m_pGameInstance->Key_Pressing(VK_UP))
+            iInputData |= ENUM_CLASS(KEYINPUT::KEY_UP);
+
+        if (m_pGameInstance->Key_Pressing(VK_DOWN))
+            iInputData |= ENUM_CLASS(KEYINPUT::KEY_DOWN);
+    }
 
     return iInputData;
 }
@@ -364,6 +393,10 @@ HRESULT CPlayer_Toodee::Ready_Components()
         TEXT("Com_Action_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::ACTION)]))))
         return E_FAIL;
 
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Swim"),
+        TEXT("Com_Swim_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::SWIM)]))))
+        return E_FAIL;
+
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodee_Stop"),
         TEXT("Com_Stop_Texture"), reinterpret_cast<CComponent**>(&m_pTextureComs[ENUM_CLASS(PLAYERSTATE::STOP)]))))
         return E_FAIL;
@@ -423,6 +456,14 @@ HRESULT CPlayer_Toodee::Begin_RenderState()
         m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
     }
+    else if (m_eCurrentState == PLAYERSTATE::CLEAR)
+    {
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+        m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
+        m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    }
     else
     {
         m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -439,6 +480,12 @@ HRESULT CPlayer_Toodee::End_RenderState()
 
     if (m_eCurrentState == PLAYERSTATE::STOP)
         m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    else if (m_eCurrentState == PLAYERSTATE::CLEAR)
+    {
+        m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
+        m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    }
     else
         m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
@@ -448,23 +495,21 @@ HRESULT CPlayer_Toodee::End_RenderState()
 void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
 {
     //중력 계산
-   // if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
-    {
-        Compute_Gravity(fTimeDelta);
-    }
+   
+    Compute_Gravity(fTimeDelta);
 
     //최고점에서 잠깐 머무르기
     if (m_fCurrentJumpPower < 0.f && m_eJumpState != JUMPSTATE::FALLING)
     {
+        if(m_eJumpState != JUMPSTATE::JUMPING)
+            m_bOutWater = false;
+
         m_pCurrentState->UpdateAnim(fTimeDelta);
         m_eJumpState = static_cast<JUMPSTATE>(m_pCurrentState->GetAnimCount());
     }
 
-    //점프 높이 적용
- //   if (m_eJumpState == JUMPSTATE::JUMPING || m_eJumpState == JUMPSTATE::FALLING)
-    {
-        Gravity(fTimeDelta);
-    }
+    Gravity(fTimeDelta);
+    
 }
 
 void CPlayer_Toodee::Gravity(_float fTimeDelta)
@@ -491,8 +536,12 @@ void CPlayer_Toodee::Compute_Gravity(_float fTimeDelta)
 
 void CPlayer_Toodee::Check_Collision()
 {
+    if(m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
+        m_bInWater = false;
+
     if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
     {
+
         vector<CGameObject*>* Overlaps = { nullptr };
         if (false == m_pColliderCom->GetOverlapAll(Overlaps))
             return;
@@ -502,6 +551,7 @@ void CPlayer_Toodee::Check_Collision()
             Check_Collision_Dead(iter);
             Check_Collision_Portal(iter);
             Check_Collision_Key(iter);
+            Check_Collision_Water(iter);
         }
 
         Check_Collision_PlayerState();
@@ -603,16 +653,29 @@ void CPlayer_Toodee::Check_Collision_Storm(CGameObject* pGameObject)
     
 }
 
+void CPlayer_Toodee::Check_Collision_Water(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Water")) != string::npos)
+    {
+        m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::SWIM);
+        m_bInWater = true;
+        m_bInAction = false;
+        m_bOutWater = false;
+    }
+}
+
 void CPlayer_Toodee::Check_Grounded()
 {
     _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
     vPosition = { vPosition.x, vPosition.y, vPosition.z - m_fGroundCheckPosZ };
+
 
     m_pGroundCheckTransformCom->Set_State(STATE::POSITION, vPosition);
 
     m_pGroundCheckColliderCom->Collision_On();
 
     m_pGameInstance->Check_Collision(m_pGroundCheckColliderCom);
+
 
     if (m_pGroundCheckColliderCom->OnCollisionEnter() || m_pGroundCheckColliderCom->OnCollisionStay())
     {

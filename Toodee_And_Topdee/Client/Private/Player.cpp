@@ -10,6 +10,7 @@
 #include "State_Clear.h"
 #include "State_Stop.h"
 #include "State_Dead.h"
+#include "State_Swim.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -37,7 +38,7 @@ void CPlayer::ClearReady(const CANCLEAREVENT& Event)
 }
 
 HRESULT CPlayer::Change_State(PLAYERSTATE eNewState)
-{
+{ 
 	if (m_eCurrentState == eNewState)
 		return S_OK;
 
@@ -106,6 +107,9 @@ HRESULT CPlayer::Add_State(PLAYERSTATE eKeyState, void* pArg)
 		break;
 	case PLAYERSTATE::ACTION:
 		pInstance = CState_Action::Create(pArg);
+		break;
+	case PLAYERSTATE::SWIM:
+		pInstance = CState_Swim::Create(pArg);
 		break;
 	case PLAYERSTATE::STOP:
 		pInstance = CState_Stop::Create(pArg);

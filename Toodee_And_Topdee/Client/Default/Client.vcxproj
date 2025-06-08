@@ -223,6 +223,7 @@
     <ClInclude Include="..\Public\State_Idle.h" />
     <ClInclude Include="..\Public\State_Move.h" />
     <ClInclude Include="..\Public\State_Stop.h" />
+    <ClInclude Include="..\public\State_Swim.h" />
     <ClInclude Include="..\Public\Storm.h" />
     <ClInclude Include="..\public\Test_Cube.h" />
     <ClInclude Include="..\Public\Test_Cube2.h" />
@@ -311,6 +312,7 @@
     <ClCompile Include="..\Private\State_Idle.cpp" />
     <ClCompile Include="..\Private\State_Move.cpp" />
     <ClCompile Include="..\Private\State_Stop.cpp" />
+    <ClCompile Include="..\private\State_Swim.cpp" />
     <ClCompile Include="..\Private\Storm.cpp" />
     <ClCompile Include="..\private\Test_Cube.cpp" />
     <ClCompile Include="..\Private\Test_Cube2.cpp" />

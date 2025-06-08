@@ -13,6 +13,8 @@ CWater::CWater(const CWater& Prototype)
 
 HRESULT CWater::Initialize_Prototype()
 {
+	name = TEXT("Water");
+
 	return S_OK;
 }
 
@@ -158,9 +160,9 @@ void CWater::Collider_Setting()
 	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
 	vPosition.x += 10.f;
-	vPosition.z += (m_fCurrentFillHeight * 18.f) * 0.5f; // Water Size Z
+	vPosition.z += (m_fCurrentFillHeight * 17.f) * 0.5f; // Water Size Z
 	m_pColliderCom->ApplyFixedPosition(vPosition);
-	m_pColliderCom->Set_Scaling(20.f, 2.f, (m_fCurrentFillHeight * 18.f));
+	m_pColliderCom->Set_Scaling(20.f, 2.f, (m_fCurrentFillHeight * 17.f));
 }
 
 HRESULT CWater::Ready_Components()

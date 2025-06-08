@@ -28,7 +28,7 @@ void CState_Move::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDe
 {
     if ((iInputData & ENUM_CLASS(KEYINPUT::KEY_MOVES)) != 0)
     {
-        pPlayer->Move(fTimeDelta);
+        pPlayer->Move(iInputData, fTimeDelta);
     }
 
     if (iInputData & ENUM_CLASS(KEYINPUT::KEY_Z))

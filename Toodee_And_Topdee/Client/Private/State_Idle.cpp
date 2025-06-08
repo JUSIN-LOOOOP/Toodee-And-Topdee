@@ -33,7 +33,7 @@ void CState_Idle::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDe
 
     if ((iInputData & ENUM_CLASS(KEYINPUT::KEY_MOVES)) != 0)
     {
-        pPlayer->Move(fTimeDelta);
+        pPlayer->Move(iInputData, fTimeDelta);
         if(FAILED(pPlayer->Change_State(PLAYERSTATE::MOVE)))
             MSG_BOX(TEXT("Failed Change State : MOVE"));
     }

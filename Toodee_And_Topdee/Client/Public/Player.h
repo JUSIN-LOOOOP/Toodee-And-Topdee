@@ -43,7 +43,7 @@ public:
 	HRESULT Change_State(PLAYERSTATE eNewState);						
 	virtual HRESULT Return_PrevState() PURE;							// Stop -> 이전 상태로 돌아가기
 	virtual void Idle() PURE;											// Idle State 트리거
-	virtual void Move(_float fTimeDelta) PURE;							// Move State 트리거
+	virtual void Move(_uint iInputData, _float fTimeDelta) PURE;							// Move State 트리거
 	virtual void Action() PURE;											// Action State 트리거
 	virtual void Stop() PURE;											// Stop State 트리거
 	virtual void Clear(_float3 vPortalPosition) PURE;											// Clear State 트리거
