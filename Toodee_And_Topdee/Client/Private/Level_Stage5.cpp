@@ -161,19 +161,19 @@ HRESULT CLevel_Stage5::Ready_Layer_MapObject(const _wstring& strLayerTag)
 	}
 
 	BLOCK_INFO	info1 = {};
-	info1.vPos = _float3(1.f, 1.f, 1.f);
+	info1.vPos = _float3(1.f, 1.f, -1.f);
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Sink"), &info1)))
 		return E_FAIL;
 
 	BLOCK_INFO	info2 = {};
-	info2.vPos = _float3(-21.f, 1.f, 1.f);
+	info2.vPos = _float3(-21.f, 1.f, -1.f);
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Sink"), &info2)))
 		return E_FAIL;
 
 	BLOCK_INFO	info3 = {};
-	info3.vPos = _float3(21.f, 1.f, 1.f);
+	info3.vPos = _float3(21.f, 1.f, -1.f);
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_GameObject_Sink"), &info3)))
 		return E_FAIL;

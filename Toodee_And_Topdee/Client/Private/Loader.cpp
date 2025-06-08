@@ -553,7 +553,7 @@ HRESULT CLoader::Loading_For_Stage5()
 
 	/* Prototype_Component_VIBuffer_Rect */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, 20, 18))))
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 20, 20))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_Water */

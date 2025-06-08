@@ -510,9 +510,6 @@ void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
     //최고점에서 잠깐 머무르기
     if (m_fCurrentJumpPower < 0.f && m_eJumpState != JUMPSTATE::FALLING)
     {
-        if(m_eJumpState != JUMPSTATE::JUMPING)
-            m_bOutWater = false;
-
         m_pCurrentState->UpdateAnim(fTimeDelta);
         m_eJumpState = static_cast<JUMPSTATE>(m_pCurrentState->GetAnimCount());
     }
@@ -598,7 +595,8 @@ void CPlayer_Toodee::Check_Collision_PlayerState()
     {
         case COLLIDER_DIR::FRONT:
         {
-            if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Key")) == std::string::npos)
+            if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Key")) == std::string::npos
+                && m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Portal")) == std::string::npos)
                 m_fCurrentJumpPower = 0.f;
             break;
         }
@@ -723,6 +721,8 @@ void CPlayer_Toodee::Check_OnGround(CGameObject* pGameObject)
         || pGameObject->Get_Name().find(TEXT("Block")) != string::npos))
     {
         m_bInAction = false;
+        m_bOutWater = false;
+
         m_fAccumulationJumpPower = 0.f;
         m_fGravityPower = 0.f;
     }
