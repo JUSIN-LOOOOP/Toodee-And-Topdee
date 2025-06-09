@@ -34,8 +34,7 @@ HRESULT CStageBoss_Body::Initialize_Prototype(void* pArg)
 	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 	Ready_SubscribeEvent(m_iPlayLevel);
 	m_fInitPos = m_pTransformCom->Get_State(STATE::POSITION);
-
-	name = TEXT("StageBoss_Body");
+	name = TEXT("WallBoss");
 
 	return S_OK;
 }
@@ -194,7 +193,7 @@ HRESULT CStageBoss_Body::Ready_Components()
 	TransformDesc.fRotationPerSec = 1;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Body"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
 	CCollider::COLLIDER_DESC ColliderDesc{};
@@ -262,7 +261,8 @@ void CStageBoss_Body::Ready_PartsData()
 HRESULT CStageBoss_Body::Create_Fire()
 {
 	_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
-	//pos.z -= 5.f;
+	//pos.z -=.f;
+	pos.y = 0.f;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_FireBall"),
 		ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_FireBall"), pos)))
 		return E_FAIL;

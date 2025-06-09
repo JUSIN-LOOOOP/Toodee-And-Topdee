@@ -38,6 +38,7 @@ HRESULT CFireBall::Initialize(void* pArg)
     _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
     m_pTransformCom->Set_State(STATE::POSITION, _float3{ vPosition.x, vPosition.y + 1.01f, vPosition.z });
 
+    name = TEXT("EnemyFireBall");
 
     return S_OK;
 }
@@ -122,7 +123,7 @@ HRESULT CFireBall::Ready_Components()
     CCollider::COLLIDER_DESC  ColliderDesc{};
     ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
     ColliderDesc.pTransform = m_pTransformCom;
-    ColliderDesc.vColliderScale = _float3(4.0f, 1.0f, 4.0f);
+    ColliderDesc.vColliderScale = _float3(4.0f, 4.0f, 4.0f);
     ColliderDesc.bIsFixed = false;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Rect"),

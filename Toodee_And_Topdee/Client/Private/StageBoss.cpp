@@ -93,7 +93,7 @@ HRESULT CStageBoss::Render()
 	for (auto limb : m_vlimbs)
 		limb->Render();
 
-	_float3 BodyPos = dynamic_cast<CTransform*>(m_vlimbs[ENUM_CLASS(LIMB::BODY)]->Get_Component(TEXT("Com_Transform_Body")))->Get_State(STATE::POSITION);
+	_float3 BodyPos = dynamic_cast<CTransform*>(m_vlimbs[ENUM_CLASS(LIMB::BODY)]->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
 	_float3 TargetPos[2] = {};
 	TargetPos[0] = dynamic_cast<CTransform*>(m_vlimbs[ENUM_CLASS(LIMB::LEFT_HAND)]->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
 	TargetPos[1] = dynamic_cast<CTransform*>(m_vlimbs[ENUM_CLASS(LIMB::RIGHT_HAND)]->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);

@@ -32,9 +32,7 @@ HRESULT CStageBoss_Hand::Initialize_Prototype(void* pArg)
 
 	m_fInitPos = m_pTransformCom->Get_State(STATE::POSITION);
 
-
-	name = TEXT("StageBoss_Hand");
-
+	name = TEXT("WallBoss");
 
     return S_OK;
 }
@@ -99,13 +97,14 @@ HRESULT CStageBoss_Hand::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(6.f, 6.f, 6.f);		//юс╫ц
+	ColliderDesc.vColliderScale = _float3(6.f, 6.f, 6.f);
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
+
 
 	return S_OK;
 }
