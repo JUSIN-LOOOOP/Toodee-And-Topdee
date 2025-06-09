@@ -16,6 +16,13 @@ public:
 	virtual HRESULT		Render()override;
 
 private:
+	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Spark(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_RotationObject(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Buttons(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Title(const _wstring& strLayerTag);
+
 
 
 public:

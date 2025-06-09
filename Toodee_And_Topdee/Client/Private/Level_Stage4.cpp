@@ -8,6 +8,8 @@
 #include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
+#include "Pig.h"
+#include "Bat.h"
 
 CLevel_Stage4::CLevel_Stage4(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -23,6 +25,9 @@ HRESULT CLevel_Stage4::Initialize()
 
 	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
 		return E_FAIL;
+
+	// if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	// 	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
 		return E_FAIL;
@@ -147,13 +152,13 @@ HRESULT CLevel_Stage4::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::TOODEE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), strLayerTag,
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Player_TooDee"),
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"), &info)))
 				return E_FAIL;
 			break;
 
 		case MAPOBJECT::TOPDEE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), strLayerTag,
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Player_TopDee"),
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
 				return E_FAIL;
 			break;
@@ -190,6 +195,42 @@ HRESULT CLevel_Stage4::Ready_Layer_Back(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_Stage4::Ready_Layer_Monster(const _wstring& strLayerTag)
+{
+	CPig::PIG_DESC pPigDesc{};
+
+	pPigDesc.TargetTransformCom = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Player_TopDee"), TEXT("Com_Transform")));
+	pPigDesc.vPosSet = _float3(-2.f, 0.5f, 14.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_Pig"), &pPigDesc)))
+		return E_FAIL;
+
+	pPigDesc.vPosSet = _float3(8.f, 0.5f, 14.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_Pig"), &pPigDesc)))
+		return E_FAIL;
+
+	CBat::BAT_DESC pBatDesc{};
+	
+	pBatDesc.TargetTransformCom = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Player_TopDee"), TEXT("Com_Transform")));
+	pBatDesc.vPosSet = _float3(18.f, 0.5f, 6.f);
+	pBatDesc.fSpeedPerSec = 5.f;
+	
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_Bat"), &pBatDesc)))
+		return E_FAIL;
+	
+	pBatDesc.vPosSet = _float3(4.f, 0.5f, -10.f);
+	
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE4), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_Bat"), &pBatDesc)))
+		return E_FAIL;
+
+
+	return S_OK;
+}
 
 HRESULT CLevel_Stage4::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 {

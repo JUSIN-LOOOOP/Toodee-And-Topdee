@@ -338,7 +338,7 @@ HRESULT CStorm::Ready_Components()
 			m_strArrayTransformTag[i], reinterpret_cast<CComponent**>(&m_pTransformCom[i]), &TransformDesc)))
 			return E_FAIL;
 
-		/* For.Com_Collision */
+		/* For.Com_Collider */
 		CCollider::COLLIDER_DESC  ColliderDesc{};
 		ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
 		ColliderDesc.pTransform = m_pTransformCom[i];
@@ -348,7 +348,7 @@ HRESULT CStorm::Ready_Components()
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 			m_strArrayColliderTag[i], reinterpret_cast<CComponent**>(&m_pColliderCom[i]), &ColliderDesc)))
 		{
-			MSG_BOX(TEXT("Failed to Add_Component : Com_Collision"));
+			MSG_BOX(TEXT("Failed to Add_Component : Com_Collider"));
 			return E_FAIL;
 		}
 	}

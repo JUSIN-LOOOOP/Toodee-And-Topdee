@@ -40,7 +40,7 @@ private:
 	CCollider*				m_pColliderCom[3] = { nullptr,nullptr,nullptr };
 
 	array<_wstring, 3>		m_strArrayTransformTag = { TEXT("Com_Transform1"), TEXT("Com_Transform2"), TEXT("Com_Transform3") };
-	array<_wstring, 3>		m_strArrayColliderTag = { TEXT("Com_Collision1"), TEXT("Com_Collision2"), TEXT("Com_Collision3") };
+	array<_wstring, 3>		m_strArrayColliderTag = { TEXT("Com_Collider1"), TEXT("Com_Collider2"), TEXT("Com_Collider3") };
 
 	_float3					m_CrashAnyPosition[3] = {};
 	_float3					m_CrashGroundPosition[3] = {};

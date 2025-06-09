@@ -47,9 +47,9 @@ protected:
 
 protected:
 	// 파츠가 객체를 중심으로 공전(궤도공전)
-	void RevolveAround(class CTransform* pTransform, _float fAngleX, _float fAngleY, _float fRightLength = 0.f, _float fUpLength = 0.f);
+	void	RevolveAround(class CTransform* pTransform, _float fAngleX, _float fAngleY, _float fRightLength = 0.f, _float fUpLength = 0.f);
 	void	Look_At_degree(_float* pAngleXOut, _float* pAngleYOut, CTransform* pTransform, _float3 vTargetPos);
-	void Check_To_FocusDelta(_float* pOutX, _float* pOutY, _float3 vFocusPos, _float3 vMyPos);
+	void	Check_To_FocusDelta(_float* pOutX, _float* pOutY, _float3 vFocusPos, _float3 vMyPos);
 
 
 public:

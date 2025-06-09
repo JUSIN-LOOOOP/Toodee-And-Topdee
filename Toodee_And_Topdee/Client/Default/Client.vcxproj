@@ -198,6 +198,10 @@
     <ClInclude Include="..\public\Lightning.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
+    <ClInclude Include="..\Public\MainMenu_BackGround.h" />
+    <ClInclude Include="..\Public\MainMenu_CenterLine.h" />
+    <ClInclude Include="..\Public\MainMenu_Spark.h" />
+    <ClInclude Include="..\Public\MainMenu_Title.h" />
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\MultiViewCamera.h" />
     <ClInclude Include="..\Public\Part_Body.h" />
@@ -294,6 +298,10 @@
     <ClCompile Include="..\private\Lightning.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
+    <ClCompile Include="..\private\MainMenu_BackGround.cpp" />
+    <ClCompile Include="..\Private\MainMenu_CenterLine.cpp" />
+    <ClCompile Include="..\Private\MainMenu_Spark.cpp" />
+    <ClCompile Include="..\Private\MainMenu_Title.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\MultiViewCamera.cpp" />
     <ClCompile Include="..\Private\Part_Body.cpp" />

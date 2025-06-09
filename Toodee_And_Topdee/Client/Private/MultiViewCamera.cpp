@@ -120,6 +120,10 @@ void CMultiViewCamera::ChangeView(_float fTimeDelta)
             m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
         }
     }
+
+    DIMENSION a = m_pGameInstance->Get_PreviousDimension();
+    DIMENSION b = m_pGameInstance->Get_CurrentDimension();
+    int aa = 0;
 }
 
 HRESULT CMultiViewCamera::Ready_Components(void* pArg)
