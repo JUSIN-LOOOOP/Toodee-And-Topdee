@@ -48,21 +48,6 @@ HRESULT CPart_Wing::Initialize(void* pArg)
 
 void CPart_Wing::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocusPos)
 {
-	if (GetKeyState('W') & 0x8000)
-		m_fDeltaAngleY += 1;
-
-	if (GetKeyState('S') & 0x8000)
-		m_fDeltaAngleY -= 1;
-
-	if (GetKeyState('A') & 0x8000)
-		m_fDeltaAngleX -= 1;
-
-	if (GetKeyState('D') & 0x8000)
-		m_fDeltaAngleX += 1;
-
-
-
-
 	m_fFrame += m_fMaxFrame * fTimeDelta;
 	if (m_fFrame >= m_fMaxFrame)
 		m_fFrame = m_fOldFrame;
@@ -77,8 +62,6 @@ void CPart_Wing::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocu
 
 	_float3 vOtherPos = pTransform->Get_State(STATE::POSITION);
 	_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION);
-
-
 
 	if (vOtherPos.x < vMyPos.x)
 		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));

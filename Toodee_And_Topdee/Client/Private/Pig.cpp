@@ -1,6 +1,7 @@
 #include "Pig.h"
 #include "GameInstance.h"
 #include "Parts.h"
+#include <Key.h>
 
 CPig::CPig(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster {pGraphic_Device}
@@ -25,7 +26,7 @@ HRESULT CPig::Initialize(void* pArg)
 {
 	name = TEXT("Monster_Pig");
 	m_bLeft = false;
-
+	m_iPlayLevel = m_pGameInstance->Get_CurrentLevelID();
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -35,7 +36,7 @@ HRESULT CPig::Initialize(void* pArg)
 	PIG_DESC* pDesc = static_cast<PIG_DESC*>(pArg);
 	m_vOldPos = pDesc->vPosSet;
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-	m_pTransformCom->Scaling(3.f, 3.f, 3.f);
+	m_pTransformCom->Scaling(4.f, 4.f, 4.f);
 	m_pTransformCom->Set_State(STATE::POSITION, m_vOldPos);
 
 	
@@ -56,8 +57,23 @@ void CPig::Priority_Update(_float fTimeDelta)
 
 void CPig::Update(_float fTimeDelta)
 {
-	_float3 vTargetPos = m_pTargetTransformCom->Get_State(STATE::POSITION);
+	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::CHANGE)
+	{
+		if (m_bLeft) // TOPDEE로 전환시 혹시라도 TOODEE에서 방향이 뒤집혔다면 돌리는 작업
+		{
+			m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
+			m_bLeft = false;
+		}
+		
+	}
 
+
+
+
+
+
+
+	_float3 vTargetPos = m_pTargetTransformCom->Get_State(STATE::POSITION);
 
 	switch (m_pGameInstance->Get_CurrentDimension())
 	{
@@ -80,14 +96,6 @@ void CPig::Update(_float fTimeDelta)
 
 	case::DIMENSION::TOPDEE:
 
-		if (m_bLeft) // TOPDEE로 전환시 혹시라도 TOODEE에서 방향이 뒤집혔다면 돌리는 작업
-		{
-			m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
-			m_bLeft = false;
-		}
-
-		
-
 		_float3 vMoveDir = Move_To_Target(fTimeDelta);
 		m_pTransformCom->Move_To(vTargetPos, fTimeDelta* 0.5f);
 
@@ -100,17 +108,6 @@ void CPig::Update(_float fTimeDelta)
 		}
 		break;
 	}
-
-
-
-
-	if (GetKeyState('R') & 0x8000)
-	{
-		m_pTransformCom->Set_State(STATE::POSITION, m_vOldPos);
-	}
-
-
-
 }
 
 void CPig::Late_Update(_float fTimeDelta)
@@ -146,9 +143,9 @@ HRESULT CPig::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Wall"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
+	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Wall"),
+	//		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	//		return E_FAIL;
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC	TransformDesc{};
@@ -159,7 +156,7 @@ HRESULT CPig::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_vColliderScale = _float3(2.0f, 2.0f, 2.0f);
+	m_vColliderScale = _float3(3.0f, 3.0f, 3.0f);
 
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
@@ -185,7 +182,7 @@ HRESULT CPig::Ready_Parts()
 
 #pragma region Parts_Body
 
-	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Body")));
+	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Body")));
 	PartDesc.fFrame = 1.f;													// 텍스쳐 번호(스프라이트로 활용될 고정이미지 다음번호)
 	PartDesc.fMaxFrame = 9.f;													// 스프라이트(애니메이션)일 경우 마지막 이미지번호 fFrame <-> MaxIndex 순회하면서 이미지출력
 	PartDesc.fAngleY = 1.f;													// 파츠들의 기본 배치 위치 (객체의 정중앙 = AngleX = 90 , AngleY = 90(후면), -90(전면)
@@ -204,7 +201,7 @@ HRESULT CPig::Ready_Parts()
 
 #pragma region Parts_Ear
 	// Left_Ear
-	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Ears")));
+	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Ears")));
 	PartDesc.pTextureCom = pTexture;
 	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
 	PartDesc.fAngleY = -70.f;
@@ -228,7 +225,7 @@ HRESULT CPig::Ready_Parts()
 
 #pragma region Parts_Eye
 	// Left_Eye
-	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Eyes")));
+	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Eyes")));
 	PartDesc.pTextureCom = pTexture;
 	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
 	PartDesc.fAngleY = -75.f;
@@ -254,7 +251,7 @@ HRESULT CPig::Ready_Parts()
 
 #pragma region Parts_Nose
 
-	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Nose")));
+	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Nose")));
 	PartDesc.eState = CParts::PARTSTATE::PARTS_FRONT;
 	PartDesc.fAngleY = -90.f;
 	PartDesc.fAngleX = 90.f;
@@ -268,7 +265,7 @@ HRESULT CPig::Ready_Parts()
 
 #pragma region Parts_Tail
 
-	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Tail")));
+	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Tail")));
 	PartDesc.eState = CParts::PARTSTATE::PARTS_BACK;
 	PartDesc.fAngleY = 90.f;
 
@@ -282,7 +279,7 @@ HRESULT CPig::Ready_Parts()
 
 #pragma region Parts_Legs
 
-	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Legs")));
+	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Legs")));
 	PartDesc.fAngleY = 88.f;
 	PartDesc.fAngleX = 100.f;
 	PartDesc.fMaxFrame = 7;
@@ -334,7 +331,7 @@ _bool CPig::Check_Gravity(_float fTimeDelta) // Dimension이 TooDee일 경우만 들어
 
 	vector<CGameObject*>* findAll = { nullptr };	// 충돌체 여부를 확인하기 위한 리스트를 가져오기위함
 	m_pColliderCom->GetOverlapAll(findAll);
-	if (nullptr == findAll || findAll->empty())
+	if (nullptr == findAll)
 	{
 		m_bGravity = true;
 		vMyPos.z -= GRAVITY * fTimeDelta;
@@ -346,7 +343,20 @@ _bool CPig::Check_Gravity(_float fTimeDelta) // Dimension이 TooDee일 경우만 들어
 
 	for (auto& Other : *findAll)
 	{
-		if (Other->Get_Name().find(TEXT("Block")) != string::npos || Other->Get_Name().find(TEXT("Wall")) != string::npos)
+
+		if (Other->IsDead())
+			return false;
+
+		_wstring strOtherName = Other->Get_Name();
+		if(strOtherName.find(TEXT("Key")) != string::npos)
+		{
+			GETKEYEVENT Event;
+			m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
+			CKey* pKey = dynamic_cast<CKey*>(Other);
+			pKey->Get_Key();
+		}
+
+		if (strOtherName.find(TEXT("Block")) != string::npos || strOtherName.find(TEXT("Wall")) != string::npos)
 		{
 			_float3 OtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
 			_float fDistansZ = fabsf(OtherPos.z - vMyPos.z);
@@ -365,65 +375,6 @@ _bool CPig::Check_Gravity(_float fTimeDelta) // Dimension이 TooDee일 경우만 들어
 	vMyPos.z -= GRAVITY * fTimeDelta;
 	m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
 	return true;
-
-	//// 업데이트 전 중력에대한 true, false와 현재 업데이트시에 따른 처리
-	//if (m_bGravity)
-	//{
-	//	if (m_pColliderCom->GetOverlapAll(findAll))
-	//	{
-	//		for (auto& Other : *findAll)
-	//		{
-	//			if (m_bGravity == false) // 충돌체 순회돌면서 바닥블럭과 충돌일어나면 중력 off
-	//			{
-	//				return false;
-	//			}
-
-	//			if (Other->Get_Name().find(TEXT("Block")) != string::npos) // 이름에 Block가 들어가고 충돌위치가 하단이다
-	//			{
-	//				_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
-	//				_float3 vDeltaPos = vOtherPos - vMyPos;
-	//				_float3 vDeltaAbs = absfloat3(vDeltaPos);
-
-	//				if(vDeltaAbs.x < vDeltaAbs.z && vDeltaPos.z < 0)
-	//					m_bGravity = false;
-	//			}
-	//		}
-	//	}
-	//	else
-	//	{
-	//		vMyPos.z -= GRAVITY * fTimeDelta;
-	//		m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
-	//		return true;
-	//	}
-	//}
-	//else // 기존 중력 없음 TooDee <-> TopDee 전환시 이 값일 수 있으므로
-	//{
-	//	if(m_pColliderCom->GetOverlapAll(findAll)) // 충돌체 있음
-	//	{
-	//		for (auto& Other : *findAll)
-	//		{
-	//			if (Other->Get_Name().find(TEXT("Block")) != string::npos) // 충돌체가 block이 아니면 중력 만듦 
-	//				continue;
-	//	
-	//		}
-	//	}
-	//	else // 충돌체가 없음
-	//	{
-	//		m_bGravity = true;
-	//	}
-	//}	
-
-
-	//if (m_bGravity)
-	//{
-	//	vMyPos.z -= GRAVITY * fTimeDelta;
-	//	m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
-	//	return true;
-	//}
-	//else
-	//	return false;
-
-
 }
 
 void CPig::Compute_Collision(_float3 vDir)
@@ -442,6 +393,9 @@ void CPig::Compute_Collision(_float3 vDir)
 
 	for (auto& Other : *findAll)
 	{
+		if (Other->IsDead())
+			return;
+
 		CCollider::COLLIDER_DESC pOtherDesc = {};
 		static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pOtherDesc);
 		_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
@@ -484,16 +438,21 @@ void CPig::Move_Patrol(_float fTimeDelta)
 	vector<CGameObject*>* findAll = { nullptr };
 	CCollider::COLLIDER_DESC pDesc;
 
-	m_pTransformCom->Go_Right(fTimeDelta); // 중력이 없다 일단 이동한다.
+	m_pTransformCom->Go_Right(fTimeDelta * 0.5f); // 중력이 없다 일단 이동한다.
 
-	
 
 	if (m_pColliderCom->GetOverlapAll(findAll))
 	{
+		if (nullptr == findAll)
+			return;
+
 		if (1 == findAll->size()) // 충돌객체가 1개이며 바닥 객체이다 (바닥객체와 1:1충돌시에만 중력 off기 때문에 다른상황은 없음)
 		{
 			for (auto& Other : *findAll)
 			{
+				if (Other->IsDead())
+					continue;
+
 				_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION); // 충돌체 포지션값 받아옴
 				_float fDeltaX = (vMyPos.x - vOtherPos.x);
 				static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pDesc);
@@ -517,43 +476,31 @@ void CPig::Move_Patrol(_float fTimeDelta)
 		{
 			for (auto& Other : *findAll)
 			{
+				if (Other->IsDead())
+					continue;
+
+
 				_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
-				if (Other->Get_Name().find(TEXT("Block")) != string::npos) // 객체 이름이 block임
+				static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pDesc);
+				
+				
+				_float fOtherMaxZ = vOtherPos.z + pDesc.vColliderScale.z * 0.5f; // 충돌 객체의 중심 z값 + z값에 대한 반지름 (충돌객체의 높이 판단) 벽이 아니라면 포지션값보다 높을수가 없음
+				if(vMyPos.z <= fOtherMaxZ)
 				{
-					if (vMyPos.z > vOtherPos.z) // 블럭인데 객체보다 밑에있음 무시하고 다음객체순회
-						continue;
-					else // 충돌체 z값이 낮은걸 제외 (좌,우) 위쪽 블럭은 없을거같음
+					if (vMyPos.x > vOtherPos.x) // 객체 x가 충돌체의 x보다 클경우 객체(오른쪽), 충돌체(왼쪽) << 이동 중 벽 마주침
 					{
-						if (vMyPos.x > vOtherPos.x) // 객체 x가 충돌체의 x보다 클경우 객체(오른쪽), 충돌체(왼쪽) << 이동 중 벽 마주침
-						{
-							m_bLeft = false;
-							m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
-							m_pTransformCom->Go_Right(fTimeDelta * 2.f);
-						}
-						else
-						{
-							m_bLeft = true;
-							m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
-							m_pTransformCom->Go_Right(fTimeDelta * 2.f);
-						}
+						m_bLeft = false;
+						m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
+						m_pTransformCom->Go_Right(fTimeDelta * 2.f);
+					}
+					else
+					{
+						m_bLeft = true;
+						m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
+						m_pTransformCom->Go_Right(fTimeDelta * 2.f);
 					}
 				}
-				//else // 객체 이름이 블럭이 아닌경우도 왔다갔다 해야함
-				//{
-				//
-				//	if (vMyPos.x > vOtherPos.x) // 객체 x가 충돌체의 x보다 클경우 객체(오른쪽), 충돌체(왼쪽) << 이동 중 벽 마주침
-				//	{
-				//		m_bLeft = false;
-				//		m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
-				//		m_pTransformCom->Go_Right(fTimeDelta * 2.f);
-				//	}
-				//	else
-				//	{
-				//		m_bLeft = true;
-				//		m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
-				//		m_pTransformCom->Go_Right(fTimeDelta * 2.f);
-				//	}
-				//}
+				
 			}
 		}
 	}
