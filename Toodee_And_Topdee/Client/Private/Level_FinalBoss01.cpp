@@ -19,7 +19,6 @@ HRESULT CLevel_FinalBoss01::Initialize()
 	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
 	m_pGameInstance->Reset_KeyCount();
 	
-
 	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
 		return E_FAIL;
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
@@ -46,11 +45,11 @@ void CLevel_FinalBoss01::Update(_float fTimeDelta)
 
 	m_fIdleTime += fTimeDelta;
 
-	if (m_fIdleTime >= 5.f)
-		m_bAtkFlag = true;
+	if (m_fIdleTime >= 8.f && m_bAtkFlag[SEMICLON] == false && m_bAtkFlag[FINGER] == false)
+		m_bAtkFlag[rand() % 2] = true;
 
-	if (m_bAtkFlag == true)
-		CreateSemiclon(fTimeDelta);
+	if (m_bAtkFlag[SEMICLON] == true || m_bAtkFlag[FINGER] == true)
+		CreateHitBox(fTimeDelta);
 }
 
 HRESULT CLevel_FinalBoss01::Render()
@@ -63,9 +62,9 @@ HRESULT CLevel_FinalBoss01::Render()
 HRESULT CLevel_FinalBoss01::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	CCamera::CAMERA_DESC			CameraDesc{};
-	//vEye, vAt 임시 -> 카메라에서 플레이어 바라보게 바꿔야함.
+
 	CameraDesc.vEye = _float3(-120.f, 8.f, 0.f);
-	CameraDesc.vAt = _float3(120.f, -100.f, 0.1f);
+	CameraDesc.vAt = _float3(120.f, -70.f, 0.1f);
 	CameraDesc.fFovy = D3DXToRadian(60.0f);
 	CameraDesc.fNear = 0.1f;
 	CameraDesc.fFar = 1000.f;
@@ -229,7 +228,7 @@ HRESULT CLevel_FinalBoss01::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-void CLevel_FinalBoss01::CreateSemiclon(_float fTimeDelta)
+void CLevel_FinalBoss01::CreateHitBox(_float fTimeDelta)
 {
 	static _uint	Count = 0;
 	_float pos[12] = { -11.f, - 9.f, -7.f, -5.f, -3.f, -1.f, 1.f, 3.f, 5.f, 7.f, 9.f, 11.f };
@@ -239,19 +238,18 @@ void CLevel_FinalBoss01::CreateSemiclon(_float fTimeDelta)
 	if (m_fDelayTime >= 1.f)
 	{
 		_float3 vPos = { 115.f, 8.f, (_float)pos[rand() % 12] };
-		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Layer_Semiclon"),
-			ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Semiclon"), &vPos);
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Layer_HitBox"),
+			ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), (m_bAtkFlag[SEMICLON] == true) ? TEXT("Prototype_GameObject_Semiclon") : TEXT("Prototype_GameObject_Finger"), &vPos);
 		m_fDelayTime = 0;
 		++Count;
 
 		if (Count == 5)
 		{
-			m_bAtkFlag = false;
+			(m_bAtkFlag[SEMICLON] == true) ? m_bAtkFlag[SEMICLON] = false : m_bAtkFlag[FINGER] = false;
 			m_fIdleTime = 0;
 			Count = 0;
 		}
 	}
-	
 }
 
 CLevel_FinalBoss01* CLevel_FinalBoss01::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
