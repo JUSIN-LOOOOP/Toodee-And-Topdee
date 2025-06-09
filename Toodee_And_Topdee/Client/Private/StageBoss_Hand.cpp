@@ -49,7 +49,7 @@ void CStageBoss_Hand::Priority_Update(_float fTimeDelta)
 
 void CStageBoss_Hand::Update(_float fTimeDelta)
 {
-	//ÀÏ´Ü Topdee¸ðµåÀÏ ¶§
+	//ï¿½Ï´ï¿½ Topdeeï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	__super::Update(fTimeDelta);
 }
 
@@ -104,7 +104,6 @@ HRESULT CStageBoss_Hand::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
-
 
 	return S_OK;
 }
