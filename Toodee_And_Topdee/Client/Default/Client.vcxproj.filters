@@ -281,6 +281,10 @@
     <ClCompile Include="..\Private\Level_FinalBoss03.cpp">
       <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
     </ClCompile>
+
+    <ClCompile Include="..\Private\Finger.cpp">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+	</ClCompile>
     <ClCompile Include="..\private\MainMenu_BackGround.cpp">
       <Filter>02. GameObjects\MainMenu\BackGround\BackGround</Filter>
     </ClCompile>
@@ -292,8 +296,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainMenu_Title.cpp">
       <Filter>02. GameObjects\MainMenu\Title</Filter>
-    <ClCompile Include="..\Private\Finger.cpp">
-      <Filter>00. Dummys\T Y J\StageBoss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -592,6 +594,10 @@
     <ClInclude Include="..\Public\Level_FinalBoss03.h">
       <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
     </ClInclude>
+
+	  <ClInclude Include="..\Public\Finger.h">
+		  <Filter>00. Dummys\T Y J\StageBoss</Filter>
+	  </ClInclude>
     <ClInclude Include="..\Public\MainMenu_BackGround.h">
       <Filter>02. GameObjects\MainMenu\BackGround\BackGround</Filter>
     </ClInclude>
@@ -603,8 +609,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\MainMenu_Title.h">
       <Filter>02. GameObjects\MainMenu\Title</Filter>
-    <ClInclude Include="..\Public\Finger.h">
-      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
