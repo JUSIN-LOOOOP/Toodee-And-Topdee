@@ -19,6 +19,8 @@ HRESULT CBlock_Disappear::Initialize_Prototype()
 
 HRESULT CBlock_Disappear::Initialize(void* pArg)
 {
+    name = TEXT("Block_Disappear");
+
     if (FAILED(Ready_Components()))
         return E_FAIL;
     
@@ -31,7 +33,6 @@ HRESULT CBlock_Disappear::Initialize(void* pArg)
     m_pTransformCom->Set_State(STATE::POSITION, m_vPosition);
     m_pTransformCom->Scaling(2.f, 2.f, 2.f);
 
-    name = TEXT("Block_Disappear");
 
     m_iPlayLevel = m_pGameInstance->Get_CurrentLevelID();
     Ready_SubscribeEvent(m_iPlayLevel);

@@ -1,6 +1,7 @@
 #include "Bat.h"
 #include "GameInstance.h"
 #include "Parts.h"
+#include <Key.h>
 
 CBat::CBat(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster {pGraphic_Device}
@@ -27,6 +28,7 @@ HRESULT CBat::Initialize(void* pArg)
 	m_bLeft = false;
 	m_eState = FLYSTATE::FLY_NON;
 	m_fMaxDistance = 5.f * 5.f;
+	m_iPlayLevel = m_pGameInstance->Get_CurrentLevelID();
 
 	// m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 
@@ -69,11 +71,7 @@ void CBat::Update(_float fTimeDelta)
 		{
 		case::DIMENSION::TOODEE:
 			vPos = m_pTransformCom->Get_State(STATE::POSITION);
-		/*	if (vPos.y < 3.f)	vPos.y += m_fSpeedPerSec * fTimeDelta;
-
-			if (vPos.y >= 3.f)	
-			vPos.y = 3.f;*/
-			vPos.y = 3.f;
+			vPos.y = 4.f;
 			m_pTransformCom->Set_State(STATE::POSITION, vPos);
 			m_bLeft = false;
 
@@ -81,11 +79,7 @@ void CBat::Update(_float fTimeDelta)
 
 		case::DIMENSION::TOPDEE:
 			vPos = m_pTransformCom->Get_State(STATE::POSITION);
-			/*if (vPos.y > 0.f)	vPos.y -= m_fSpeedPerSec * fTimeDelta;
-
-			if (vPos.y <= 0.f)	*/
-			
-			vPos.y = 0.f;
+			vPos.y = 0.5f;
 
 			m_pTransformCom->Set_State(STATE::POSITION, vPos);
 			m_bLeft = false;
@@ -95,7 +89,6 @@ void CBat::Update(_float fTimeDelta)
 	}
 	
 	
-	Key_Input(fTimeDelta);
 	
 	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
 	{
@@ -107,9 +100,9 @@ void CBat::Update(_float fTimeDelta)
 				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vToodeePos);
 		}
 	}
-	else
+	else if(m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
 	{
-		if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)		Move_To_Target(fTimeDelta);
+		Move_To_Target(fTimeDelta);
 			
 		for (auto& Pair : m_vParts)
 		{
@@ -127,8 +120,8 @@ void CBat::Late_Update(_float fTimeDelta)
 
 HRESULT CBat::Render()
 {
-	//	if (FAILED(m_pColliderCom->Render()))
-	//		return E_FAIL;
+	if (FAILED(m_pColliderCom->Render()))
+		return E_FAIL;
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -169,7 +162,7 @@ HRESULT CBat::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(2.0f, 2.0f, 2.0f);
+	ColliderDesc.vColliderScale = _float3(3.0f, 3.0f, 3.0f);
 	ColliderDesc.bIsFixed = false;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
@@ -190,7 +183,7 @@ HRESULT CBat::Ready_Parts()
 
 #pragma region Parts_Body
 
-	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Bat_Body")));
+	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Body")));
 	PartDesc.fAngleY = 1.f;													// 파츠들의 기본 배치 위치 (객체의 정중앙 = AngleX = 90 , AngleY = 90(후면), -90(전면)
 	PartDesc.fAngleX = 90.f;
 
@@ -204,7 +197,7 @@ HRESULT CBat::Ready_Parts()
 #pragma region Parts_Ear
 
 	// Left_Ear
-	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Bat_Ears")));
+	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Ears")));
 	PartDesc.pTextureCom = pTexture;
 	PartDesc.fFrame = 0;
 	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
@@ -230,7 +223,7 @@ HRESULT CBat::Ready_Parts()
 #pragma region Parts_Eye
 
 	// Left_Eye
-	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Bat_Eyes")));
+	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Eyes")));
 	PartDesc.pTextureCom = pTexture;
 	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
 	PartDesc.fAngleY = -75.f;
@@ -257,7 +250,7 @@ HRESULT CBat::Ready_Parts()
 #pragma region Parts_Nose
 
 	// 코 추가
-	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Bat_Nose")));
+	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Nose")));
 	PartDesc.eState = CParts::PARTSTATE::PARTS_FRONT;
 	PartDesc.fAngleY = -100.f;
 	PartDesc.fAngleX = 90.f;
@@ -272,7 +265,7 @@ HRESULT CBat::Ready_Parts()
 #pragma region Parts_Legs
 
 	// 다리 추가
-	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Bat_Legs")));
+	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Legs")));
 	PartDesc.pTextureCom = pTexture;
 	PartDesc.eState = CParts::PARTSTATE::PARTS_LEFT;
 	PartDesc.fAngleX = 65.f;
@@ -300,7 +293,8 @@ HRESULT CBat::Ready_Parts()
 #pragma region Parts_Wing
 
 	// 날개 추가
-	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Bat_Wing")));
+	pTexture = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Wing")));
+	PartDesc.pTextureCom = pTexture;
 	PartDesc.eState = CParts::PARTSTATE::PARTS_CENTER;
 	PartDesc.fAngleX = 1.f;
 	PartDesc.fAngleY = -90.f;
@@ -351,6 +345,7 @@ void CBat::Move_To_Target(_float fTimeDelta)
 	if(fDistanceXZ > m_fMaxDistance)
 		m_eState = FLYSTATE::FLY_NON;
 	
+	// 
 	switch (m_eState)
 	{
 	case::CBat::FLYSTATE::FLY_UP:
@@ -421,6 +416,21 @@ void CBat::Move_Patrol(_float fTimeDelta)
 	
 	if (m_pColliderCom->OnCollisionEnter())
 	{
+		vector<CGameObject*>* findAll = {};
+		m_pColliderCom->GetOverlapAll(findAll);
+		for (auto& Other : *findAll)
+		{
+			_wstring strOtherName = Other->Get_Name();
+			if (strOtherName.find(TEXT("Key")) != string::npos)
+			{
+				GETKEYEVENT Event;
+				m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
+				CKey* pKey = dynamic_cast<CKey*>(Other);
+				pKey->Get_Key();
+				return;
+			}
+		}
+
 		if (m_bLeft)
 		{
 			m_bLeft = false;
@@ -443,18 +453,6 @@ _float CBat::MoveHeight(_float fStart, _float fEnd, _float fDistance)
 	return _float((1 - ft) * fStart + ft * fEnd);
 }
 
-void CBat::Key_Input(_float fTimeDelta)
-{
-	
-	if (GetKeyState('J') & 0x8000)
-	{
-		m_pTransformCom->TurnToRadian(_float3(0.f, 1.f, 0.f) , D3DXToRadian( 5.f));
-	}
-	if (GetKeyState('K') & 0x8000)
-	{
-		m_pTransformCom->TurnToRadian(_float3(1.f, 0.f, 0.f), D3DXToRadian(5.f));
-	}
-}
 
 CBat* CBat::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

@@ -34,7 +34,7 @@ private:
 	map<const _wstring, CParts*>  m_vParts{};
 	_bool		m_bLeft{}, m_bGravity{};
 	_float3		m_vColliderScale{};
-	
+	_uint		m_iPlayLevel = {};
 
 private:
 	HRESULT Ready_Components();

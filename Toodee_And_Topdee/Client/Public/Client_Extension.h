@@ -27,7 +27,7 @@ inline const _uint Stage_ColliderCount(LEVEL eLevel)
 	if (eLevel == LEVEL::LEVEL_STAGE2) return 22;	//LEVEL_STAGE2
 	if (eLevel == LEVEL::LEVEL_STAGE3) return 11;	//LEVEL_STAGE3
 	if (eLevel == LEVEL::LEVEL_STAGEBOSS) return 7;	//LEVEL_STAGEBOSS
-	if (eLevel == LEVEL::LEVEL_STAGE4) return 21;	//LEVEL_STAGE4
+	if (eLevel == LEVEL::LEVEL_STAGE4) return 22;	//LEVEL_STAGE4
 	if (eLevel == LEVEL::LEVEL_STAGE5) return 8;  //LEVEL_STAGE5
 	if (eLevel == LEVEL::LEVEL_STAGE6) return 29;  //LEVEL_STAGE6
 	//LEVEL_FINALBOSS

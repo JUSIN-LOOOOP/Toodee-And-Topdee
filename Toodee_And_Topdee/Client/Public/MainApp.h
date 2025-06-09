@@ -39,7 +39,7 @@ private:
 	HRESULT Ready_Prototype_ForStatic_Background();
 	HRESULT Ready_Prototype_ForStatic_Gimmick();
 	HRESULT Ready_Prototype_ForStatic_Player();
-	HRESULT Ready_Prototype_ForStatic_Parts();
+	HRESULT Ready_Prototype_ForStatic_Monster();
 	HRESULT Start_Level(LEVEL eStartLevelID);
 
 
