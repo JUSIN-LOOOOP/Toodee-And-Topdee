@@ -35,7 +35,7 @@ public:
 	_float3 ComputeTileOutlinePosition();							// TileOutline Position Return
 
 public:
-	_bool	IsAttackSparkBlock( );
+	_bool	IsAttachSparkBlock( );
 
 
 private:

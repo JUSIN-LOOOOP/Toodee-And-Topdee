@@ -57,6 +57,8 @@ private:
 	_float				m_fMotionIntervalTime = { 1.f };
 	_float				m_fAccumulateMotionTime = { 0.f };
 
+	_bool				m_bIsSparkBlock = { false };
+
 
 private:
 	void				Change_Motion(_float fTimeDelta);

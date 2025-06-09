@@ -370,7 +370,7 @@ _float3 CPlayer_Topdee::ComputeTileOutlinePosition()
 	return vOutlinePosition;
 }
 
-_bool CPlayer_Topdee::IsAttackSparkBlock( )
+_bool CPlayer_Topdee::IsAttachSparkBlock( )
 {
 	if (m_bIsAttach && reinterpret_cast<CGameObject*>(m_pAttachBlock)->CompareName(TEXT("Interaction_Block_Spark")))
 		return true;
