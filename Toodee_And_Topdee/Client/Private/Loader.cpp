@@ -51,8 +51,12 @@
 #include "VIBuffer_Terrain.h"
 #pragma endregion
 
-
-
+#pragma region MAINMENU
+#include "MainMenu_BackGround.h"
+#include "MainMenu_Spark.h"
+#include "MainMenu_CenterLine.h"
+#include "MainMenu_Title.h"
+#pragma endregion
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -145,15 +149,38 @@ HRESULT CLoader::Loading()
 
 HRESULT CLoader::Loading_For_Logo_Level()
 {
-	lstrcpy(m_szLoadingText, TEXT("Now Loading Texture..."));
+	/* BackGround */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_BackGround"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/BackGround/MainMenu_BackGround.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_BackGround"),
+		CMainMenu_BackGround::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	lstrcpy(m_szLoadingText, TEXT("Now Loading Model..."));
+	/* Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Spark"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Spark/Mainmenu_Spark%d.png"), 10))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Spark"),
+		CMainMenu_Spark::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	lstrcpy(m_szLoadingText, TEXT("Now Loading Shader..."));
+	/* CenterLine */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_CenterLine"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/CenterLine/CenterLine%d.png"), 6))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_CenterLine"),
+		CMainMenu_CenterLine::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	lstrcpy(m_szLoadingText, TEXT("Now Loading GameObejct..."));
+	/* Title */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Title"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Title/Title%d.png"), 5))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Title"),
+		CMainMenu_Title::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	lstrcpy(m_szLoadingText, TEXT("The Logo_Level has finished loading."));
 
 	m_isFinished = true;
 

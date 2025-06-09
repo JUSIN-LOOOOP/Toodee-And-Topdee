@@ -630,9 +630,6 @@
     <Filter Include="01. Levels\00. Loading\Loader">
       <UniqueIdentifier>{b1399b48-563a-4b35-a3b2-a0b23dc3b306}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Levels\02. MainMenu">
-      <UniqueIdentifier>{4f8aa6dc-2885-45cd-8d1e-08a6d49f9e54}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\BackGround">
       <UniqueIdentifier>{d48cf147-ff74-45d8-8875-518f1bd3ee78}</UniqueIdentifier>
     </Filter>
