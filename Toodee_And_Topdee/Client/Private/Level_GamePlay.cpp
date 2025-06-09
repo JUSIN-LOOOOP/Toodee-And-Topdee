@@ -59,6 +59,9 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	//if (FAILED(Ready_Layer_RedButton(TEXT("Layer_RedButton"))))
 	//	return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Thirdee"),
+	//	ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Thirdee"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -68,8 +71,11 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	// -- 임시 --
 	if (m_pGameInstance->Key_Down(VK_RETURN))
 	{
-		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_STAGE1))))
-			return;
+		LEVELCHANGE_EVENT Event;
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE1);
+		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY);
+
+		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 	}
 
 }
@@ -83,21 +89,6 @@ HRESULT CLevel_GamePlay::Render()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	//CCamera::CAMERA_DESC			CameraDesc{};
-	//CameraDesc.vEye = _float3(0.f, 10.f, -10.f);
-	//CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
-	//CameraDesc.fFovy = D3DXToRadian(60.0f);
-	//CameraDesc.fNear = 0.1f;
-	//CameraDesc.fFar = 1000.f;
-	//CameraDesc.fSpeedPerSec = 10.f;
-	//CameraDesc.fRotationPerSec = D3DXToRadian(90.0f);
-	//CameraDesc.fMouseSensor = 0.1f;
-
-
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-	//	ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Camera"), &CameraDesc)))
-	//	return E_FAIL;
-
 	CCamera::CAMERA_DESC			CameraDesc{};
 	CameraDesc.vEye = _float3(0.f, 34.f, 0.f);
 	CameraDesc.vAt = _float3(0.f, 0.f, 0.1f);
@@ -117,8 +108,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Load_File(TEXT("new"));
-	//m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
+	//m_pGameInstance->Load_File(TEXT("new"));
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
 
@@ -198,6 +189,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_TestCube(const _wstring& strLayerTag)
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Player_TopDee"),
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
 				return E_FAIL;
+			break;
+
+		case MAPOBJECT::SPIKE:
+			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spike"), &info)))
+				return E_FAIL;*/
 			break;
 
 		default:

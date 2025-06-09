@@ -45,6 +45,7 @@ protected:
 	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
 	CTexture*		m_pTextureCom = { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
+	CCollider*		m_pColliderCom = { nullptr };
 	CComponent*		m_pTopDee = { nullptr };
 	CComponent*		m_pTooDee = { nullptr };
 	_uint			m_iPlayLevel = {};

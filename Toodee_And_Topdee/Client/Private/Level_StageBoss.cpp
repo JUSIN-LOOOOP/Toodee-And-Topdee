@@ -41,8 +41,11 @@ void CLevel_StageBoss::Update(_float fTimeDelta)
 	// -- 임시 --
 	if (m_pGameInstance->Key_Down(VK_RETURN))
 	{
-		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_STAGE4))))
-			return;
+		LEVELCHANGE_EVENT Event;
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE4);
+		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS);
+
+		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 	}
 
 }
@@ -157,7 +160,11 @@ HRESULT CLevel_StageBoss::Ready_Layer_MapObject(const _wstring& strLayerTag)
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
 				return E_FAIL;
 			break;
-
+		case MAPOBJECT::SPIKE:
+			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spike"), &info)))
+				return E_FAIL;*/
+			break;
 		default:
 			MSG_BOX(TEXT("Error : Block Index error!"));
 		}

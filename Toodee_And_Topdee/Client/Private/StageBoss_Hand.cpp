@@ -62,6 +62,9 @@ void CStageBoss_Hand::Late_Update(_float fTimeDelta)
 
 HRESULT CStageBoss_Hand::Render()
 {
+	if (FAILED(m_pColliderCom->Render()))
+		return E_FAIL;
+
 	m_pTransformCom->Bind_Matrix();
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -86,11 +89,22 @@ HRESULT CStageBoss_Hand::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 20.f;
-	TransformDesc.fRotationPerSec = D3DXToRadian(40.f);
+	TransformDesc.fSpeedPerSec = 1.f;
+	TransformDesc.fRotationPerSec = 1.f;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+	CCollider::COLLIDER_DESC ColliderDesc{};
+	ColliderDesc.pOwner = this;
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(6.f, 6.f, 6.f);		//юс╫ц
+	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.bIsFixed = false;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -129,6 +143,7 @@ void CStageBoss_Hand::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
 
 
 }
