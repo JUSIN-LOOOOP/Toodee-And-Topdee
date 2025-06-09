@@ -56,7 +56,9 @@ private:
 	_float					m_fRainSplashIntervalTime = { 1.f };
 	_float					m_fRainSplashAccumulateTime = { 0.f };
 
-	pair<_uint, _bool>		m_IsAttackSparkBlock = { };
+	pair<_uint, _bool>		m_IsAttachSparkBlock = { };
+	_bool					m_IsAttachSparkBlock1 = { };
+
 
 private:
 	void					Compute_CrashSite(_float fTimeDelta);

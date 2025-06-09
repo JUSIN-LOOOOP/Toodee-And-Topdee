@@ -25,7 +25,7 @@ HRESULT CLightning::Initialize(void* pArg)
 
 	m_fMotionIntervalTime = { 0.08f };
 
-	name = TEXT("Lightning");
+	name = TEXT("EnemyLightning");
 
 	return S_OK;
 }
@@ -66,13 +66,14 @@ HRESULT CLightning::Initialize_Pool(void* pArg)
 	LIGHTNING* info = reinterpret_cast<LIGHTNING*>(pArg);
 	 m_vStartPosition = info->vStartPosition;
 	m_vCrashPosition = info->vCrashPosition;
+	m_bIsSparkBlock = info->bSparkBlock;
 
 	m_fAccumulateMotionTime = 0.f;
 	m_iMotionNum = 0;
 	_float3 toCrashDirection = m_vCrashPosition - m_vStartPosition;
 	_float fDist = D3DXVec3Length(&toCrashDirection);
 
-	if(info->bSparkBlock)
+	if(m_bIsSparkBlock)
 		m_pColliderCom->Collision_Off();
 	else
 		m_pColliderCom->Collision_On();
@@ -183,6 +184,7 @@ void CLightning::Change_Motion(_float fTimeDelta)
 	{
 		m_fAccumulateMotionTime = 0.f;
 		++m_iMotionNum;
+
 		if (m_iMotionNum == 9)
 		{
 			m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
@@ -190,8 +192,10 @@ void CLightning::Change_Motion(_float fTimeDelta)
 			m_pGameInstance->Push(TEXT("Layer_Lightning"), this);
 		}
 	}
-	else
+	else {
 		m_fAccumulateMotionTime += fTimeDelta;
+		//m_pColliderCom->Collision_Off();
+	}
 }
 
 HRESULT CLightning::Bind_Lightning()
