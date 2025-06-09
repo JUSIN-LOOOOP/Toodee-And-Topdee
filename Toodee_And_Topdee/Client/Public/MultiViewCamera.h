@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Event.h"
 
 BEGIN(Client)
 
@@ -30,19 +31,20 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	_float4x4	Get_ProjMatrix() { return m_ProjMatrix; };
+	_float4x4	Get_ProjMatrix() { return m_ProjMatrix; }
 	void		ChangeView(_float fTimeDelta);
 	_float3		Get_LookDirection()
 	{
-		_float3 dir = _float3(0.f,0.f,0.f) - m_pTransformCom->Get_State(STATE::POSITION);
+		_float3 dir = _float3(0.f, 0.f, 0.f) - m_pTransformCom->Get_State(STATE::POSITION);
 		D3DXVec3Normalize(&dir, &dir);
 		return dir;
 	}
-	void		SetShaking(_float _time)
+
+	void		SetShaking(const SHAKING& Event)
 	{ 
-		m_fShaking = _time; 
+		m_fShaking = Event.fTime;
 		m_fBackupPos = m_pTransformCom->Get_State(STATE::POSITION);
-	};
+	}
 
 private:
 	CTransform* m_pTransformCom = { nullptr };

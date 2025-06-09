@@ -8,7 +8,7 @@ CMultiViewCamera::CMultiViewCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CMultiViewCamera::CMultiViewCamera(const CMultiViewCamera& Prototype)
-    : CGameObject{ Prototype }
+    : CGameObject( Prototype )
 {
 }
 
@@ -38,6 +38,9 @@ HRESULT CMultiViewCamera::Initialize(void* pArg)
     CameraTestMoveInitialize();
     m_pGameInstance->Subscribe<CHANGECAM>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CHANGE_CAM, [this](const CHANGECAM& Event) {
         this->SetViewFlag(); });
+
+    m_pGameInstance->Subscribe<SHAKING>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CAM_SHAKING, [this](const SHAKING& Event) {
+        this->SetShaking(Event); });
 
     return S_OK;
 }
@@ -71,7 +74,7 @@ void CMultiViewCamera::Update(_float fTimeDelta)
     if (m_fShaking > 0.f)
         Shaking(fTimeDelta);
 
-  //  CameraTestMove(fTimeDelta);
+    CameraTestMove(fTimeDelta);
 }
 
 void CMultiViewCamera::Late_Update(_float fTimeDelta)
