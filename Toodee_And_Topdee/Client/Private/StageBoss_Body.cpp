@@ -74,6 +74,9 @@ void CStageBoss_Body::Late_Update(_float fTimeDelta)
 
 HRESULT CStageBoss_Body::Render()
 {
+	if (FAILED(m_pColliderCom->Render()))
+		return E_FAIL;
+
 	m_pTransformCom->Bind_Matrix();
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -185,11 +188,24 @@ HRESULT CStageBoss_Body::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 20.f;
-	TransformDesc.fRotationPerSec = D3DXToRadian(40.f);
+	/*TransformDesc.fSpeedPerSec = 20.f;
+	TransformDesc.fRotationPerSec = D3DXToRadian(40.f);*/
+	TransformDesc.fSpeedPerSec = 1.f;
+	TransformDesc.fRotationPerSec = 1;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_Body"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+	CCollider::COLLIDER_DESC ColliderDesc{};
+	ColliderDesc.pOwner = this;
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vColliderScale = _float3(8.f, 8.f, 8.f);		//юс╫ц
+	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
+	ColliderDesc.bIsFixed = false;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -297,6 +313,7 @@ void CStageBoss_Body::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pPartsTextureCom);
+	Safe_Release(m_pColliderCom);
 
 	for (auto& parts : m_sParts)
 		Safe_Release(parts.pVIPartsBufferCom);
