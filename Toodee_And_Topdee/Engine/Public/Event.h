@@ -54,5 +54,16 @@ typedef struct tagSinkBlock : public CEvent {
 typedef struct tagSinkeOpen : public CEvent {
 }SINKOPENEVENT;
 
+/* RED_BUTTON AND BLOCK_DISAPPEAR Pressed*/
+typedef struct tagRedButtonPressed : public CEvent {
+}EVENT_REDBUTTON_PRESSED;
+
+/* RED_BUTTON AND BLOCK_DISAPPEAR Unpressed*/
+typedef struct tagRedButtonUnpressed : public CEvent {
+}EVENT_REDBUTTON_UNPRESSED;
+
+typedef struct tagLevelChange : public CEvent {
+	_uint iChangeLevel;
+}LEVELCHANGE_EVENT;
 END
 

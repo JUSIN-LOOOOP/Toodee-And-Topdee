@@ -25,8 +25,8 @@ HRESULT CStorm::Initialize_Prototype()
 HRESULT CStorm::Initialize(void* pArg)
 {
 	/* Get Cloud - Transform */
-	CGameObject* pGameObject = m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_Cloud"));
-	m_pCloudTransformCom = static_cast< CTransform* >(m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_Cloud"))->Get_Component(TEXT("Com_Transform") ));
+	CGameObject* pGameObject = m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_DarkCloud"));
+	m_pCloudTransformCom = static_cast< CTransform* >(m_pGameInstance->Get_Ready_BackGameObject(TEXT("Layer_DarkCloud"))->Get_Component(TEXT("Com_Transform") ));
 	if (m_pCloudTransformCom == nullptr) return E_FAIL;
 	Safe_AddRef(m_pCloudTransformCom);
 
@@ -116,7 +116,7 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 		_float fToodeeMinDist = FLT_MAX;
 		_float fToodeeGroundMinDist = FLT_MAX;
 
-		_float fTopdeeMinZ = { myPos.z - 10.f }, fTopdeeMaxZ = { myPos.z - 4.f };
+		_float fTopdeeMinZ = { myPos.z - 14.f }, fTopdeeMaxZ = { myPos.z - 12.f };
 		_uint iCount = { 0 };
 
 		for (CGameObject* other : *others)
@@ -127,6 +127,10 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 			_float3 otherPos = pOtherTransform->Get_State(STATE::POSITION);
 			_float3 toOther = otherPos - myPos;
 			_float fDistSq = D3DXVec3LengthSq(&toOther);
+
+			/* 탑디가 스파크 블럭을 들고 있을 때 */
+			if (other->CompareName(TEXT("Topdee")) && reinterpret_cast<CPlayer_Topdee*>(other)->IsAttachSparkBlock())
+				m_IsAttachSparkBlock1 = true;
 
 			/*  투디일 때*/
 			if (m_eDimension == DIMENSION::TOODEE) {
@@ -165,13 +169,13 @@ void CStorm::Compute_CrashSite(_float fTimeDelta)
 						_float halfSizeZ = D3DXVec3Length(&look) * 0.5f;
 
 						/* 탑디가 스파크 블럭을 들고 있을 때 */
-						if (other->CompareName(TEXT("Topdee"))/* &&reinterpret_cast<CPlayer_Topdee*>(other)->IsAttackSparkBlock()*/)
-						{
-							m_CrashAnyPosition[i] = { otherPos.x + 1.f, otherPos.y + 5.f , otherPos.z + halfSizeZ };
-							m_IsAttackSparkBlock = { i, true };
-						}
-						else
-							m_CrashAnyPosition[i] = { otherPos.x + 1.f, otherPos.y, otherPos.z + halfSizeZ };
+						//if (other->CompareName(TEXT("Topdee"))&&reinterpret_cast<CPlayer_Topdee*>(other)->IsAttachSparkBlock())
+						//{
+						//	m_CrashAnyPosition[i] = { otherPos.x + 1.f, otherPos.y + 5.f , otherPos.z + halfSizeZ };
+						//	m_IsAttachSparkBlock = { i, true };
+						//}
+						//else
+						m_CrashAnyPosition[i] = { otherPos.x + 1.f, otherPos.y, otherPos.z + halfSizeZ };
 					
 					}
 				}
@@ -298,11 +302,15 @@ void CStorm::SpawnLightning(_float fTimeDelta)
 				else 
 				{
 					info.vStartPosition = m_Topdee_StartPosition[i];
-
-					/* 탑디가 스파크 블럭을 들고 있는지? */
-					if (i == m_IsAttackSparkBlock.first && m_IsAttackSparkBlock.second) {
+					if (m_IsAttachSparkBlock1)
+					{
 						info.bSparkBlock = true;
-						m_IsAttackSparkBlock.second = false;
+						//m_IsAttachSparkBlock.second = false;
+					}
+					/* 탑디가 스파크 블럭을 들고 있는지? */
+					if (i == m_IsAttachSparkBlock.first && m_IsAttachSparkBlock.second) {
+						info.bSparkBlock = true;
+						m_IsAttachSparkBlock.second = false;
 					}
 				}
 
@@ -314,6 +322,7 @@ void CStorm::SpawnLightning(_float fTimeDelta)
 			m_LightningSpawnTime[i].first += fTimeDelta;
 		}
 	}
+	m_IsAttachSparkBlock1 = false;
 
 }
 

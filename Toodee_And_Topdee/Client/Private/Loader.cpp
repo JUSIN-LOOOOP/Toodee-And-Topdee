@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 
 #include "Camera.h"
+#include "FPSCamera.h"
 #include "BasicTile.h"
 #include "Block_Break.h"
 #include "Block_Lock.h"
@@ -17,7 +18,7 @@
 #include "Cannon.h"
 #include "Fire_Projectile.h"
 #include "BackCloud.h"
-#include "Cloud.h"
+//#include "Cloud.h"
 #include "Storm.h"
 #include "Rain.h"
 #include "RainSplash.h"
@@ -28,6 +29,8 @@
 #include "StageBoss_Body.h"
 #include "StageBoss_Hand.h"
 #include "FireBall.h"
+#include "Semicolon.h"
+#include "Toodoo.h"
 
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
@@ -107,6 +110,15 @@ HRESULT CLoader::Loading()
 	case LEVEL::LEVEL_STAGEBOSS:
 		hr = Loading_For_StageBoss();
 		break;
+	case LEVEL::LEVEL_FINALBOSS1:
+		hr = Loading_For_FinalBoss01();
+		break;
+	case LEVEL::LEVEL_FINALBOSS2:
+		hr = Loading_For_FinalBoss02();
+		break;
+	case LEVEL::LEVEL_FINALBOSS3:
+		hr = Loading_For_FinalBoss03();
+		break;
 	}
 
 	if (FAILED(hr))
@@ -143,43 +155,6 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_TestCube"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Wall/test1.dds"), 1))))
 		return E_FAIL;*/
-
-#pragma endregion
-
-
-#pragma region TEXTURE_CANNON
-	/* Prototype_Component_Texture_Cannon */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Cannon"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Cannon/Cannon%d.png"), 4))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Projectile_Fire */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Projectile_Fire"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Projectile/Fire/Projectile_Fire%d.png"), 40))))
-		return E_FAIL;
-
-#pragma endregion
-
-#pragma region TEXTURE_CLOUD
-	/* Prototype_Component_Texture_Cloud */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Cloud"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Clouds/Cloud%d.png"), 6))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Rain */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Rain"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Rain/Rain.png"), 1))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_RainSplash */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_RainSplash"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/RainSplash/RainSplash%d.png"), 6))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Lightning */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Lightning"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Lightning/Lightning%d.png"), 8))))
-		return E_FAIL;
 
 #pragma endregion
 
@@ -285,20 +260,6 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		return E_FAIL;
   
 
-#pragma region GameObject_Cannon
-  
-	/* Prototype_GameObject_Cannon*/
- 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cannon"),
-		CCannon::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* Prototype_GameObject_Projectile_Fire*/
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Projectile_Fire"),
-		CFire_Projectile::Create(m_pGraphic_Device))))
-		return E_FAIL;
-  
-#pragma endregion
-
 #pragma region GameObject_StageBoss
 
 	///* Prototype_GameObject_StageBoss*/
@@ -323,32 +284,6 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 
 #pragma endregion
 
-
-#pragma region GameObject_Cloud
-
-	/* Prototype_GameObject_Cannon*/
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Cloud"),
-		CCloud::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	/* Prototype_GameObject_Storm */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Storm"),
-		CStorm::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	/* Prototype_GameObject_Rain */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Rain"),
-		CRain::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	/* Prototype_GameObject_RainSplash */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_RainSplash"),
-		CRainSplash::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	/* Prototype_GameObject_Lightning */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Lightning"),
-		CLightning::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-#pragma endregion
-
 	lstrcpy(m_szLoadingText, TEXT("The Gameplay_Level has finished loading."));
 
 	m_isFinished = true;
@@ -359,7 +294,7 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 HRESULT CLoader::Loading_For_MapEdit_Level()
 {
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_Component_Texture_Tile"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Tile/Tile%d.png"), 105))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Tile/Tile%d.png"), 111))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_MAPEDIT), TEXT("Prototype_GameObject_TextureUI"),
@@ -384,6 +319,12 @@ HRESULT CLoader::Loading_For_MapEdit_Level()
 
 HRESULT CLoader::Loading_For_Stage1()
 {
+#pragma region TEXTURE
+
+#pragma endregion
+
+#pragma region GAMEOBJECT
+
 	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))
@@ -409,17 +350,14 @@ HRESULT CLoader::Loading_For_Stage1()
 		CHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-#pragma endregion
-
-#pragma region TEXTURE Back
-
 	/* Prototype_GameObject_BackCloud */
-	
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_BackCloud"),
 		CBackCloud::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion
+
+
 
 	m_isFinished = true;
 
@@ -432,6 +370,7 @@ HRESULT CLoader::Loading_For_Stage2()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
 
 	/* Prototype_GameObject_Lock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_WallLock"),
@@ -553,7 +492,7 @@ HRESULT CLoader::Loading_For_Stage5()
 
 	/* Prototype_Component_VIBuffer_Rect */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, 20, 18))))
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 20, 20))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_Water */
@@ -571,7 +510,6 @@ HRESULT CLoader::Loading_For_Stage5()
 		CShader_Water::Create(m_pGraphic_Device, TEXT("../Resources/Shader/Water.txt")))))
 		return E_FAIL;
 
-#pragma endregion
 
 
 	m_isFinished = true;
@@ -604,6 +542,47 @@ HRESULT CLoader::Loading_For_Stage6()
 	/* Prototype_GameObject_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+
+
+#pragma region TEXTURE_CLOUD
+
+	/* Prototype_Component_Texture_Rain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_Component_Texture_Rain"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Rain/Rain.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_RainSplash */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_Component_Texture_RainSplash"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/RainSplash/RainSplash%d.png"), 6))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Lightning */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_Component_Texture_Lightning"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Lightning/Lightning%d.png"), 8))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region GameObject_Cloud
+
+	/* Prototype_GameObject_Storm */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Storm"),
+		CStorm::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_GameObject_Rain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Rain"),
+		CRain::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_GameObject_RainSplash */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_RainSplash"),
+		CRainSplash::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_GameObject_Lightning */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Lightning"),
+		CLightning::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion
@@ -663,8 +642,138 @@ HRESULT CLoader::Loading_For_StageBoss()
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_For_FinalBoss()
+HRESULT CLoader::Loading_For_FinalBoss01()
 {
+	/* Prototype_GameObject_Wood */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_WallWood"),
+		CBlock_Wood::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Fall */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_WallFall"),
+		CBlock_Fall::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Spark"),
+		CBlock_Spark::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Hole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Hole"),
+		CHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_FPSCamera */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_FPSCam"),
+		CFPSCamera::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Semicolon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Semiclon"),
+		CSemicolon::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Toodoo */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Toodoo"),
+		CToodoo::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_FinalBoss02()
+{
+	/* Prototype_GameObject_Break */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_WallBreak"),
+		CBlock_Break::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Hole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Hole"),
+		CHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Key"),
+		CKey::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Spark"),
+		CBlock_Spark::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Metal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Metal"),
+		CBlock_Metal::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_FPSCamera */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_FPSCam"),
+		CFPSCamera::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Semicolon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Semiclon"),
+		CSemicolon::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_GameObject_Toodoo */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Toodoo"),
+		CToodoo::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_FinalBoss03()
+{
+	/* Prototype_GameObject_Break */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallBreak"),
+		CBlock_Break::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Hole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Hole"),
+		CHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Key"),
+		CKey::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Lock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallLock"),
+		CBlock_Lock::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Spark"),
+		CBlock_Spark::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Wood */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallWood"),
+		CBlock_Wood::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_FPSCamera */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_FPSCam"),
+		CFPSCamera::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Semicolon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Semiclon"),
+		CSemicolon::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* Prototype_GameObject_Toodoo */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Toodoo"),
+		CToodoo::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	m_isFinished = true;
 
 	return S_OK;

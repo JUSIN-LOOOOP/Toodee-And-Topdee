@@ -57,6 +57,16 @@ void CMultiViewCamera::Priority_Update(_float fTimeDelta)
         ChangeView(fTimeDelta);
     }
 
+    if (GetAsyncKeyState('A'))
+    {
+        m_pTransformCom->Go_Left(fTimeDelta * 2.f);
+    }
+    if (GetAsyncKeyState('D'))
+    {
+        m_pTransformCom->Go_Right(fTimeDelta * 2.f);
+    }
+
+
     m_ProjMatrix = *(D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
@@ -67,7 +77,7 @@ void CMultiViewCamera::Update(_float fTimeDelta)
     if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
 
-    CameraTestMove(fTimeDelta);
+  //  CameraTestMove(fTimeDelta);
 }
 
 void CMultiViewCamera::Late_Update(_float fTimeDelta)

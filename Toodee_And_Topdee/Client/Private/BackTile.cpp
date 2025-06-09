@@ -8,7 +8,7 @@ CBackTile::CBackTile(LPDIRECT3DDEVICE9 pGraphic_Device)
 } 
 
 CBackTile::CBackTile(const CBackTile& Prototype)
-    : CGameObject{ Prototype }
+    : CGameObject( Prototype )
 {
 }
 
@@ -22,9 +22,11 @@ HRESULT CBackTile::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(STATE::POSITION, { .6f, -0.005f , 1.f });
-    m_pTransformCom->Scaling((31.f * 2) - .5f, 17.f * 2, 1.f);
-    m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));    
+    m_pSize[0] = *static_cast<_uint*>(pArg);
+    m_pSize[1] = *(static_cast<_uint*>(pArg) + 1);
+    m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+    m_pTransformCom->Scaling(2.f, 2.f, 2.f);
+
     return S_OK;
 }
 
@@ -44,20 +46,23 @@ void CBackTile::Late_Update(_float fTimeDelta)
 
 HRESULT CBackTile::Render()
 {
-    m_pTransformCom->Bind_Matrix();
-
-    if (FAILED(m_pTextureCom->Bind_Texture(ENUM_CLASS(0))))
+    if (FAILED(m_pTextureCom->Bind_Texture(0)))
         return E_FAIL;
 
-    m_pVIBufferCom->Bind_Buffers();
 
-    Begin_RenderState();
-
-    m_pVIBufferCom->Render();
-
+    for (_uint height = 0; height < m_pSize[1]; ++height)
+    {
+        for (_uint width = 0; width < m_pSize[0]; ++width)
+        {
+            m_pTransformCom->Set_State(STATE::POSITION, { (FLOAT)((width + 0.5 - (m_pSize[0] / 2)) * 2) , 0.f,  (FLOAT)((height + 0.5 - (m_pSize[1] / 2)) * 2) });
+            m_pTransformCom->Bind_Matrix();
+            m_pVIBufferCom->Bind_Buffers();
+            Begin_RenderState();
+            m_pVIBufferCom->Render();
+        }
+    }
     End_RenderState();
-
-
+    
     return S_OK;
 }
 

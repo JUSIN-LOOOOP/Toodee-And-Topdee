@@ -34,6 +34,8 @@ private:
 	HRESULT				Begin_RenderState();
 	HRESULT				End_RenderState();
 
+	_uint				m_pSize[2];
+
 public:
 	static CBackTile*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CBackTile*		Clone(void* pArg) override;

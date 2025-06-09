@@ -74,10 +74,6 @@ void CStageBoss_Body::Late_Update(_float fTimeDelta)
 
 HRESULT CStageBoss_Body::Render()
 {
-	const _float4x4* ParentWorldMatrix = m_pTransformCom->Get_WorldMatrix();
-	_float4x4 EyeWOrldMatrix[2] = {};
-	static _bool flag = false;
-
 	m_pTransformCom->Bind_Matrix();
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -90,6 +86,19 @@ HRESULT CStageBoss_Body::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
+	Render_Parts();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	return S_OK;
+}
+
+HRESULT CStageBoss_Body::Render_Parts()
+{
+	const _float4x4* ParentWorldMatrix = m_pTransformCom->Get_WorldMatrix();
+	_float4x4 EyeWOrldMatrix[2] = {};
+	static _bool flag = false;
 
 	for (auto& parts : m_sParts)
 	{
@@ -119,11 +128,11 @@ HRESULT CStageBoss_Body::Render()
 		parts.pVIPartsBufferCom->Render();
 
 		if (parts.TextureIdx == 0)
-			EyeWOrldMatrix[ (parts.fOffset.x > .5f) ? 0 : 1] = world;
+			EyeWOrldMatrix[(parts.fOffset.x > .5f) ? 0 : 1] = world;
 	}
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	
 	flag = false;
+
 	return S_OK;
 }
 

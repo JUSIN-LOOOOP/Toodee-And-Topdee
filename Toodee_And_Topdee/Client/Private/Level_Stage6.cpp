@@ -8,6 +8,8 @@
 #include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
+#include "Fire_Projectile.h"
+#include "Cloud.h"
 
 CLevel_Stage6::CLevel_Stage6(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -31,12 +33,22 @@ HRESULT CLevel_Stage6::Initialize()
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_DarkCloud(TEXT("Layer_DarkCloud"))))
+		return E_FAIL;
+	
 	return S_OK;
 }
 
 void CLevel_Stage6::Update(_float fTimeDelta)
 {
-	
+	if (m_pGameInstance->Key_Down(VK_RETURN))
+	{
+		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_FINALBOSS1))))
+			return;
+	}
 }
 
 HRESULT CLevel_Stage6::Render()
@@ -162,13 +174,16 @@ HRESULT CLevel_Stage6::Ready_Layer_Back(const _wstring& strLayerTag)
 {
 	_uint BackdropThemeIdx = 2;
 	_uint BackWallThemeIdx = 1;
+	_uint BackTileIdx[2];
 
+	BackTileIdx[0] = 32;
+	BackTileIdx[1] = 18;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"), &BackdropThemeIdx)))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"))))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), &BackTileIdx)))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,
@@ -192,6 +207,85 @@ HRESULT CLevel_Stage6::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
 			return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage6::Ready_Layer_Cannon(const _wstring& strLayerTag)
+{
+	/* Prototype_GameObject_Cannon */
+	CCannon::CANNON_INFO info1{};
+	info1.eDir = CCannon::CANNON_DIRECTION::RGIHT;
+	info1.eType = CCannon::CANNON_TYPE::FIRE;
+	info1.vPosition = { -32.f,2.f,2.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cannon"), &info1)))
+		return E_FAIL;
+
+
+	CCannon::CANNON_INFO info2{};
+	info2.eDir = CCannon::CANNON_DIRECTION::RGIHT;
+	info2.eType = CCannon::CANNON_TYPE::FIRE;
+	info2.vPosition = { -32.f,2.f,-6.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cannon"), &info2)))
+		return E_FAIL;
+
+	CCannon::CANNON_INFO info3{};
+	info3.eDir = CCannon::CANNON_DIRECTION::RGIHT;
+	info3.eType = CCannon::CANNON_TYPE::FIRE;
+	info3.vPosition = { -32.f,2.f,-14.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cannon"), &info3)))
+		return E_FAIL;
+
+
+
+
+	/* Prototype_GameObject_Projectile */
+	for (_uint i = 0; i < 50; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Layer_Projectile_Fire"),
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Projectile_Fire"))))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage6::Ready_Layer_DarkCloud(const _wstring& strLayerTag)
+{
+	CCloud::CLOUD_DESC desc;
+	desc.eType = CCloud::CLOUD_TYPES::DARK;
+	desc.vPosition = { 25.f, 1.9f, 6.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cloud"), &desc)))
+		return E_FAIL;
+
+	for (_uint i = 0; i < 40; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Layer_Rain"),
+			ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Rain"))))
+			return E_FAIL;
+	}
+
+	for (_uint i = 0; i < 4; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Layer_RainSplash"),
+			ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_RainSplash"))))
+			return E_FAIL;
+	}
+
+	for (_uint i = 0; i < 4; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Layer_Lightning"),
+			ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Lightning"))))
+			return E_FAIL;
+	}
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Layer_Storm"),
+		ENUM_CLASS(LEVEL::LEVEL_STAGE6), TEXT("Prototype_GameObject_Storm"))))
+		return E_FAIL;
 
 	return S_OK;
 }

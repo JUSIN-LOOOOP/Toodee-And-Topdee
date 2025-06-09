@@ -1,10 +1,10 @@
 #pragma once
 #include "Client_Defines.h"
-#include "Block.h"
+#include "InteractionBlock.h"
 
 BEGIN(Client)
 
-class CBlock_Metal final : public CBlock
+class CBlock_Metal final : public CInteractionBlock
 {
 private:
 	CBlock_Metal(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -28,8 +28,6 @@ public:
 	static CBlock_Metal* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
-
-
 };
 
 END

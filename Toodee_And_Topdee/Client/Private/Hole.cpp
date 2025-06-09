@@ -36,7 +36,10 @@ HRESULT CHole::Initialize(void* pArg)
 
 void CHole::Priority_Update(_float fTimeDelta)
 {
-
+	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
+		m_pColliderCom->Collision_Off();
+	else
+		m_pColliderCom->Collision_On();
 }
 
 void CHole::Update(_float fTimeDelta)
@@ -91,7 +94,7 @@ HRESULT CHole::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(1.f, 1.f, 1.f);
+	ColliderDesc.vColliderScale = _float3(1.f, 0.5f, 1.f);
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
 

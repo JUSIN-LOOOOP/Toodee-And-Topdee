@@ -32,6 +32,7 @@ void CState_Dead::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
     if (m_iCurrentAnimCount >= m_iMaxAnimCount -1 )
     {
+        pPlayer->Dead();
     }
     else
         UpdateAnim(fTimeDelta);

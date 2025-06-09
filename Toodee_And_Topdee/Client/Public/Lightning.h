@@ -16,7 +16,7 @@ BEGIN(Client)
 
 /* 플레이어가 스파크블럭을 들고 있으면 아예 번개의 콜라이더 작동 안하게 꺼놨습니다.*/
 
-class CLightning : public CPoolableObject
+class CLightning final : public CPoolableObject
 {
 public:
 	typedef struct Lightining_Position_Info {
@@ -56,6 +56,8 @@ private:
 	_uint				m_iMotionNum = { 0 };
 	_float				m_fMotionIntervalTime = { 1.f };
 	_float				m_fAccumulateMotionTime = { 0.f };
+
+	_bool				m_bIsSparkBlock = { false };
 
 
 private:

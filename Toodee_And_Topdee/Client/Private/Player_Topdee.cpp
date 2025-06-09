@@ -6,6 +6,7 @@
 #include "Key.h"
 #include "Block.h"
 #include "Block_Spark.h"
+#include "Level_Loading.h"
 
 CPlayer_Topdee::CPlayer_Topdee(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPlayer { pGraphic_Device }
@@ -181,6 +182,8 @@ void CPlayer_Topdee::Late_Update(_float fTimeDelta)
 
 	if (m_eCurrentState == PLAYERSTATE::STOP)
 		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+	else if (m_eCurrentState == PLAYERSTATE::CLEAR)
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
 	else
 		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
@@ -243,7 +246,7 @@ void CPlayer_Topdee::Idle()
 	ComputeTileCenter();
 }
 
-void CPlayer_Topdee::Move(_float fTimeDelta)
+void CPlayer_Topdee::Move(_uint iInputData, _float fTimeDelta)
 {
 	if (m_pColliderCom->OnCollisionExit())
 		return;
@@ -288,6 +291,13 @@ void CPlayer_Topdee::Clear(_float3 vPortalPosition)
 	m_fClearSpeedPerSec = D3DXVec3Length(&vSpeed);
 
 	m_pColliderCom->Collision_Off();
+}
+
+void CPlayer_Topdee::Dead()
+{
+	LEVELCHANGE_EVENT Event;
+	Event.iChangeLevel = m_iPlayLevel;
+	m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 }
 
 void CPlayer_Topdee::Interaction()
@@ -360,7 +370,7 @@ _float3 CPlayer_Topdee::ComputeTileOutlinePosition()
 	return vOutlinePosition;
 }
 
-_bool CPlayer_Topdee::IsAttackSparkBlock( )
+_bool CPlayer_Topdee::IsAttachSparkBlock( )
 {
 	if (m_bIsAttach && reinterpret_cast<CGameObject*>(m_pAttachBlock)->CompareName(TEXT("Interaction_Block_Spark")))
 		return true;
@@ -766,6 +776,9 @@ HRESULT CPlayer_Topdee::Ready_States()
 {
 	for (_uint i = 0; i < ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END); i++)
 	{
+		if (i == ENUM_CLASS(PLAYERSTATE::SWIM))
+			continue;
+
 		PLAYERSTATE eState = m_tStateInitDesc[i].eState;
 
 		if (FAILED(__super::Add_State(eState, &m_tStateInitDesc[i])))
@@ -812,6 +825,14 @@ HRESULT CPlayer_Topdee::Begin_RenderState()
 		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 		m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 	}
+	else if (m_eCurrentState == PLAYERSTATE::CLEAR)
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	}
 	else
 	{
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -825,7 +846,17 @@ HRESULT CPlayer_Topdee::Begin_RenderState()
 HRESULT CPlayer_Topdee::End_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	if (m_eCurrentState == PLAYERSTATE::STOP)
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	else if (m_eCurrentState == PLAYERSTATE::CLEAR)
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	}
+	else
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	return S_OK;
 }

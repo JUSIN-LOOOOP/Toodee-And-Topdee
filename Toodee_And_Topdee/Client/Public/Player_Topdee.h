@@ -23,11 +23,11 @@ public:
 	/* State 에서 호출 */
 	virtual HRESULT Return_PrevState() override;					// Stop -> 이전 상태로 돌아가기	
 	virtual void Idle() override;									// Idle State 트리거
-	virtual void Move(_float fTimeDelta) override;					// Move State 트리거
+	virtual void Move(_uint iInputData, _float fTimeDelta) override;					// Move State 트리거
 	virtual void Action() override;									// Action State 트리거
 	virtual void Stop() override;									// Stop State 트리거
 	virtual void Clear(_float3 vPortalPosition) override;									// Clear State 트리거
-
+	virtual void Dead() override;
 
 
 	/* State Action */
@@ -35,7 +35,7 @@ public:
 	_float3 ComputeTileOutlinePosition();							// TileOutline Position Return
 
 public:
-	_bool	IsAttackSparkBlock( );
+	_bool	IsAttachSparkBlock( );
 
 
 private:

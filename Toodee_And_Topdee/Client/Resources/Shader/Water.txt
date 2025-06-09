@@ -1,7 +1,7 @@
 //전역 상수
-static const float g_TotalHeight = 16;
+static const float g_TotalHeight = 19.0;
 static const float PI = 3.14159265;
-static const float g_SinkRange = 12;
+static const float g_SinkRange = 12.0;
 // 공통 상수
 float4x4    g_WorldMatrix;
 float4x4    g_ViewMatrix;
@@ -20,15 +20,23 @@ sampler2D g_BaseSampler = sampler_state {
     MipFilter = LINEAR;
 };
 
-float2 WaveUV(float2 Tex)
+float2 WaveX(float2 Tex)
 {
-    float WaveStrength = 0.03;
-    float WaveFreqX = 20.0;
-    float WaveFreqY = 15.0;
+    float WavePower = 0.03;
     float WaveSpeed = 3.0;
 
-//    Tex.y += sin(Tex.x * wWveFreqX + g_TimeDelta * WaveSpeed) * WaveStrength;
-    Tex.x += cos(Tex.y * WaveFreqY + g_TimeDelta * WaveSpeed) * WaveStrength;
+    Tex.x += cos(Tex.y + g_TimeDelta * WaveSpeed) * WavePower;
+
+    return Tex;
+}
+
+float2 WaveXY(float2 Tex)
+{
+    float WavePower = 0.03;
+    float WaveSpeed = 3.0;
+
+    Tex.y += sin(Tex.x + g_TimeDelta * WaveSpeed) * WavePower;
+    Tex.x += cos(Tex.y + g_TimeDelta * WaveSpeed) * WavePower;
 
     return Tex;
 }
@@ -59,7 +67,7 @@ VS_OUTPUT VS_Main(VS_INPUT input) {
 
     float FillHeight = g_TotalHeight - (g_TotalHeight * g_FillHeight);
 
-    output.DistanceAlpha = 0.6;
+    output.DistanceAlpha = 0.4;
 
     if( Height > FillHeight)
     {    
@@ -117,8 +125,8 @@ VS_OUTPUT VS_Main(VS_INPUT input) {
             WorldPos.x = g_SinkPosition.x - RotateX;
             WorldPos.z = g_SinkPosition.z - RotateZ;
             
-            WorldPos.x = clamp(WorldPos.x, g_WorldMatrix._41, g_WorldMatrix._41 + 14.0);
-            WorldPos.z = min(WorldPos.z, g_SinkPosition.z + 4.0);
+            WorldPos.x = clamp(WorldPos.x, g_WorldMatrix._41, g_WorldMatrix._41 + 20.0);
+            WorldPos.z = min(WorldPos.z, g_SinkPosition.z + 6.0);
         }
 
         float2 CurrentDirection = g_SinkPosition.xz - WorldPos.xz;
@@ -130,7 +138,9 @@ VS_OUTPUT VS_Main(VS_INPUT input) {
             output.DistanceAlpha = 0;
         }
         else
+        {
             output.RenderFlag = 1.0;
+        }
 
         output.Pos = mul(WorldPos, g_ViewMatrix);
         output.Pos = mul(output.Pos, g_ProjMatrix);
@@ -151,11 +161,11 @@ float4 PS_Main(VS_OUTPUT input) : COLOR {
         discard;
 
     float2 Tex = input.Tex;
+    
+    float2 WaveUV = WaveX(Tex);
 
-    float2 distortedUV = WaveUV(Tex);
+    float4 texColor = tex2D(g_BaseSampler, WaveUV);
 
-    float4 texColor = tex2D(g_BaseSampler, distortedUV);
- 
     float3 blueTint = float3(0.0, 0.5, 1.0);
     
     float3 finalColor;

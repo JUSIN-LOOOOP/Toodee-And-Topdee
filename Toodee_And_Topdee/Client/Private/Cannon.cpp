@@ -30,10 +30,10 @@ HRESULT CCannon::Initialize(void* pArg)
     m_iCannonDir = ENUM_CLASS(info->eDir);
     m_eType = info->eType;
 
-    m_fIntervalShooting = 0.5f;
+    m_fIntervalShooting = 0.3f;
     m_fIntervalMotion = 0.2f;
 
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(-14.f, 1.1f, 0.f ));
+    m_pTransformCom->Set_State(STATE::POSITION, info->vPosition);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     
     _float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
@@ -122,27 +122,27 @@ void CCannon::Shooting(_float fTimeDelta)
         {
         case 0:                 /* Right */
             if (m_eType == CANNON_TYPE::FIRE)
-                 pProjectile =  m_pGameInstance->Pop( ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY) ,TEXT("Layer_Projectile_Fire"));
+                 pProjectile =  m_pGameInstance->Pop( ENUM_CLASS(LEVEL::LEVEL_STATIC) ,TEXT("Layer_Projectile_Fire"));
              if (m_eType == CANNON_TYPE::LASER)
-                  pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Laser"));
+                  pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
             break;
         case 1:                 /* Left */
             if (m_eType == CANNON_TYPE::FIRE)
-                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"));
+                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Fire"));
              if (m_eType == CANNON_TYPE::LASER)
-                  pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Laser"));
+                  pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
             break;
         case 2:                 /* Up */
             if (m_eType == CANNON_TYPE::FIRE)
-                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"));
+                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Fire"));
             if (m_eType == CANNON_TYPE::LASER)
-                pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Laser"));
+                pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
             break;
         case 3:                 /* Down */
             if (m_eType == CANNON_TYPE::FIRE)
-                pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Fire"));
+                pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Fire"));
             if (m_eType == CANNON_TYPE::LASER)
-               pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Projectile_Laser"));
+               pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
             break;
         }
 
@@ -208,7 +208,7 @@ HRESULT CCannon::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Cannon"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Cannon"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
