@@ -12,8 +12,8 @@ HRESULT CLevel_Manager::Open_Level(_uint iLevelID, CLevel* pNewLevel)
 {
     if (iLevelID != 1)m_pGameInstance->Set_CurrentLevelID(iLevelID);
     //기존 자원 파괴
-    if (FAILED(Clear_Resources()))
-        return E_FAIL;
+ //   if (FAILED(Clear_Resources()))
+ //       return E_FAIL;
 
     //현재 레벨이 어디선가 참조하고 있는지 검사
     if( 0 != Safe_Release(m_pCurrentLevel))

@@ -37,8 +37,11 @@ void CLevel_FinalBoss01::Update(_float fTimeDelta)
 {
 	if (m_pGameInstance->Key_Down(VK_RETURN))
 	{
-		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_FINALBOSS2))))
-			return;
+		LEVELCHANGE_EVENT Event;
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2);
+		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1);
+
+		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 	}
 
 	m_fIdleTime += fTimeDelta;

@@ -59,6 +59,9 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	//if (FAILED(Ready_Layer_RedButton(TEXT("Layer_RedButton"))))
 	//	return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Thirdee"),
+	//	ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Thirdee"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -68,8 +71,11 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	// -- 임시 --
 	if (m_pGameInstance->Key_Down(VK_RETURN))
 	{
-		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_STAGE1))))
-			return;
+		LEVELCHANGE_EVENT Event;
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE1);
+		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY);
+
+		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 	}
 
 }

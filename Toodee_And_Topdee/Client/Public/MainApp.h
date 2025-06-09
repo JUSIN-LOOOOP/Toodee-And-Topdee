@@ -31,6 +31,7 @@ private:
 
 	_bool	m_bChangeLevel = {};
 	_uint	m_iChangeLevel = {};
+	_uint	m_iCurrentLevel = {};
 
 private:
 	HRESULT Ready_Default_Setting();

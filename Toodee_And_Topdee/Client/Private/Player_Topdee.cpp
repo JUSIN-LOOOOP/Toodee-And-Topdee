@@ -297,6 +297,7 @@ void CPlayer_Topdee::Dead()
 {
 	LEVELCHANGE_EVENT Event;
 	Event.iChangeLevel = m_iPlayLevel;
+	Event.iCurrentLevel = m_iPlayLevel;
 	m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 }
 
