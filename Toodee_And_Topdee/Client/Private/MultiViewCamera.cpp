@@ -57,14 +57,14 @@ void CMultiViewCamera::Priority_Update(_float fTimeDelta)
         ChangeView(fTimeDelta);
     }
 
-    if (GetAsyncKeyState('A'))
-    {
-        m_pTransformCom->Go_Left(fTimeDelta * 2.f);
-    }
-    if (GetAsyncKeyState('D'))
-    {
-        m_pTransformCom->Go_Right(fTimeDelta * 2.f);
-    }
+    //if (GetAsyncKeyState('A'))
+    //{
+    //    m_pTransformCom->Go_Left(fTimeDelta * 2.f);
+    //}
+    //if (GetAsyncKeyState('D'))
+    //{
+    //    m_pTransformCom->Go_Right(fTimeDelta * 2.f);
+    //}
 
 
     m_ProjMatrix = *(D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
@@ -77,7 +77,7 @@ void CMultiViewCamera::Update(_float fTimeDelta)
     if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
 
-  //  CameraTestMove(fTimeDelta);
+    CameraTestMove(fTimeDelta);
 }
 
 void CMultiViewCamera::Late_Update(_float fTimeDelta)
@@ -123,6 +123,10 @@ void CMultiViewCamera::ChangeView(_float fTimeDelta)
             m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
         }
     }
+
+    DIMENSION a = m_pGameInstance->Get_PreviousDimension();
+    DIMENSION b = m_pGameInstance->Get_CurrentDimension();
+    int aa = 0;
 }
 
 HRESULT CMultiViewCamera::Ready_Components(void* pArg)

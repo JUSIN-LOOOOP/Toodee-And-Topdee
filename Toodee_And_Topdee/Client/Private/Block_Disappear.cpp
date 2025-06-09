@@ -60,11 +60,13 @@ HRESULT CBlock_Disappear::Render()
 void CBlock_Disappear::Event_Pressed(const EVENT_REDBUTTON_PRESSED& event)
 {
     m_bActivity = false;
+    m_pColliderCom->Collision_Off();
 }
 
 void CBlock_Disappear::Event_Unpressed(const EVENT_REDBUTTON_UNPRESSED& event)
 {
     m_bActivity = true;
+    m_pColliderCom->Collision_On();
 }
 
 HRESULT CBlock_Disappear::Ready_Components()
@@ -93,7 +95,7 @@ HRESULT CBlock_Disappear::Ready_Components()
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
         return E_FAIL;
 
-    /* For.Com_Collision */
+    /* For.Com_Collider */
     CCollider::COLLIDER_DESC  ColliderDesc{};
     ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
     ColliderDesc.pTransform = m_pTransformCom;
@@ -102,9 +104,9 @@ HRESULT CBlock_Disappear::Ready_Components()
     ColliderDesc.bIsFixed = false;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
-        TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
     {
-        MSG_BOX(TEXT("Failed to Add_Component : Com_Collision"));
+        MSG_BOX(TEXT("Failed to Add_Component : Com_Collider"));
         return E_FAIL;
     }
 

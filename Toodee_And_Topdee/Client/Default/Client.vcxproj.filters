@@ -281,6 +281,18 @@
     <ClCompile Include="..\Private\Level_FinalBoss03.cpp">
       <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\MainMenu_BackGround.cpp">
+      <Filter>02. GameObjects\MainMenu\BackGround\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainMenu_Spark.cpp">
+      <Filter>02. GameObjects\MainMenu\BackGround\Spark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainMenu_CenterLine.cpp">
+      <Filter>02. GameObjects\MainMenu\BackGround\CenterLine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainMenu_Title.cpp">
+      <Filter>02. GameObjects\MainMenu\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -578,6 +590,18 @@
     <ClInclude Include="..\Public\Level_FinalBoss03.h">
       <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MainMenu_BackGround.h">
+      <Filter>02. GameObjects\MainMenu\BackGround\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainMenu_Spark.h">
+      <Filter>02. GameObjects\MainMenu\BackGround\Spark</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainMenu_CenterLine.h">
+      <Filter>02. GameObjects\MainMenu\BackGround\CenterLine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainMenu_Title.h">
+      <Filter>02. GameObjects\MainMenu\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -830,6 +854,27 @@
     </Filter>
     <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03">
       <UniqueIdentifier>{8d2bf573-1f4e-4358-b01b-ac4c2010e77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu">
+      <UniqueIdentifier>{37e9bd32-f164-4538-9cbb-78fbb94b33ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu\BackGround">
+      <UniqueIdentifier>{bd112929-8713-493d-b35a-a41b300111ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu\BackGround\BackGround">
+      <UniqueIdentifier>{497a151a-ec5c-4f4b-bbb1-35ad2d116894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu\BackGround\Spark">
+      <UniqueIdentifier>{ed96e23d-4ee6-4e64-b583-f82b4d98f9ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu\Buttons">
+      <UniqueIdentifier>{152515e9-67c5-4c40-973a-ace393c98bfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu\BackGround\CenterLine">
+      <UniqueIdentifier>{47db9794-37f3-47f3-adc7-752497f2f9db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu\Title">
+      <UniqueIdentifier>{872866d6-24af-4ddc-990d-e9d485f9473e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
