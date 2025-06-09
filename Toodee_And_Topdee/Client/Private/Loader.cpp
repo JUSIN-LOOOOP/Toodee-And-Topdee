@@ -44,6 +44,7 @@
 #include "TileOutline.h"
 #include "FireBall.h"
 #include "Semicolon.h"
+#include "Finger.h"
 #include "Toodoo.h"
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
@@ -761,6 +762,11 @@ HRESULT CLoader::Loading_For_FinalBoss01()
 		CSemicolon::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_GameObject_Finger */
+ 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Finger"),
+		CFinger::Create(m_pGraphic_Device))))
+ 		return E_FAIL;
+
 	/* Prototype_GameObject_Toodoo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Toodoo"),
 		CToodoo::Create(m_pGraphic_Device))))
@@ -807,6 +813,12 @@ HRESULT CLoader::Loading_For_FinalBoss02()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Semiclon"),
 		CSemicolon::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* Prototype_GameObject_Finger */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Finger"),
+		CFinger::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Toodoo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Toodoo"),
 		CToodoo::Create(m_pGraphic_Device))))
@@ -857,6 +869,12 @@ HRESULT CLoader::Loading_For_FinalBoss03()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Semiclon"),
 		CSemicolon::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* Prototype_GameObject_Finger */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Finger"),
+		CFinger::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Toodoo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Toodoo"),
 		CToodoo::Create(m_pGraphic_Device))))

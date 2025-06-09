@@ -12,13 +12,13 @@ END
 
 BEGIN(Client)
 
-class CSemicolon : public CGameObject
+class CFinger : public CGameObject
 {
 	enum class FIREBALLSTATE { CREATE, CHASE };
 private:
-	CSemicolon(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CSemicolon(const CSemicolon& Prototype);
-	virtual ~CSemicolon() = default;
+	CFinger(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CFinger(const CFinger& Prototype);
+	virtual ~CFinger() = default;
 public:
 	virtual			HRESULT Initialize_Prototype() override;
 	virtual			HRESULT Initialize(void* pArg) override;
@@ -43,8 +43,8 @@ private:
 	_float				m_fAngle = 0;
 
 public:
-	static CSemicolon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CSemicolon* Clone(void* pArg) override;
+	static CFinger* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CFinger* Clone(void* pArg) override;
 	virtual void			Free() override;
 
 };
