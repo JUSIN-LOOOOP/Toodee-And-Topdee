@@ -32,9 +32,7 @@ HRESULT CStageBoss_Hand::Initialize_Prototype(void* pArg)
 
 	m_fInitPos = m_pTransformCom->Get_State(STATE::POSITION);
 
-
-	name = TEXT("StageBoss_Hand");
-
+	name = TEXT("WallBoss");
 
     return S_OK;
 }
@@ -51,7 +49,7 @@ void CStageBoss_Hand::Priority_Update(_float fTimeDelta)
 
 void CStageBoss_Hand::Update(_float fTimeDelta)
 {
-	//ÀÏ´Ü Topdee¸ðµåÀÏ ¶§
+	//ï¿½Ï´ï¿½ Topdeeï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	__super::Update(fTimeDelta);
 }
 
@@ -99,7 +97,7 @@ HRESULT CStageBoss_Hand::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(6.f, 6.f, 6.f);		//ÀÓ½Ã
+	ColliderDesc.vColliderScale = _float3(6.f, 6.f, 6.f);
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
 

@@ -76,9 +76,9 @@ HRESULT CStageBoss_limb::Chase(_float fTimeDelta)
         m_pTransformCom->Set_Matrix(RotMatrix);
         flag[0] = true;
     }
-    if (m_pTransformCom->Get_State(STATE::POSITION).y < 7.f)
+    if (m_pTransformCom->Get_State(STATE::POSITION).y < 12.f)
     {
-        m_pTransformCom->Go_Up(fTimeDelta * 22.f);
+        m_pTransformCom->Go_Up(fTimeDelta * 30.f);
         flag[1] = true;
     }
         
@@ -96,6 +96,7 @@ HRESULT CStageBoss_limb::Turn(_float fTimeDelta)
     {
         m_fTurnTime = 0.f;
         m_eState = STAGEMONERSTATE::HIT;
+        name = TEXT("EnemyBoss");
     }
     else
         m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::UP), fTimeDelta * 30.f);
@@ -115,6 +116,7 @@ HRESULT CStageBoss_limb::HIT(_float fTimeDelta)
         m_eState = STAGEMONERSTATE::IDLE;
         MONSTERSIGNAL mode;
         m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::FIN_ACTION, mode);
+        name = TEXT("WallBoss");
     }
 
     return S_OK;
