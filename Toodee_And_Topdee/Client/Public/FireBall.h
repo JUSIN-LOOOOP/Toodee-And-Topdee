@@ -7,7 +7,7 @@ BEGIN(Engine)
 class CTransform;
 class CTexture;
 class CVIBuffer_Rect;
-//class CCollider;
+class CCollider;
 END
 
 BEGIN(Client)
@@ -31,6 +31,7 @@ private:
 	class CVIBuffer_Rect*	m_pVIBufferCom = { nullptr };
 	class CTexture*			m_pTextureCom = { nullptr };
 	class CTransform*		m_pTransformCom = { nullptr };
+	class CCollider* m_pColliderCom = { nullptr };
 
 	HRESULT				Ready_Components();
 	HRESULT				Begin_RenderState();

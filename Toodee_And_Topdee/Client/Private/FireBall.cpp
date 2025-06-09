@@ -83,6 +83,9 @@ void CFireBall::Late_Update(_float fTimeDelta)
 
 HRESULT CFireBall::Render()
 {
+    if (FAILED(m_pColliderCom->Render()))
+
+        return E_FAIL;
     m_pTransformCom->Bind_Matrix();
 
     if (FAILED(m_pTextureCom->Bind_Texture(ENUM_CLASS(m_iTextureIdx))))
@@ -116,15 +119,15 @@ HRESULT CFireBall::Ready_Components()
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &Transform_desc)))
         return E_FAIL;
 
-    /*CCollider::COLLIDER_DESC  ColliderDesc{};
+    CCollider::COLLIDER_DESC  ColliderDesc{};
     ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
     ColliderDesc.pTransform = m_pTransformCom;
-    ColliderDesc.vColliderScale = _float3(2.0f, 4.0f, 2.0f);
+    ColliderDesc.vColliderScale = _float3(4.0f, 1.0f, 4.0f);
     ColliderDesc.bIsFixed = false;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Rect"),
         TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-        return E_FAIL;*/
+        return E_FAIL;
 
     return S_OK;
 }
@@ -182,5 +185,5 @@ void CFireBall::Free()
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTextureCom);
-    //Safe_Release(m_pColliderCom);
+    Safe_Release(m_pColliderCom);
 }

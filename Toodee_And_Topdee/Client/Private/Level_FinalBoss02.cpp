@@ -174,7 +174,11 @@ HRESULT CLevel_FinalBoss02::Ready_Layer_MapObject(const _wstring& strLayerTag)
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
 				return E_FAIL;
 			break;
-
+		case MAPOBJECT::SPIKE:
+			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spike"), &info)))
+				return E_FAIL;*/
+			break;
 		default:
 			MSG_BOX(TEXT("Error : Block Index error!"));
 		}
