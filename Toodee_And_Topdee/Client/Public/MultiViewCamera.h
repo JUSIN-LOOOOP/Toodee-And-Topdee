@@ -6,20 +6,6 @@
 
 BEGIN(Client)
 
-/*
-	[Level���� ������ CAMERA_DESC ����ü ��]
- 
-	CameraDesc.vEye = _float3(0.f, 250.f, 0.f);
-	CameraDesc.vAt = _float3(0.f, 0.f, 1.f );
-
-	CameraDesc.fFovy = D3DXToRadian(60.0f);
-	CameraDesc.fNear = 0.1f;
-	CameraDesc.fFar = 1000.f;
-	CameraDesc.fSpeedPerSec = 10.f;
-	CameraDesc.fRotationPerSec = D3DXToRadian(90.0f);
-	CameraDesc.fMouseSensor = 0.3f;
-*/
-
 class CMultiViewCamera final : public CGameObject
 {
 public:
@@ -52,6 +38,11 @@ public:
 		D3DXVec3Normalize(&dir, &dir);
 		return dir;
 	}
+	void		SetShaking(_float _time)
+	{ 
+		m_fShaking = _time; 
+		m_fBackupPos = m_pTransformCom->Get_State(STATE::POSITION);
+	};
 
 private:
 	CTransform* m_pTransformCom = { nullptr };
@@ -63,18 +54,21 @@ private:
 	POINT						m_OldPoint = {};
 	_bool						m_bOldKey = {};
 	_bool						m_bRotating = false;
-	_float						m_fTargetAngle = 7.f;
+	_float						m_fTargetAngle = 12.f;
 	_float						m_fCurrentAngle = {};
 	_float						m_fCurrentPos = {};
 	_float						m_OffsetLength;
-	_float						m_ChangeSpeed = 13.f;
+	_float						m_ChangeSpeed = 18.f;
 	CAM_TYPE					m_bType = CAM_TYPE::TOP;
+	_float						m_fShaking = 0.f;
+	_float3						m_fBackupPos = {};
 
 private:
 	HRESULT Ready_Components(void* pArg);
 	void	CameraTestMoveInitialize();
 	void	CameraTestMove(_float fTimeDelta);
 	void	SetViewFlag() { m_bRotating = true; };
+	void	Shaking(_float fTimeDelta);
 
 public:
 	static CMultiViewCamera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

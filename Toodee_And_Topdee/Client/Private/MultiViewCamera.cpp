@@ -33,10 +33,7 @@ HRESULT CMultiViewCamera::Initialize(void* pArg)
     m_fNear = pDesc->fNear;
     m_fFar = pDesc->fFar;
 
-    if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
-        m_bType = CAM_TYPE::TOP;
-    if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
-        m_bType = CAM_TYPE::QURTER;
+    m_bType = (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE) ? CAM_TYPE::TOP : m_bType = CAM_TYPE::QURTER;
 
     CameraTestMoveInitialize();
     m_pGameInstance->Subscribe<CHANGECAM>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CHANGE_CAM, [this](const CHANGECAM& Event) {
@@ -57,16 +54,6 @@ void CMultiViewCamera::Priority_Update(_float fTimeDelta)
         ChangeView(fTimeDelta);
     }
 
-    if (GetAsyncKeyState('A'))
-    {
-        m_pTransformCom->Go_Left(fTimeDelta * 2.f);
-    }
-    if (GetAsyncKeyState('D'))
-    {
-        m_pTransformCom->Go_Right(fTimeDelta * 2.f);
-    }
-
-
     m_ProjMatrix = *(D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
@@ -76,6 +63,13 @@ void CMultiViewCamera::Update(_float fTimeDelta)
 {
     if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
+    if (m_pGameInstance->Key_Down('R'))
+    {
+        m_fShaking = 2.f;
+        m_fBackupPos = m_pTransformCom->Get_State(STATE::POSITION);
+    }
+    if (m_fShaking > 0.f)
+        Shaking(fTimeDelta);
 
   //  CameraTestMove(fTimeDelta);
 }
@@ -92,7 +86,7 @@ HRESULT CMultiViewCamera::Render()
 void CMultiViewCamera::ChangeView(_float fTimeDelta)
 {
     _float fDelta = m_ChangeSpeed * fTimeDelta;
-    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.3f;
+    _float fPosDelta = m_ChangeSpeed * fTimeDelta * 1.2f;
     m_fCurrentAngle += fDelta;
 
     if (m_bType == CAM_TYPE::TOP)
@@ -189,6 +183,18 @@ void CMultiViewCamera::CameraTestMove(_float fTimeDelta)
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
 
     m_OldPoint = ptMouse;
+}
+
+void CMultiViewCamera::Shaking(_float fTimeDelta)
+{
+    m_fShaking -= fTimeDelta;
+
+    if (m_fShaking <= 0.f)
+        m_pTransformCom->Set_State(STATE::POSITION, m_fBackupPos);
+    else
+        m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_fBackupPos.x + m_pGameInstance->Rand(-.2f, .2f),
+                                                            m_fBackupPos.y + m_pGameInstance->Rand(-.2f, .2f),
+                                                            m_fBackupPos.z + m_pGameInstance->Rand(-.2f, .2f) });
 }
 
 CMultiViewCamera* CMultiViewCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

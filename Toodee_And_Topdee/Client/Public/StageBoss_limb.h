@@ -56,7 +56,7 @@ protected:
 	_float			m_fIdleTurnTime = {};				//가만히 있을 때 조금씩 좌우로 움직이는 거
 	_float			m_fIdleTurnDir = 1.f;				//좌우로 움직이는 거 방향 조절
 	_float			m_AccAngle = 0.f;					//모드 바뀔 때
-	_bool			m_eTurnFlag = { true };
+	_bool			m_ChangeFlag[2]{ false, false };
 	_float3			m_fInitPos = {};
 
 public:
