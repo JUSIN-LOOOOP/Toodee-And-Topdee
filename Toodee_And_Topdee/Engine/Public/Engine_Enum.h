@@ -37,7 +37,7 @@ namespace Engine
 		MAINMENU_BUTTON,
 		MAINMENU_STAGE,
 		MAINMENU_STAGE_SELECT,
-
+		CAM_SHAKING
 	};
 	
 

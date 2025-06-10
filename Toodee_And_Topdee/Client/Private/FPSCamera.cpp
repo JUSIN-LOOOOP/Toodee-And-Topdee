@@ -39,6 +39,8 @@ HRESULT CFPSCamera::Initialize(void* pArg)
     m_pGameInstance->Subscribe<CHANGECAM>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CHANGE_CAM, [this](const CHANGECAM& Event) {
         this->SetViewFlag(); });
 
+    m_pGameInstance->Subscribe<SHAKING>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CAM_SHAKING, [this](const SHAKING& Event) {
+        this->SetShaking(Event); });
 
      m_pPlayer = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(ENUM_CLASS(m_pGameInstance->Get_NextLevelID()), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0));
 
@@ -68,6 +70,9 @@ void CFPSCamera::Priority_Update(_float fTimeDelta)
     const _float3 PlayerPos = m_pPlayer->Get_State(STATE::POSITION);
     m_pTransformCom->Set_State(STATE::POSITION, { PlayerPos.x + m_offset.x, PlayerPos.y + m_offset.y, PlayerPos.z + m_offset.z });
 
+    if (m_fShaking > 0.f)
+        Shaking(fTimeDelta);
+
     m_ProjMatrix = *(D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
@@ -77,6 +82,8 @@ void CFPSCamera::Update(_float fTimeDelta)
 {
     if(GetAsyncKeyState(VK_F7)& 0x8000)
         m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
+
+    
 
     CameraTestMove(fTimeDelta);
 }
@@ -177,6 +184,16 @@ void CFPSCamera::CameraTestMove(_float fTimeDelta)
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
 
     m_OldPoint = ptMouse;*/
+}
+
+void CFPSCamera::Shaking(_float fTimeDelta)
+{
+    m_fShaking -= fTimeDelta;
+
+    _float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+    m_pTransformCom->Set_State(STATE::POSITION, _float3{ pos.x + m_pGameInstance->Rand(-.2f, .2f),
+                                                         pos.y + m_pGameInstance->Rand(-.2f, .2f),
+                                                         pos.z + m_pGameInstance->Rand(-.2f, .2f) });
 }
 
 CFPSCamera* CFPSCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

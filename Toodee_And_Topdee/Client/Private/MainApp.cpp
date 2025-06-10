@@ -172,6 +172,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/semicolon.png"), 1))))
 		return E_FAIL;
 
+	/* Prototype_Component_Texture_Finger*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Finger"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/Finger.png"), 1))))
+		return E_FAIL;
+
 	return S_OK;
 }
 HRESULT CMainApp::Ready_Prototype_ForStatic_Background()

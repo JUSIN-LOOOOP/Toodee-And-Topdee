@@ -1,51 +1,62 @@
-#include "Semicolon.h"
+#include "Finger.h"
 #include "GameInstance.h"
 
-CSemicolon::CSemicolon(LPDIRECT3DDEVICE9 pGraphic_Device)
+CFinger::CFinger(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject { pGraphic_Device }
 {
 }
 
-CSemicolon::CSemicolon(const CSemicolon& Prototype)
+CFinger::CFinger(const CFinger& Prototype)
     : CGameObject( Prototype )
 {
 }
 
-HRESULT CSemicolon::Initialize_Prototype()
+HRESULT CFinger::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CSemicolon::Initialize(void* pArg)
+HRESULT CFinger::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
-    m_pTransformCom->Scaling(6.f, 15.f, 6.f);
-    m_pTransformCom->Set_State(STATE::POSITION, *(static_cast<_float3*>(pArg)));
+    m_pTransformCom->Scaling(10.f, 10.f, 10.f);
+    _float3 pos = *(static_cast<_float3*>(pArg));
+    _float3 PlayerPos = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(m_pGameInstance->Get_CurrentLevelID(), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0))->Get_State(STATE::POSITION);
+    pos.x = m_pGameInstance->Rand(PlayerPos.x, PlayerPos.x + 20.f);
+    pos.y = 40.f;
+    m_pTransformCom->Set_State(STATE::POSITION, pos);
     m_pTransformCom->Rotation(_float3{ 0.f, 1.f, 0.f }, D3DXToRadian(90));
-    name = TEXT("EnemySemiclon");
+    name = TEXT("EnemyFinger");
 
     return S_OK;
 }
 
-void CSemicolon::Priority_Update(_float fTimeDelta)
+void CFinger::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CSemicolon::Update(_float fTimeDelta)
+void CFinger::Update(_float fTimeDelta)
 {
-    m_pTransformCom->Go_Backward(fTimeDelta * 15.f);
+    m_pTransformCom->Go_Down(fTimeDelta * 12.f);
 
-    if (m_pTransformCom->Get_State(STATE::POSITION).x < -115.f)
+    if (m_pTransformCom->Get_State(STATE::POSITION).y < 4.f)
+    {
+        SHAKING Event;
+        Event.fTime = .5f;
+        m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::CAM_SHAKING, Event);
+    }
+    
+    if (m_pTransformCom->Get_State(STATE::POSITION).y < 3.f)
         m_Dead = true;
 }
 
-void CSemicolon::Late_Update(_float fTimeDelta)
+void CFinger::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
-HRESULT CSemicolon::Render()
+HRESULT CFinger::Render()
 {
 
     if (FAILED(m_pColliderCom->Render()))
@@ -63,7 +74,7 @@ HRESULT CSemicolon::Render()
     return S_OK;
 }
 
-HRESULT CSemicolon::Ready_Components()
+HRESULT CFinger::Ready_Components()
 {
     /* For.Com_VIBuffer*/
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
@@ -71,7 +82,7 @@ HRESULT CSemicolon::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Semiclon"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Finger"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
@@ -86,7 +97,7 @@ HRESULT CSemicolon::Ready_Components()
     CCollider::COLLIDER_DESC  ColliderDesc{};
     ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
     ColliderDesc.pTransform = m_pTransformCom;
-    ColliderDesc.vColliderScale = _float3(2.f, 15.f, 6.f);
+    ColliderDesc.vColliderScale = _float3(3.0f, 10.0f, 10.0f);
     ColliderDesc.bIsFixed = false;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
@@ -96,7 +107,7 @@ HRESULT CSemicolon::Ready_Components()
     return S_OK;
 }
 
-HRESULT CSemicolon::Begin_RenderState()
+HRESULT CFinger::Begin_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
@@ -109,7 +120,7 @@ HRESULT CSemicolon::Begin_RenderState()
     return S_OK;
 }
 
-HRESULT CSemicolon::End_RenderState()
+HRESULT CFinger::End_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -117,32 +128,32 @@ HRESULT CSemicolon::End_RenderState()
     return S_OK;
 }
 
-CSemicolon* CSemicolon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CFinger* CFinger::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CSemicolon* pInstance = new CSemicolon(pGraphic_Device);
+      CFinger* pInstance = new CFinger(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX(TEXT("Failed Created : CSemicolon"));
+        MSG_BOX(TEXT("Failed Created : CFinger"));
         Safe_Release(pInstance);
     }
     return pInstance;
 }
 
-CSemicolon* CSemicolon::Clone(void* pArg)
+CFinger* CFinger::Clone(void* pArg)
 {
-    CSemicolon* pInstance = new CSemicolon(*this);
+    CFinger* pInstance = new CFinger(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX(TEXT("Failed to Cloned : CSemicolon"));
+        MSG_BOX(TEXT("Failed to Cloned : CFinger"));
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CSemicolon::Free()
+void CFinger::Free()
 {
     __super::Free();
 

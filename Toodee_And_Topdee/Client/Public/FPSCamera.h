@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Event.h"
 
 BEGIN(Client)
 
@@ -30,13 +31,19 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	_float4x4	Get_ProjMatrix() { return m_ProjMatrix; };
+	_float4x4	Get_ProjMatrix() { return m_ProjMatrix; }
 	void		ChangeView(_float fTimeDelta);
+
 	_float3		Get_LookDirection()
 	{
-		_float3 dir = _float3(0.f,0.f,0.f) - m_pTransformCom->Get_State(STATE::POSITION);
+		_float3 dir = _float3(0.f, 0.f, 0.f) - m_pTransformCom->Get_State(STATE::POSITION);
 		D3DXVec3Normalize(&dir, &dir);
 		return dir;
+	}
+
+	void		SetShaking(const SHAKING& Event)
+	{
+		m_fShaking = Event.fTime; 
 	}
 
 private:
@@ -58,12 +65,14 @@ private:
 	_float						m_OffsetLength;
 	_float						m_ChangeSpeed = 200.f;
 	CAM_TYPE					m_bType = CAM_TYPE::TOP;
+	_float						m_fShaking = 0.f;
 
 private:
 	HRESULT Ready_Components(void* pArg);
 	void	CameraTestMoveInitialize();
 	void	CameraTestMove(_float fTimeDelta);
 	void	SetViewFlag() { m_bRotating = true; };
+	void	Shaking(_float fTimeDelta);
 
 public:
 	static CFPSCamera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
