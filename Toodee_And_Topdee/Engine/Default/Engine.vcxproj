@@ -200,6 +200,7 @@ call Copy.bat
     <ClInclude Include="..\Public\Collision_Manager.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
+    <ClInclude Include="..\Public\Engine_Easing.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
     <ClInclude Include="..\Public\Engine_Function.h" />
     <ClInclude Include="..\Public\Engine_Macro.h" />

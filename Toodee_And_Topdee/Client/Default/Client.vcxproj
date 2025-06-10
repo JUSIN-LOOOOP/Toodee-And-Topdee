@@ -198,8 +198,11 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\MainMenu_BackGround.h" />
+    <ClInclude Include="..\Public\MainMenu_Buttons.h" />
     <ClInclude Include="..\Public\MainMenu_CenterLine.h" />
+    <ClInclude Include="..\Public\MainMenu_Portals.h" />
     <ClInclude Include="..\Public\MainMenu_Spark.h" />
+    <ClInclude Include="..\Public\MainMenu_StageTitle.h" />
     <ClInclude Include="..\Public\MainMenu_Title.h" />
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\MultiViewCamera.h" />
@@ -297,8 +300,11 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\private\MainMenu_BackGround.cpp" />
+    <ClCompile Include="..\Private\MainMenu_Buttons.cpp" />
     <ClCompile Include="..\Private\MainMenu_CenterLine.cpp" />
+    <ClCompile Include="..\Private\MainMenu_Portals.cpp" />
     <ClCompile Include="..\Private\MainMenu_Spark.cpp" />
+    <ClCompile Include="..\Private\MainMenu_StageTitle.cpp" />
     <ClCompile Include="..\Private\MainMenu_Title.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\MultiViewCamera.cpp" />
