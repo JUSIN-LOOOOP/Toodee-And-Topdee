@@ -23,7 +23,8 @@ HRESULT CSemicolon::Initialize(void* pArg)
     m_pTransformCom->Scaling(6.f, 15.f, 6.f);
     m_pTransformCom->Set_State(STATE::POSITION, *(static_cast<_float3*>(pArg)));
     m_pTransformCom->Rotation(_float3{ 0.f, 1.f, 0.f }, D3DXToRadian(90));
-    
+    name = TEXT("EnemySemiclon");
+
     return S_OK;
 }
 
@@ -33,7 +34,7 @@ void CSemicolon::Priority_Update(_float fTimeDelta)
 
 void CSemicolon::Update(_float fTimeDelta)
 {
-    m_pTransformCom->Go_Backward(fTimeDelta * 25.f);
+    m_pTransformCom->Go_Backward(fTimeDelta * 15.f);
 
     if (m_pTransformCom->Get_State(STATE::POSITION).x < -115.f)
         m_Dead = true;
@@ -46,6 +47,10 @@ void CSemicolon::Late_Update(_float fTimeDelta)
 
 HRESULT CSemicolon::Render()
 {
+
+    if (FAILED(m_pColliderCom->Render()))
+        return E_FAIL;
+
     m_pTransformCom->Bind_Matrix();
 
     if (FAILED(m_pTextureCom->Bind_Texture(ENUM_CLASS(0))))
@@ -78,15 +83,15 @@ HRESULT CSemicolon::Ready_Components()
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &Transform_desc)))
         return E_FAIL;
 
-    /*CCollider::COLLIDER_DESC  ColliderDesc{};
+    CCollider::COLLIDER_DESC  ColliderDesc{};
     ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
     ColliderDesc.pTransform = m_pTransformCom;
-    ColliderDesc.vColliderScale = _float3(2.0f, 4.0f, 2.0f);
+    ColliderDesc.vColliderScale = _float3(2.f, 15.f, 6.f);
     ColliderDesc.bIsFixed = false;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Rect"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
         TEXT("Com_Collision"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-        return E_FAIL;*/
+        return E_FAIL;
 
     return S_OK;
 }
@@ -144,5 +149,5 @@ void CSemicolon::Free()
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTextureCom);
-    //Safe_Release(m_pColliderCom);
+    Safe_Release(m_pColliderCom);
 }

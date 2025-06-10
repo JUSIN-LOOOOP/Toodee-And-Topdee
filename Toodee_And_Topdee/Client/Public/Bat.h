@@ -38,6 +38,7 @@ private:
 	_bool		m_bLeft{};
 	_float		m_fMoveX{}, m_fSpeedPerSec{};
 	_float3		m_vToodeePos{};
+	_uint		m_iPlayLevel = {};
 	
 
 private:
@@ -54,7 +55,6 @@ private:
 
 private : // Test¿ë
 	_float	MoveHeight(_float fStart, _float fEnd, _float fSecond);
-	void	Key_Input(_float fTimeDelta);
 
 	FLYSTATE	m_eState{};
 	_float		m_fMaxDistance{};

@@ -101,8 +101,8 @@ public:
 public:
 	void			Change_Dimension(DIMENSION eDimension) 
 	{
-		if(DIMENSION::CHANGE != eDimension)
-		m_ePreviousDimension = m_ePreviousDimension == DIMENSION::NONE ? eDimension : m_eCurrentDimension;
+		if(DIMENSION::CHANGE != m_eCurrentDimension)
+		m_ePreviousDimension = m_eCurrentDimension;
 		m_eCurrentDimension = eDimension; 
 	}
 	DIMENSION		Get_CurrentDimension() { return m_eCurrentDimension; }

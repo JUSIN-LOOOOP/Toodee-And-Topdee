@@ -17,7 +17,7 @@ void CLayer::Priority_Update(_float fTimeDelta)
 	{
 		if ((*iter)->IsDead())
 		{
-			CComponent* pComponent = (*iter)->Get_Component(TEXT("Com_Collision"));
+			CComponent* pComponent = (*iter)->Get_Component(TEXT("Com_Collider"));
 			if (pComponent != nullptr)
 				m_pGameInstance->Delete_Collider(m_pGameInstance->Get_CurrentLevelID(), reinterpret_cast<CCollider**>(&pComponent));
 

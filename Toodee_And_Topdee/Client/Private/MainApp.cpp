@@ -17,6 +17,7 @@
 #include "Part_Tail.h"
 #include "Part_Legs.h"
 #include "Part_Ears.h"
+#include "Part_WIng.h"
 
 #include "Player_Toodee.h"
 #include "Player_Topdee.h"
@@ -63,7 +64,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_ForStatic_Player()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Prototype_ForStatic_Parts()))
+	if (FAILED(Ready_Prototype_ForStatic_Monster()))
 		return E_FAIL;
 
 	m_pGameInstance->Subscribe<LEVELCHANGE_EVENT>(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, [this](const LEVELCHANGE_EVENT& Event) {
@@ -169,6 +170,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_Texture_Semicolon*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Semiclon"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/semicolon.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Finger*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Finger"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/Finger.png"), 1))))
 		return E_FAIL;
 
 	return S_OK;
@@ -500,33 +506,80 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 }
 
 
-HRESULT CMainApp::Ready_Prototype_ForStatic_Parts()
+HRESULT CMainApp::Ready_Prototype_ForStatic_Monster()
 {
+#pragma region PigTexture
 
+	/* Prototype_Component_Texture_Pig_Body */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Body"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigBodySpr_%d.png"), 10))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Ears */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Ears"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEarsSpr_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Eyes */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Eyes"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEyesSpr_%d.png"), 2))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Legs */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Legs"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigLegsSpr_%d.png"), 9))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Nose */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Nose"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigNoseSpr_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Pig_Tail */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Tail"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigTailSpr_0.png"), 1))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region Monster Parts
+
+	/* Prototype_Component_Part_Eyes */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Eyes"),
 		CPart_Eyes::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_Component_Part_Nose */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Nose"),
 		CPart_Nose::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_Component_Part_Tail */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Tail"),
 		CPart_Tail::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_Component_Part_Legs */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Legs"),
 		CPart_Legs::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_Component_Part_Body */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Body"),
 		CPart_Body::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_Component_Part_Ears */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Ears"),
 		CPart_Ears::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_Component_Part_Wing */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Wing"),
+		CPart_Wing::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+#pragma endregion
 
 	return S_OK;
 }

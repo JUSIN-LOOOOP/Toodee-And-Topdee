@@ -1,44 +1,63 @@
 #include "Loader.h"
 #include "GameInstance.h"
 
-#include "Camera.h"
-#include "FPSCamera.h"
-#include "BasicTile.h"
+#pragma region Block
 #include "Block_Break.h"
 #include "Block_Lock.h"
 #include "Block_Wood.h"
 #include "Block_Fall.h"
 #include "Block_Spark.h"
 #include "Block_Metal.h"
+#pragma endregion
+
+#pragma region Object
 #include "Hole.h"
 #include "Key.h"
-#include "TextureUI.h"
-#include "TileOutline.h"
-#include "Pig.h"
-#include "Cannon.h"
-#include "Fire_Projectile.h"
-#include "BackCloud.h"
 //#include "Cloud.h"
 #include "Storm.h"
 #include "Rain.h"
 #include "RainSplash.h"
 #include "Lightning.h"
+#include "Sink.h"
+#include "Water.h"
+#include "Cannon.h"
+#include "BackCloud.h"
+#include "Fire_Projectile.h"
+#pragma endregion
 
-
+#pragma region Boss
 #include "StageBoss.h"
 #include "StageBoss_Body.h"
 #include "StageBoss_Hand.h"
+#pragma endregion
+
+#pragma region Monster
+#include "Pig.h"
+#include "Bat.h"
+#pragma endregion
+
+#pragma region ETC
+#include "Camera.h"
+#include "FPSCamera.h"
+#include "TextureUI.h"
+#include "BasicTile.h"
+#include "TileOutline.h"
 #include "FireBall.h"
 #include "Semicolon.h"
+#include "Finger.h"
 #include "Toodoo.h"
-
 #include "Test_Cube.h"
 #include "Test_Cube2.h"
 #include "Collider_Cube.h"
-
-#include "Sink.h"
-#include "Water.h"
 #include "VIBuffer_Terrain.h"
+#pragma endregion
+
+#pragma region MAINMENU
+#include "MainMenu_BackGround.h"
+#include "MainMenu_Spark.h"
+#include "MainMenu_CenterLine.h"
+#include "MainMenu_Title.h"
+#pragma endregion
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -131,15 +150,38 @@ HRESULT CLoader::Loading()
 
 HRESULT CLoader::Loading_For_Logo_Level()
 {
-	lstrcpy(m_szLoadingText, TEXT("Now Loading Texture..."));
+	/* BackGround */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_BackGround"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/BackGround/MainMenu_BackGround.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_BackGround"),
+		CMainMenu_BackGround::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	lstrcpy(m_szLoadingText, TEXT("Now Loading Model..."));
+	/* Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Spark"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Spark/Mainmenu_Spark%d.png"), 10))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Spark"),
+		CMainMenu_Spark::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	lstrcpy(m_szLoadingText, TEXT("Now Loading Shader..."));
+	/* CenterLine */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_CenterLine"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/CenterLine/CenterLine%d.png"), 6))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_CenterLine"),
+		CMainMenu_CenterLine::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	lstrcpy(m_szLoadingText, TEXT("Now Loading GameObejct..."));
+	/* Title */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Title"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Title/Title%d.png"), 5))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Title"),
+		CMainMenu_Title::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	lstrcpy(m_szLoadingText, TEXT("The Logo_Level has finished loading."));
 
 	m_isFinished = true;
 
@@ -156,14 +198,6 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Wall/test1.dds"), 1))))
 		return E_FAIL;*/
 
-#pragma endregion
-
-#pragma region TEXTURE_MONSTER
-  
-	/* Prototype_Component_Texture_Pig */
- 	if (FAILED(Ready_PigTexture()))
-		return E_FAIL;
-  
 #pragma endregion
 
 #pragma region TEXTURE_STAGEBOSS
@@ -420,6 +454,13 @@ HRESULT CLoader::Loading_For_Stage3()
 		CKey::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+#pragma region Monster
+
+	/* Prototype_GameObject_Pig */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE3), TEXT("Prototype_GameObject_Pig"),
+		CPig::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma endregion
 
 	m_isFinished = true;
@@ -429,6 +470,40 @@ HRESULT CLoader::Loading_For_Stage3()
 
 HRESULT CLoader::Loading_For_Stage4()
 {
+#pragma region TEXTURE_MONSTER(Bat)
+
+	/* Prototype_Component_Texture_Bat_Body */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Body"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Bat/BatBodySpr_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Bat_Ears */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Ears"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Bat/BatEarsSpr_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Bat_Eyes */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Eyes"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Bat/BatEyesSpr_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Bat_Legs */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Legs"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Bat/BatLegsSpr_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Bat_Nose */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Nose"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Bat/BatNoseSpr_0.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Bat_Tail */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_Component_Texture_Bat_Wing"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Bat/BatWingSpr_%d.png"), 6))))
+		return E_FAIL;
+
+#pragma endregion
+
 	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))
@@ -448,6 +523,19 @@ HRESULT CLoader::Loading_For_Stage4()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_Key"),
 		CKey::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+#pragma region Object_Monster
+
+	/* Prototype_GameObject_Pig */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_Pig"),
+		CPig::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Bat */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE4), TEXT("Prototype_GameObject_Bat"),
+		CBat::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma endregion
 
 	m_isFinished = true;
@@ -674,6 +762,11 @@ HRESULT CLoader::Loading_For_FinalBoss01()
 		CSemicolon::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_GameObject_Finger */
+ 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Finger"),
+		CFinger::Create(m_pGraphic_Device))))
+ 		return E_FAIL;
+
 	/* Prototype_GameObject_Toodoo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Toodoo"),
 		CToodoo::Create(m_pGraphic_Device))))
@@ -720,6 +813,12 @@ HRESULT CLoader::Loading_For_FinalBoss02()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Semiclon"),
 		CSemicolon::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* Prototype_GameObject_Finger */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Finger"),
+		CFinger::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Toodoo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Toodoo"),
 		CToodoo::Create(m_pGraphic_Device))))
@@ -770,46 +869,17 @@ HRESULT CLoader::Loading_For_FinalBoss03()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Semiclon"),
 		CSemicolon::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* Prototype_GameObject_Finger */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Finger"),
+		CFinger::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Toodoo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Toodoo"),
 		CToodoo::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	m_isFinished = true;
-
-	return S_OK;
-}
-
-HRESULT CLoader::Ready_PigTexture()
-{
-	/* Prototype_Component_Texture_Pig_Body */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Body"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigBodySpr_%d.png"), 10))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Pig_Ears */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Ears"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEarsSpr_0.png"), 1))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Pig_Eyes */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Eyes"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigEyesSpr_%d.png"), 2))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Pig_Legs */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Legs"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigLegsSpr_%d.png"), 9))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Pig_Nose */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Nose"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigNoseSpr_0.png"), 1))))
-		return E_FAIL;
-	
-	/* Prototype_Component_Texture_Pig_Tail */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_Texture_Pig_Tail"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Monster/Pig/PigTailSpr_0.png"), 1))))
-		return E_FAIL;
 
 	return S_OK;
 }

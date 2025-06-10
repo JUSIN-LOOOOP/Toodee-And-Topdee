@@ -66,5 +66,10 @@ typedef struct tagLevelChange : public CEvent {
 	_uint iCurrentLevel;
 	_uint iChangeLevel;
 }LEVELCHANGE_EVENT;
+
+typedef struct tagCamShaking : public CEvent {
+	_uint fTime;
+}SHAKING;
+
 END
 
