@@ -21,11 +21,15 @@ HRESULT CLevel_Logo::Initialize()
 		return E_FAIL;
 	if (FAILED(Ready_Layer_Spark(TEXT("Layer_Spark"))))
 		return E_FAIL;
-	if (FAILED(Ready_Layer_RotationObject(TEXT("Layer_RotationObject"))))
+	if (FAILED(Ready_Layer_CenterLine(TEXT("Layer_RotationObject"))))
 		return E_FAIL;
 	if (FAILED(Ready_Layer_Buttons(TEXT("Layer_Buttons"))))
 		return E_FAIL;
 	if (FAILED(Ready_Layer_Title(TEXT("Layer_Title"))))
+		return E_FAIL;
+	if (FAILED(Ready_Layer_Portal(TEXT("Layer_Portal"))))
+		return E_FAIL;
+	if (FAILED(Ready_Layer_StageTitle(TEXT("Layer_StageTitle"))))
 		return E_FAIL;
 
     return S_OK;
@@ -34,11 +38,11 @@ HRESULT CLevel_Logo::Initialize()
 void CLevel_Logo::Update(_float fTimeDelta)
 {
 	// -- юс╫ц --
-	if (m_pGameInstance->Key_Down(VK_RETURN))
-	{
-		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_GAMEPLAY))))
-			return;
-	}
+	//if (m_pGameInstance->Key_Down(VK_RETURN))
+	//{
+	//	if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_GAMEPLAY))))
+	//		return;
+	//}
 
 	return;
 }
@@ -93,7 +97,7 @@ HRESULT CLevel_Logo::Ready_Layer_Spark(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_Logo::Ready_Layer_RotationObject(const _wstring& strLayerTag)
+HRESULT CLevel_Logo::Ready_Layer_CenterLine(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_LOGO), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_CenterLine"))))
@@ -104,6 +108,10 @@ HRESULT CLevel_Logo::Ready_Layer_RotationObject(const _wstring& strLayerTag)
 
 HRESULT CLevel_Logo::Ready_Layer_Buttons(const _wstring& strLayerTag)
 {
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_LOGO), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Buttons"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -111,6 +119,24 @@ HRESULT CLevel_Logo::Ready_Layer_Title(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_LOGO), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Title"))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Logo::Ready_Layer_Portal(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_LOGO), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Portal"))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Logo::Ready_Layer_StageTitle(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_LOGO), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_StageTitle"))))
 		return E_FAIL;
 
 	return S_OK;
