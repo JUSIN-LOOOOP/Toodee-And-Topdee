@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
 
@@ -43,9 +43,14 @@ private:
 	_uint						m_iIncreaseAnimCount = {};
 	_uint						m_iCount = {};
 
+	_float4x4					m_ParentMatrix = {};
+
 private:
 	void Check_Dimension();
 	void Update_AnimCount(_float fTimeDelta);
+
+	// 임의의 축에 대한 공전 Parentmat = 부모의 월드행렬 , 앞에 받아온 행렬의 방향벡터들 이용, 가로 세로 각도의경우 편의상 XY로 해둠
+	void RotationAround(_float4x4 ParentMat, _float fRadianX, _float fRadianY);
 
 
 	HRESULT Ready_Components();
