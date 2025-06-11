@@ -20,6 +20,7 @@ private:
 	LEVEL				m_eNextLevelID = { LEVEL::LEVEL_END };
 	class				CLoader* m_pLoader = { nullptr };
 
+
 private:
 	HRESULT	Ready_GameObjects();
 	HRESULT	Ready_LoadingThread();

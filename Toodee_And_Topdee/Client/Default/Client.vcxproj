@@ -197,6 +197,7 @@
     <ClInclude Include="..\Public\Level_Test.h" />
     <ClInclude Include="..\public\Lightning.h" />
     <ClInclude Include="..\public\Loader.h" />
+    <ClInclude Include="..\Public\LoadingScreen.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\MainMenu_BackGround.h" />
     <ClInclude Include="..\Public\MainMenu_Buttons.h" />
@@ -300,6 +301,7 @@
     <ClCompile Include="..\Private\Level_Test.cpp" />
     <ClCompile Include="..\private\Lightning.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
+    <ClCompile Include="..\Private\LoadingScreen.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\private\MainMenu_BackGround.cpp" />
     <ClCompile Include="..\Private\MainMenu_Buttons.cpp" />

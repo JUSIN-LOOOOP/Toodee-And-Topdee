@@ -13,9 +13,6 @@
     <ClCompile Include="..\private\Level_GamePlay.cpp">
       <Filter>01. Levels\00 Temp</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Level_Loading.cpp">
-      <Filter>01. Levels\00. Loading</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Loader.cpp">
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClCompile>
@@ -281,10 +278,9 @@
     <ClCompile Include="..\Private\Level_FinalBoss03.cpp">
       <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
     </ClCompile>
-
     <ClCompile Include="..\Private\Finger.cpp">
       <Filter>00. Dummys\T Y J\StageBoss</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\MainMenu_BackGround.cpp">
       <Filter>02. GameObjects\MainMenu\BackGround\BackGround</Filter>
     </ClCompile>
@@ -305,6 +301,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainMenu_StageTitle.cpp">
       <Filter>02. GameObjects\MainMenu\Stage\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Loading.cpp">
+      <Filter>01. Levels\00. Loading\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingScreen.cpp">
+      <Filter>01. Levels\00. Loading\Screen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,9 +330,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
       <Filter>01. Levels\00. Loading\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Level_Loading.h">
-      <Filter>01. Levels\00. Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Logo.h">
       <Filter>01. Levels\01. Logo</Filter>
@@ -603,10 +602,9 @@
     <ClInclude Include="..\Public\Level_FinalBoss03.h">
       <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
     </ClInclude>
-
-	  <ClInclude Include="..\Public\Finger.h">
-		  <Filter>00. Dummys\T Y J\StageBoss</Filter>
-	  </ClInclude>
+    <ClInclude Include="..\Public\Finger.h">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\MainMenu_BackGround.h">
       <Filter>02. GameObjects\MainMenu\BackGround\BackGround</Filter>
     </ClInclude>
@@ -618,7 +616,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\MainMenu_Title.h">
       <Filter>02. GameObjects\MainMenu\Title</Filter>
-
     </ClInclude>
     <ClInclude Include="..\Public\MainMenu_Buttons.h">
       <Filter>02. GameObjects\MainMenu\Buttons</Filter>
@@ -628,6 +625,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\MainMenu_StageTitle.h">
       <Filter>02. GameObjects\MainMenu\Stage\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Loading.h">
+      <Filter>01. Levels\00. Loading\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingScreen.h">
+      <Filter>01. Levels\00. Loading\Screen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -908,6 +911,12 @@
     </Filter>
     <Filter Include="02. GameObjects\MainMenu\Stage\Title">
       <UniqueIdentifier>{950493f8-35fc-4b51-875b-cb2e1879d6cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00. Loading\Screen">
+      <UniqueIdentifier>{bc68a1b6-18fe-42cb-8afe-24b2e1a5e62a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00. Loading\Base">
+      <UniqueIdentifier>{4f91b8bc-03bc-4e62-9a4a-e6e710ebd40a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
