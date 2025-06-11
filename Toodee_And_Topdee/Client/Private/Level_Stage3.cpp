@@ -48,12 +48,19 @@ void CLevel_Stage3::Update(_float fTimeDelta)
 	if (m_pGameInstance->Key_Down(VK_RETURN))
 	{
 		LEVELCHANGE_EVENT Event;
-		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS);
 		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE3);
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS);
 
 		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 	}
+	if (m_pGameInstance->Key_Down(VK_ESCAPE))
+	{
+		LEVELCHANGE_EVENT Event;
+		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE3);
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_LOGO);
 
+		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
+	}
 }
 
 HRESULT CLevel_Stage3::Render()
