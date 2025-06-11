@@ -38,6 +38,7 @@ namespace Engine
 		MAINMENU_STAGE,
 		MAINMENU_STAGE_SELECT,
 		CAM_SHAKING,
+		LOADINGSCREEN,
 
 	};
 	

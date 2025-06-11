@@ -74,7 +74,7 @@ public:
 
 	/* 현재 콜라이더의 정보 */
 	const _float3			Get_ColliderScaled() { return m_vScale; };
-	const _float3			Get_ColliderPosition(); 
+	//const _float3			Get_ColliderPosition(); 
 	class CTransform*		Get_Transform() { return m_pTransform; };
 	class CGameObject*		Get_GameObject() { return	m_pOwner; }
 
