@@ -16,7 +16,7 @@ CLevel_FinalBoss03::CLevel_FinalBoss03(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_FinalBoss03::Initialize()
 {
-	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+	m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 	m_pGameInstance->Reset_KeyCount();
 	
 
@@ -174,7 +174,7 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_MapObject(const _wstring& strLayerTag)
 				return E_FAIL;*/
 			//이것도 임시!
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Player_TopDee"),
-				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Thirdee"), &info)))
 				return E_FAIL;
 			break;
 

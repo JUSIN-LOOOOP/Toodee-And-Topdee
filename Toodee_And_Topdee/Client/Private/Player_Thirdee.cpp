@@ -65,14 +65,16 @@ HRESULT CPlayer_Thirdee::Initialize(void* pArg)
 
     m_pTransformCom->TurnToRadian(_float3(0.f, 1.f, 0.f), D3DXToRadian(-90.f));
 
-//    m_eCurrentDimension = m_pGameInstance->Get_CurrentDimension();
-    m_eCurrentDimension = DIMENSION::TOPDEE;
-    m_ePrevDimension = m_eCurrentDimension;
 
+    m_eCurrentDimension = DIMENSION::TOPDEE;
+    m_ePrevDimension = DIMENSION::TOPDEE;
+    
     m_RootWorldMatrix = *m_pTransformCom->Get_WorldMatrix();
 
-    m_vLookPoint = m_pTransformCom->Get_State(STATE::POSITION);
-    m_vLookPoint.y += 2.f;
+    m_vLookPoint = vPosition;
+    m_vLookPoint.z -= 1.f;
+
+    Topdee_Check_Center();
 
     m_bFalling = false;
     m_fCurrentGravity = 0.f;
@@ -85,8 +87,8 @@ HRESULT CPlayer_Thirdee::Initialize(void* pArg)
 
 void CPlayer_Thirdee::Priority_Update(_float fTimeDelta)
 {
-    m_pRootPart->Priority_Update(fTimeDelta);
     Check_Dimension(fTimeDelta);
+    m_pRootPart->Priority_Update(fTimeDelta);
 }
 
 void CPlayer_Thirdee::Update(_float fTimeDelta)

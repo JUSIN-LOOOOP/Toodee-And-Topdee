@@ -22,6 +22,7 @@
 
 #include "Player_Toodee.h"
 #include "Player_Topdee.h"
+#include "Player_Thirdee.h"
 
 #include "Potal.h"
 #include "TileOutline.h"
@@ -79,7 +80,7 @@ HRESULT CMainApp::Initialize()
 
 	m_bChangeLevel = false;
 
-	if (FAILED(Start_Level(LEVEL::LEVEL_FINALBOSS1)))
+	if (FAILED(Start_Level(LEVEL::LEVEL_LOGO)))
 		return E_FAIL;
 
 	return S_OK;
@@ -499,6 +500,9 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 		CPlayer_Topdee::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Thirdee"),
+		CPlayer_Thirdee::Create(m_pGraphic_Device))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region PLAYERS_ETC...
