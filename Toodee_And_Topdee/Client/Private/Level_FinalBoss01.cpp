@@ -172,7 +172,7 @@ HRESULT CLevel_FinalBoss01::Ready_Layer_MapObject(const _wstring& strLayerTag)
 				return E_FAIL;*/
 			//이것도 임시!
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Player_TopDee"),
-				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Player_Thirdee"), &info)))
 				return E_FAIL;
 			break;
 

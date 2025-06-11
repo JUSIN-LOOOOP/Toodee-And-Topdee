@@ -27,6 +27,7 @@ HRESULT CFinger::Initialize(void* pArg)
     pos.y = 40.f;
     m_pTransformCom->Set_State(STATE::POSITION, pos);
     m_pTransformCom->Rotation(_float3{ 0.f, 1.f, 0.f }, D3DXToRadian(90));
+    
     name = TEXT("EnemyFinger");
 
     return S_OK;
@@ -47,8 +48,8 @@ void CFinger::Update(_float fTimeDelta)
         m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::CAM_SHAKING, Event);
     }
     
-    if (m_pTransformCom->Get_State(STATE::POSITION).y < 3.f)
-        m_Dead = true;
+    if (m_pTransformCom->Get_State(STATE::POSITION).y < -5.f) {}
+ //      m_Dead = true;
 }
 
 void CFinger::Late_Update(_float fTimeDelta)

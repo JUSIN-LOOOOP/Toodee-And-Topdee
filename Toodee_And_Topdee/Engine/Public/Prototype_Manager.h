@@ -9,6 +9,8 @@
 #include "Texture.h"
 #include "Collider.h"
 #include "Shader_Water.h"
+#include "VIBuffer_Sphere.h"
+#include "VIBuffer_Capsule.h"
 
 
 
