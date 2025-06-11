@@ -67,9 +67,21 @@ typedef struct tagLevelChange : public CEvent {
 	_uint iChangeLevel;
 }LEVELCHANGE_EVENT;
 
+
+/* Main Menu Swap */
+typedef struct tagMainMenuSwap : public CEvent {
+	_float fPositionY;
+}MAINMENU_SWAP_EVENT;
+
+/* Main Menu Swap */
+typedef struct tagMainMenuStageSelectNumber : public CEvent {
+	_uint iNum;
+}STAGE_SELECT_EVENT;
+
 typedef struct tagCamShaking : public CEvent {
 	_uint fTime;
 }SHAKING;
+
 
 END
 

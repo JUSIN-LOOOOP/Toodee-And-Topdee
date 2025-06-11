@@ -249,6 +249,9 @@
     <ClInclude Include="..\Public\Shader_Water.h">
       <Filter>00. Dummys</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Engine_Easing.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">

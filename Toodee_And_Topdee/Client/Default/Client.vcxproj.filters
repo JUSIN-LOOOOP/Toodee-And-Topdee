@@ -297,6 +297,15 @@
     <ClCompile Include="..\Private\MainMenu_Title.cpp">
       <Filter>02. GameObjects\MainMenu\Title</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\MainMenu_Buttons.cpp">
+      <Filter>02. GameObjects\MainMenu\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainMenu_Portals.cpp">
+      <Filter>02. GameObjects\MainMenu\Stage\Stage_Portals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainMenu_StageTitle.cpp">
+      <Filter>02. GameObjects\MainMenu\Stage\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -611,6 +620,15 @@
       <Filter>02. GameObjects\MainMenu\Title</Filter>
 
     </ClInclude>
+    <ClInclude Include="..\Public\MainMenu_Buttons.h">
+      <Filter>02. GameObjects\MainMenu\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainMenu_Portals.h">
+      <Filter>02. GameObjects\MainMenu\Stage\Stage_Portals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainMenu_StageTitle.h">
+      <Filter>02. GameObjects\MainMenu\Stage\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -881,6 +899,15 @@
     </Filter>
     <Filter Include="02. GameObjects\MainMenu\Title">
       <UniqueIdentifier>{872866d6-24af-4ddc-990d-e9d485f9473e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu\Stage">
+      <UniqueIdentifier>{247de38c-9776-4d90-a087-31076dca32fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu\Stage\Stage_Portals">
+      <UniqueIdentifier>{256c0e25-ec91-4d80-86b5-ac3c14edc9ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\MainMenu\Stage\Title">
+      <UniqueIdentifier>{950493f8-35fc-4b51-875b-cb2e1879d6cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

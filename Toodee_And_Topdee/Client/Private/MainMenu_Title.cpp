@@ -22,7 +22,7 @@ HRESULT CMainMenu_Title::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-
+    Ready_SubscribeEvent(m_pGameInstance->Get_NextLevelID());
 	return S_OK;
 }
 
@@ -33,6 +33,7 @@ void CMainMenu_Title::Priority_Update(_float fTimeDelta)
 void CMainMenu_Title::Update(_float fTimeDelta)
 {
     Change_Motion(fTimeDelta);
+    Change_Page(fTimeDelta);
 }
 
 void CMainMenu_Title::Late_Update(_float fTimeDelta)
@@ -48,7 +49,7 @@ HRESULT CMainMenu_Title::Render()
     if (temp1 < 10.f)
         temp1 = 10.f;
 
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY , fToodeeZ + m_fMotionPosition));
+    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY , fToodeeZ + m_fMotionPosition+ fPagePositionZ));
     m_pTransformCom->Scaling(fTextWidth, temp1, 1.f);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     m_pTransformCom->Bind_Matrix();
@@ -69,7 +70,7 @@ HRESULT CMainMenu_Title::Render()
 
     _float fShadowOffsetZ = fTextBottomOffset  + fShadowTopOffset;
 
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY , fToodeeZ - fShadowOffsetZ + m_fMotionPosition));
+    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY , fToodeeZ - fShadowOffsetZ + m_fMotionPosition+ fPagePositionZ));
     m_pTransformCom->Scaling(fTextWidth, fTextHeight - m_fMotionSize, 1.f);
     m_pTransformCom->Bind_Matrix();
 
@@ -82,7 +83,7 @@ HRESULT CMainMenu_Title::Render()
 
 
     // 3. TOPDEE ±×¸²ÀÚ
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY, fTopdeeZ + m_fMotionPosition));
+    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY, fTopdeeZ + m_fMotionPosition+ fPagePositionZ));
     m_pTransformCom->Scaling(fTextWidth, fTextHeight+ m_fMotionSize, 1.f);
     m_pTransformCom->Bind_Matrix();
 
@@ -98,7 +99,7 @@ HRESULT CMainMenu_Title::Render()
     if (temp < 10.f)
         temp =  10.f ;
 
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY, fTopdeeZ -fShadowOffsetZ + m_fMotionPosition));
+    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY, fTopdeeZ -fShadowOffsetZ + m_fMotionPosition+ fPagePositionZ));
     m_pTransformCom->Scaling(fTextWidth, temp, 1.f);
     m_pTransformCom->Bind_Matrix();
 
@@ -110,7 +111,7 @@ HRESULT CMainMenu_Title::Render()
     Reset_RenderState();
 
     // 5. AND 
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY, fAndZ + m_fMotionPosition));
+    m_pTransformCom->Set_State(STATE::POSITION, _float3(0.f, fBaseY, fAndZ + m_fMotionPosition+ fPagePositionZ));
     m_pTransformCom->Scaling(16.f, 8.f, 1.f);
     m_pTransformCom->Bind_Matrix();
 
@@ -124,13 +125,47 @@ HRESULT CMainMenu_Title::Render()
 	return S_OK;
 }
 
-_float3 CMainMenu_Title::RotationEndPoint(_float fRadian, _float fDistance, _float3 vPostion)
+void CMainMenu_Title::OnPageButtons(const MAINMENU_SWAP_EVENT& event)
 {
-	_float3 pos = vPostion;
-	pos.y = fDistance * sinf(fRadian);
-	pos.z = fDistance * cosf(fRadian);
+    m_bIsMeinMenu = true; 
+    m_bPageOnceChange = true;
+    fEasedTime = 0.f;
+}
 
-	return pos;
+void CMainMenu_Title::OnPageStage(const MAINMENU_SWAP_EVENT& event)
+{
+    m_bIsMeinMenu = false;
+    m_bPageOnceChange = true;
+    fEasedTime = 0.f;
+}
+
+
+void CMainMenu_Title::Change_Page(_float fTimeDelta)
+{
+    if (!m_bPageOnceChange) return;
+
+    fEasedTime += fTimeDelta;
+
+    if (m_bIsMeinMenu && EaseFloatInOutBack(&fPagePositionZ, fPageStagePositionZ, fPageButtonPositionZ, fEasedTime, 1.8f))
+         m_bPageOnceChange = false;
+    
+
+    if (!m_bIsMeinMenu && EaseFloatInOutBack(&fPagePositionZ, fPageButtonPositionZ, fPageStagePositionZ, fEasedTime, 1.8f))
+        m_bPageOnceChange = false;
+
+}
+
+HRESULT CMainMenu_Title::Ready_SubscribeEvent(_uint iPlayLevel)
+{
+    m_pGameInstance->Subscribe<MAINMENU_SWAP_EVENT>(iPlayLevel, EVENT_KEY::MAINMENU_BUTTON, [this](const MAINMENU_SWAP_EVENT& Event) {
+        this->OnPageButtons(Event);
+        });
+
+    m_pGameInstance->Subscribe<MAINMENU_SWAP_EVENT>(iPlayLevel, EVENT_KEY::MAINMENU_STAGE, [this](const MAINMENU_SWAP_EVENT& Event) {
+        this->OnPageStage(Event);
+        });
+
+    return S_OK;
 }
 
 HRESULT CMainMenu_Title::Ready_Components()
