@@ -86,6 +86,7 @@ typedef struct tagCamShaking : public CEvent {
 /* LoadingScreen StartPosition*/
 typedef struct tagLoadingScreen : public CEvent {
 	_float3 pos = { 0.f,0.f,0.f };
+	_bool bFadeIn = {};
 }LOADINGSCREEN_EVENT;
 END
 

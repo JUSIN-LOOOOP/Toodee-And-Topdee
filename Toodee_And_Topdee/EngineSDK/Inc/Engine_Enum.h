@@ -40,7 +40,6 @@ namespace Engine
 		CAM_SHAKING,
 		LOADINGSCREEN,
 
-	
 	};
 	
 
