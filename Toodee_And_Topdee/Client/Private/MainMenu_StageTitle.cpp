@@ -188,7 +188,7 @@ HRESULT CMainMenu_StageTitle::Render_Text()
 		m_pVIBufferCom->Render();
 		//Reset_RenderState();
 		
-		m_pTransformCom->Scaling(5.f, 5.f, 1.f);
+		m_pTransformCom->Scaling(3.f, 3.f, 1.f);
 		m_pTransformCom->Set_State(STATE::POSITION, m_vCurrentNumberPosition);
 		m_pTransformCom->Bind_Matrix();
 		if (FAILED(m_pTextureCom_Number->Bind_Texture(m_iCurrentStage < 3 ? m_iCurrentStage + 1 : m_iCurrentStage)))
