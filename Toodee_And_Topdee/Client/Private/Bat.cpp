@@ -10,10 +10,7 @@ CBat::CBat(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CBat::CBat(const CBat& Prototype)
 	: CMonster { Prototype }
-	// , m_vParts{ Prototype.m_vParts }
 {
-	//for (auto& Pair : m_vParts)
-	//	Safe_AddRef(Pair.second);
 }
 
 HRESULT CBat::Initialize_Prototype()
@@ -29,8 +26,6 @@ HRESULT CBat::Initialize(void* pArg)
 	m_eState = FLYSTATE::FLY_NON;
 	m_fMaxDistance = 5.f * 5.f;
 	m_iPlayLevel = m_pGameInstance->Get_CurrentLevelID();
-
-	// m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -49,68 +44,57 @@ HRESULT CBat::Initialize(void* pArg)
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
 	
+	m_fOldHeight = pDesc->vPosSet.y;
+
 	return S_OK;
 }
 
 void CBat::Priority_Update(_float fTimeDelta)
 {
-
 	m_pGameInstance->Check_Collision(m_pColliderCom);
 	
+	ViewChange(fTimeDelta);
 }
 
 void CBat::Update(_float fTimeDelta)
 {
-
-	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::CHANGE)
+	if(!m_bChangeView) // 카메라 전환중에는 진행하지않음
 	{
-		_float3 vPos{};
-		DIMENSION eDim = m_pGameInstance->Get_PreviousDimension();
-
-		switch (eDim)
+		if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
 		{
-		case::DIMENSION::TOODEE:
-			vPos = m_pTransformCom->Get_State(STATE::POSITION);
-			vPos.y = 4.f;
-			m_pTransformCom->Set_State(STATE::POSITION, vPos);
-			m_bLeft = false;
 
-			break;
+			Move_Patrol(fTimeDelta);
+			for (auto& Pair : m_vParts)
+			{
+				if (nullptr != Pair.second)
+					Pair.second->Update(m_pTransformCom, fTimeDelta, m_vToodeePos);
+			}
+		}
+		else if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
+		{
+			Move_To_Target(fTimeDelta);
 
-		case::DIMENSION::TOPDEE:
-			vPos = m_pTransformCom->Get_State(STATE::POSITION);
-			vPos.y = 0.5f;
-
-			m_pTransformCom->Set_State(STATE::POSITION, vPos);
-			m_bLeft = false;
-
-			break;
+			for (auto& Pair : m_vParts)
+			{
+				if (nullptr != Pair.second)
+					Pair.second->Update(m_pTransformCom, fTimeDelta, m_pTargetTransformCom->Get_State(STATE::POSITION));
+			}
 		}
 	}
-	
-	
-	
-	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
+	else
 	{
-		
-		Move_Patrol(fTimeDelta);
+
+		if (m_pColliderCom->OnCollisionEnter() || m_pColliderCom->OnCollisionStay())
+			Move_Collision();
+
+
 		for (auto& Pair : m_vParts)
 		{
 			if (nullptr != Pair.second)
-				Pair.second->Update(m_pTransformCom, fTimeDelta, m_vToodeePos);
+				Pair.second->Update(m_pTransformCom, fTimeDelta);
 		}
+
 	}
-	else if(m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
-	{
-		Move_To_Target(fTimeDelta);
-			
-		for (auto& Pair : m_vParts)
-		{
-			if (nullptr != Pair.second)
-				Pair.second->Update(m_pTransformCom, fTimeDelta, m_pTargetTransformCom->Get_State(STATE::POSITION));
-		}
-	}
-		
 }
 
 void CBat::Late_Update(_float fTimeDelta)
@@ -416,7 +400,23 @@ void CBat::Move_Patrol(_float fTimeDelta)
 	
 	if (m_pColliderCom->OnCollisionEnter())
 	{
-		vector<CGameObject*>* findAll = {};
+		if (Move_Collision())
+		{
+			if (m_bLeft)
+			{
+				m_bLeft = false;
+				m_pTransformCom->Go_Left(fTimeDelta * 2);
+
+			}
+			else
+			{
+				m_bLeft = true;
+				m_pTransformCom->Go_Right(fTimeDelta * 2);
+			}
+		}
+		
+		
+		/*vector<CGameObject*>* findAll = {};
 		m_pColliderCom->GetOverlapAll(findAll);
 		for (auto& Other : *findAll)
 		{
@@ -429,19 +429,9 @@ void CBat::Move_Patrol(_float fTimeDelta)
 				pKey->Get_Key();
 				return;
 			}
-		}
+		}*/
 
-		if (m_bLeft)
-		{
-			m_bLeft = false;
-			m_pTransformCom->Go_Left(fTimeDelta * 2);
-	
-		}
-		else
-		{
-			m_bLeft = true;
-			m_pTransformCom->Go_Right(fTimeDelta * 2);
-		}
+		
 	}
 
 	m_vToodeePos.x += m_fMoveX;
@@ -451,6 +441,104 @@ _float CBat::MoveHeight(_float fStart, _float fEnd, _float fDistance)
 {
 	_float ft = fDistance * fDistance * (3.f - 2.f * fDistance);
 	return _float((1 - ft) * fStart + ft * fEnd);
+}
+
+_bool CBat::Move_Collision()
+{
+	// 시점 변환시 충돌체 파악후 벽이면 밀려나게
+	vector<CGameObject*>* findAll{};
+	COLLIDER_SHAPE pDesc{};
+
+	m_pColliderCom->GetOverlapAll(findAll);
+	for (auto& Other : *findAll)
+	{
+		_wstring strOtherName = Other->Get_Name();		// 객체 이름으로 비교
+
+		if (strOtherName.find(TEXT("Key")) != string::npos) // 열쇠일 경우 열쇠에 대한 event처리
+		{
+			GETKEYEVENT Event;
+			m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
+			CKey* pKey = dynamic_cast<CKey*>(Other);
+			pKey->Get_Key();
+		}
+
+		if (strOtherName.find(TEXT("Block")) != string::npos || strOtherName.find(TEXT("Wall")) != string::npos) // 객체 이름이 블럭이나 월이 들어가면 벽체
+		{
+			CCollider* OtherCollider = static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")));
+			
+			_float3 vPos = m_pTransformCom->Get_State(STATE::POSITION);		// 내 포지션값(콜라이더 포지션값)
+			_float3 vRadius = m_pColliderCom->Get_ColliderScaled() * 0.5f;			// 내 콜라이더의 반지름
+			_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);		// 충돌체의 콜라이더 포지션값
+			_float3 vOtherRadius = OtherCollider->Get_ColliderScaled() * 0.5f;		// 충돌체의 콜라이더 반지름
+			_float3 vDistance = vOtherPos - vPos;							// 거리 구함
+			_float3 vfinalRadius = vRadius + vOtherRadius;
+
+			_float fOverlapX = vfinalRadius.x - fabsf(vDistance.x);
+			_float fOverlapZ = vfinalRadius.z - fabsf(vDistance.z);
+
+			if (0 <= fOverlapX && 0 <= fOverlapZ)
+			{
+				if (fOverlapX < fOverlapZ)
+				{
+					if (vDistance.x > 0.f) // 오른쪽
+					{
+						vPos.x -= fOverlapX+0.01f;
+					}
+					else
+					{
+						vPos.x += fOverlapX + 0.01f;
+					}
+
+				}
+				else
+				{
+					if (vDistance.z > 0.f) // 위쪽
+					{
+						vPos.z -= fOverlapZ + 0.01f;
+					}
+					else
+					{
+						vPos.z += fOverlapZ + 0.01f;
+					}
+				}
+			}
+			m_pTransformCom->Set_State(STATE::POSITION, vPos);
+			return true;
+		}
+
+	}
+	
+	return false;
+}
+
+void CBat::ViewChange(_float fTimeDelta)
+{
+	// change를 거치는 순간 bChagneView 를 true로 만듦
+	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::CHANGE)
+	{	m_bLeft = false;	m_bChangeView = true;	}
+
+	
+	if (m_bChangeView)
+	{
+		
+		_float3 vPos = m_pTransformCom->Get_State(STATE::POSITION);
+		if (m_pGameInstance->Get_PreviousDimension() == DIMENSION::TOODEE) // 이전 높이가 최저높이일 때  (Toodee -> Topdee로 전환됨)
+		{
+			vPos.y += m_fSpeedPerSec* fTimeDelta;
+
+			if (vPos.y >= 5.f) // 최고높이 이상 도달하면 더 올라가지 않게 고정값 주고 false
+			{	m_bChangeView = false;	vPos.y = 5.f;	m_fOldHeight = vPos.y;	}
+		}
+		else if (m_pGameInstance->Get_PreviousDimension() == DIMENSION::TOPDEE)  // 이전 높이가 최고높이일 때  (Topdee -> Toodee로 전환됨) 임의값 준거임
+		{
+			vPos.y -= m_fSpeedPerSec * fTimeDelta;
+
+			if (vPos.y <= 0.5f) // 최저높이 이하 도달하면 더 내려가지 않게 고정값 주고 false
+			{	m_bChangeView = false;	vPos.y = 0.5f;	m_fOldHeight = vPos.y;	}
+		}
+		
+		m_pTransformCom->Set_State(STATE::POSITION, vPos);
+	}
 }
 
 

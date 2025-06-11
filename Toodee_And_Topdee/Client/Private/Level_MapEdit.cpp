@@ -1,4 +1,4 @@
-#include "Level_MapEdit.h"
+ï»¿#include "Level_MapEdit.h"
 #include "GameInstance.h"
 #include "Camera.h"
 #include "BasicTile.h"
@@ -49,7 +49,7 @@ void CLevel_Map::Update(_float fTimeDelta)
 
 HRESULT CLevel_Map::Render()
 {
-    SetWindowText(g_hWnd, TEXT("¸Ê ¿¡µğÆÃ"));
+    SetWindowText(g_hWnd, TEXT("ë§µ ì—ë””íŒ…"));
 
     return S_OK;
 }
