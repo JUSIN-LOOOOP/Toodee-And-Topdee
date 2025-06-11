@@ -48,7 +48,7 @@ private:
 	_float				m_FadeAccumurateTime = { 0.f };
 	_uint				m_iframeKey = { 0 };
 
-	ID3DXFont*			m_pFont = { nullptr };
+	//ID3DXFont*			m_pFont = { nullptr };
 
 private:
 	void				Motion_Change(_float fTimeDelta);

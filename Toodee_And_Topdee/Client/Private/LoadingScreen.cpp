@@ -26,18 +26,18 @@ HRESULT CLoadingScreen::Initialize(void* pArg)
 	Ready_SubscribeEvent(ENUM_CLASS(LEVEL::LEVEL_STATIC));
 
 
-	D3DXFONT_DESC fontDesc = {};
-	fontDesc.Height = 24;
-	fontDesc.Width = 10;
-	fontDesc.Weight = FW_NORMAL;
-	fontDesc.Italic = false;
-	fontDesc.CharSet = DEFAULT_CHARSET;
-	fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
-	fontDesc.Quality = DEFAULT_QUALITY;
-	fontDesc.PitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-	lstrcpy(fontDesc.FaceName, TEXT("Arial")); 
+	//D3DXFONT_DESC fontDesc = {};
+	//fontDesc.Height = 24;
+	//fontDesc.Width = 10;
+	//fontDesc.Weight = FW_NORMAL;
+	//fontDesc.Italic = false;
+	//fontDesc.CharSet = DEFAULT_CHARSET;
+	//fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+	//fontDesc.Quality = DEFAULT_QUALITY;
+	//fontDesc.PitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+	//lstrcpy(fontDesc.FaceName, TEXT("Arial")); 
 
-	D3DXCreateFontIndirect(m_pGraphic_Device, &fontDesc, &m_pFont);
+	//D3DXCreateFontIndirect(m_pGraphic_Device, &fontDesc, &m_pFont);
 
 	return S_OK;
 }
@@ -80,12 +80,12 @@ HRESULT CLoadingScreen::Render()
 		Reset_RenderState();
 	}
 
-	RECT rc;
-	SetRect(&rc, 10, 10, 300, 100);  // 출력 위치
+	//RECT rc;
+	//SetRect(&rc, 10, 10, 300, 100);  // 출력 위치
 
-	TCHAR szText[64];
-	_stprintf_s(szText, TEXT("Pos: X= %.2f, Y= %.2f, Z= %.2f"), m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	m_pFont->DrawText(NULL, szText, -1, &rc, DT_LEFT | DT_TOP, D3DCOLOR_ARGB(255, 255, 0, 0));
+	//TCHAR szText[64];
+	//_stprintf_s(szText, TEXT("Pos: X= %.2f, Y= %.2f, Z= %.2f"), m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	//m_pFont->DrawText(NULL, szText, -1, &rc, DT_LEFT | DT_TOP, D3DCOLOR_ARGB(255, 255, 0, 0));
 
 
 	return S_OK;
@@ -260,7 +260,7 @@ void CLoadingScreen::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pFont);
+	//Safe_Release(m_pFont);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
