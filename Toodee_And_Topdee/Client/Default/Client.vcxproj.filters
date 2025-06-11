@@ -13,9 +13,6 @@
     <ClCompile Include="..\private\Level_GamePlay.cpp">
       <Filter>01. Levels\00 Temp</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Level_Loading.cpp">
-      <Filter>01. Levels\00. Loading</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Loader.cpp">
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClCompile>
@@ -281,10 +278,9 @@
     <ClCompile Include="..\Private\Level_FinalBoss03.cpp">
       <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
     </ClCompile>
-
     <ClCompile Include="..\Private\Finger.cpp">
       <Filter>00. Dummys\T Y J\StageBoss</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\MainMenu_BackGround.cpp">
       <Filter>02. GameObjects\MainMenu\BackGround\BackGround</Filter>
     </ClCompile>
@@ -305,6 +301,41 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainMenu_StageTitle.cpp">
       <Filter>02. GameObjects\MainMenu\Stage\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Loading.cpp" />
+    <ClCompile Include="..\Private\LoadingScreen.cpp" />
+    <ClCompile Include="..\Private\Player_Thirdee.cpp">
+      <Filter>00. Dummys\K J H\Thirdee</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_Action.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_Idle.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_Move.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_State.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_Arm.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_Body.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_Hair.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_Head.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_Leg.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Thirdee_Part.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,9 +359,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
       <Filter>01. Levels\00. Loading\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Level_Loading.h">
-      <Filter>01. Levels\00. Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Logo.h">
       <Filter>01. Levels\01. Logo</Filter>
@@ -603,10 +631,9 @@
     <ClInclude Include="..\Public\Level_FinalBoss03.h">
       <Filter>01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03</Filter>
     </ClInclude>
-
-	  <ClInclude Include="..\Public\Finger.h">
-		  <Filter>00. Dummys\T Y J\StageBoss</Filter>
-	  </ClInclude>
+    <ClInclude Include="..\Public\Finger.h">
+      <Filter>00. Dummys\T Y J\StageBoss</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\MainMenu_BackGround.h">
       <Filter>02. GameObjects\MainMenu\BackGround\BackGround</Filter>
     </ClInclude>
@@ -618,7 +645,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\MainMenu_Title.h">
       <Filter>02. GameObjects\MainMenu\Title</Filter>
-
     </ClInclude>
     <ClInclude Include="..\Public\MainMenu_Buttons.h">
       <Filter>02. GameObjects\MainMenu\Buttons</Filter>
@@ -628,6 +654,41 @@
     </ClInclude>
     <ClInclude Include="..\Public\MainMenu_StageTitle.h">
       <Filter>02. GameObjects\MainMenu\Stage\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Loading.h" />
+    <ClInclude Include="..\Public\LoadingScreen.h" />
+    <ClInclude Include="..\Public\Player_Thirdee.h">
+      <Filter>00. Dummys\K J H\Thirdee</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_Action.h">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_Idle.h">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_Move.h">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_State.h">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_Arm.h">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_Body.h">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_Hair.h">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_Head.h">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_Leg.h">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Thirdee_Part.h">
+      <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -908,6 +969,15 @@
     </Filter>
     <Filter Include="02. GameObjects\MainMenu\Stage\Title">
       <UniqueIdentifier>{950493f8-35fc-4b51-875b-cb2e1879d6cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K J H\Thirdee">
+      <UniqueIdentifier>{857d1aac-efeb-484d-a7b9-dd7d8e3417a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K J H\Thirdee\State">
+      <UniqueIdentifier>{3c9d40a7-2f31-4be1-99f5-152060dfeb99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K J H\Thirdee\Part">
+      <UniqueIdentifier>{53dfb615-66b5-4c7b-8fa5-51ff26a3c11f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

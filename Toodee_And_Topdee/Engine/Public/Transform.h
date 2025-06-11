@@ -71,7 +71,6 @@ public:
 	void Move_To(const _float3& vTarget, _float fTimeDelta, _float fLimitRange = 0.f);
 	_bool MoveUntilInRange(const _float3& vTarget, _float fTimeDelta, _float fLimitRange);
 	_bool Approach(const _float3& vTarget, _float fTimeDelta, _float fSpeed);
-
 	void Rotation(const _float3& vAxis, _float fRadian);
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void TurnToRadian(const _float3& vAxis, _float fRadian);
@@ -81,6 +80,10 @@ public:
 	void Adjust_Scale(const _float3& vScale);
 	_bool Move_To_LimitY(const _float3& vTarget, _float fTimeDelta, _float fLimitY = 0.f);
 	void Set_Matrix(const _float4x4& matrix);
+
+	void Look_At_FixUp(const _float3& vTarget);
+	void Look_At_Divide(const _float3& vTarget, _float fTimeDelta);
+	_bool Turn_Divide(const _float3& vAxis, _float fRadian, _float fRotationPerSec ,_float fTimeDelta);
 
 public:
 	void Bind_Matrix();
@@ -92,6 +95,7 @@ private:
 	_float					m_fRotationPerSec = { };
 	_float					m_fTotalRotation = {};
 	_float3					m_movedirection = {};
+	_float					m_fTotalTurnRadian = {};
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;

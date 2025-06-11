@@ -59,9 +59,6 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	//if (FAILED(Ready_Layer_RedButton(TEXT("Layer_RedButton"))))
 	//	return E_FAIL;
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Thirdee"),
-	//	ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Thirdee"))))
-	//	return E_FAIL;
 
 	return S_OK;
 }

@@ -50,7 +50,7 @@ void CRain::Update(_float fTimeDelta)
 void CRain::Late_Update(_float fTimeDelta)
 {
 	if (!m_bActive) return;
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
 HRESULT CRain::Render()

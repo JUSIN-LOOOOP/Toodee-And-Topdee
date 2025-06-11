@@ -225,7 +225,7 @@ void CInteractionBlock::CheckCollisionTopdeeState()
 			{
 				if (m_eCurrentState == BLOCKSTATE::PUSH)
 				{
-					if (iter->Get_Name().find(TEXT("Interaction")) != string::npos)
+					if (iter->Get_Name().find(TEXT("Interaction")) != wstring::npos)
 					{
 						CInteractionBlock* pBlock = dynamic_cast<CInteractionBlock*>(iter);
 
@@ -242,7 +242,7 @@ void CInteractionBlock::CheckCollisionTopdeeState()
 							m_bBlock = true;
 						}
 					}
-					else if (iter->Get_Name().find(TEXT("Wall")) != string::npos || iter->Get_Name().find(TEXT("Block")) != string::npos)
+					else if (iter->Get_Name().find(TEXT("Wall")) != wstring::npos || iter->Get_Name().find(TEXT("Block")) != wstring::npos)
 					{
 						m_pTransformCom->Set_State(STATE::POSITION, m_vPrevPosition);
 						m_pCurrentState->Request_ChangeState(this, BLOCKSTATE::STOP);
@@ -251,7 +251,7 @@ void CInteractionBlock::CheckCollisionTopdeeState()
 				}
 				else if(m_eCurrentState == BLOCKSTATE::STOP && false == m_bFalling)
 				{
-					if (iter->Get_Name().find(TEXT("Hole")) != string::npos)
+					if (iter->Get_Name().find(TEXT("Hole")) != wstring::npos)
 					{
 						CHole* pHole = dynamic_cast<CHole*>(iter);
 						pHole->Set_Dead();
@@ -259,7 +259,7 @@ void CInteractionBlock::CheckCollisionTopdeeState()
 						m_bFalling = true;
 					}
 
-					if (iter->Get_Name().find(TEXT("Sink")) != string::npos && nullptr == m_pBlockSink)
+					if (iter->Get_Name().find(TEXT("Sink")) != wstring::npos && nullptr == m_pBlockSink)
 					{
 						m_pBlockSink = dynamic_cast<CSink*>(iter);
 						m_pBlockSink->OnBlock();
@@ -325,9 +325,9 @@ void CInteractionBlock::Attach(CTransform* pPlayerTransform, _float fSpeed)
 	_float3 vBoxPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
 	vBoxPosition.x = vOwnerPosition.x;
-	vBoxPosition.y = vOwnerPosition.y + 3.f;
+	vBoxPosition.y = vOwnerPosition.y + 1.5f;
 
-	vBoxPosition.z = vOwnerPosition.z;
+	vBoxPosition.z = vOwnerPosition.z + 0.5f;
 
 	m_vTargetPosition = vBoxPosition;
 	m_fMoveSpeed = fSpeed;
@@ -362,8 +362,8 @@ void CInteractionBlock::Update_Attached_Position()
 	_float3 vBoxPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
 	vBoxPosition.x = vOwnerPosition.x;
-	vBoxPosition.y = vOwnerPosition.y + 3.f;
-	vBoxPosition.z = vOwnerPosition.z;
+	vBoxPosition.y = vOwnerPosition.y + 1.5f;
+	vBoxPosition.z = vOwnerPosition.z + 0.5f;
 
 
 	m_pTransformCom->Set_State(STATE::POSITION, vBoxPosition);
@@ -373,7 +373,6 @@ void CInteractionBlock::Detach(const _float3& vPosition, _float fSpeed)
 {
 	Safe_Release(m_pOwnerTransform);
 	m_pOwnerTransform = nullptr;
-
 	m_vTargetPosition = vPosition;
 	m_fMoveSpeed = fSpeed;
 }

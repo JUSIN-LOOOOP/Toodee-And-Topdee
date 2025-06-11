@@ -65,13 +65,17 @@ _float CBlock::ComputeDirDotLook(const _float3& vPlayerPosition, const _float3& 
 
 	_float3 vDirection = vPosition - vPlayerPosition;
 
-	_float3 vNormalLook = {};
+	vDirection.y = 0.f;
 
-	D3DXVec3Normalize(&vNormalLook, &vLook);
+	_float3 vNormalLook = vLook;
+
+	vNormalLook.y = 0.f;
+
+	D3DXVec3Normalize(&vNormalLook, &vNormalLook);
 
 	D3DXVec3Normalize(&vDirection, &vDirection);
 
-	return D3DXVec3Dot(&vDirection, &vLook);
+	return D3DXVec3Dot(&vDirection, &vNormalLook);
 }
 
 HRESULT CBlock::Ready_Components()

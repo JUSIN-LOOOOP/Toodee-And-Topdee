@@ -49,7 +49,7 @@ private:
 	_float3				m_vCurrentArrowRightPosition = { 9.f, 1.f,	-40.f };
 
 	_float3				m_vBaseTextPosition = { 0.f, 1.f,			14.f };
-	_float3				m_vBaseNumberPosition = { 5.f, 1.f,			14.f };
+	_float3				m_vBaseNumberPosition = { 5.f, 1.f,			14.3f };
 	_float3				m_vBaseArrowLeftPosition = { -9.f, 1.f,		14.f };
 	_float3				m_vBaseArrowRightPosition = { 9.f, 1.f,		14.f };
 

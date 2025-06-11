@@ -40,6 +40,7 @@ namespace Client
 
 	enum class VIEWMODE { TOODEE, TOPDEE };
 
+	enum class PART_TYPE { BODY, HEAD, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG, HAIR};
 
 	typedef struct tagStateDesc {
 		PLAYERSTATE					eState;

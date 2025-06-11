@@ -21,7 +21,7 @@ HRESULT CBat::Initialize_Prototype()
 
 HRESULT CBat::Initialize(void* pArg)
 {
-	name = TEXT("Monster_Bat");
+	name = TEXT("Enemy_Monster_Bat");
 	m_bLeft = false;
 	m_eState = FLYSTATE::FLY_NON;
 	m_fMaxDistance = 5.f * 5.f;

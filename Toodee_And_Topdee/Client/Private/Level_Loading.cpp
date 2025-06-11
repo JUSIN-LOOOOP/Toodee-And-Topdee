@@ -39,7 +39,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 
 void CLevel_Loading::Update(_float fTimeDelta)
 {
-	if (true == m_pLoader->IsFinished() && m_pGameInstance->Key_Down(VK_SPACE))
+	if (true == m_pLoader->IsFinished()/* && m_pGameInstance->Key_Down(VK_SPACE)*/)
 	{
 		CLevel* pNewLevel = { nullptr };
 
@@ -85,7 +85,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			pNewLevel = CLevel_FinalBoss03::Create(m_pGraphic_Device);
 			break;
 
-		}
+		}	
 
 		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(m_eNextLevelID), pNewLevel)))
 			return;

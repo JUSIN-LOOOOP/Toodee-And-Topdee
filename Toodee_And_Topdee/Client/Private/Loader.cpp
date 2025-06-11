@@ -11,6 +11,7 @@
 #pragma endregion
 
 #pragma region Object
+#include "Player_Thirdee.h"
 #include "Hole.h"
 #include "Key.h"
 //#include "Cloud.h"
@@ -767,6 +768,8 @@ HRESULT CLoader::Loading_For_StageBoss()
 
 HRESULT CLoader::Loading_For_FinalBoss01()
 {
+
+
 	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))

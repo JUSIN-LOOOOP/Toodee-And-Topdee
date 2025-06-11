@@ -24,7 +24,7 @@ HRESULT CPig::Initialize_Prototype()
 
 HRESULT CPig::Initialize(void* pArg)
 {
-	name = TEXT("Monster_Pig");
+	name = TEXT("Enemy_Monster_Pig");
 	m_bLeft = false;
 	m_iPlayLevel = m_pGameInstance->Get_CurrentLevelID();
 	if (FAILED(__super::Initialize(pArg)))
