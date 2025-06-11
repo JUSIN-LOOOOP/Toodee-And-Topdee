@@ -30,9 +30,9 @@ HRESULT CLevel_Stage5::Initialize()
 
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
-	
-		if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
-			return E_FAIL;
+
+	if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
+		return E_FAIL;
 	return S_OK;
 }
 

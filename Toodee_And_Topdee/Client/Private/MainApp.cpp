@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "MultiViewCamera.h"
+#include "LoadingScreen.h"
 
 #include "Backdrop.h"
 #include "BackWall.h"
@@ -66,6 +67,11 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(Ready_Prototype_ForStatic_Monster()))
 		return E_FAIL;
+
+	if (FAILED(Ready_Layer_LoadingScreen(TEXT("Layer_LoadingScreen"))))
+		return E_FAIL;
+
+
 
 	m_pGameInstance->Subscribe<LEVELCHANGE_EVENT>(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, [this](const LEVELCHANGE_EVENT& Event) {
 		this->Ready_Open_Level(Event);
@@ -175,6 +181,16 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_Texture_Finger*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Finger"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/Finger.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_LoadingScreen*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_LoadingScreen"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/LoadingScreen/%d.png"), 13))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_LoadingScreen */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_LoadingScreen"),
+		CLoadingScreen::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;
@@ -594,6 +610,15 @@ HRESULT CMainApp::Start_Level(LEVEL eStartLevelID)
 	return S_OK;
 }
 
+HRESULT CMainApp::Ready_Layer_LoadingScreen(const _wstring strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(	ENUM_CLASS(LEVEL::LEVEL_STATIC), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_LoadingScreen"))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 CMainApp* CMainApp::Create()
 {
 	CMainApp* pInstance = new CMainApp;
@@ -611,6 +636,8 @@ void Client::CMainApp::Free()
 {
 	__super::Free();
 	//Safe_Release(m_pGraphic_Device);
+
+	m_pGameInstance->Clear_Resources(ENUM_CLASS(LEVEL::LEVEL_STATIC));
 
 	m_pGameInstance->Release_Engine();
 

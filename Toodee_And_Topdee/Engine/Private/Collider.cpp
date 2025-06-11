@@ -447,10 +447,10 @@ HRESULT CCollider::OBB_Render()
     return S_OK;
 }
 
-const _float3	CCollider::Get_ColliderPosition()
-{ 
-    return m_pTransform->Get_State(STATE::POSITION);
-}
+//const _float3	CCollider::Get_ColliderPosition()
+//{ 
+//    return m_pTransform->Get_State(STATE::POSITION);
+//}
 
 COLLIDER_SHAPE CCollider::Reference_Collider_Info(COLLIDER_DESC& desc)
 {

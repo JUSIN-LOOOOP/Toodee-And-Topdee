@@ -77,11 +77,8 @@ public:
 
 	//EventBus
 	template <typename EventType>
-	void Subscribe(_uint iSubscribeLevel, EVENT_KEY eEventKey, function<void(const EventType&)> Callback) {
-		m_pEventBus->Subscribe(iSubscribeLevel, eEventKey, Callback);
-	}
-
-	void Publish(_uint iSubscribeLevel, EVENT_KEY eEventKey, const class CEvent& Event);
+	void			Subscribe(_uint iSubscribeLevel, EVENT_KEY eEventKey, function<void(const EventType&)> Callback)
+					{ m_pEventBus->Subscribe(iSubscribeLevel, eEventKey, Callback); }
 
 	//Sound
 public:

@@ -66,7 +66,7 @@ void CFire_Projectile::Late_Update(_float fTimeDelta)
 {
 	if (!m_bActive) return;
 
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 
 }
 
