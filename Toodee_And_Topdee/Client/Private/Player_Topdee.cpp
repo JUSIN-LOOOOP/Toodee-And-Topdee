@@ -109,7 +109,7 @@ void CPlayer_Topdee::Update(_float fTimeDelta)
 {
 	if (m_eCurrentState != PLAYERSTATE::CLEAR)
 	{
-		if (m_eCurrentState != PLAYERSTATE::STOP)
+		if (m_eCurrentState != PLAYERSTATE::STOP && m_eCurrentState != PLAYERSTATE::DEAD)
 		{
 			_uint iInputData = KeyInput();
 

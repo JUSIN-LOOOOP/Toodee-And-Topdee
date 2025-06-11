@@ -31,11 +31,6 @@ void CState_Action::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTime
         pPlayer->Action();
     }
 
-    if (iInputData & ENUM_CLASS(KEYINPUT::KEY_X))
-    {
-        pPlayer->Stop();
-    }
-
     if ((iInputData & ENUM_CLASS(KEYINPUT::KEY_MOVES)) != 0)
     {
         if(pPlayer->CanMoveInAction())

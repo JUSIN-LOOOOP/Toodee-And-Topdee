@@ -139,28 +139,40 @@ _bool CTransform::Approach(const _float3& vTarget, _float fTimeDelta, _float fSp
 	_float3 vPosition = Get_State(STATE::POSITION);
 	_float3 vMoveDir = vTarget - vPosition;
 
+	_float fDistance = D3DXVec3Length(&vMoveDir);
+
 	//if (fLimitRange <= D3DXVec3Length(&vMoveDir))
 	{
-		_float fDistanceX = vMoveDir.x;
-		_float fDistanceY = vMoveDir.y;
-		_float fDistanceZ = vMoveDir.z;
+		if (D3DXVec3Length(&vMoveDir) <= 0.001f)
+		{
+			return true;
+		}
+
+		//_float fDistanceX = vMoveDir.x;
+		//_float fDistanceY = vMoveDir.y;
+		//_float fDistanceZ = vMoveDir.z;
 
 		_float3 vMove = *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * fSpeed * fTimeDelta;
 
-		if (D3DXVec3Length(&vMove) == 0.f)
+		if (D3DXVec3Length(&vMove) >= fDistance)
+		{
+			//if (abs(vMove.x) >= abs(fDistanceX))
+			//	vMove.x = fDistanceX;
+			//
+			//if (abs(vMove.y) >= abs(fDistanceY))
+			//	vMove.y = fDistanceY;
+			//
+			//if (abs(vMove.z) >= abs(fDistanceZ))
+			//	vMove.z = fDistanceZ;
+			//
+			//vPosition += vMove;
+
+			Set_State(STATE::POSITION, vTarget);
+
 			return true;
-
-		if (abs(vMove.x) >= abs(fDistanceX))
-			vMove.x = fDistanceX;
-
-		if (abs(vMove.y) >= abs(fDistanceY))
-			vMove.y = fDistanceY;
-
-		if (abs(vMove.z) >= abs(fDistanceZ))
-			vMove.z = fDistanceZ;
+		}
 
 		vPosition += vMove;
-
 		Set_State(STATE::POSITION, vPosition);
 	}
 	return false;
@@ -226,6 +238,100 @@ void CTransform::TurnToRadian(const _float3& vAxis, _float fRadian)
 	Set_State(STATE::UP, vUp);
 	Set_State(STATE::LOOK, vLook);
 }
+
+void CTransform::Look_At_FixUp(const _float3& vTarget)
+{
+	_float3 vScale = Get_Scaled();
+	
+	_float3 vPosition = Get_State(STATE::POSITION);
+
+	_float3 vLook = vTarget - vPosition;
+	_float3 vUp = Get_State(STATE::UP);
+	_float3 vRight = {};
+
+	D3DXVec3Cross(&vRight, &vUp, &vLook);
+	D3DXVec3Cross(&vUp, &vLook, &vRight);
+
+	Set_State(STATE::RIGHT, *D3DXVec3Normalize(&vRight, &vRight) * vScale.x);
+	Set_State(STATE::UP, *D3DXVec3Normalize(&vUp, &vUp) * vScale.y);
+	Set_State(STATE::LOOK, *D3DXVec3Normalize(&vLook, &vLook) * vScale.z);
+}
+
+void CTransform::Look_At_Divide(const _float3& vTarget, _float fTimeDelta)
+{
+	_float3 vScale = Get_Scaled();
+
+	// 현재 방향
+	_float3 vCurrentLook = Get_State(STATE::LOOK);
+	D3DXVec3Normalize(&vCurrentLook, &vCurrentLook);
+
+	// 목표 방향
+	_float3 vTargetDir = vTarget - Get_State(STATE::POSITION);
+	D3DXVec3Normalize(&vTargetDir, &vTargetDir);
+
+	// 두 방향의 각도
+	float fDot = D3DXVec3Dot(&vCurrentLook, &vTargetDir);
+	
+	fDot = max(min(fDot, 1.f), -1.f);
+
+	float fRotationRadian = min(1.f - fDot, m_fRotationPerSec * fTimeDelta);
+
+	// 회전 축 계산
+	_float3 vRotateAxis;
+	D3DXVec3Cross(&vRotateAxis, &vCurrentLook, &vTargetDir);
+	D3DXVec3Normalize(&vRotateAxis, &vRotateAxis);
+
+	if (D3DXVec3Length(&vRotateAxis) < 0.0001f)
+		return;
+
+	// 회전 행렬 생성
+	D3DXMATRIX matRot;
+	D3DXMatrixRotationAxis(&matRot, &vRotateAxis, fRotationRadian);
+
+	// 새 방향 계산
+	D3DXVECTOR3 vNewLook;
+	D3DXVec3TransformNormal(&vNewLook, &vCurrentLook, &matRot);
+	vNewLook = *D3DXVec3Normalize(&vNewLook, &vNewLook);
+
+	// Right, Up 벡터 재계산
+	_float3 vUpDir = { 0.f, 1.f, 0.f };
+	_float3 vRight;
+	D3DXVec3Cross(&vRight, &vUpDir, &vNewLook);
+	vRight = *D3DXVec3Normalize(&vRight, &vRight);
+
+	_float3 vUp;
+	D3DXVec3Cross(&vUp, &vNewLook, &vRight);
+	vUp = *D3DXVec3Normalize(&vUp, &vUp);
+
+	Set_State(STATE::RIGHT, vRight * vScale.x);
+	Set_State(STATE::UP, vUp * vScale.y);
+	Set_State(STATE::LOOK, vNewLook * vScale.z);
+}
+
+_bool CTransform::Turn_Divide(const _float3& vAxis, _float fRadian, _float fRotationPerSec, _float fTimeDelta)
+{
+	_float fTurnRadian = fRotationPerSec * fTimeDelta;
+
+	fTurnRadian = (fRadian > 0.f) ? fTurnRadian : (fTurnRadian * -1.f);
+
+	if ((fRadian >= 0.f && m_fTotalRotation + fTurnRadian >= fRadian) ||
+		(fRadian < 0.f && m_fTotalRotation + fTurnRadian <= fRadian))
+	{
+		fTurnRadian = fRadian - m_fTotalRotation;
+		TurnToRadian(vAxis, fTurnRadian);
+
+		m_fTotalRotation = 0.f;
+		return true;
+	}
+
+
+	m_fTotalRotation += fTurnRadian;
+
+	TurnToRadian(vAxis, fTurnRadian);
+
+	return false;
+}
+
 
 void CTransform::Scaling(_float fScaleX, _float fScaleY, _float fScaleZ)
 {
