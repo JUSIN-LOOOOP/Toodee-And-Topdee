@@ -26,8 +26,8 @@ HRESULT CLevel_FinalBoss01::Initialize()
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
 		return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
+		return E_FAIL;
 
 	return S_OK;
 }
