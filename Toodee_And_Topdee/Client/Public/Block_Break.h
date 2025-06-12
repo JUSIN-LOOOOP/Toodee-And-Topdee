@@ -25,6 +25,7 @@ public:
 private:
 	_uint m_iPlayLevel = {};
 
+	_bool m_bDead = {};
 	_bool m_bIsStepOn = {};
 	_float m_fBreakDelay = {};
 	_float m_fCurrentBreakTime = {};

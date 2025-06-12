@@ -33,7 +33,10 @@ public:
 	void Move(_float fTimeDelta);
 	void EnterAction();
 	void Action(_float fTimeDelta);
-	void Exit();
+	void Dead(_float fTimeDelta);
+	void EnterClear();
+	void Clear(_float fTimeDelta);
+	
 	HRESULT Change_State(PLAYERSTATE eNewState);
 	_bool	InAction() { return m_bInAction; }
 
@@ -65,6 +68,7 @@ private:
 	_bool								m_bJumpStart = {};
 	_bool								m_bInAction = {};
 
+	_float								m_fTotalRotation = {};
 	/* Direction */
 	_float								m_fRotationRadian = {};
 
@@ -103,8 +107,8 @@ private:
 	_uint KeyInput();
 	void Check_Dimension(_float fTimeDelta);
 	void Check_Collision_PlayerPos();
-
-
+	void Check_Collision_Enemy(CGameObject* pGameObject);
+	void Check_Collision_Portal(CGameObject* pGameObject);
 	/* Topdee Dimension */
 	void Check_Topdee_State(_uint iInputData, _float fTimeDelta);
 	void Check_Topdee_Collision();

@@ -250,7 +250,6 @@
     <ClCompile Include="..\private\State_Swim.cpp">
       <Filter>02. GameObjects\Player\03. State</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\InteractionBlock.cpp" />
     <ClCompile Include="..\private\Block_Disappear.cpp">
       <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear</Filter>
     </ClCompile>
@@ -336,6 +335,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Thirdee_Part.cpp">
       <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InteractionBlock.cpp">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Thirdee_Dead.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Thirdee_Clear.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -564,7 +572,6 @@
     <ClInclude Include="..\Public\Key.h">
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\InteractionBlock.h" />
     <ClInclude Include="..\Public\Cloud.h">
       <Filter>02. GameObjects\Cloud</Filter>
     </ClInclude>
@@ -689,6 +696,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Thirdee_Part.h">
       <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\InteractionBlock.h">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Thirdee_Dead.h">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Thirdee_Clear.h">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

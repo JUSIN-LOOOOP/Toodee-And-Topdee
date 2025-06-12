@@ -38,14 +38,17 @@ void CHole::Priority_Update(_float fTimeDelta)
 {
 	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
 		m_pColliderCom->Collision_Off();
-	else
-		m_pColliderCom->Collision_On();
+	else if(m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
+	{
+		if (!m_bDead)
+			m_pColliderCom->Collision_On();
+		else
+			int a = 10;
+	}
 }
 
 void CHole::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		m_pColliderCom->Collision_Off();
 }
 
 void CHole::Late_Update(_float fTimeDelta)
@@ -67,6 +70,13 @@ HRESULT CHole::Render()
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CHole::Set_Dead()
+{
+	m_bDead = true;
+
+	m_pColliderCom->Collision_Off();
 }
 
 HRESULT CHole::Ready_Components()

@@ -245,6 +245,8 @@
     <ClInclude Include="..\Public\Thirdee_Action.h" />
     <ClInclude Include="..\Public\Thirdee_Arm.h" />
     <ClInclude Include="..\Public\Thirdee_Body.h" />
+    <ClInclude Include="..\public\Thirdee_Clear.h" />
+    <ClInclude Include="..\public\Thirdee_Dead.h" />
     <ClInclude Include="..\Public\Thirdee_Hair.h" />
     <ClInclude Include="..\Public\Thirdee_Head.h" />
     <ClInclude Include="..\Public\Thirdee_Idle.h" />
@@ -360,6 +362,8 @@
     <ClCompile Include="..\Private\Thirdee_Action.cpp" />
     <ClCompile Include="..\Private\Thirdee_Arm.cpp" />
     <ClCompile Include="..\Private\Thirdee_Body.cpp" />
+    <ClCompile Include="..\private\Thirdee_Clear.cpp" />
+    <ClCompile Include="..\private\Thirdee_Dead.cpp" />
     <ClCompile Include="..\Private\Thirdee_Hair.cpp" />
     <ClCompile Include="..\Private\Thirdee_Head.cpp" />
     <ClCompile Include="..\Private\Thirdee_Idle.cpp" />
