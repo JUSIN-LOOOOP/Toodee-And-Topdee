@@ -53,7 +53,7 @@ void CBlock_Break::Update(_float fTimeDelta)
 		if (m_fCurrentBreakTime >= m_fBreakDelay)
 		{
 			m_pColliderCom->Collision_Off();
-			m_Dead = true;
+			m_bDead = true;
 		}
 		else
 		{
@@ -65,7 +65,7 @@ void CBlock_Break::Update(_float fTimeDelta)
 
 void CBlock_Break::Late_Update(_float fTimeDelta)
 {
-	if(false == m_Dead)
+	if(false == m_bDead)
 		__super::Late_Update(fTimeDelta);
 }
 

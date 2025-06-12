@@ -26,7 +26,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void Set_Dead() { m_bDead = true; }
+	void Set_Dead();
 private: 
 	HRESULT Ready_Components();
 

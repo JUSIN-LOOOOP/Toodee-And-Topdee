@@ -137,11 +137,4 @@ CGameObject* CStageBoss_Hand::Clone(void* pArg)
 void CStageBoss_Hand::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
-
-
 }

@@ -58,7 +58,6 @@ void CThirdee_Action::Update(CPlayer_Thirdee* pPlayer, _float fTimeDelta)
 
 void CThirdee_Action::Exit(CPlayer_Thirdee* pPlayer)
 {
-    pPlayer->Exit();
 }
 
 CThirdee_Action* CThirdee_Action::Create(PLAYERSTATE eState)

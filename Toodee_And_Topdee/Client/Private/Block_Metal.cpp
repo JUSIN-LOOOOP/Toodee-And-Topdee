@@ -145,8 +145,4 @@ CGameObject* CBlock_Metal::Clone(void* pArg)
 void CBlock_Metal::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
 }
