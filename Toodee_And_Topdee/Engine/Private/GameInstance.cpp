@@ -10,6 +10,7 @@
 #include "Collision_Manager.h"
 #include "Sound_Manager.h"
 #include "Pool_Manager.h"
+#include "EffectManager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -70,6 +71,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pEventBus)
 		return E_FAIL;
 
+	m_pEffect_Manager = CEffectManager::Create();
+	if (nullptr == m_pEffect_Manager)
+		return E_FAIL;
+
     return S_OK;
 }
 
@@ -86,6 +91,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pLevel_Manager->Update(fTimeDelta);
 
 	m_pMap_Manager->Update(fTimeDelta);
+
+	m_pEffect_Manager->Update(fTimeDelta);
 }
 
 HRESULT CGameInstance::Clear_Resources(_uint iClearLevelID)
@@ -119,6 +126,8 @@ HRESULT CGameInstance::Draw()
 
 	if (FAILED(m_pLevel_Manager->Render()))
 		return E_FAIL;
+
+	m_pEffect_Manager->Render();
 
 	return S_OK;
 }
@@ -407,6 +416,16 @@ CPoolableObject* CGameInstance::Pop(_uint iPrototypeLevelIndex, const _wstring& 
 	return m_pPool_Manager->Pop(m_iCurrentLevelID, iPrototypeLevelIndex, strPoolTag);
 }
 
+void CGameInstance::Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag)
+{
+	m_pEffect_Manager->Add_PSystem(pPSystem, strEffectTag);
+}
+
+void CGameInstance::Set_Active(const _wstring& strEffectTag, void* pArg)
+{
+	m_pEffect_Manager->Set_Active(strEffectTag, pArg);
+}
+
 #pragma endregion
 
 
@@ -457,6 +476,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pMap_Manager);
 	Safe_Release(m_pPool_Manager);
+	Safe_Release(m_pEffect_Manager);
 }
 
 void CGameInstance::Free()
