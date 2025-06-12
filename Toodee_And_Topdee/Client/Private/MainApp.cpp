@@ -362,7 +362,7 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Gimmick()
 		return E_FAIL;
 #pragma endregion
 
-#pragma region GAMEOBJECT_CANNON
+#pragma region GAMEOBJECT_CLOUD
 
 	/* Prototype_GameObject_Cloud*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cloud"),
@@ -380,6 +380,16 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Gimmick()
 	/* Prototype_Component_Texture_Projectile_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Projectile_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Projectile/Fire/Projectile_Fire%d.png"), 40))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Effect_Cannon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_Cannon"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Effect/Eff_Cannon/%d.png"), 3))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Effect_Projectile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_Projectile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Effect/Eff_Projectile/%d.png"), 9))))
 		return E_FAIL;
 
 #pragma endregion

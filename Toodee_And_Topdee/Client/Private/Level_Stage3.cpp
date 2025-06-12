@@ -25,8 +25,8 @@ HRESULT CLevel_Stage3::Initialize()
 	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
 		return E_FAIL;
 
-	// if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-	// 	return E_FAIL;
+	 //if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	 //	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
 		return E_FAIL;
