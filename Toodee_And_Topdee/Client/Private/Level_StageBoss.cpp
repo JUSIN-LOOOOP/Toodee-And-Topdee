@@ -8,6 +8,7 @@
 #include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
+#include "Cannon.h"
 
 CLevel_StageBoss::CLevel_StageBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -25,6 +26,9 @@ HRESULT CLevel_StageBoss::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
@@ -201,6 +205,28 @@ HRESULT CLevel_StageBoss::Ready_Layer_Back(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CLevel_StageBoss::Ready_Layer_Cannon(const _wstring& strLayerTag)
+{
+	CCannon::CANNON_INFO info1{};
+	info1.eDir = CCannon::CANNON_DIRECTION::LEFT;
+	info1.eType = CCannon::CANNON_TYPE::FIRE;
+	info1.vPosition = { 30.f,1.f,0.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cannon"), &info1)))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Projectile */
+	for (_uint i = 0; i < 15; ++i) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_Projectile_Fire"),
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Projectile_Fire"))))
+			return E_FAIL;
+	}
+
+	return S_OK;
+
 }
 
 
