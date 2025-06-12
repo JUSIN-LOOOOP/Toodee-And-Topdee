@@ -212,7 +212,7 @@ HRESULT CLevel_StageBoss::Ready_Layer_Cannon(const _wstring& strLayerTag)
 	CCannon::CANNON_INFO info1{};
 	info1.eDir = CCannon::CANNON_DIRECTION::LEFT;
 	info1.eType = CCannon::CANNON_TYPE::FIRE;
-	info1.vPosition = { 30.f,0.f,2.f };
+	info1.vPosition = { 30.f,1.f,0.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cannon"), &info1)))
