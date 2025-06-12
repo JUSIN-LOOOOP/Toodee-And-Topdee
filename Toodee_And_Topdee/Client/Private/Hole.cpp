@@ -8,7 +8,7 @@ CHole::CHole(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CHole::CHole(const CHole& Prototype)
-    : CGameObject{ Prototype }
+    : CGameObject( Prototype )
 {
 }
 

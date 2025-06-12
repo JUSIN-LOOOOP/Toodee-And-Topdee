@@ -30,9 +30,9 @@ HRESULT CFPSCamera::Initialize(void* pArg)
     m_fNear = pDesc->fNear;
     m_fFar = pDesc->fFar;
 
-    if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
-        m_bType = CAM_TYPE::TOP;
     if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
+        m_bType = CAM_TYPE::TOP;
+    if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
         m_bType = CAM_TYPE::QURTER;
 
     CameraTestMoveInitialize();
@@ -103,7 +103,7 @@ void CFPSCamera::ChangeView(_float fTimeDelta)
     m_fCurrentAngle += fDelta;
 
     fDelta = (m_bType == CAM_TYPE::TOP) ? fDelta : -fDelta;
-    m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::LOOK), D3DXToRadian(fDelta));
+    m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::LOOK), -D3DXToRadian(fDelta));
 
     if (m_fCurrentAngle >= m_fTargetAngle)
     {

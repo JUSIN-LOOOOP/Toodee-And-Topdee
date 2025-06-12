@@ -83,6 +83,7 @@ HRESULT CLevel_Stage1::Ready_Layer_MapObject(const _wstring& strLayerTag)
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
 
+	int a = 0;
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
 	{
 		switch (static_cast<MAPOBJECT>(info.iBlockType))

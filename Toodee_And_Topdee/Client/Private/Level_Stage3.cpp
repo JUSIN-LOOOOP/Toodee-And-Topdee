@@ -9,6 +9,7 @@
 
 #include "Test_Cube2.h"
 #include "Pig.h"
+#include "Leaves.h"
 
 CLevel_Stage3::CLevel_Stage3(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -39,6 +40,12 @@ HRESULT CLevel_Stage3::Initialize()
 
 	if (FAILED(Ready_Layer_RedButton(TEXT("Layer_RedButton"))))
 		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
+		return E_FAIL;
+
+	
+	
 	return S_OK;
 }
 
@@ -277,6 +284,12 @@ HRESULT CLevel_Stage3::Ready_Layer_RedButton(const _wstring& strLayerTag)
 
 	return S_OK;
 }
+HRESULT CLevel_Stage3::Ready_Layer_Effect(const _wstring& strLayerTag)
+{
+	m_pGameInstance->Add_PSystem(CLeaves::Create(m_pGraphic_Device), TEXT("Effect_Leaves"));
+	return S_OK;
+}
+
 CLevel_Stage3* CLevel_Stage3::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CLevel_Stage3* pInstance = new CLevel_Stage3(pGraphic_Device);

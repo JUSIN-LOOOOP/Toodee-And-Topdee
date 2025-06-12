@@ -76,12 +76,14 @@ HRESULT CLevel_Map::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_Map::Ready_Layer_Tile(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Load_File(TEXT("new"));
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/Stage1"));
+	//m_pGameInstance->Load_File(TEXT("new"));
 	BLOCK_INFO	info = {};
 	BLOCK_INFO	arg = {};
 	_uint		idx = {};
 
-	_int MapHeight(14), MapWidth(116);
+	_int MapHeight(18), MapWidth(32);
+	//_int MapHeight(14), MapWidth(116);
 	for (_int height = 0; height < MapHeight; ++height)
 	{
 		for (_int width = 0; width < MapWidth; ++width)
