@@ -24,7 +24,7 @@ HRESULT CPig::Initialize_Prototype()
 
 HRESULT CPig::Initialize(void* pArg)
 {
-	name = TEXT("Monster_Pig");
+	name = TEXT("Enemy_Monster_Pig");
 	m_bLeft = false;
 	m_iPlayLevel = m_pGameInstance->Get_CurrentLevelID();
 	if (FAILED(__super::Initialize(pArg)))
@@ -53,10 +53,6 @@ void CPig::Priority_Update(_float fTimeDelta)
 {
 
 	m_pGameInstance->Check_Collision(m_pColliderCom);
-}
-
-void CPig::Update(_float fTimeDelta)
-{
 	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::CHANGE)
 	{
 		if (m_bLeft) // TOPDEE로 전환시 혹시라도 TOODEE에서 방향이 뒤집혔다면 돌리는 작업
@@ -64,11 +60,22 @@ void CPig::Update(_float fTimeDelta)
 			m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 			m_bLeft = false;
 		}
-		
+
 	}
+}
 
-
-
+void CPig::Update(_float fTimeDelta)
+{
+	//	if (GetKeyState('O') & 0x8000)
+	//		m_pColliderCom->Collision_On();
+	//	if (GetKeyState('P') & 0x8000)
+	//		m_pColliderCom->Collision_Off();
+	//	
+	//	_float3 vPos = m_pTransformCom->Get_State(STATE::POSITION);
+	//	if(vPos.z < -20.f)
+	//	{
+	//		vPos.z = 10.f; m_pTransformCom->Set_State(STATE::POSITION, vPos);
+	//	}
 
 
 
@@ -438,7 +445,7 @@ void CPig::Move_Patrol(_float fTimeDelta)
 	vector<CGameObject*>* findAll = { nullptr };
 	CCollider::COLLIDER_DESC pDesc;
 
-	m_pTransformCom->Go_Right(fTimeDelta * 0.5f); // 중력이 없다 일단 이동한다.
+	m_pTransformCom->Go_Right(fTimeDelta);
 
 
 	if (m_pColliderCom->GetOverlapAll(findAll))
@@ -450,9 +457,7 @@ void CPig::Move_Patrol(_float fTimeDelta)
 		{
 			for (auto& Other : *findAll)
 			{
-				if (Other->IsDead())
-					continue;
-
+				
 				_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION); // 충돌체 포지션값 받아옴
 				_float fDeltaX = (vMyPos.x - vOtherPos.x);
 				static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pDesc);
@@ -462,23 +467,22 @@ void CPig::Move_Patrol(_float fTimeDelta)
 					m_bLeft = false;
 					m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 					m_pTransformCom->Go_Right(fTimeDelta * 2.f);
+					return;
 				}
 				else if (fDeltaX < 0 && fDeltaX < (pDesc.vColliderScale.x * -0.5f)) // 음수, 객체보다 충돌체가 우측
 				{
-					m_bLeft = false;
+					m_bLeft = true;
 					m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 					m_pTransformCom->Go_Right(fTimeDelta * 2.f);
+					return;
 				}
 			}
 			return;
 		}
-		else // 충돌체가 2개 이상 , 충돌체가 바닥만 있을 수가 있고 바닥과 벽(블럭)일수도 있음.
+		else // 충돌체가 2개 이상
 		{
 			for (auto& Other : *findAll)
 			{
-				if (Other->IsDead())
-					continue;
-
 
 				_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
 				static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pDesc);
@@ -492,12 +496,14 @@ void CPig::Move_Patrol(_float fTimeDelta)
 						m_bLeft = false;
 						m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 						m_pTransformCom->Go_Right(fTimeDelta * 2.f);
+						return;
 					}
 					else
 					{
 						m_bLeft = true;
 						m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 						m_pTransformCom->Go_Right(fTimeDelta * 2.f);
+						return;
 					}
 				}
 				

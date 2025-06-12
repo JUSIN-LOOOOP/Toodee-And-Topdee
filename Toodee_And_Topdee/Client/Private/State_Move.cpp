@@ -37,12 +37,7 @@ void CState_Move::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDe
         if (FAILED(pPlayer->Change_State(PLAYERSTATE::ACTION)))
             MSG_BOX(TEXT("Failed Change State : ACTION"));
     }
-    
-    if (iInputData & ENUM_CLASS(KEYINPUT::KEY_X))
-    {
-        pPlayer->Stop();
-    }
-    
+
     if (iInputData == 0)
     {
         pPlayer->Idle();

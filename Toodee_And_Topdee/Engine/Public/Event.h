@@ -67,9 +67,26 @@ typedef struct tagLevelChange : public CEvent {
 	_uint iChangeLevel;
 }LEVELCHANGE_EVENT;
 
+
+/* Main Menu Swap */
+typedef struct tagMainMenuSwap : public CEvent {
+	_float fPositionY;
+}MAINMENU_SWAP_EVENT;
+
+/* Main Menu Swap */
+typedef struct tagMainMenuStageSelectNumber : public CEvent {
+	_uint iNum;
+}STAGE_SELECT_EVENT;
+
+/* CamShaking */
 typedef struct tagCamShaking : public CEvent {
 	_uint fTime;
 }SHAKING;
 
+/* LoadingScreen StartPosition*/
+typedef struct tagLoadingScreen : public CEvent {
+	_float3 vPos = { 0.f,0.f,0.f };
+	_bool bFadeIn = {};
+}LOADINGSCREEN_EVENT;
 END
 

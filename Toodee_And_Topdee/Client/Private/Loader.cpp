@@ -11,6 +11,7 @@
 #pragma endregion
 
 #pragma region Object
+#include "Player_Thirdee.h"
 #include "Hole.h"
 #include "Key.h"
 //#include "Cloud.h"
@@ -57,6 +58,10 @@
 #include "MainMenu_Spark.h"
 #include "MainMenu_CenterLine.h"
 #include "MainMenu_Title.h"
+#include "MainMenu_Buttons.h"
+#include "MainMenu_Portals.h"
+#include "MainMenu_StageTitle.h"
+
 #pragma endregion
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -181,7 +186,38 @@ HRESULT CLoader::Loading_For_Logo_Level()
 		CMainMenu_Title::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Buttons */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Buttons"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Buttons/MainMenu_Button%d.png"), 2))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Arrow"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/MenuArrow/MainMenu_Arrow%d.png"), 2))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Buttons"),
+		CMainMenu_Buttons::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	/* Portal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_StagePortal"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Stage_Select/LevelPortal/levelPortalSpr_%d.png"), 10))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_StageImage"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Stage_Select/StageImage/StageImage%d.png"), 8))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Portal"),
+		CMainMenu_Portals::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Stage selected Text*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_LevelText"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Font/Level/LevelText%d.png"), 3))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Number"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Font/Number/%d.png"), 10))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_StageTitle"),
+		CMainMenu_StageTitle::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	m_isFinished = true;
 
 	return S_OK;
@@ -731,6 +767,8 @@ HRESULT CLoader::Loading_For_StageBoss()
 
 HRESULT CLoader::Loading_For_FinalBoss01()
 {
+
+
 	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))

@@ -57,12 +57,15 @@ void CPart_Legs::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocu
 
 	if(m_strOtherName.find(TEXT("Bat")) != string::npos)
 	{
+
+		__super::Look_At_degree(&m_fDeltaAngleX, &m_fDeltaAngleY, pTransform, vFocusPos);
+		__super::RevolveAround(pTransform, -m_fDeltaAngleX, 0);
+
 		if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
 		{
 			_float3 vOtherPos = pTransform->Get_State(STATE::POSITION);
 			_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION);
-			__super::Look_At_degree(&m_fDeltaAngleX, &m_fDeltaAngleY, pTransform, vFocusPos);
-			__super::RevolveAround(pTransform, -m_fDeltaAngleX, 0);
+			
 
 			if (vOtherPos.x < vMyPos.x)
 				m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(180.f));
@@ -77,6 +80,7 @@ void CPart_Legs::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocu
 
 	if (m_strOtherName.find(TEXT("Pig")) != string::npos)
 	{
+		__super::RevolveAround(pTransform, -m_fDeltaAngleX, 0);
 		if (m_fMaxFrame != 0)
 		{
 			m_fFrame += m_fMaxFrame * fTimeDelta;

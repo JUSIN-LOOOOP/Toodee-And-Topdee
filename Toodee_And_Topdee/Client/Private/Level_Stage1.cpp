@@ -41,13 +41,21 @@ void CLevel_Stage1::Update(_float fTimeDelta)
 {
 	if (m_pGameInstance->Key_Down(VK_RETURN))
 	{
-
 		LEVELCHANGE_EVENT Event;
-		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE2);
 		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE1);
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE2);
 
 		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 	}
+	if (m_pGameInstance->Key_Down(VK_ESCAPE))
+	{
+		LEVELCHANGE_EVENT Event;
+		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE1);
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_LOGO);
+
+		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
+	}
+
 }
 
 HRESULT CLevel_Stage1::Render()
@@ -82,6 +90,7 @@ HRESULT CLevel_Stage1::Ready_Layer_MapObject(const _wstring& strLayerTag)
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
+	int a = 0;
 
 	int a = 0;
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
@@ -163,15 +172,17 @@ HRESULT CLevel_Stage1::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::SPIKE:
-		/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spike"), &info)))
-			return E_FAIL;*/
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info)))
+				return E_FAIL;
+			a++;
 			break;
 		default:
 			MSG_BOX(TEXT("Error : Block Index error!"));
 		}
 
 	}
+
 	return S_OK;
 }
 

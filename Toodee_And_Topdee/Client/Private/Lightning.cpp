@@ -46,7 +46,7 @@ void CLightning::Update(_float fTimeDelta)
 void CLightning::Late_Update(_float fTimeDelta)
 {
 	if (!m_bActive) return;
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
 HRESULT CLightning::Render()

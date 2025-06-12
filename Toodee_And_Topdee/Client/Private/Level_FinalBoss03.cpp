@@ -16,7 +16,7 @@ CLevel_FinalBoss03::CLevel_FinalBoss03(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_FinalBoss03::Initialize()
 {
-	m_pGameInstance->Change_Dimension(DIMENSION::TOODEE);
+	m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 	m_pGameInstance->Reset_KeyCount();
 	
 
@@ -27,8 +27,8 @@ HRESULT CLevel_FinalBoss03::Initialize()
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
 		return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -38,8 +38,17 @@ void CLevel_FinalBoss03::Update(_float fTimeDelta)
 	if (m_pGameInstance->Key_Down(VK_RETURN))
 	{
 		LEVELCHANGE_EVENT Event;
-		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE1);
 		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3);
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE1);
+
+
+		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
+	}
+	if (m_pGameInstance->Key_Down(VK_ESCAPE))
+	{
+		LEVELCHANGE_EVENT Event;
+		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3);
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_LOGO);
 
 		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
 	}
@@ -165,7 +174,7 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_MapObject(const _wstring& strLayerTag)
 				return E_FAIL;*/
 			//이것도 임시!
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Player_TopDee"),
-				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Thirdee"), &info)))
 				return E_FAIL;
 			break;
 
@@ -175,9 +184,9 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_MapObject(const _wstring& strLayerTag)
 				return E_FAIL;
 			break;
 		case MAPOBJECT::SPIKE:
-			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spike"), &info)))
-				return E_FAIL;*/
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info)))
+				return E_FAIL;
 			break;
 		default:
 			MSG_BOX(TEXT("Error : Block Index error!"));
