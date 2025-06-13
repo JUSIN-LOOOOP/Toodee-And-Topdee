@@ -10,6 +10,7 @@
 #include "Thirdee_Body.h"
 #include "InteractionBlock.h"
 #include "ColliderMap_Object.h"
+#include "Key.h"
 
 CPlayer_Thirdee::CPlayer_Thirdee(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject { pGraphic_Device }
@@ -127,7 +128,6 @@ void CPlayer_Thirdee::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer_Thirdee::Render()
 {
-    m_pColliderCom->Render();
     m_pGroundCheckColliderCom->Render();
 
     Begin_RenderState();
@@ -527,6 +527,18 @@ void CPlayer_Thirdee::Check_Collision_Portal(CGameObject* pGameObject)
     }
 }
 
+void CPlayer_Thirdee::Check_Collision_Key(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Key")) != string::npos)
+    {
+        CKey* pKey = dynamic_cast<CKey*>(pGameObject);
+        pKey->Get_Key();
+        GETKEYEVENT Event;
+        m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
+
+    }
+}
+
 void CPlayer_Thirdee::Check_Topdee_State(_uint iInputData, _float fTimeDelta)
 {
     Topdee_Direction(iInputData, fTimeDelta);    
@@ -892,6 +904,7 @@ void CPlayer_Thirdee::Check_Toodee_Collision()
         {
             Check_Collision_Enemy(iter);
             Check_Collision_Portal(iter);
+            Check_Collision_Key(iter);
         }
 
         Check_Collision_ToodeState();
@@ -909,7 +922,9 @@ void CPlayer_Thirdee::Check_Collision_ToodeState()
     {
         case COLLIDER_DIR::FRONT:
         {
-            m_fCurrentJumpPower = 0.f;
+            if (m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Key")) == std::string::npos
+                && m_pColliderCom->GetOverlapTarget()->Get_Name().find(TEXT("Portal")) == std::string::npos)
+                m_fCurrentJumpPower = 0.f;
             break;
         }
     }

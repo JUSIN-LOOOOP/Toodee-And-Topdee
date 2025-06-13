@@ -136,6 +136,9 @@ HRESULT CLevel_FinalBoss02::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::SPARK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info)))
+				return E_FAIL;
 			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Spark"), &info)))
 				return E_FAIL;*/
@@ -159,9 +162,9 @@ HRESULT CLevel_FinalBoss02::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::KEY:
-			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Key"), &info)))
-				return E_FAIL;*/
+				return E_FAIL;
 			//-> [ Level_FinalBoss02 ] Cannon or laser position
 			break;
 
@@ -233,13 +236,13 @@ HRESULT CLevel_FinalBoss02::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 {
 	CColliderMap_Object::COLLIDER_MAP_DESC desc{};
 
-	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_FINALBOSS2); ++i)
+	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_FINALBOSS3); ++i)
 	{
-		auto Pair = MapCollider_Builder(LEVEL::LEVEL_FINALBOSS2, i);
+		auto Pair = MapCollider_Builder(LEVEL::LEVEL_FINALBOSS3, i);
 		desc.vPosition = Pair.first;
 		desc.vScale = Pair.second;
 
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
 			return E_FAIL;
 	}

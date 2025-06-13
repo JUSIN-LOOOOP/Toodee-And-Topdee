@@ -36,6 +36,8 @@ HRESULT CKey::Initialize(void* pArg)
 	if (m_pGameInstance->Rand(0.f, 2.f) > 1.f)
 		m_bTextureChangeDirection = true;
 
+	m_bDead = false;
+
     return S_OK;
 }
 
@@ -59,7 +61,7 @@ void CKey::Update(_float fTimeDelta)
 
 void CKey::Late_Update(_float fTimeDelta)
 {
-	if(!IsDead())
+	if(!m_bDead)
 		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 
 }
@@ -85,7 +87,7 @@ HRESULT CKey::Render()
 
 void CKey::Get_Key()
 {
-	m_Dead = true;
+	m_bDead = true;
 	m_pColliderCom->Collision_Off();
 
 	m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);

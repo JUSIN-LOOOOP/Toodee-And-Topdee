@@ -812,6 +812,10 @@ HRESULT CLoader::Loading_For_FinalBoss01()
 
 HRESULT CLoader::Loading_For_FinalBoss02()
 {
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_WallLock"),
+		CBlock_Lock::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_SpikeHole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_SpikeHole"),
 		CSpikeHole::Create(m_pGraphic_Device))))
@@ -861,6 +865,13 @@ HRESULT CLoader::Loading_For_FinalBoss02()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Toodoo"),
 		CToodoo::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* Prototype_GameObject_Wood */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_WallWood"),
+		CBlock_Wood::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
 	m_isFinished = true;
 
 	return S_OK;
@@ -881,6 +892,11 @@ HRESULT CLoader::Loading_For_FinalBoss03()
 	/* Prototype_GameObject_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Metal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Metal"),
+		CBlock_Metal::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* Prototype_GameObject_Key */

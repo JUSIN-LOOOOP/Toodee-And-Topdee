@@ -109,6 +109,7 @@ private:
 	void Check_Collision_PlayerPos();
 	void Check_Collision_Enemy(CGameObject* pGameObject);
 	void Check_Collision_Portal(CGameObject* pGameObject);
+	void Check_Collision_Key(CGameObject* pGameObject);
 	/* Topdee Dimension */
 	void Check_Topdee_State(_uint iInputData, _float fTimeDelta);
 	void Check_Topdee_Collision();
