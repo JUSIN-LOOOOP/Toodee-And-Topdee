@@ -175,7 +175,10 @@ void CPlayer_Toodee::Late_Update(_float fTimeDelta)
         m_iCurrentAnimCount = m_pCurrentState->GetAnimCount();
     
     if (m_eCurrentState == PLAYERSTATE::STOP)
+    {
         m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+        __super::Compute_CamDistance(m_pTransformCom);
+    }
     else if (m_eCurrentState == PLAYERSTATE::CLEAR)
         m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
     else
@@ -270,6 +273,9 @@ void CPlayer_Toodee::Action()
     }
     else if(!m_bInAction)   // 첫 점프
     {
+        m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+        m_pGameInstance->PlayAudio(TEXT("PlayerJump.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
+
         //Action 트리거 On
         m_bInAction = true;
         m_eJumpState = JUMPSTATE::JUMPING;
@@ -310,6 +316,9 @@ void CPlayer_Toodee::Clear(_float3 vPortalPosition)
 
 void CPlayer_Toodee::Dead()
 {
+    m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+    m_pGameInstance->PlayAudio(TEXT("Restart.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
+
     LEVELCHANGE_EVENT Event;
     Event.iChangeLevel = m_iPlayLevel;
     Event.iCurrentLevel = m_iPlayLevel;
@@ -356,6 +365,11 @@ HRESULT CPlayer_Toodee::Ready_Components()
     /* For.Com_VIBuffer*/
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+        return E_FAIL;
+
+    /* For.Com_Shader */
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Shader_Player"),
+        TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader))))
         return E_FAIL;
 
 #pragma region Transform
@@ -475,10 +489,13 @@ HRESULT CPlayer_Toodee::Begin_RenderState()
 
     if (m_eCurrentState == PLAYERSTATE::STOP)
     {
+        m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
         m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
         m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-        m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+        m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
         m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+
+        __super::Begin_Shader();
 
     }
     else if (m_eCurrentState == PLAYERSTATE::CLEAR)
@@ -487,7 +504,6 @@ HRESULT CPlayer_Toodee::Begin_RenderState()
         m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
         m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
         m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
-        m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
     }
     else
     {
@@ -504,7 +520,10 @@ HRESULT CPlayer_Toodee::End_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
     if (m_eCurrentState == PLAYERSTATE::STOP)
+    {
         m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+        __super::End_Shader();
+    }
     else if (m_eCurrentState == PLAYERSTATE::CLEAR)
     {
         m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -516,6 +535,8 @@ HRESULT CPlayer_Toodee::End_RenderState()
 
     return S_OK;
 }
+
+
 
 void CPlayer_Toodee::Action_Jump(_float fTimeDelta)
 {
@@ -631,6 +652,7 @@ void CPlayer_Toodee::Check_Collision_BlockBreak(CGameObject* pGameObject)
             Event.vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
             m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::BLOCK_BREAK, Event);
+            
         }
     }
 }
@@ -661,10 +683,12 @@ void CPlayer_Toodee::Check_Collision_Key(CGameObject* pGameObject)
 {
     if (pGameObject->Get_Name().find(TEXT("Key")) != string::npos)
     {
-        GETKEYEVENT Event;
-        m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
         CKey* pKey = dynamic_cast<CKey*>(pGameObject);
         pKey->Get_Key();
+        GETKEYEVENT Event;
+        m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
+
+
     }
 }
 

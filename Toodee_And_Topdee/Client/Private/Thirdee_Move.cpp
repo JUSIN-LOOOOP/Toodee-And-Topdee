@@ -1,4 +1,5 @@
 #include "Thirdee_Move.h"
+#include "GameInstance.h"
 
 CThirdee_Move::CThirdee_Move()
 {
@@ -7,6 +8,10 @@ CThirdee_Move::CThirdee_Move()
 HRESULT CThirdee_Move::Initialize(PLAYERSTATE eState)
 {
     m_eState = eState;
+    m_fSoundDelay = 0.25f;
+    m_fSoundTime = 0.f;
+    m_pGameInstance = CGameInstance::GetInstance();
+    Safe_AddRef(m_pGameInstance);
 
     return S_OK;
 }
@@ -36,11 +41,20 @@ void CThirdee_Move::HandleInput(CPlayer_Thirdee* pPlayer, _uint iInputData, _flo
 void CThirdee_Move::Update(CPlayer_Thirdee* pPlayer, _float fTimeDelta)
 {
     pPlayer->Move(fTimeDelta);
+
+    if (m_fSoundTime + fTimeDelta > m_fSoundDelay)
+    {
+        m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+        m_pGameInstance->PlayAudio(TEXT("PlayerFootStep.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
+
+        m_fSoundTime = 0.f;
+    }
+    else
+        m_fSoundTime += fTimeDelta;
 }
 
 void CThirdee_Move::Exit(CPlayer_Thirdee* pPlayer)
 {
-    pPlayer->Exit();
 }
 
 CThirdee_Move* CThirdee_Move::Create(PLAYERSTATE eState)
@@ -59,4 +73,5 @@ CThirdee_Move* CThirdee_Move::Create(PLAYERSTATE eState)
 void CThirdee_Move::Free()
 {
     __super::Free();
+    Safe_Release(m_pGameInstance);
 }

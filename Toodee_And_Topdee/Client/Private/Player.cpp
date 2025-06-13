@@ -13,12 +13,12 @@
 #include "State_Swim.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CBlendObject { pGraphic_Device }
 {
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CGameObject { Prototype }
+	: CBlendObject{ Prototype }
 	, m_fPotalDistance { Prototype.m_fPotalDistance }
 	, m_bMoveInAction { Prototype.m_bMoveInAction }
 	, m_eCurrentTextureDir { Prototype.m_eCurrentTextureDir }
@@ -33,6 +33,10 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 void CPlayer::ClearReady(const CANCLEAREVENT& Event)
 {
 	Clear(Event.vPosition);
+
+	m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+	m_pGameInstance->PlayAudio(TEXT("Clear.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
+
 
 	m_bCanClear = true;
 }
@@ -172,6 +176,33 @@ void CPlayer::Check_Dimension()
 	}
 }
 
+HRESULT CPlayer::Begin_Shader()
+{
+	CShader_Player::SHADERPLAYER_DESC pDesc{};
+	_float4x4 WorldMatrix = *m_pTransformCom->Get_WorldMatrix();
+	_float4x4 ViewMatrix;
+	_float4x4 ProjMatrix;
+
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &ViewMatrix);
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &ProjMatrix);
+
+	pDesc.WorldMatrix = WorldMatrix;
+	pDesc.ViewMatrix = ViewMatrix;
+	pDesc.ProjMatrix = ProjMatrix;
+
+	m_pShader->Bind_Shader(&pDesc);
+	
+	return S_OK;
+}
+
+HRESULT CPlayer::End_Shader()
+{
+	m_pShader->Reset_Shader();
+
+	return S_OK;
+}
+
+
 void CPlayer::Free()
 {
 	__super::Free();
@@ -179,6 +210,7 @@ void CPlayer::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pShader);
 
 	for (_uint i = 0; i < ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END); i++)
 	{

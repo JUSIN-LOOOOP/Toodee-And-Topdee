@@ -49,7 +49,7 @@ void CTileOutline::Update(_float fTimeDelta)
 	if (m_pOwnerPlayer->InAction() || m_pOwnerPlayer->IsAttach())
 	{
 		_float3 vPosition = m_pOwnerPlayer->ComputeTileOutlinePosition();
-
+		vPosition.y = 0.1f;
 		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 	}
 }

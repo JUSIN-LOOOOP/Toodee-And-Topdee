@@ -8,6 +8,8 @@
 #include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
+#include "Event.h"
+#include "MainMenu_Spark.h"
 
 CLevel_FinalBoss03::CLevel_FinalBoss03(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -19,6 +21,7 @@ HRESULT CLevel_FinalBoss03::Initialize()
 	m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 	m_pGameInstance->Reset_KeyCount();
 	
+	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 
 	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
 		return E_FAIL;
@@ -29,7 +32,8 @@ HRESULT CLevel_FinalBoss03::Initialize()
 
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
-
+	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tile"))))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -146,9 +150,9 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::HOLE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Hole"), &info)))
-				return E_FAIL;
+			//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+			//	ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Hole"), &info)))
+			//	return E_FAIL;
 			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Hole"), &info)))
 				return E_FAIL;*/
@@ -207,13 +211,22 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_Back(const _wstring& strLayerTag)
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"), &BackdropThemeIdx)))
 		return E_FAIL;
 
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+	//	ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), &BackTileIdx)))
+	//	return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), &BackTileIdx)))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_FinalBoss"))))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Toodoo"))))
-		return E_FAIL;
-
+	for (_uint i = 0; i < 300; i++)
+	{
+		CMainMenu_Spark::MAINMENU_SPARK info;
+		info.iMotionMaxNum = static_cast<_uint>(m_pGameInstance->Rand(0.f, 10.f));
+		info.vPosition = _float3(m_pGameInstance->Rand(-200.f, 200.f), m_pGameInstance->Rand(-8.f, 18.f), m_pGameInstance->Rand(-17.f, 17.f));
+		info.bFinalBoss = true;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MainMenu_Spark"), &info)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -237,6 +250,33 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_FinalBoss03::Ready_Layer_Tile(const _wstring& strLayerTag)
+{
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/TileMap2"));
+
+	BLOCK_INFO	info = {};
+	_uint		idx = {};
+
+	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
+	{
+		switch (static_cast<MAPOBJECT>(info.iBlockType))
+		{
+		case MAPOBJECT::NONE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Tile"), &info)))
+				return E_FAIL;
+			break;
+		case MAPOBJECT::HOLE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_SpikeHole"), &info)))
+				return E_FAIL;
+			break;
+		}
+	}
+
+	return S_OK;
+}
+
 void CLevel_FinalBoss03::CreateHitBox(_float fTimeDelta)
 {
 	static _uint	Count = 0;
@@ -246,6 +286,8 @@ void CLevel_FinalBoss03::CreateHitBox(_float fTimeDelta)
 
 	if (m_fDelayTime >= 1.f)
 	{
+		FIANLBOSSATTACK_EVENT event;
+
 		_float3 vPos = { 115.f, 8.f, (_float)pos[rand() % 12] };
 		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Layer_HitBox"),
 			ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), (m_bAtkFlag[SEMICLON] == true) ? TEXT("Prototype_GameObject_Semiclon") : TEXT("Prototype_GameObject_Finger"), &vPos);
@@ -257,7 +299,15 @@ void CLevel_FinalBoss03::CreateHitBox(_float fTimeDelta)
 			(m_bAtkFlag[SEMICLON] == true) ? m_bAtkFlag[SEMICLON] = false : m_bAtkFlag[FINGER] = false;
 			m_fIdleTime = 0;
 			Count = 0;
+			event.bIsAttacking = false;
 		}
+		else
+		{
+			event.bIsAttacking = true;
+
+		}
+		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::FINALBOSS_ATTACK, event);
+
 	}
 	
 }

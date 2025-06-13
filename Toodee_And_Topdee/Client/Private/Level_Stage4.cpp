@@ -26,8 +26,8 @@ HRESULT CLevel_Stage4::Initialize()
 	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
 		return E_FAIL;
 
-	// if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-	// 	return E_FAIL;
+	 //if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	 //	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
 		return E_FAIL;
@@ -35,6 +35,8 @@ HRESULT CLevel_Stage4::Initialize()
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
+	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
+	m_pGameInstance->PlayBGM(TEXT("Stage3-4Bgm.ogg"), 0.5f);
 	m_pGameInstance->Set_Active(TEXT("Effect_Leaves"));
 
 	return S_OK;

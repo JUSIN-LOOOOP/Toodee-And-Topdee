@@ -26,7 +26,7 @@ HRESULT CMainMenu_Portals::Initialize(void* pArg)
 
 	for (_uint i = 0; i < 8; ++i)
 	{
-		m_vPosition[i] = m_vPageButtonPosition[i] = { static_cast<_float>(i) * m_fIntervalX , 1.f, -40.f};
+		m_vPosition[i] = m_vPageButtonPosition[i] = { static_cast<_float>(i) * m_fIntervalX , 1.1f, -40.f};
 		m_vPageStagePosition[i] = { static_cast<_float>(i) * m_fIntervalX, 1.f, 0.f };
 	}
 

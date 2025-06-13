@@ -514,6 +514,7 @@ void CCollider::Free()
         Safe_Release(pGameObject);*/
     m_pOthers.clear();
 
-    Safe_Release(m_pTransform);
+    if(m_pTransform != nullptr)
+        Safe_Release(m_pTransform);
 
 }

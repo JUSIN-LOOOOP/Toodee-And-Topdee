@@ -41,6 +41,9 @@ HRESULT CLevel_Stage3::Initialize()
 	if (FAILED(Ready_Layer_RedButton(TEXT("Layer_RedButton"))))
 		return E_FAIL;
 
+	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
+	m_pGameInstance->PlayBGM(TEXT("Stage3-4Bgm.ogg"), 0.5f);
+
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 

@@ -43,7 +43,6 @@ void CThirdee_Idle::Update(CPlayer_Thirdee* pPlayer, _float fTimeDelta)
 
 void CThirdee_Idle::Exit(CPlayer_Thirdee* pPlayer)
 {
-    pPlayer->Exit();
 }
 
 CThirdee_Idle* CThirdee_Idle::Create(PLAYERSTATE eState)

@@ -76,6 +76,16 @@ namespace Engine
 
 	}
 
+	inline bool EaseVector3OutBounce(D3DXVECTOR3* pOut, D3DXVECTOR3 start, D3DXVECTOR3 end, float fElapsedTime, float fDuringTime, float limitTime = 0.001f)
+	{
+		float ratio = min(fElapsedTime / fDuringTime, 1.f);
+		float eased = EaseOutBounce(ratio);
+
+		D3DXVec3Lerp(pOut, &start, &end, eased);
+
+		return (fDuringTime - fElapsedTime) < limitTime;
+	}
+
 	inline bool EaseVector3OutCubic(D3DXVECTOR3* pOut, D3DXVECTOR3 start, D3DXVECTOR3 end, float fElapsedTime, float fDuringTime, float limitTime = 0.001f)
 	{
 		float ratio = min(fElapsedTime / fDuringTime, 1.f);

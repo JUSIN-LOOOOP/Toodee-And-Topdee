@@ -88,5 +88,11 @@ typedef struct tagLoadingScreen : public CEvent {
 	_float3 vPos = { 0.f,0.f,0.f };
 	_bool bFadeIn = {};
 }LOADINGSCREEN_EVENT;
+
+/* FinalBoss Attack */
+typedef struct tagFinalBossAttack : public CEvent {
+	_bool	bIsAttacking;
+}FIANLBOSSATTACK_EVENT;
+
 END
 

@@ -30,6 +30,9 @@
 #include "Cloud.h"
 #include "Fire_Projectile.h"
 #include "Cannon.h"
+#include "FinalTile.h"
+#include "FinalBoss.h"
+#include "MainMenu_Spark.h"
 
 #include "JumpDust.h"
 #include "WaterSplash.h"
@@ -151,6 +154,11 @@ HRESULT CMainApp::Ready_Default_Setting()
 
 HRESULT CMainApp::Ready_Prototype_ForStatic()
 {
+	/*Prototype_Component_Shader_Payer */
+	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Shader_Player"),
+		CShader_Player::Create(m_pGraphic_Device, TEXT("../Resources/Shader/Player.txt")))))
+		return E_FAIL;
+
 	/* Prototype_Component_VIBuffer_Cube */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Cube"),
 		CVIBuffer_Cube::Create(m_pGraphic_Device))))
@@ -190,7 +198,25 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 		CMultiViewCamera::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_GameObject_FinalBoss */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_FinalBoss"),
+		CFinalBoss::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	/* Prototype_Component_Texture_FinalBoss_Attack*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_FinalBoss_Attack"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/Attack/%d.png"), 11))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Effect_FinalBoss_Attack*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_FinalBoss_Attack"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Effect/Eff_FinalBoss_Attack/%d.png"), 5))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Effect_FinalBoss_Attack*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_FinalBoss_Attack_Projectile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Effect/Eff_FinalBoss_Attack/Projectile.png"), 1))))
+		return E_FAIL;
 
 	/* Prototype_Component_Texture_Semicolon*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Semiclon"),
@@ -217,6 +243,10 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 {
 #pragma region TEXTURE_MAP_OBJECT
+	/* Prototype_Texture_Tile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Tile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Map/Tile.dds"), 1))))
+		return E_FAIL;
 
 	/* Prototype_Texture_Block_Wall */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Wall"),
@@ -316,9 +346,26 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/RedButton/ButtonPush%d.png"), 2))))
 		return E_FAIL;
 
+	/* Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_MainMenu_Spark"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Spark/Mainmenu_Spark%d.png"), 10))))
+		return E_FAIL;
+
+
+
 #pragma endregion
 
 #pragma region GAMEOBJECT_MAP_OBJECT
+
+
+	/* Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MainMenu_Spark"),
+		CMainMenu_Spark::Create(m_pGraphic_Device))))
+		  return E_FAIL;
+	/* Prototype_GameObject_Tile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Tile"),
+		CFinalTile::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	/* Prototype_GameObject_Collider_Map */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"),
@@ -379,7 +426,7 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Gimmick()
 		return E_FAIL;
 #pragma endregion
 
-#pragma region GAMEOBJECT_CANNON
+#pragma region GAMEOBJECT_CLOUD
 
 	/* Prototype_GameObject_Cloud*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Cloud"),
@@ -397,6 +444,16 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Gimmick()
 	/* Prototype_Component_Texture_Projectile_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Projectile_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Projectile/Fire/Projectile_Fire%d.png"), 40))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Effect_Cannon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_Cannon"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Effect/Eff_Cannon/%d.png"), 3))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Effect_Projectile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_Projectile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Effect/Eff_Projectile/%d.png"), 9))))
 		return E_FAIL;
 
 #pragma endregion

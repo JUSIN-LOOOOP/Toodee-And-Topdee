@@ -4,6 +4,8 @@
 #include "Thirdee_Idle.h"
 #include "Thirdee_Move.h"
 #include "Thirdee_Action.h"
+#include "Thirdee_Dead.h"
+#include "Thirdee_Clear.h"
 
 #include "Thirdee_Body.h"
 #include "InteractionBlock.h"
@@ -82,6 +84,7 @@ HRESULT CPlayer_Thirdee::Initialize(void* pArg)
     m_fMaxGravity = 10.f;
     m_fAccumulationJumpPower = 0.f;
 #pragma endregion
+
 	return S_OK;
 }
 
@@ -95,13 +98,20 @@ void CPlayer_Thirdee::Update(_float fTimeDelta)
 {
     _uint iInputData = KeyInput();
     
-    if (m_eCurrentDimension == DIMENSION::TOPDEE)
+    if (m_eCurrentState == PLAYERSTATE::DEAD || m_eCurrentState == PLAYERSTATE::CLEAR)
     {
-        Check_Topdee_State(iInputData, fTimeDelta);
+        m_pCurrentState->Update(this, fTimeDelta);
     }
-    else if (m_eCurrentDimension == DIMENSION::TOODEE)
+    else
     {
-        Check_Toodee_State(iInputData, fTimeDelta);
+        if (m_eCurrentDimension == DIMENSION::TOPDEE)
+        {
+            Check_Topdee_State(iInputData, fTimeDelta);
+        }
+        else if (m_eCurrentDimension == DIMENSION::TOODEE)
+        {
+            Check_Toodee_State(iInputData, fTimeDelta);
+        }
     }
 
     m_RootWorldMatrix = *m_pTransformCom->Get_WorldMatrix();
@@ -162,6 +172,8 @@ void CPlayer_Thirdee::EnterAction()
 
     if (m_eCurrentDimension == DIMENSION::TOODEE)
     {
+        m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+        m_pGameInstance->PlayAudio(TEXT("PlayerJump.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
         m_fCurrentJumpPower = 10.f;
         m_fCurrentGravity = 0.f;
         m_fAccumulationJumpPower = 0.f;
@@ -181,8 +193,43 @@ void CPlayer_Thirdee::Action(_float fTimeDelta)
     }
 }
 
-void CPlayer_Thirdee::Exit()
+void CPlayer_Thirdee::Dead(_float fTimeDelta)
 {
+    _float3 vLook = m_pTransformCom->Get_State(STATE::LOOK);
+    D3DXVec3Normalize(&vLook, &vLook);
+
+    if (m_pTransformCom->Turn_Divide(vLook, D3DXToRadian(-90.f), D3DXToRadian(90.f), fTimeDelta))
+    {
+        LEVELCHANGE_EVENT Event;
+        Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1);
+        Event.iCurrentLevel = m_iPlayLevel;
+
+        m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
+    }
+}
+
+void CPlayer_Thirdee::EnterClear()
+{
+    m_pColliderCom->Collision_Off();
+}
+
+void CPlayer_Thirdee::Clear(_float fTimeDelta)
+{
+    _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+    vPosition.y += 5.f * fTimeDelta;
+
+    m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
+
+    if (vPosition.y >= 10.f)
+    {
+        LEVELCHANGE_EVENT Event;
+        Event.iCurrentLevel = m_iPlayLevel;
+        Event.iChangeLevel = m_iPlayLevel + 1;
+        m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
+    }
+
+    m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 }
 
 HRESULT CPlayer_Thirdee::Change_State(PLAYERSTATE eNewState)
@@ -214,7 +261,7 @@ HRESULT CPlayer_Thirdee::Change_State(PLAYERSTATE eNewState)
 HRESULT CPlayer_Thirdee::Ready_Component()
 {
     CTransform::TRANSFORM_DESC TransformDesc{};
-    TransformDesc.fSpeedPerSec = 10.f;
+    TransformDesc.fSpeedPerSec = 12.f;
     TransformDesc.fRotationPerSec = D3DXToRadian(720.f);
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
@@ -225,10 +272,10 @@ HRESULT CPlayer_Thirdee::Ready_Component()
     ColliderDesc.pOwner = this;
     ColliderDesc.bIsFixed = false;
     ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
-    ColliderDesc.vColliderScale = _float3(1.8f, 1.8f, 1.8f);
+    ColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
     ColliderDesc.pTransform = m_pTransformCom;
     
-    m_fGroundCheckColliderY = ColliderDesc.vColliderScale.z * 0.5f;
+    m_fGroundCheckColliderY = ColliderDesc.vColliderScale.z * 0.7f;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
@@ -287,6 +334,8 @@ HRESULT CPlayer_Thirdee::Ready_States()
     Add_State(PLAYERSTATE::IDLE);
     Add_State(PLAYERSTATE::MOVE);
     Add_State(PLAYERSTATE::ACTION);
+    Add_State(PLAYERSTATE::DEAD);
+    Add_State(PLAYERSTATE::CLEAR);
 
     EnterIdle();
     m_pCurrentState = Find_State(PLAYERSTATE::IDLE);
@@ -346,9 +395,12 @@ HRESULT CPlayer_Thirdee::Add_State(PLAYERSTATE eKeyState)
     case PLAYERSTATE::ACTION:
         pInstance = CThirdee_Action::Create(eKeyState);
         break;
- //   case PLAYERSTATE::DEAD:
- //       pInstance = CThirdee_Dead::Create(eKeyState);
- //       break;
+    case PLAYERSTATE::DEAD:
+        pInstance = CThirdee_Dead::Create(eKeyState);
+        break;
+    case PLAYERSTATE::CLEAR:
+        pInstance = CThirdee_Clear::Create(eKeyState);
+        break;
     }
 
     m_States.emplace(eKeyState, pInstance);
@@ -360,7 +412,7 @@ _uint CPlayer_Thirdee::KeyInput()
 {
     _uint iInputData = 0;
 
- //   if(m_eCurrentDimension == DIMENSION::TOPDEE)
+    if(m_eCurrentDimension == DIMENSION::TOPDEE)
     {
         if (m_pGameInstance->Key_Pressing(VK_LEFT))
             iInputData |= ENUM_CLASS(KEYINPUT::KEY_LEFT);
@@ -411,6 +463,7 @@ void CPlayer_Thirdee::Check_Dimension(_float fTimeDelta)
             m_pAttachBlock->Detach(m_vDetachPosition, 20.f);
             m_pAttachBlock = nullptr;
         }
+
         break;
     case DIMENSION::CHANGE:
         m_ePrevDimension = m_eCurrentDimension;
@@ -456,6 +509,24 @@ void CPlayer_Thirdee::Check_Collision_PlayerPos()
     }
 }
 
+void CPlayer_Thirdee::Check_Collision_Enemy(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Enemy")) != string::npos)
+    {
+
+        m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::DEAD);
+    }
+}
+
+void CPlayer_Thirdee::Check_Collision_Portal(CGameObject* pGameObject)
+{
+    if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
+    {
+        EnterClear();
+        m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::CLEAR);
+    }
+}
+
 void CPlayer_Thirdee::Check_Topdee_State(_uint iInputData, _float fTimeDelta)
 {
     Topdee_Direction(iInputData, fTimeDelta);    
@@ -479,6 +550,8 @@ void CPlayer_Thirdee::Check_Topdee_Collision()
         for (auto iter : *Overlaps)
         {
             Check_Collision_InteractionBlock(iter);
+            Check_Collision_Enemy(iter);
+            Check_Collision_Portal(iter);
         }
 
         Check_Collision_PlayerPos();
@@ -493,6 +566,9 @@ void CPlayer_Thirdee::Check_Collision_InteractionBlock(CGameObject* pGameObject)
         if (false == pBlock->IsPush() && false == pBlock->IsFall())
         {
             pBlock->Request_Change_State(BLOCKSTATE::PUSH);
+            m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+            m_pGameInstance->PlayAudio(TEXT("BlockPush.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
+
             pBlock->Push(m_ePushDirZ, m_ePushDirX, 8.f);
         }
     }
@@ -666,6 +742,9 @@ void CPlayer_Thirdee::Interaction()
     {
         if (m_pAttachBlock && true == m_bCanDetach)
         {
+            m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+            m_pGameInstance->PlayAudio(TEXT("BlockDetach.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
+
             m_pAttachBlock->Request_Change_State(BLOCKSTATE::DETACH);
             m_pAttachBlock->Detach(m_vDetachPosition, 20.f);
             m_pAttachBlock = nullptr;
@@ -676,6 +755,9 @@ void CPlayer_Thirdee::Interaction()
             {
                 if (m_pFocusBlock->IsStop())
                 {
+                    m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+                    m_pGameInstance->PlayAudio(TEXT("BlockAttach.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
+
                     m_pFocusBlock->Request_Change_State(BLOCKSTATE::ATTACH);
                     m_pFocusBlock->Attach(m_pTransformCom, 20.f);
                     m_pAttachBlock = m_pFocusBlock;
@@ -771,7 +853,7 @@ void CPlayer_Thirdee::Topdee_Direction(_uint iInputData, _float fTimeDelta)
 
 void CPlayer_Thirdee::Topdee_Move(_float fTimeDelta)
 {
-    if(m_pTransformCom->Approach(m_vMovePoint, fTimeDelta, 10.f))
+    if(m_pTransformCom->Approach(m_vMovePoint, fTimeDelta, 12.f))
     {
         Topdee_Check_Center();
     }
@@ -802,6 +884,16 @@ void CPlayer_Thirdee::Check_Toodee_Collision()
 
     if (m_pColliderCom->OnCollisionStay() || m_pColliderCom->OnCollisionEnter())
     {
+        vector<CGameObject*>* Overlaps = { nullptr };
+        if (false == m_pColliderCom->GetOverlapAll(Overlaps))
+            return;
+
+        for (auto iter : *Overlaps)
+        {
+            Check_Collision_Enemy(iter);
+            Check_Collision_Portal(iter);
+        }
+
         Check_Collision_ToodeState();
         Check_Collision_PlayerPos();
     }
@@ -852,6 +944,19 @@ void CPlayer_Thirdee::Check_Collision_Ground()
                     m_fCurrentGravity = 0.f;
                     m_fCurrentJumpPower = 0.f;
                     m_bFalling = false;
+                }
+            }
+
+            if (iter->Get_Name().find(TEXT("Break")) != wstring::npos)
+            {
+                COLLIDER_DIR eBreakCollider_Dir = m_pGroundCheckColliderCom->DetectCollisionDirection();
+
+                if (eBreakCollider_Dir == COLLIDER_DIR::BACK)
+                {
+                    BLOCKBREAKEVENT Event;
+                    Event.vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+                    m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::BLOCK_BREAK, Event);
                 }
             }
         }
@@ -952,5 +1057,4 @@ void CPlayer_Thirdee::Free()
     Safe_Release(m_pColliderCom);
     Safe_Release(m_pGroundCheckColliderCom);
     Safe_Release(m_pAttachCheckColliderCom);
-    Safe_Release(m_pAttachBlock);
 }

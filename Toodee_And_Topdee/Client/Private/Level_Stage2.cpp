@@ -29,6 +29,9 @@ HRESULT CLevel_Stage2::Initialize()
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
+	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
+	m_pGameInstance->PlayBGM(TEXT("Stage1-2Bgm.ogg"), 0.5f);
+
 	return S_OK;
 }
 

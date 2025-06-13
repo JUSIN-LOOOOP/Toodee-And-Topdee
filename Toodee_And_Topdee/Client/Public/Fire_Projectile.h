@@ -42,6 +42,7 @@ private:
 	CTransform*					m_pTransformCom = { nullptr };
 	CTexture*					m_pTextureCom = { nullptr };
 	CCollider*					m_pColliderCom = { nullptr };
+	CTexture*					m_pTextureCom_Eff = { nullptr };
 
 	CCannon::CANNON_DIRECTION	m_eDir = {};
 	_uint						m_iMotionNum = {0};
@@ -51,12 +52,19 @@ private:
 	_float						m_fAccumulateLifeTime = { 0.f };
 	_float						m_fLifeInterval = {8.f};
 
+	//effect
+	_bool						m_bEffect = { false };
+	_uint						m_iEffNum = { 0 };
+	_float						m_fEffIntervalMotion = { 0.025f };
+	_float						m_fEffAccumurateTime = { 0.f };
+
 private:
 	HRESULT						Ready_Components();
 	void						SetUp_RenderState();
 	void						Reset_RenderState();
 	void						Fire_Forward(_float fTimeDelta);
 	void						Change_Motion(_float fTimeDelta);
+	void						Effect_Motion(_float fTimeDelta);
 
 
 public:

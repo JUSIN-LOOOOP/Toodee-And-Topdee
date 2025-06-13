@@ -309,12 +309,8 @@ void CStageBoss_Body::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pPartsTextureCom);
-	Safe_Release(m_pColliderCom);
-
+	
 	for (auto& parts : m_sParts)
 		Safe_Release(parts.pVIPartsBufferCom);
 }

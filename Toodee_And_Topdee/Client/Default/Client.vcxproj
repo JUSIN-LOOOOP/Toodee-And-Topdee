@@ -174,6 +174,8 @@
     <ClInclude Include="..\Public\Client_Extension.h" />
     <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
+    <ClInclude Include="..\public\FinalTile.h" />
+    <ClInclude Include="..\Public\FinalBoss.h" />
     <ClInclude Include="..\Public\ColorLight.h" />
     <ClInclude Include="..\Public\Finger.h" />
     <ClInclude Include="..\Public\FingerDust.h" />
@@ -237,6 +239,7 @@
     <ClInclude Include="..\Public\Semicolon.h" />
     <ClInclude Include="..\Public\ShotDust.h" />
     <ClInclude Include="..\Public\Sink.h" />
+    <ClInclude Include="..\public\SpikeHole.h" />
     <ClInclude Include="..\Public\Spikes.h" />
     <ClInclude Include="..\Public\StageBoss.h" />
     <ClInclude Include="..\Public\StageBoss_Body.h" />
@@ -255,6 +258,8 @@
     <ClInclude Include="..\Public\Thirdee_Action.h" />
     <ClInclude Include="..\Public\Thirdee_Arm.h" />
     <ClInclude Include="..\Public\Thirdee_Body.h" />
+    <ClInclude Include="..\public\Thirdee_Clear.h" />
+    <ClInclude Include="..\public\Thirdee_Dead.h" />
     <ClInclude Include="..\Public\Thirdee_Hair.h" />
     <ClInclude Include="..\Public\Thirdee_Head.h" />
     <ClInclude Include="..\Public\Thirdee_Idle.h" />
@@ -301,6 +306,8 @@
     <ClCompile Include="..\Private\CannonDust.cpp" />
     <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
+    <ClCompile Include="..\private\FinalTile.cpp" />
+    <ClCompile Include="..\Private\FinalBoss.cpp" />
     <ClCompile Include="..\Private\ColorLight.cpp" />
     <ClCompile Include="..\Private\Finger.cpp" />
     <ClCompile Include="..\Private\FingerDust.cpp" />
@@ -364,6 +371,7 @@
     <ClCompile Include="..\Private\Semicolon.cpp" />
     <ClCompile Include="..\Private\ShotDust.cpp" />
     <ClCompile Include="..\Private\Sink.cpp" />
+    <ClCompile Include="..\private\SpikeHole.cpp" />
     <ClCompile Include="..\Private\Spikes.cpp" />
     <ClCompile Include="..\Private\StageBoss.cpp" />
     <ClCompile Include="..\Private\StageBoss_Body.cpp" />
@@ -382,6 +390,8 @@
     <ClCompile Include="..\Private\Thirdee_Action.cpp" />
     <ClCompile Include="..\Private\Thirdee_Arm.cpp" />
     <ClCompile Include="..\Private\Thirdee_Body.cpp" />
+    <ClCompile Include="..\private\Thirdee_Clear.cpp" />
+    <ClCompile Include="..\private\Thirdee_Dead.cpp" />
     <ClCompile Include="..\Private\Thirdee_Hair.cpp" />
     <ClCompile Include="..\Private\Thirdee_Head.cpp" />
     <ClCompile Include="..\Private\Thirdee_Idle.cpp" />

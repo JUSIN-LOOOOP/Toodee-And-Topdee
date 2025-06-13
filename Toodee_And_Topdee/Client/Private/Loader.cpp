@@ -24,6 +24,7 @@
 #include "Cannon.h"
 #include "BackCloud.h"
 #include "Fire_Projectile.h"
+#include "SpikeHole.h"
 #pragma endregion
 
 #pragma region Boss
@@ -160,14 +161,6 @@ HRESULT CLoader::Loading_For_Logo_Level()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_BackGround"),
 		CMainMenu_BackGround::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* Spark */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Spark"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Spark/Mainmenu_Spark%d.png"), 10))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Spark"),
-		CMainMenu_Spark::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* CenterLine */
@@ -767,7 +760,10 @@ HRESULT CLoader::Loading_For_StageBoss()
 
 HRESULT CLoader::Loading_For_FinalBoss01()
 {
-
+	/* Prototype_GameObject_SpikeHole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_SpikeHole"),
+		CSpikeHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_WallWood"),
@@ -816,6 +812,11 @@ HRESULT CLoader::Loading_For_FinalBoss01()
 
 HRESULT CLoader::Loading_For_FinalBoss02()
 {
+	/* Prototype_GameObject_SpikeHole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_SpikeHole"),
+		CSpikeHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Break */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))
@@ -866,7 +867,12 @@ HRESULT CLoader::Loading_For_FinalBoss02()
 }
 
 HRESULT CLoader::Loading_For_FinalBoss03()
-{
+{	
+	/* Prototype_GameObject_SpikeHole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_SpikeHole"),
+		CSpikeHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Break */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))
