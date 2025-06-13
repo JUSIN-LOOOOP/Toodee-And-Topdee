@@ -72,7 +72,7 @@ void CWallParts::Update(_float fTimeDelta)
         _float3 ToodeeLength = m_pToodee->Get_State(STATE::POSITION) - particle._position;
         if ((D3DXVec3Length(&TopdeeLength) < 3.f && D3DXVec3Length(&TopdeeLength) > 1.5f) 
                 || D3DXVec3Length(&ToodeeLength) < 3.f && D3DXVec3Length(&ToodeeLength) > 1.5f)
-            particle._position += (D3DXVec3Length(&TopdeeLength) < 3.f) ? *D3DXVec3Normalize(&TopdeeLength, &TopdeeLength) * fTimeDelta * 3.5f : *D3DXVec3Normalize(&ToodeeLength, &ToodeeLength) * fTimeDelta * 3.5f;
+            particle._position -= (D3DXVec3Length(&TopdeeLength) < 3.f) ? *D3DXVec3Normalize(&TopdeeLength, &TopdeeLength) * fTimeDelta * 4.f : *D3DXVec3Normalize(&ToodeeLength, &ToodeeLength) * fTimeDelta * 4.f;
         else if (particle._BoundingBox.isPointInside(particle._position) == false || m_bOutFlag == true)  //밖에 있으면 돌아오게끔
         {
             m_bOutFlag = true;
