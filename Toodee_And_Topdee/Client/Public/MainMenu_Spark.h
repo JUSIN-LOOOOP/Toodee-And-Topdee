@@ -19,6 +19,7 @@ public:
 	{
 		_uint		iMotionMaxNum = { 1 };
 		_float3		vPosition = {};
+		_bool		bFinalBoss = { false };
 	}MAINMENU_SPARK;
 
 private:

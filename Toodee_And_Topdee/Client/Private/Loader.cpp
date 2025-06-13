@@ -163,14 +163,6 @@ HRESULT CLoader::Loading_For_Logo_Level()
 		CMainMenu_BackGround::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Spark */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Spark"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Spark/Mainmenu_Spark%d.png"), 10))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Spark"),
-		CMainMenu_Spark::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 	/* CenterLine */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_CenterLine"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/CenterLine/CenterLine%d.png"), 6))))

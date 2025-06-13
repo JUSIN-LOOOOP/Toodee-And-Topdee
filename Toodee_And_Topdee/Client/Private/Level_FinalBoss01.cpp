@@ -9,6 +9,7 @@
 
 #include "Test_Cube2.h"
 #include "Event.h"
+#include "MainMenu_Spark.h"
 
 CLevel_FinalBoss01::CLevel_FinalBoss01(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -216,6 +217,17 @@ HRESULT CLevel_FinalBoss01::Ready_Layer_Back(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_FinalBoss"))))
 		return E_FAIL;
+
+	for (_uint i = 0; i < 300; i++)
+	{
+		CMainMenu_Spark::MAINMENU_SPARK info;
+		info.iMotionMaxNum = static_cast<_uint>(m_pGameInstance->Rand(0.f, 10.f));
+		info.vPosition = _float3(m_pGameInstance->Rand(-200.f, 200.f), m_pGameInstance->Rand(-8.f,18.f), m_pGameInstance->Rand(-17.f, 17.f));
+		info.bFinalBoss = true;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MainMenu_Spark"), &info)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
