@@ -30,7 +30,7 @@
 #include "Cloud.h"
 #include "Fire_Projectile.h"
 #include "Cannon.h"
-
+#include "FinalBoss.h"
 
 #include "ColliderMap_Object.h"
 
@@ -177,7 +177,25 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 		CMultiViewCamera::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_GameObject_FinalBoss */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_FinalBoss"),
+		CFinalBoss::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	/* Prototype_Component_Texture_FinalBoss_Attack*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_FinalBoss_Attack"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/Attack/%d.png"), 11))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Effect_FinalBoss_Attack*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_FinalBoss_Attack"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Effect/Eff_FinalBoss_Attack/%d.png"), 5))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Effect_FinalBoss_Attack*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_FinalBoss_Attack_Projectile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Effect/Eff_FinalBoss_Attack/Projectile.png"), 1))))
+		return E_FAIL;
 
 	/* Prototype_Component_Texture_Semicolon*/
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Semiclon"),

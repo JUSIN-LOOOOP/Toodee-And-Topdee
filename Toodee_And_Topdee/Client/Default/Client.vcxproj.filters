@@ -345,6 +345,9 @@
     <ClCompile Include="..\private\Thirdee_Clear.cpp">
       <Filter>00. Dummys\K J H\Thirdee\State</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\FinalBoss.cpp">
+      <Filter>02. GameObjects\FinalBoss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -706,6 +709,9 @@
     <ClInclude Include="..\public\Thirdee_Clear.h">
       <Filter>00. Dummys\K J H\Thirdee\State</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\FinalBoss.h">
+      <Filter>02. GameObjects\FinalBoss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -994,6 +1000,9 @@
     </Filter>
     <Filter Include="00. Dummys\K J H\Thirdee\Part">
       <UniqueIdentifier>{53dfb615-66b5-4c7b-8fa5-51ff26a3c11f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\FinalBoss">
+      <UniqueIdentifier>{d4d2a1db-ae9c-457f-8022-3b3f7bae17ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

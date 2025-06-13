@@ -23,6 +23,7 @@ private :
 	_float	m_fIdleTime = {};
 	_float	m_fDelayTime = {};
 	_bool	m_bAtkFlag[PATTERN_END] = { false, false };
+	_uint	m_iPlayLevel = { };
 
 private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);

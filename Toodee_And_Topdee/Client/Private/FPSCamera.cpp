@@ -163,27 +163,27 @@ void CFPSCamera::CameraTestMove(_float fTimeDelta)
         m_pTransformCom->Go_Right(fTimeDelta);
     }
 
-    /* POINT			ptMouse{};
+     //POINT			ptMouse{};
 
-     GetCursorPos(&ptMouse);
-     ScreenToClient(g_hWnd, &ptMouse);
+     //GetCursorPos(&ptMouse);
+     //ScreenToClient(g_hWnd, &ptMouse);
 
-     _int		iMouseMove = {};
+     //_int		iMouseMove = {};
 
-     if (iMouseMove = ptMouse.x - m_OldPoint.x)
-     {
-         m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), iMouseMove * fTimeDelta * 0.1f);
-     }
+     //if (iMouseMove = ptMouse.x - m_OldPoint.x)
+     //{
+     //    m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), iMouseMove * fTimeDelta * 0.1f);
+     //}
 
-     if (iMouseMove = ptMouse.y - m_OldPoint.y)
-     {
-         m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * 0.1f);
-     }
+     //if (iMouseMove = ptMouse.y - m_OldPoint.y)
+     //{
+     //    m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * 0.1f);
+     //}
 
-     m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
-     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
+     //m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
+     //m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
 
-     m_OldPoint = ptMouse;*/
+     //m_OldPoint = ptMouse;
 }
 
 void CFPSCamera::Shaking(_float fTimeDelta)
