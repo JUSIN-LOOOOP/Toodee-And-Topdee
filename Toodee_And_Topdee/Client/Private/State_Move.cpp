@@ -1,4 +1,5 @@
 #include "State_Move.h"
+#include "GameInstance.h"
 
 CState_Move::CState_Move()
 {
@@ -6,6 +7,8 @@ CState_Move::CState_Move()
 
 HRESULT CState_Move::Initialize(void* pArg)
 {
+    m_pGameInstance = CGameInstance::GetInstance();
+    Safe_AddRef(m_pGameInstance);
     PLAYERSTATE_DESC* pDesc = static_cast<PLAYERSTATE_DESC*>(pArg);
     if (pDesc == nullptr)
         return E_FAIL;
@@ -14,7 +17,8 @@ HRESULT CState_Move::Initialize(void* pArg)
 
     m_iMaxAnimCount = pDesc->iMaxAnimCount;
     m_fAnimDelay = 0.05f;
-
+    m_fSoundDelay = 0.25f;
+    m_fSoundTime = 0.f;
     return S_OK;
 }
 
@@ -62,6 +66,16 @@ void CState_Move::Update(CPlayer* pPlayer, _float fTimeDelta)
             MSG_BOX(TEXT("Failed Change State : STOP"));
     }
 
+
+    if (m_fSoundTime + fTimeDelta > m_fSoundDelay)
+    {
+        m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+        m_pGameInstance->PlayAudio(TEXT("PlayerFootStep.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
+
+        m_fSoundTime = 0.f;
+    }
+    else
+        m_fSoundTime += fTimeDelta;
 }
 
 void CState_Move::UpdateAnim(_float fTimeDelta)
@@ -94,6 +108,8 @@ CState_Move* CState_Move::Create(void* pArg)
 void CState_Move::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pGameInstance);
 }
 
 

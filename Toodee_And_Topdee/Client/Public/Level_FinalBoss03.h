@@ -30,6 +30,7 @@ private:
 	HRESULT Ready_Layer_MapObject(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Back(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_ColliderMap(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Tile(const _wstring& strLayerTag);
 	void	CreateHitBox(_float fTimeDelta);
 
 public:

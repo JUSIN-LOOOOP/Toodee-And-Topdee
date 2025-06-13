@@ -33,6 +33,10 @@ HRESULT CLevel_Stage5::Initialize()
 
 	if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
 		return E_FAIL;
+
+	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
+	m_pGameInstance->PlayBGM(TEXT("Stage5-6Bgm.ogg"), 0.5f);
+
 	return S_OK;
 }
 

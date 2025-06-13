@@ -1,5 +1,6 @@
 #include "State_Swim.h"
 #include "Player_Toodee.h"
+#include "GameInstance.h"
 
 CState_Swim::CState_Swim()
 {
@@ -7,6 +8,8 @@ CState_Swim::CState_Swim()
 
 HRESULT CState_Swim::Initialize(void* pArg)
 {
+    m_pGameInstance = CGameInstance::GetInstance();
+    Safe_AddRef(m_pGameInstance);
     PLAYERSTATE_DESC* pDesc = static_cast<PLAYERSTATE_DESC*>(pArg);
     if (pDesc == nullptr)
         return E_FAIL;
@@ -23,6 +26,9 @@ void CState_Swim::Enter(CPlayer* pPlayer)
 {
     m_iCurrentAnimCount = 0;
     m_fAnimTime = 0.f;
+
+    m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+    m_pGameInstance->PlayAudio(TEXT("InWater.wav"), CHANNELID::SOUND_EFFECT, 0.3f);
 }
 
 void CState_Swim::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta)
@@ -88,4 +94,6 @@ CState_Swim* CState_Swim::Create(void* pArg)
 void CState_Swim::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pGameInstance);
 }

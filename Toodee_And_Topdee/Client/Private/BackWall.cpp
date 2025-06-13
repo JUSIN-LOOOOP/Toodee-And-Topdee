@@ -3,12 +3,12 @@
 #include "Util.h"
 
 CBackWall::CBackWall(LPDIRECT3DDEVICE9 pGraphic_Device) 
-    : CGameObject { pGraphic_Device }
+    : CBlendObject{ pGraphic_Device }
 {
 } 
 
 CBackWall::CBackWall(const CBackWall& Prototype)
-    : CGameObject{ Prototype }
+    : CBlendObject{ Prototype }
 {
 }
 
@@ -41,7 +41,7 @@ void CBackWall::Update(_float fTimeDelta)
 
 void CBackWall::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_TILE, this);
 }
 
 HRESULT CBackWall::Render()

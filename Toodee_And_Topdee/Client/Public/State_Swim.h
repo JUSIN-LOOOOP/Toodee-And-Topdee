@@ -2,6 +2,10 @@
 
 #include "PlayerState.h"
 
+BEGIN(Engine)
+class CGameInstance;
+END
+
 BEGIN(Client)
 
 class CState_Swim final : public CPlayerState
@@ -17,6 +21,9 @@ public:
 	virtual void Update(CPlayer* pPlayer, _float fTimeDelta) override;
 	virtual void Exit(CPlayer* pPlayer) override;
 	virtual void UpdateAnim(_float fTimeDelta) override;
+
+private:
+	CGameInstance* m_pGameInstance = { nullptr };
 
 public:
 	static CState_Swim* Create(void* pArg);
