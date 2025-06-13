@@ -50,9 +50,12 @@ void CBlock_Break::Update(_float fTimeDelta)
 
 	if (m_bIsStepOn)
 	{
-		if (m_fCurrentBreakTime >= m_fBreakDelay)
+		if (m_fCurrentBreakTime >= m_fBreakDelay && false == m_bDead)
 		{
 			m_pColliderCom->Collision_Off();
+
+			m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+			m_pGameInstance->PlayAudio(TEXT("BlockBreak.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
 			m_bDead = true;
 		}
 		else
@@ -80,6 +83,9 @@ void CBlock_Break::StepOn(const BLOCKBREAKEVENT& Event)
 {
 	if (false == m_bIsStepOn && IsNearBlock(Event.vPosition))
 	{
+		m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+		m_pGameInstance->PlayAudio(TEXT("BlockBreakShake.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
+
 		m_bIsStepOn = true;
 		m_vCenterPosition = m_pTransformCom->Get_State(STATE::POSITION);
 		BLOCKBREAKEVENT Event;
@@ -111,6 +117,7 @@ _bool CBlock_Break::IsNearBlock(_float3 vPosition)
 
 void CBlock_Break::Shaking()
 {
+	
 	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 	
 	vPosition.x = m_vCenterPosition.x + (rand() % 50 / 100.f - m_fShakingPower);

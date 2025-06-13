@@ -345,6 +345,12 @@
     <ClCompile Include="..\private\Thirdee_Clear.cpp">
       <Filter>00. Dummys\K J H\Thirdee\State</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\FinalTile.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpikeHole.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\FinalBoss.cpp">
       <Filter>02. GameObjects\FinalBoss</Filter>
     </ClCompile>
@@ -708,6 +714,12 @@
     </ClInclude>
     <ClInclude Include="..\public\Thirdee_Clear.h">
       <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FinalTile.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SpikeHole.h">
+      <Filter>00. Dummys\K J H</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\FinalBoss.h">
       <Filter>02. GameObjects\FinalBoss</Filter>

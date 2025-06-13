@@ -1,5 +1,5 @@
 #include "Renderer.h"
-#include "GameObject.h"
+#include "BlendObject.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:m_pGraphic_Device{ pGraphic_Device }
@@ -52,6 +52,11 @@ HRESULT CRenderer::Render_Priority()
 
 HRESULT CRenderer::Render_Tile()
 {
+	m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_TILE)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			return static_cast<CBlendObject*>(pSour)->Get_Depth() < static_cast<CBlendObject*>(pDest)->Get_Depth();
+		});
+
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_TILE)])
 	{
 		if (nullptr != pRenderObject)
@@ -82,6 +87,11 @@ HRESULT CRenderer::Render_NonBlend()
 
 HRESULT CRenderer::Render_Blend()
 {
+	m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_BLEND)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			return static_cast<CBlendObject*>(pSour)->Get_Depth() > static_cast<CBlendObject*>(pDest)->Get_Depth();
+		});
+
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_BLEND)])
 	{
 		if (nullptr != pRenderObject)

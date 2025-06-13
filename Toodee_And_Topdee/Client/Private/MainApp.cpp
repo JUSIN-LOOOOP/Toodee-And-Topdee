@@ -30,6 +30,7 @@
 #include "Cloud.h"
 #include "Fire_Projectile.h"
 #include "Cannon.h"
+#include "FinalTile.h"
 #include "FinalBoss.h"
 
 #include "ColliderMap_Object.h"
@@ -138,6 +139,11 @@ HRESULT CMainApp::Ready_Default_Setting()
 
 HRESULT CMainApp::Ready_Prototype_ForStatic()
 {
+	/*Prototype_Component_Shader_Payer */
+	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Shader_Player"),
+		CShader_Player::Create(m_pGraphic_Device, TEXT("../Resources/Shader/Player.txt")))))
+		return E_FAIL;
+
 	/* Prototype_Component_VIBuffer_Cube */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Cube"),
 		CVIBuffer_Cube::Create(m_pGraphic_Device))))
@@ -222,6 +228,10 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 {
 #pragma region TEXTURE_MAP_OBJECT
+	/* Prototype_Texture_Tile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Tile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Map/Tile.dds"), 1))))
+		return E_FAIL;
 
 	/* Prototype_Texture_Block_Wall */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Block_Wall"),
@@ -320,6 +330,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 #pragma endregion
 
 #pragma region GAMEOBJECT_MAP_OBJECT
+
+	/* Prototype_GameObject_Tile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Tile"),
+		CFinalTile::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	/* Prototype_GameObject_Collider_Map */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"),

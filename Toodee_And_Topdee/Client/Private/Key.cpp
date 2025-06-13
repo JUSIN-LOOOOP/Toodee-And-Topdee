@@ -78,6 +78,9 @@ void CKey::Get_Key()
 {
 	m_Dead = true;
 	m_pColliderCom->Collision_Off();
+
+	m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+	m_pGameInstance->PlayAudio(TEXT("KeyPickup.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
 }
 
 HRESULT CKey::Ready_Components()

@@ -24,6 +24,7 @@
 #include "Cannon.h"
 #include "BackCloud.h"
 #include "Fire_Projectile.h"
+#include "SpikeHole.h"
 #pragma endregion
 
 #pragma region Boss
@@ -768,7 +769,10 @@ HRESULT CLoader::Loading_For_StageBoss()
 
 HRESULT CLoader::Loading_For_FinalBoss01()
 {
-
+	/* Prototype_GameObject_SpikeHole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_SpikeHole"),
+		CSpikeHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_WallWood"),
@@ -817,6 +821,11 @@ HRESULT CLoader::Loading_For_FinalBoss01()
 
 HRESULT CLoader::Loading_For_FinalBoss02()
 {
+	/* Prototype_GameObject_SpikeHole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_SpikeHole"),
+		CSpikeHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Break */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))
@@ -867,7 +876,12 @@ HRESULT CLoader::Loading_For_FinalBoss02()
 }
 
 HRESULT CLoader::Loading_For_FinalBoss03()
-{
+{	
+	/* Prototype_GameObject_SpikeHole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_SpikeHole"),
+		CSpikeHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Break */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))

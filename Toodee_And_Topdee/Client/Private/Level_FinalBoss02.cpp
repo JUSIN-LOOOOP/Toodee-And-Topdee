@@ -31,7 +31,8 @@ HRESULT CLevel_FinalBoss02::Initialize()
 
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
-
+	if (FAILED(Ready_Layer_Tile(TEXT("Layer_Tile"))))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -147,9 +148,9 @@ HRESULT CLevel_FinalBoss02::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::HOLE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Hole"), &info)))
-				return E_FAIL;
+			//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
+			//	ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Hole"), &info)))
+			//	return E_FAIL;
 			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Hole"), &info)))
 				return E_FAIL;*/
@@ -208,9 +209,9 @@ HRESULT CLevel_FinalBoss02::Ready_Layer_Back(const _wstring& strLayerTag)
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"), &BackdropThemeIdx)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), &BackTileIdx)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
+	//	ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), &BackTileIdx)))
+	//	return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_FinalBoss"))))
 		return E_FAIL;
@@ -231,6 +232,34 @@ HRESULT CLevel_FinalBoss02::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
 			return E_FAIL;
+	}
+
+
+	return S_OK;
+}
+
+HRESULT CLevel_FinalBoss02::Ready_Layer_Tile(const _wstring& strLayerTag)
+{
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/TileMap2"));
+
+	BLOCK_INFO	info = {};
+	_uint		idx = {};
+
+	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
+	{
+		switch (static_cast<MAPOBJECT>(info.iBlockType))
+		{
+		case MAPOBJECT::NONE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Tile"), &info)))
+				return E_FAIL;
+			break;
+		case MAPOBJECT::HOLE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_SpikeHole"), &info)))
+				return E_FAIL;
+			break;
+		}
 	}
 
 

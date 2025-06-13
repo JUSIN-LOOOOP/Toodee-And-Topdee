@@ -3,12 +3,12 @@
 #include "Util.h"
 
 CBackCloud::CBackCloud(LPDIRECT3DDEVICE9 pGraphic_Device) 
-    : CGameObject{ pGraphic_Device }
+    : CBlendObject{ pGraphic_Device }
 {
 } 
 
 CBackCloud::CBackCloud(const CBackCloud& Prototype)
-    : CGameObject{ Prototype }
+    : CBlendObject{ Prototype }
 {
 }
 
@@ -39,7 +39,8 @@ void CBackCloud::Update(_float fTimeDelta)
 
 void CBackCloud::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_TILE, this);
+    __super::Compute_CamDistance(m_pTransformCom);
 }
 
 HRESULT CBackCloud::Render()
