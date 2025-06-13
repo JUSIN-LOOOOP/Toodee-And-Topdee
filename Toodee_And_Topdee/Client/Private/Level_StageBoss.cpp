@@ -40,6 +40,8 @@ HRESULT CLevel_StageBoss::Initialize()
 
 	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
 	m_pGameInstance->PlayBGM(TEXT("StageBossBgm.ogg"), 0.5f);
+	m_pGameInstance->Set_Active(TEXT("Effect_FireFly"));
+	m_pGameInstance->Set_Active(TEXT("Effect_ColorLight"));
 
 	return S_OK;
 }

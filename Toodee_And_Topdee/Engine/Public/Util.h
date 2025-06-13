@@ -20,4 +20,27 @@ ENGINE_DLL HRESULT RayIntersectsTriangle(const Ray& ray, const _float3& v0, cons
 
 END
 
+BEGIN(d3d)
+inline DWORD FtoDw(float f)
+{
+    return *reinterpret_cast<DWORD*>(&f);
+}
+
+inline float GetRandomFloat(float lowBound, float hightBound)
+{
+	if (lowBound >= hightBound)
+		return lowBound;
+
+	float f = (rand() % 10000) * 0.0001f;
+	return (f * (hightBound - lowBound)) + lowBound;
+}
+
+inline void GetRandomVector(D3DXVECTOR3* out, D3DXVECTOR3* min, D3DXVECTOR3* max)
+{
+	out->x = GetRandomFloat(min->x, max->x);
+	out->y = GetRandomFloat(min->y, max->y);
+	out->z = GetRandomFloat(min->z, max->z);
+}
+END
+
 END

@@ -33,6 +33,20 @@
 #include "FinalTile.h"
 #include "FinalBoss.h"
 #include "MainMenu_Spark.h"
+
+#include "JumpDust.h"
+#include "WaterSplash.h"
+#include "BlockDust.h"
+#include "WallParts.h"
+#include "CannonDust.h"
+#include "ShotDust.h"
+#include "FingerDust.h"
+#include "Leaves.h"
+#include "SemiclonDust.h"
+#include "FireFly.h"
+#include "ColorLight.h"
+#include "KeyTwinkle.h"
+
 #include "ColliderMap_Object.h"
 
 Client::CMainApp::CMainApp()
@@ -73,7 +87,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Layer_LoadingScreen(TEXT("Layer_LoadingScreen"))))
 		return E_FAIL;
 
-
+	if (FAILED(Ready_Effect()))
+		return E_FAIL;
 
 	m_pGameInstance->Subscribe<LEVELCHANGE_EVENT>(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, [this](const LEVELCHANGE_EVENT& Event) {
 		this->Ready_Open_Level(Event);
@@ -282,14 +297,18 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Block/WoodBox.dds"), 1))))
 		return E_FAIL;
 
+
 	/* Prototype_Component_Texture_Backdrop */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Backdrop"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Backdrop%d.png"), 4))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackTile */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackTile"),
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackTile"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Tile.png"), 1))))
+		return E_FAIL;*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackTile"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Map/alphaCube.dds"), 1))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackCloud */
@@ -660,6 +679,24 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Monster()
 		return E_FAIL;
 
 #pragma endregion
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Effect()
+{
+	m_pGameInstance->Add_PSystem(CJumpDust::Create(m_pGraphic_Device), TEXT("Effect_Jump"));
+	m_pGameInstance->Add_PSystem(CWaterSplash::Create(m_pGraphic_Device), TEXT("Effect_Water"));
+	m_pGameInstance->Add_PSystem(CBlockDust::Create(m_pGraphic_Device), TEXT("Effect_BlockDust"));
+	m_pGameInstance->Add_PSystem(CWallParts::Create(m_pGraphic_Device), TEXT("Effect_WallParts"));
+	m_pGameInstance->Add_PSystem(CCannonDust::Create(m_pGraphic_Device), TEXT("Effect_CannonDust"));
+	m_pGameInstance->Add_PSystem(CShotDust::Create(m_pGraphic_Device), TEXT("Effect_ShotDust"));
+	m_pGameInstance->Add_PSystem(CFingerDust::Create(m_pGraphic_Device), TEXT("Effect_FingerDust"));
+	m_pGameInstance->Add_PSystem(CLeaves::Create(m_pGraphic_Device), TEXT("Effect_Leaves"));
+	m_pGameInstance->Add_PSystem(CSemiclonDust::Create(m_pGraphic_Device), TEXT("Effect_SemiclonDust"));
+	m_pGameInstance->Add_PSystem(CFireFly::Create(m_pGraphic_Device), TEXT("Effect_FireFly"));
+	m_pGameInstance->Add_PSystem(CColorLight::Create(m_pGraphic_Device), TEXT("Effect_ColorLight"));
+	m_pGameInstance->Add_PSystem(CKeyTwinkle::Create(m_pGraphic_Device), TEXT("Effect_Twinkle"));
 
 	return S_OK;
 }

@@ -41,15 +41,18 @@ void CFinger::Update(_float fTimeDelta)
 {
     m_pTransformCom->Go_Down(fTimeDelta * 12.f);
 
-    if (m_pTransformCom->Get_State(STATE::POSITION).y < 4.f)
+    if (m_pTransformCom->Get_State(STATE::POSITION).y < 4.f && m_bFallFlag == false)
     {
+        m_bFallFlag = true;
         SHAKING Event;
         Event.fTime = .5f;
         m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::CAM_SHAKING, Event);
+        _float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+        m_pGameInstance->Set_Active(TEXT("Effect_FingerDust"), &pos);
     }
     
-    if (m_pTransformCom->Get_State(STATE::POSITION).y < -5.f) {}
- //      m_Dead = true;
+    if (m_pTransformCom->Get_State(STATE::POSITION).y < -5.f)
+        m_Dead = true;
 }
 
 void CFinger::Late_Update(_float fTimeDelta)

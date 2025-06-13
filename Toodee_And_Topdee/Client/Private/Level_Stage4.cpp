@@ -37,6 +37,7 @@ HRESULT CLevel_Stage4::Initialize()
 
 	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
 	m_pGameInstance->PlayBGM(TEXT("Stage3-4Bgm.ogg"), 0.5f);
+	m_pGameInstance->Set_Active(TEXT("Effect_Leaves"));
 
 	return S_OK;
 }

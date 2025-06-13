@@ -29,6 +29,10 @@ void CState_Swim::Enter(CPlayer* pPlayer)
 
     m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
     m_pGameInstance->PlayAudio(TEXT("InWater.wav"), CHANNELID::SOUND_EFFECT, 0.3f);
+    CPlayer_Toodee* pToodee = dynamic_cast<CPlayer_Toodee*>(pPlayer);
+
+    pToodee->SwimEffect();
+
 }
 
 void CState_Swim::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta)

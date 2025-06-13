@@ -9,6 +9,7 @@
 
 #include "Test_Cube2.h"
 #include "Pig.h"
+#include "Leaves.h"
 
 CLevel_Stage3::CLevel_Stage3(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -25,8 +26,8 @@ HRESULT CLevel_Stage3::Initialize()
 	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
 		return E_FAIL;
 
-	 //if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-	 //	return E_FAIL;
+	 if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	 	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
 		return E_FAIL;
@@ -43,6 +44,11 @@ HRESULT CLevel_Stage3::Initialize()
 	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
 	m_pGameInstance->PlayBGM(TEXT("Stage3-4Bgm.ogg"), 0.5f);
 
+	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
+		return E_FAIL;
+
+	
+	
 	return S_OK;
 }
 
@@ -288,6 +294,13 @@ HRESULT CLevel_Stage3::Ready_Layer_RedButton(const _wstring& strLayerTag)
 
 	return S_OK;
 }
+HRESULT CLevel_Stage3::Ready_Layer_Effect(const _wstring& strLayerTag)
+{
+	m_pGameInstance->Set_Active(TEXT("Effect_Leaves"));
+
+	return S_OK;
+}
+
 CLevel_Stage3* CLevel_Stage3::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CLevel_Stage3* pInstance = new CLevel_Stage3(pGraphic_Device);

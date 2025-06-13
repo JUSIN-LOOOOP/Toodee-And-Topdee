@@ -46,6 +46,15 @@ void CKey::Priority_Update(_float fTimeDelta)
 void CKey::Update(_float fTimeDelta)
 {
 	Change_Motion(fTimeDelta);
+
+	m_iTwinkleDelayTime += fTimeDelta;
+
+	if (m_iTwinkleDelayTime > m_pGameInstance->Rand(1.f, 4.f))
+	{
+		_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+		m_pGameInstance->Set_Active(TEXT("Effect_Twinkle"), &pos);
+		m_iTwinkleDelayTime = 0;
+	}
 }
 
 void CKey::Late_Update(_float fTimeDelta)

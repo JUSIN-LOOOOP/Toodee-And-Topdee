@@ -57,6 +57,8 @@ void CBlock_Break::Update(_float fTimeDelta)
 			m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
 			m_pGameInstance->PlayAudio(TEXT("BlockBreak.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
 			m_bDead = true;
+			_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+			m_pGameInstance->Set_Active(TEXT("Effect_BlockDust"), &pos);
 		}
 		else
 		{
@@ -103,7 +105,7 @@ _bool CBlock_Break::Compute_Near(const _float3& vOtherPosition)
 
 	_float fLength = D3DXVec3Length(&vDistance);
 
-	return fLength <= 2.2f; //¿ÀÂ÷ ¹üÀ§ 0.5f
+	return fLength <= 2.2f; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 0.5f
 }
 
 _bool CBlock_Break::IsNearBlock(_float3 vPosition)

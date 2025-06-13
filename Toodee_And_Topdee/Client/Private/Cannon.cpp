@@ -139,8 +139,8 @@ void CCannon::Shooting(_float fTimeDelta)
         info.vPosition = m_vOriginalPosition;
 
         CPoolableObject* pProjectile {nullptr};
-
-        //  ¹ß»çÃ¼ ÅõÃ´
+        _float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+        // todo ï¿½ß»ï¿½Ã¼ ï¿½ï¿½Ã´
         switch (m_iCannonDir)
         {
         case 0:                 /* Right */
@@ -148,12 +148,14 @@ void CCannon::Shooting(_float fTimeDelta)
                  pProjectile =  m_pGameInstance->Pop( ENUM_CLASS(LEVEL::LEVEL_STATIC) ,TEXT("Layer_Projectile_Fire"));
              if (m_eType == CANNON_TYPE::LASER)
                   pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
+             pos.x += 1.f;
             break;
         case 1:                 /* Left */
             if (m_eType == CANNON_TYPE::FIRE)
                  pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Fire"));
              if (m_eType == CANNON_TYPE::LASER)
                   pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
+             pos.x -= 1.f;
             break;
         case 2:                 /* Up */
             if (m_eType == CANNON_TYPE::FIRE)
@@ -161,16 +163,20 @@ void CCannon::Shooting(_float fTimeDelta)
             if (m_eType == CANNON_TYPE::LASER)
                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
             break;
+            pos.z += 1.f;
         case 3:                 /* Down */
             if (m_eType == CANNON_TYPE::FIRE)
                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Fire"));
             if (m_eType == CANNON_TYPE::LASER)
                pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
+            pos.z -= 1.f;
             break;
         }
 
         if(pProjectile != nullptr)
             pProjectile->Initialize_Pool(&info);
+
+        m_pGameInstance->Set_Active(TEXT("Effect_CannonDust"), &pos);
     }
     else
         m_fAccumulateShootingTime += fTimeDelta;
@@ -276,6 +282,7 @@ void CCannon::SetUp_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    D3DCOLOR_ARGB(20, 255, 255, 255);  // ï¿½ï¿½ï¿½ï¿½ 128 = 50%
 
 }
 
@@ -290,21 +297,21 @@ void CCannon::Reset_RenderState()
 
 void CCannon::SetUp_AlphaRenderState()
 {
-    // ¾ËÆÄ ºí·»µù ¼³Á¤
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-    // ¿¬ÇÏ°Ô ¸¸µé±â À§ÇÑ ÅØ½ºÃ³ÆÑÅÍ ¼³Á¤ (¾ËÆÄ°ª Á¶Á¤)
+    // ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Ä°ï¿½ ï¿½ï¿½ï¿½ï¿½)
     m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(128, 255, 255, 255)); 
 
-    // ÅØ½ºÃ³ »ö»ó°ú ÆÑÅÍ¸¦ °öÇØ¼­ ¿¬ÇÏ°Ô ¸¸µé±â
+    // ï¿½Ø½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
     m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
     m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
     m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
 
-    // ¾ËÆÄ °ªµµ ÅØ½ºÃ³¿Í ÆÑÅÍ¸¦ °öÇØ¼­ ºÎµå·´°Ô
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Îµå·´ï¿½ï¿½
     m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
     m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
     m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
