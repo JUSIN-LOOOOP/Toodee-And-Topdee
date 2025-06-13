@@ -137,6 +137,9 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::SPARK:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info)))
+				return E_FAIL;
 			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Spark"), &info)))
 				return E_FAIL;*/
@@ -235,13 +238,13 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 {
 	CColliderMap_Object::COLLIDER_MAP_DESC desc{};
 
-	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_FINALBOSS3); ++i)
+	for (_uint i = 0; i < Stage_ColliderCount(LEVEL::LEVEL_FINALBOSS2); ++i)
 	{
-		auto Pair = MapCollider_Builder(LEVEL::LEVEL_FINALBOSS3, i);
+		auto Pair = MapCollider_Builder(LEVEL::LEVEL_FINALBOSS2, i);
 		desc.vPosition = Pair.first;
 		desc.vScale = Pair.second;
 
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), strLayerTag,
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
 			return E_FAIL;
 	}
@@ -252,7 +255,7 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 
 HRESULT CLevel_FinalBoss03::Ready_Layer_Tile(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Load_File(TEXT("../Resources/Map/TileMap2"));
+	m_pGameInstance->Load_File(TEXT("../Resources/Map/TileMap3"));
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};

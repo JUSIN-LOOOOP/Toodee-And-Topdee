@@ -54,11 +54,15 @@ void CPart_Body::Update(CTransform* pTransform, _float fTimeDelta, _float3 vFocu
 {
 	Pos_Set(pTransform);
 
-	if(m_fMaxFrame != 0)
+
+	if(m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
 	{
-		m_fFrame += m_fMaxFrame * fTimeDelta;
-		if (m_fFrame >= m_fMaxFrame)
-			m_fFrame = m_fOldFrame;
+		if (m_fMaxFrame != 0)
+		{
+			m_fFrame += m_fMaxFrame * fTimeDelta;
+			if (m_fFrame >= m_fMaxFrame)
+				m_fFrame = m_fOldFrame;
+		}
 	}
 }
 
@@ -80,6 +84,9 @@ HRESULT CPart_Body::Render()
 			if (FAILED(m_pTextureCom->Bind_Texture(0)))
 				return E_FAIL;
 			break;
+		case DIMENSION::CHANGE:
+			if (FAILED(m_pTextureCom->Bind_Texture(0)))
+				return E_FAIL;
 		}
 	}
 	else

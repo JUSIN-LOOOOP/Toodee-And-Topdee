@@ -120,7 +120,7 @@ void CMainApp::Update(_float fTimeDelta)
 
 HRESULT CMainApp::Render()
 {
-	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
+	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 0.f, 1.f));
 
 	m_pGameInstance->Draw();
 
@@ -304,11 +304,9 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackTile */
-	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackTile"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Tile.png"), 1))))
-		return E_FAIL;*/
+
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackTile"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Resources/Textures/Map/alphaCube.dds"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Tile.png"), 1))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackCloud */

@@ -140,6 +140,15 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
         {
             if (m_pTransformCom->Approach(m_vPotalStartPosition, fTimeDelta, m_fClearSpeedPerSec))
             {
+                if (m_bClearAnimStart == false)
+                {
+                    LOADINGSCREEN_EVENT event;
+                    event.bFadeIn = false;
+                    event.vPos = m_vPotalPosition;
+                    event.vPos.y = 3.f;
+                    m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::LOADINGSCREEN, event);
+                }
+
                 m_bMoveToPotal = true;
                 m_bClearAnimStart = true;
             }
@@ -153,6 +162,7 @@ void CPlayer_Toodee::Update(_float fTimeDelta)
 
                 if(LEVEL::LEVEL_MAPEDIT != static_cast<LEVEL>(m_iPlayLevel + 1))
                 {
+    
                     LEVELCHANGE_EVENT Event;
                     Event.iChangeLevel = m_iPlayLevel + 1;
                     Event.iCurrentLevel = m_iPlayLevel;
@@ -187,9 +197,6 @@ void CPlayer_Toodee::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer_Toodee::Render()
 {
-    if (FAILED(m_pColliderCom->Render()))
-        return E_FAIL;
-
     if (FAILED(m_pGroundCheckColliderCom->Render()))
         return E_FAIL;
     
