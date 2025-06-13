@@ -273,6 +273,7 @@
     <ClInclude Include="..\Public\WallParts.h" />
     <ClInclude Include="..\Public\Water.h" />
     <ClInclude Include="..\Public\WaterSplash.h" />
+    <ClInclude Include="..\Public\Wind.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -405,6 +406,7 @@
     <ClCompile Include="..\Private\WallParts.cpp" />
     <ClCompile Include="..\Private\Water.cpp" />
     <ClCompile Include="..\Private\WaterSplash.cpp" />
+    <ClCompile Include="..\Private\Wind.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

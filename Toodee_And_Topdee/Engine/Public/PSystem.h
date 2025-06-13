@@ -38,6 +38,7 @@ protected :
 		_uint		_TextureIdx = 0.f;
 		_bool		_isAlive;
 		_float		_size = 1.f;
+		_float		_Speed = 1.f;
 	}PARTICLE;
 
 protected:
@@ -68,6 +69,7 @@ protected:
 	LPDIRECT3DDEVICE9					m_pGraphic_Device;
 	BoundingBox							m_BoundingBox;
 	_float								m_fSize;
+	_float								m_fSizeRatio = 1.f;
 	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
 	list<PARTICLE>						m_Particles;
 	_uint								m_iFVF;

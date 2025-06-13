@@ -36,7 +36,7 @@ HRESULT CLevel_Stage1::Initialize()
 
 	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
 	m_pGameInstance->PlayBGM(TEXT("Stage1-2Bgm.ogg"), 0.5f);
-
+	m_pGameInstance->Set_Active(TEXT("Effect_Wind"));
 	return S_OK;
 }
 

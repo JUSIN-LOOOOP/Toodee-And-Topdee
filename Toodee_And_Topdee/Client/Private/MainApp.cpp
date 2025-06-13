@@ -46,6 +46,7 @@
 #include "FireFly.h"
 #include "ColorLight.h"
 #include "KeyTwinkle.h"
+#include "Wind.h"
 
 #include "ColliderMap_Object.h"
 
@@ -697,6 +698,7 @@ HRESULT CMainApp::Ready_Effect()
 	m_pGameInstance->Add_PSystem(CFireFly::Create(m_pGraphic_Device), TEXT("Effect_FireFly"));
 	m_pGameInstance->Add_PSystem(CColorLight::Create(m_pGraphic_Device), TEXT("Effect_ColorLight"));
 	m_pGameInstance->Add_PSystem(CKeyTwinkle::Create(m_pGraphic_Device), TEXT("Effect_Twinkle"));
+	m_pGameInstance->Add_PSystem(CWind::Create(m_pGraphic_Device), TEXT("Effect_Wind"));
 
 	return S_OK;
 }

@@ -107,7 +107,8 @@ HRESULT CPSystem::Render()
 		return E_FAIL;
 
 	_int count = 0;
-	_float halfSize = m_fSize * 0.5f;
+	_float halfSizeW = m_fSize * 0.5f;
+	_float hlafSizeH = halfSizeW * m_fSizeRatio;
 
 	for (const auto& particle : m_Particles)
 	{
@@ -116,13 +117,12 @@ HRESULT CPSystem::Render()
 
 		const _float3& pos = particle._position;
 		
-		_float3 r = right * halfSize * particle._size;
-		_float3 u = up * halfSize * particle._size;
+		_float3 r = right * halfSizeW * particle._size;
+		_float3 u = up * hlafSizeH * particle._size;
 
 		_float frameWidth = 1.0f / static_cast<_float>(m_iNumTextures);
 		_float uStart = particle._TextureIdx * frameWidth;
 		_float uEnd = uStart + frameWidth;
-
 
 		v[0] = { pos - r + u, _float2(uStart, 1.f) };
 		v[1] = { pos + r + u, _float2(uEnd, 1.f) };
