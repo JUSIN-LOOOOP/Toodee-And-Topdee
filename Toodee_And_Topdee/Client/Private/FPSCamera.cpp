@@ -50,6 +50,13 @@ HRESULT CFPSCamera::Initialize(void* pArg)
 void CFPSCamera::Priority_Update(_float fTimeDelta)
 {
     if (m_pGameInstance->Key_Down('X') && m_pGameInstance->Get_CurrentDimension() != DIMENSION::CHANGE) {
+        m_pGameInstance->StopSound(CHANNELID::SOUND_RESOURCE);
+
+        if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
+            m_pGameInstance->PlayAudio(TEXT("CameraDown.wav"), CHANNELID::SOUND_RESOURCE, 0.5f);
+        else
+            m_pGameInstance->PlayAudio(TEXT("CameraUp.wav"), CHANNELID::SOUND_RESOURCE, 0.5f);
+
         m_bRotating = true;
         m_pGameInstance->Change_Dimension(DIMENSION::CHANGE);
     }

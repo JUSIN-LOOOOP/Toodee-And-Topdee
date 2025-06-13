@@ -130,6 +130,9 @@
     <Filter Include="01. Utility\05. Component\VIBuffer\Capsule">
       <UniqueIdentifier>{277660aa-b44a-4901-a541-ca3bcb4cade3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. GameObject\BlendObject">
+      <UniqueIdentifier>{ff7092e1-b974-4c5b-a6b5-f014165e031a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -264,6 +267,12 @@
     <ClInclude Include="..\Public\VIBuffer_Sphere.h">
       <Filter>01. Utility\05. Component\VIBuffer\Sphere</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BlendObject.h">
+      <Filter>01. Utility\03. GameObject\BlendObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shader_Player.h">
+      <Filter>00. Dummys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -373,6 +382,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Sphere.cpp">
       <Filter>01. Utility\05. Component\VIBuffer\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BlendObject.cpp">
+      <Filter>01. Utility\03. GameObject\BlendObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shader_Player.cpp">
+      <Filter>00. Dummys</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

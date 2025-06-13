@@ -3,12 +3,12 @@
 #include "Util.h"
 
 CBackTile::CBackTile(LPDIRECT3DDEVICE9 pGraphic_Device) 
-    : CGameObject{ pGraphic_Device }
+    : CBlendObject{ pGraphic_Device }
 {
 } 
 
 CBackTile::CBackTile(const CBackTile& Prototype)
-    : CGameObject( Prototype )
+    : CBlendObject( Prototype )
 {
 }
 
@@ -26,6 +26,7 @@ HRESULT CBackTile::Initialize(void* pArg)
     m_pSize[1] = *(static_cast<_uint*>(pArg) + 1);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     m_pTransformCom->Scaling(2.f, 2.f, 2.f);
+    
 
     return S_OK;
 }
@@ -41,7 +42,8 @@ void CBackTile::Update(_float fTimeDelta)
 
 void CBackTile::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_TILE, this);
+    __super::Compute_CamDistance(m_pTransformCom);
 }
 
 HRESULT CBackTile::Render()
@@ -54,6 +56,15 @@ HRESULT CBackTile::Render()
     {
         for (_uint width = 0; width < m_pSize[0]; ++width)
         {
+            if (m_pGameInstance->Get_CurrentLevelID() == ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1))
+            {
+                if (width == 8 || width == 9)
+                {
+                    if(height > 4)
+                        continue;
+                }
+            }
+
             m_pTransformCom->Set_State(STATE::POSITION, { (FLOAT)((width + 0.5 - (m_pSize[0] / 2)) * 2) , 0.f,  (FLOAT)((height + 0.5 - (m_pSize[1] / 2)) * 2) });
             m_pTransformCom->Bind_Matrix();
             m_pVIBufferCom->Bind_Buffers();

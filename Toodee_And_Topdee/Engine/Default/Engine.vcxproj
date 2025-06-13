@@ -159,6 +159,7 @@ call Copy.bat
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\private\BlendObject.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
     <ClCompile Include="..\private\Collision.cpp" />
     <ClCompile Include="..\Private\Collision_Manager.cpp" />
@@ -180,6 +181,7 @@ call Copy.bat
     <ClCompile Include="..\private\Prototype_Manager.cpp" />
     <ClCompile Include="..\private\Renderer.cpp" />
     <ClCompile Include="..\Private\Shader.cpp" />
+    <ClCompile Include="..\private\Shader_Player.cpp" />
     <ClCompile Include="..\Private\Shader_Water.cpp" />
     <ClCompile Include="..\private\Sound_Manager.cpp" />
     <ClCompile Include="..\private\Texture.cpp" />
@@ -197,6 +199,7 @@ call Copy.bat
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\public\BlendObject.h" />
     <ClInclude Include="..\Public\Collider.h" />
     <ClInclude Include="..\public\Collision.h" />
     <ClInclude Include="..\Public\Collision_Manager.h" />
@@ -226,6 +229,7 @@ call Copy.bat
     <ClInclude Include="..\public\Prototype_Manager.h" />
     <ClInclude Include="..\public\Renderer.h" />
     <ClInclude Include="..\Public\Shader.h" />
+    <ClInclude Include="..\public\Shader_Player.h" />
     <ClInclude Include="..\Public\Shader_Water.h" />
     <ClInclude Include="..\public\Sound_Manager.h" />
     <ClInclude Include="..\public\Texture.h" />
