@@ -62,12 +62,15 @@ void CBlock_Disappear::Event_Pressed(const EVENT_REDBUTTON_PRESSED& event)
 {
     m_bActivity = false;
     m_pColliderCom->Collision_Off();
+    _float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+    m_pGameInstance->Set_Active(TEXT("Effect_WallParts"), &pos);
 }
 
 void CBlock_Disappear::Event_Unpressed(const EVENT_REDBUTTON_UNPRESSED& event)
 {
     m_bActivity = true;
     m_pColliderCom->Collision_On();
+    m_pGameInstance->Set_Stop(TEXT("Effect_WallParts"));
 }
 
 HRESULT CBlock_Disappear::Ready_Components()

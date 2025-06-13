@@ -99,6 +99,7 @@ public:
 public:
 	void					Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag);
 	void					Set_Active(const _wstring& strEffectTag, void* pArg = nullptr);
+	void					Set_Stop(const _wstring& strEffectTag, void* pArg = nullptr);
 	//Dimension
 public:
 	void			Change_Dimension(DIMENSION eDimension) 

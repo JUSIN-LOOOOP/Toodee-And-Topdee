@@ -33,6 +33,10 @@ HRESULT CLevel_Stage5::Initialize()
 
 	if (FAILED(Ready_Layer_Cannon(TEXT("Layer_Cannon"))))
 		return E_FAIL;
+
+	m_pGameInstance->Set_Active(TEXT("Effect_FireFly"));
+	m_pGameInstance->Set_Active(TEXT("Effect_ColorLight"));
+
 	return S_OK;
 }
 
@@ -157,13 +161,13 @@ HRESULT CLevel_Stage5::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::TOODEE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Player_TooDee"),
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"), &info)))
 				return E_FAIL;
 			break;
 
 		case MAPOBJECT::TOPDEE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), strLayerTag,
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE5), TEXT("Player_TopDee"),
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
 				return E_FAIL;
 			break;

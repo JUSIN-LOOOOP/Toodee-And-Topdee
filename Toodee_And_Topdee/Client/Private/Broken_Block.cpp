@@ -7,7 +7,7 @@ CBroken_Blocks::CBroken_Blocks(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CBroken_Blocks::CBroken_Blocks(const CBroken_Blocks& Prototype)
-	:CPoolableObject{ Prototype }
+	:CPoolableObject( Prototype )
 {
 }
 

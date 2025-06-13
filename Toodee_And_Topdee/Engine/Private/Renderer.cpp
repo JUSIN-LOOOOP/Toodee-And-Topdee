@@ -23,6 +23,8 @@ HRESULT CRenderer::Draw()
 {
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
+	if (FAILED(Render_Tile()))
+		return E_FAIL;
 	if (FAILED(Render_NonBlend()))
 		return E_FAIL;
 	if (FAILED(Render_Blend()))
@@ -44,6 +46,22 @@ HRESULT CRenderer::Render_Priority()
 	}
 
 	m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_PRIORITY)].clear();
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Tile()
+{
+	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_TILE)])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render();
+
+		Safe_Release(pRenderObject);
+	}
+
+	m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_TILE)].clear();
+
 
 	return S_OK;
 }

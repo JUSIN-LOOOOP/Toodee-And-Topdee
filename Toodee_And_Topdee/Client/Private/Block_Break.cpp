@@ -54,6 +54,8 @@ void CBlock_Break::Update(_float fTimeDelta)
 		{
 			m_pColliderCom->Collision_Off();
 			m_Dead = true;
+			_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+			m_pGameInstance->Set_Active(TEXT("Effect_BlockDust"), &pos);
 		}
 		else
 		{

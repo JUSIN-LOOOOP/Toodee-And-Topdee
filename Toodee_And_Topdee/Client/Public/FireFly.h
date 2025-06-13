@@ -10,12 +10,12 @@ END
 
 BEGIN(Client)
 
-class CLeaves final : public CPSystem
+class CFireFly final : public CPSystem
 {
 private:
-	CLeaves(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CLeaves(const CLeaves& Prototype);
-	virtual ~CLeaves() = default;
+	CFireFly(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CFireFly(const CFireFly& Prototype);
+	virtual ~CFireFly() = default;
 
 public:
 	HRESULT Initialize() override;
@@ -26,7 +26,7 @@ private :
 	_float	m_fFrameDuration = 0.f;
 
 public:
-	static CLeaves* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CFireFly* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
 
 };

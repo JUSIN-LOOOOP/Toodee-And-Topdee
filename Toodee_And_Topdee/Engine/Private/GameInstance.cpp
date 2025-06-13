@@ -107,6 +107,8 @@ HRESULT CGameInstance::Clear_Resources(_uint iClearLevelID)
 
 	m_pEventBus->Clear(iClearLevelID);
 
+	m_pEffect_Manager->Stop_All();
+
     return S_OK;
 }
 
@@ -259,7 +261,6 @@ HRESULT CGameInstance::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pR
 		return E_FAIL;
 
 	return m_pRenderer->Add_RenderGroup(eRenderGroup, pRenderObject);
-
 }
 
 #pragma endregion
@@ -424,6 +425,11 @@ void CGameInstance::Add_PSystem(class CPSystem* pPSystem, const _wstring& strEff
 void CGameInstance::Set_Active(const _wstring& strEffectTag, void* pArg)
 {
 	m_pEffect_Manager->Set_Active(strEffectTag, pArg);
+}
+
+void CGameInstance::Set_Stop(const _wstring& strEffectTag, void* pArg)
+{
+	m_pEffect_Manager->Set_Stop(strEffectTag,pArg);
 }
 
 #pragma endregion

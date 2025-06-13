@@ -6,16 +6,17 @@
 
 BEGIN(Engine)
 class CVIBuffer_Rect;
+class CTransform;
 END
 
 BEGIN(Client)
 
-class CLeaves final : public CPSystem
+class CKeyTwinkle final : public CPSystem
 {
 private:
-	CLeaves(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CLeaves(const CLeaves& Prototype);
-	virtual ~CLeaves() = default;
+	CKeyTwinkle(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CKeyTwinkle(const CKeyTwinkle& Prototype);
+	virtual ~CKeyTwinkle() = default;
 
 public:
 	HRESULT Initialize() override;
@@ -24,9 +25,11 @@ public:
 
 private :
 	_float	m_fFrameDuration = 0.f;
+	_float	m_fTwinkleDelay = 0.f;
+	CTransform* m_pPlayer = { nullptr };
 
 public:
-	static CLeaves* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CKeyTwinkle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
 
 };

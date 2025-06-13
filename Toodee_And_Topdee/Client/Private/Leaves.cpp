@@ -18,10 +18,8 @@ HRESULT CLeaves::Initialize()
     box._max = _float3{ 140.f, -30.f, 80.f};
     box._min = _float3{- 100.f, - 30.f, -80.f};
     m_BoundingBox = box;
-    m_fSize = 2.f;
-    vbSize = 2048;
-    vbOffset = 0;
-    vbBatchSize = 2;
+    m_fSize = 1.6f;
+    m_iChunk = 20;
     m_fFrameOffsetTime = .5f;
 
     for (_uint i =  0; i < 20; i++)
@@ -32,10 +30,12 @@ HRESULT CLeaves::Initialize()
     m_iNumTextures = 3;
 
     __super::Initialize();
+    __super::Stop();
+
     return S_OK;
 }
 
-void CLeaves::ResetParticle(PARTICLE* attribute)
+void CLeaves::ResetParticle(PARTICLE* attribute, void* pArg)
 {
     attribute->_isAlive = true;
     _float3 min = { 100.f, 30.f, 50.f };
@@ -53,6 +53,9 @@ void CLeaves::ResetParticle(PARTICLE* attribute)
 
 void CLeaves::Update(_float fTimeDelta)
 {
+    if (isDead() == S_OK)
+        return;
+
     for (auto& particle : m_Particles)
     {
         particle._position += particle._velocity * fTimeDelta;
@@ -67,8 +70,7 @@ void CLeaves::Update(_float fTimeDelta)
             particle._FrameTime = 0;
 
         }
-    }   
-
+    } 
 }
 
 CLeaves* CLeaves::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

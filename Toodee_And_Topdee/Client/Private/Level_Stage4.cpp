@@ -35,6 +35,8 @@ HRESULT CLevel_Stage4::Initialize()
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
 		return E_FAIL;
 
+	m_pGameInstance->Set_Active(TEXT("Effect_Leaves"));
+
 	return S_OK;
 }
 

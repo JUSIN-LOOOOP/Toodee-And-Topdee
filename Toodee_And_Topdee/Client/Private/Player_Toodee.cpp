@@ -12,7 +12,7 @@ CPlayer_Toodee::CPlayer_Toodee(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CPlayer_Toodee::CPlayer_Toodee(const CPlayer_Toodee& Prototype)
-    : CPlayer { Prototype }
+    : CPlayer ( Prototype )
 {
 
 
@@ -278,6 +278,8 @@ void CPlayer_Toodee::Action()
         //초기화
         m_fGravityPower = 0.f;
         m_fAccumulationJumpPower = 0.f;
+        _float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+        m_pGameInstance->Set_Active(TEXT("Effect_Jump"), &pos);
     }
 }
 
@@ -312,6 +314,11 @@ void CPlayer_Toodee::Dead()
     Event.iChangeLevel = m_iPlayLevel;
     Event.iCurrentLevel = m_iPlayLevel;
     m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
+}
+
+void CPlayer_Toodee::SwimEffect()
+{
+    m_pGameInstance->Set_Active(TEXT("Effect_Water"));
 }
 
 

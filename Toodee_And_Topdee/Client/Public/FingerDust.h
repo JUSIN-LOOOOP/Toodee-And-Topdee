@@ -6,16 +6,17 @@
 
 BEGIN(Engine)
 class CVIBuffer_Rect;
+class CTransform;
 END
 
 BEGIN(Client)
 
-class CLeaves final : public CPSystem
+class CFingerDust final : public CPSystem
 {
 private:
-	CLeaves(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CLeaves(const CLeaves& Prototype);
-	virtual ~CLeaves() = default;
+	CFingerDust(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CFingerDust(const CFingerDust& Prototype);
+	virtual ~CFingerDust() = default;
 
 public:
 	HRESULT Initialize() override;
@@ -24,9 +25,10 @@ public:
 
 private :
 	_float	m_fFrameDuration = 0.f;
+	CTransform* m_pPlayer = { nullptr };
 
 public:
-	static CLeaves* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CFingerDust* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
 
 };

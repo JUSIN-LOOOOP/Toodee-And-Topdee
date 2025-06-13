@@ -1,8 +1,10 @@
 #include "PSystem.h"
 #include "Util.h"
+#include "GameInstance.h"
 
 CPSystem::CPSystem(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: m_pGraphic_Device(pGraphic_Device)
+	: m_pGraphic_Device(pGraphic_Device),
+	m_pGameInstance{ CGameInstance::GetInstance() }
 {
 }
 
@@ -32,16 +34,31 @@ HRESULT CPSystem::Initialize()
 	return S_OK;
 }
 
-void CPSystem::Reset(void* pArg)			// 몇개씩 꺼내쓴다.
+void CPSystem::Reset(void* pArg)
 {
-	for (auto& Particle : m_Particles)
+	_uint count = 0;
+
+	for (auto& particle : m_Particles)
 	{
-		if (!Particle._isAlive)
-			ResetParticle(&Particle);
+		if (particle._isAlive == false)
+		{
+			ResetParticle(&particle, pArg);
+			++count;
+			if (count == m_iChunk)
+				return;
+		}
 	}
 }
 
-void CPSystem::AddParticle()	//100개를 채워주고
+void CPSystem::Stop(void* pArg)
+{
+	for (auto& Particle : m_Particles)
+	{
+		Particle._isAlive = false;
+	}
+}
+
+void CPSystem::AddParticle()
 {
 	PARTICLE attribute;
 
@@ -74,9 +91,7 @@ HRESULT CPSystem::Render()
 	PreRender();
 
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &worldMatrix);
-
 	m_pGraphic_Device->SetTexture(0, m_Texture);
-
 	m_pGraphic_Device->SetFVF(m_iFVF);
 	m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(VTXPOSTEX));
 
@@ -96,15 +111,17 @@ HRESULT CPSystem::Render()
 
 	for (const auto& particle : m_Particles)
 	{
-		
+		if (particle._isAlive == false)
+			continue;
+
 		const _float3& pos = particle._position;
 		
-		_float3 r = right * halfSize;
-		_float3 u = up * halfSize;
+		_float3 r = right * halfSize * particle._size;
+		_float3 u = up * halfSize * particle._size;
 
-		float frameWidth = 1.0f / static_cast<float>(m_iNumTextures);
-		float uStart = particle._TextureIdx * frameWidth;
-		float uEnd = uStart + frameWidth;
+		_float frameWidth = 1.0f / static_cast<_float>(m_iNumTextures);
+		_float uStart = particle._TextureIdx * frameWidth;
+		_float uEnd = uStart + frameWidth;
 
 
 		v[0] = { pos - r + u, _float2(uStart, 1.f) };

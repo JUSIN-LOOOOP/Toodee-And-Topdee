@@ -1,5 +1,6 @@
 #include "State_Swim.h"
 #include "Player_Toodee.h"
+#include "GameInstance.h"
 
 CState_Swim::CState_Swim()
 {
@@ -23,6 +24,11 @@ void CState_Swim::Enter(CPlayer* pPlayer)
 {
     m_iCurrentAnimCount = 0;
     m_fAnimTime = 0.f;
+
+    CPlayer_Toodee* pToodee = dynamic_cast<CPlayer_Toodee*>(pPlayer);
+
+    pToodee->SwimEffect();
+
 }
 
 void CState_Swim::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta)

@@ -30,6 +30,15 @@ HRESULT CEffectManager::Render()
 	return S_OK;
 }
 
+void CEffectManager::Stop_All()
+{
+	for (auto& [tag, pSystem] : m_PSystems)
+	{
+		if (pSystem)
+			pSystem->Stop();
+	}
+}
+
 HRESULT CEffectManager::Add_PSystem(CPSystem* pPSystem, const _wstring& strEffectTag)
 {
 	m_PSystems.emplace(strEffectTag, pPSystem);
@@ -45,6 +54,15 @@ HRESULT CEffectManager::Set_Active(const _wstring& strEffectTag, void* arg)
 
 	pPSystem->Reset(arg);
 
+	return S_OK;
+}
+
+HRESULT CEffectManager::Set_Stop(const _wstring& strEffectTag, void* arg)
+{
+	CPSystem* pPSystem = Find_Pools(strEffectTag);
+	
+	pPSystem->Stop();
+	
 	return S_OK;
 }
 

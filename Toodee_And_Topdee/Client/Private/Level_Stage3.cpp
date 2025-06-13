@@ -26,8 +26,8 @@ HRESULT CLevel_Stage3::Initialize()
 	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
 		return E_FAIL;
 
-	// if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-	// 	return E_FAIL;
+	 if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	 	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Back(TEXT("Layer_Background"))))
 		return E_FAIL;
@@ -293,7 +293,8 @@ HRESULT CLevel_Stage3::Ready_Layer_RedButton(const _wstring& strLayerTag)
 }
 HRESULT CLevel_Stage3::Ready_Layer_Effect(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Add_PSystem(CLeaves::Create(m_pGraphic_Device), TEXT("Effect_Leaves"));
+	m_pGameInstance->Set_Active(TEXT("Effect_Leaves"));
+
 	return S_OK;
 }
 

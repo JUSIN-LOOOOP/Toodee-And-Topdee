@@ -12,10 +12,12 @@ private:
 public:
 	void	Update(_float fTimeDelta);
 	HRESULT Render();
+	void	Stop_All();
 
 public:
 	HRESULT				Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag);
 	HRESULT				Set_Active(const _wstring& strEffectTag, void *arg = nullptr);
+	HRESULT				Set_Stop(const _wstring& strEffectTag, void* arg = nullptr);
 
 private:
 	map<const _wstring, class CPSystem*> m_PSystems;

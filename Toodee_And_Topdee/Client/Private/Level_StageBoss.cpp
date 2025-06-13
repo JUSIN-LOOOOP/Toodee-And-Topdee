@@ -33,6 +33,9 @@ HRESULT CLevel_StageBoss::Initialize()
 	if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
 		return E_FAIL;
 
+	m_pGameInstance->Set_Active(TEXT("Effect_FireFly"));
+	m_pGameInstance->Set_Active(TEXT("Effect_ColorLight"));
+
 	return S_OK;
 }
 

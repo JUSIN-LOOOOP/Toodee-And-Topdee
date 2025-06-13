@@ -10,12 +10,12 @@ END
 
 BEGIN(Client)
 
-class CLeaves final : public CPSystem
+class CColorLight final : public CPSystem
 {
 private:
-	CLeaves(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CLeaves(const CLeaves& Prototype);
-	virtual ~CLeaves() = default;
+	CColorLight(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CColorLight(const CColorLight& Prototype);
+	virtual ~CColorLight() = default;
 
 public:
 	HRESULT Initialize() override;
@@ -24,9 +24,10 @@ public:
 
 private :
 	_float	m_fFrameDuration = 0.f;
+	_uint	m_iLightCount = 0;
 
 public:
-	static CLeaves* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CColorLight* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
 
 };
