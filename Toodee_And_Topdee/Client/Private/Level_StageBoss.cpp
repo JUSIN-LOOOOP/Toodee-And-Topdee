@@ -37,6 +37,10 @@ HRESULT CLevel_StageBoss::Initialize()
 	if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
 		return E_FAIL;
 
+
+	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
+	m_pGameInstance->PlayBGM(TEXT("StageBossBgm.ogg"), 0.5f);
+
 	return S_OK;
 }
 

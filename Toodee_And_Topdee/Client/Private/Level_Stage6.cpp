@@ -38,7 +38,10 @@ HRESULT CLevel_Stage6::Initialize()
 
 	if (FAILED(Ready_Layer_DarkCloud(TEXT("Layer_DarkCloud"))))
 		return E_FAIL;
-	
+
+	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
+	m_pGameInstance->PlayBGM(TEXT("Stage5-6Bgm.ogg"), 0.5f);
+
 	return S_OK;
 }
 

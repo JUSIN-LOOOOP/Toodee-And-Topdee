@@ -1,11 +1,15 @@
 #include "State_Dead.h"
 
+#include "GameInstance.h"
+
 CState_Dead::CState_Dead()
 {
 }
 
 HRESULT CState_Dead::Initialize(void* pArg)
 {
+    m_pGameInstance = CGameInstance::GetInstance();
+    Safe_AddRef(m_pGameInstance);
     PLAYERSTATE_DESC* pDesc = static_cast<PLAYERSTATE_DESC*>(pArg);
     if (pDesc == nullptr)
         return E_FAIL;
@@ -22,6 +26,10 @@ void CState_Dead::Enter(CPlayer* pPlayer)
 {
     m_iCurrentAnimCount = 0;
     m_fAnimTime = 0.f;
+
+    m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
+    m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+    m_pGameInstance->PlayAudio(TEXT("PlayerDie.wav"), CHANNELID::SOUND_PLAYER, 0.8f);
 }
 
 void CState_Dead::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDelta)
@@ -70,4 +78,6 @@ CState_Dead* CState_Dead::Create(void* pArg)
 void CState_Dead::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pGameInstance);
 }

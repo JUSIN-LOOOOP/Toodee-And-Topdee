@@ -172,6 +172,8 @@ void CPlayer_Thirdee::EnterAction()
 
     if (m_eCurrentDimension == DIMENSION::TOODEE)
     {
+        m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+        m_pGameInstance->PlayAudio(TEXT("PlayerJump.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
         m_fCurrentJumpPower = 10.f;
         m_fCurrentGravity = 0.f;
         m_fAccumulationJumpPower = 0.f;
@@ -199,7 +201,7 @@ void CPlayer_Thirdee::Dead(_float fTimeDelta)
     if (m_pTransformCom->Turn_Divide(vLook, D3DXToRadian(-90.f), D3DXToRadian(90.f), fTimeDelta))
     {
         LEVELCHANGE_EVENT Event;
-        Event.iChangeLevel = m_iPlayLevel;
+        Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1);
         Event.iCurrentLevel = m_iPlayLevel;
 
         m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
@@ -410,7 +412,7 @@ _uint CPlayer_Thirdee::KeyInput()
 {
     _uint iInputData = 0;
 
- //   if(m_eCurrentDimension == DIMENSION::TOPDEE)
+    if(m_eCurrentDimension == DIMENSION::TOPDEE)
     {
         if (m_pGameInstance->Key_Pressing(VK_LEFT))
             iInputData |= ENUM_CLASS(KEYINPUT::KEY_LEFT);
@@ -511,6 +513,7 @@ void CPlayer_Thirdee::Check_Collision_Enemy(CGameObject* pGameObject)
 {
     if (pGameObject->Get_Name().find(TEXT("Enemy")) != string::npos)
     {
+
         m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::DEAD);
     }
 }
@@ -563,6 +566,9 @@ void CPlayer_Thirdee::Check_Collision_InteractionBlock(CGameObject* pGameObject)
         if (false == pBlock->IsPush() && false == pBlock->IsFall())
         {
             pBlock->Request_Change_State(BLOCKSTATE::PUSH);
+            m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+            m_pGameInstance->PlayAudio(TEXT("BlockPush.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
+
             pBlock->Push(m_ePushDirZ, m_ePushDirX, 8.f);
         }
     }
@@ -736,6 +742,9 @@ void CPlayer_Thirdee::Interaction()
     {
         if (m_pAttachBlock && true == m_bCanDetach)
         {
+            m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+            m_pGameInstance->PlayAudio(TEXT("BlockDetach.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
+
             m_pAttachBlock->Request_Change_State(BLOCKSTATE::DETACH);
             m_pAttachBlock->Detach(m_vDetachPosition, 20.f);
             m_pAttachBlock = nullptr;
@@ -746,6 +755,9 @@ void CPlayer_Thirdee::Interaction()
             {
                 if (m_pFocusBlock->IsStop())
                 {
+                    m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+                    m_pGameInstance->PlayAudio(TEXT("BlockAttach.wav"), CHANNELID::SOUND_PLAYER, 0.5f);
+
                     m_pFocusBlock->Request_Change_State(BLOCKSTATE::ATTACH);
                     m_pFocusBlock->Attach(m_pTransformCom, 20.f);
                     m_pAttachBlock = m_pFocusBlock;

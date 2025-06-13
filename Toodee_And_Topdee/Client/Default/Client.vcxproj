@@ -172,6 +172,7 @@
     <ClInclude Include="..\Public\Client_Extension.h" />
     <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
+    <ClInclude Include="..\public\FinalTile.h" />
     <ClInclude Include="..\Public\FinalBoss.h" />
     <ClInclude Include="..\Public\Finger.h" />
     <ClInclude Include="..\Public\FireBall.h" />
@@ -228,6 +229,7 @@
     <ClInclude Include="..\public\RedButton.h" />
     <ClInclude Include="..\Public\Semicolon.h" />
     <ClInclude Include="..\Public\Sink.h" />
+    <ClInclude Include="..\public\SpikeHole.h" />
     <ClInclude Include="..\Public\Spikes.h" />
     <ClInclude Include="..\Public\StageBoss.h" />
     <ClInclude Include="..\Public\StageBoss_Body.h" />
@@ -290,6 +292,7 @@
     <ClCompile Include="..\Private\Cannon.cpp" />
     <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
+    <ClCompile Include="..\private\FinalTile.cpp" />
     <ClCompile Include="..\Private\FinalBoss.cpp" />
     <ClCompile Include="..\Private\Finger.cpp" />
     <ClCompile Include="..\Private\FireBall.cpp" />
@@ -346,6 +349,7 @@
     <ClCompile Include="..\private\RedButton.cpp" />
     <ClCompile Include="..\Private\Semicolon.cpp" />
     <ClCompile Include="..\Private\Sink.cpp" />
+    <ClCompile Include="..\private\SpikeHole.cpp" />
     <ClCompile Include="..\Private\Spikes.cpp" />
     <ClCompile Include="..\Private\StageBoss.cpp" />
     <ClCompile Include="..\Private\StageBoss_Body.cpp" />
