@@ -19,7 +19,7 @@ HRESULT CColorLight::Initialize()
     box._min = _float3{ -100.f, -30.f, -80.f };
     m_BoundingBox = box;
     m_fSize = 30.f;
-    m_iChunk = 3;
+    m_iChunk = 4;
 
     for (_uint i = 0; i < 5; i++)
         AddParticle();
@@ -42,24 +42,23 @@ void CColorLight::ResetParticle(PARTICLE* attribute, void* pArg)
     attribute->_TextureIdx = rand() % 3;
     _uint posIdx = rand() % 4;
     _float3 min, max;
-
     switch (posIdx)
     {
-    case 0 :    //아래
-        min = { -45.f, -30.f,  -45.f };
-        max = { 45.f, -30.f, -40.f };
+    case 0:    //아래
+        min = { -65.f, -30.f,  -40.f };
+        max = { 65.f, -30.f, -35.f };
         break;
     case 1:    //위
-        min = { -45.f, -30.f,  -55.f };
-        max = { 45.f, -30.f, -50.f };
+        min = { -65.f, -30.f,  40.f };
+        max = { 65.f, -30.f, 45.f };
         break;
     case 2:    //왼쪽
-        min = { -55.f, -30.f,  -55.f };
-        max = { -45.f, -30.f, 50.f };
+        min = { -65.f, -30.f,  -45.f };
+        max = { -60.f, -30.f, 45.f };
         break;
     case 3:    //오른쪽
-        min = { 45.f, -30.f,  -45.f };
-        max = { 55.f, -30.f, -40.f };
+        min = { 60.f, -30.f,  -45.f };
+        max = { 65.f, -30.f, 45.f };
         break;
     }
     d3d::GetRandomVector(&attribute->_position, &min, &max);
