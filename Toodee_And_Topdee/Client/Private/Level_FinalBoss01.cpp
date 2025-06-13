@@ -8,6 +8,7 @@
 #include "ColliderMap_Object.h"
 
 #include "Test_Cube2.h"
+#include "Event.h"
 
 CLevel_FinalBoss01::CLevel_FinalBoss01(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -18,6 +19,8 @@ HRESULT CLevel_FinalBoss01::Initialize()
 {
 	m_pGameInstance->Change_Dimension(DIMENSION::TOPDEE);
 	m_pGameInstance->Reset_KeyCount();
+
+	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 	
 	if (FAILED(Ready_Layer_MapObject(TEXT("Layer_MapObject"))))
 		return E_FAIL;
@@ -211,7 +214,7 @@ HRESULT CLevel_FinalBoss01::Ready_Layer_Back(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_Toodoo"))))
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_FinalBoss"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -245,6 +248,8 @@ void CLevel_FinalBoss01::CreateHitBox(_float fTimeDelta)
 
 	if (m_fDelayTime >= 1.f)
 	{
+		FIANLBOSSATTACK_EVENT event;
+
 		_float3 vPos = { 115.f, 8.f, (_float)pos[rand() % 12] };
 		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Layer_HitBox"),
 			ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), (m_bAtkFlag[SEMICLON] == true) ? TEXT("Prototype_GameObject_Semiclon") : TEXT("Prototype_GameObject_Finger"), &vPos);
@@ -256,7 +261,14 @@ void CLevel_FinalBoss01::CreateHitBox(_float fTimeDelta)
 			(m_bAtkFlag[SEMICLON] == true) ? m_bAtkFlag[SEMICLON] = false : m_bAtkFlag[FINGER] = false;
 			m_fIdleTime = 0;
 			Count = 0;
+			event.bIsAttacking = false;
 		}
+		else
+		{
+			event.bIsAttacking = true;
+
+		}
+		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::FINALBOSS_ATTACK, event);
 	}
 }
 
