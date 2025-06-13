@@ -32,7 +32,7 @@
 #include "Cannon.h"
 #include "FinalTile.h"
 #include "FinalBoss.h"
-
+#include "MainMenu_Spark.h"
 #include "ColliderMap_Object.h"
 
 Client::CMainApp::CMainApp()
@@ -327,10 +327,22 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/RedButton/ButtonPush%d.png"), 2))))
 		return E_FAIL;
 
+	/* Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_MainMenu_Spark"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Spark/Mainmenu_Spark%d.png"), 10))))
+		return E_FAIL;
+
+
+
 #pragma endregion
 
 #pragma region GAMEOBJECT_MAP_OBJECT
 
+
+	/* Spark */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MainMenu_Spark"),
+		CMainMenu_Spark::Create(m_pGraphic_Device))))
+		  return E_FAIL;
 	/* Prototype_GameObject_Tile */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Tile"),
 		CFinalTile::Create(m_pGraphic_Device))))
