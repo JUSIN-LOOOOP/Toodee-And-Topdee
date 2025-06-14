@@ -47,15 +47,26 @@ void CMainMenu_Buttons::Priority_Update(_float fTimeDelta)
 
 void CMainMenu_Buttons::Update(_float fTimeDelta)
 {
-	if (m_pGameInstance->Key_Down(VK_DOWN))
+	if (m_pGameInstance->Key_Down(VK_DOWN)) {
 		m_iCurrentButton = --m_iCurrentButton < 0 ? 1 : 0;
-	if (m_pGameInstance->Key_Down(VK_UP))
+		m_pGameInstance->StopSound(CHANNELID::SOUND_MENU);
+		m_pGameInstance->PlayAudio(TEXT("Menu_Pick1.wav"), CHANNELID::SOUND_MENU, 0.5f);
+	}
+	if (m_pGameInstance->Key_Down(VK_UP)) {
 		m_iCurrentButton = ++m_iCurrentButton > 1 ? 0 : 1;
+		m_pGameInstance->StopSound(CHANNELID::SOUND_MENU);
+		m_pGameInstance->PlayAudio(TEXT("Menu_Pick2.wav"), CHANNELID::SOUND_MENU, 0.5f);
+
+	}
 
 	Change_Motion(fTimeDelta);
 
 	// MainMenu -> Select Stage
 	if (m_bIsMainMenu && m_pGameInstance->Key_Down(VK_RETURN) && m_iCurrentButton == 0) {
+		m_pGameInstance->StopSound(CHANNELID::SOUND_MENU);
+		m_pGameInstance->PlayAudio(TEXT("Menu_Picked1.wav"), CHANNELID::SOUND_MENU, 0.5f);
+
+
 		MAINMENU_SWAP_EVENT Event;
 		m_bIsMainMenu = false;
 		m_bArrivalPosition = false;
@@ -72,6 +83,9 @@ void CMainMenu_Buttons::Update(_float fTimeDelta)
 	//Select Stage -> MainMenu 
 	if (!m_bIsMainMenu && m_pGameInstance->Key_Down(VK_ESCAPE))
 	{
+		m_pGameInstance->StopSound(CHANNELID::SOUND_MENU);
+		m_pGameInstance->PlayAudio(TEXT("Menu_Picked2.wav"), CHANNELID::SOUND_MENU, 0.5f);
+
 		MAINMENU_SWAP_EVENT Event;
 		m_bIsMainMenu = true;
 		m_bArrivalPosition = false;

@@ -72,6 +72,9 @@ void CMainMenu_Portals::Update(_float fTimeDelta)
 	//키 입력 ( 스테이지 선택 )
 	if (m_bIsStage &&m_pGameInstance->Key_Down(VK_RIGHT) && m_iCurSelected < 7 && !m_bChangeStage)
 	{
+		m_pGameInstance->StopSound(CHANNELID::SOUND_MENU);
+		m_pGameInstance->PlayAudio(TEXT("Menu_Picked1.wav"), CHANNELID::SOUND_MENU, 0.5f);
+
 		m_fEasedTime = 0.f;
 		++m_iCurSelected;
 		m_bChangeStage = true;
@@ -82,6 +85,9 @@ void CMainMenu_Portals::Update(_float fTimeDelta)
 	}
 	if (m_bIsStage && m_pGameInstance->Key_Down(VK_LEFT) && m_iCurSelected > 0 && !m_bChangeStage)
 	{
+		m_pGameInstance->StopSound(CHANNELID::SOUND_MENU);
+		m_pGameInstance->PlayAudio(TEXT("Menu_Picked2.wav"), CHANNELID::SOUND_MENU, 0.5f);
+
 		m_fEasedTime = 0.f;
 		--m_iCurSelected;
 		m_bChangeStage = true;
@@ -96,6 +102,8 @@ void CMainMenu_Portals::Update(_float fTimeDelta)
 	{
 	/*	if (m_pGameInstance->Open_Level(static_cast<_uint>(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, static_cast<LEVEL>(m_iCurSelected + 4))))
 			return;*/
+		m_pGameInstance->StopSound(CHANNELID::SOUND_MENU);
+		m_pGameInstance->PlayAudio(TEXT("MenuStageJoin.wav"), CHANNELID::SOUND_MENU, 0.6f);
 
 		LEVELCHANGE_EVENT Event;
 		Event.iChangeLevel = m_iCurSelected + 4;
