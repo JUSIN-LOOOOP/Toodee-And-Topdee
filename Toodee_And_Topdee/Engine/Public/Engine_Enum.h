@@ -40,6 +40,7 @@ namespace Engine
 		CAM_SHAKING,
 		LOADINGSCREEN,
 		FINALBOSS_ATTACK,
+		PLAYERS_POSITION,
 
 	};
 	

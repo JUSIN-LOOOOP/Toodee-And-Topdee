@@ -59,6 +59,7 @@ private:
 
 	_bool				m_bIsSparkBlock = { false };
 
+	_uint				m_iLevel = {};
 
 private:
 	void				Change_Motion(_float fTimeDelta);

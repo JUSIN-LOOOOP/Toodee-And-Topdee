@@ -93,6 +93,11 @@ HRESULT CPlayer_Toodee::Initialize(void* pArg)
 
     name = TEXT("Toodee");
 
+    PLAYERSPOSITION_EVENT event;
+    event.eWho = DIMENSION::TOODEE;
+    event.pTransformToodee = m_pTransformCom;
+    m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::PLAYERS_POSITION, event);
+
     return S_OK;
 }
 
