@@ -107,6 +107,9 @@ void CGiantHand::StartAction(_float UntilY)
 {
 	if(!m_bAction)
 	{
+		m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+		m_pGameInstance->PlayAudio(TEXT("GiantHand.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
 		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 		vPosition.y += 10.f;
 		m_pTransformCom->Set_State(STATE::POSITION, vPosition);

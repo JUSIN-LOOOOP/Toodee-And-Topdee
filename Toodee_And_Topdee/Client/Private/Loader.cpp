@@ -26,6 +26,9 @@
 #include "Fire_Projectile.h"
 #include "SpikeHole.h"
 #include "GiantHand.h"
+#include "Toodoo_Ending.h"
+#include "Thirdee_Ending.h"
+#include "Ending_Flash.h"
 #pragma endregion
 
 #pragma region Boss
@@ -143,6 +146,9 @@ HRESULT CLoader::Loading()
 		break;
 	case LEVEL::LEVEL_FINALBOSS3:
 		hr = Loading_For_FinalBoss03();
+		break;
+	case LEVEL::LEVEL_ENDING:
+		hr = Loading_For_Ending();
 		break;
 	}
 
@@ -951,6 +957,58 @@ HRESULT CLoader::Loading_For_FinalBoss03()
 
 	m_isFinished = true;
 
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Ending()
+{
+	/* Prototype_GameObject_Ending_Flash*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_ENDING), TEXT("Prototype_GameObject_Ending_Flash"),
+		CEnding_Flash::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Toodoo_Ending */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_ENDING), TEXT("Prototype_GameObject_Toodoo_Ending"),
+		CToodoo_Ending::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Thirdee_Ending */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_ENDING), TEXT("Prototype_GameObject_Thirdee_Ending"),
+		CThirdee_Ending::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_Com_Shader_Ending */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_ENDING), TEXT("Prototype_Component_Shader_Ending"),
+		CShader_Ending::Create(m_pGraphic_Device, TEXT("../Resources/Shader/Ending.txt")))))
+		return E_FAIL;
+
+	/* Prototype_Com_Shader_Flash */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_ENDING), TEXT("Prototype_Component_Shader_Flash"),
+		CShader_Flash::Create(m_pGraphic_Device, TEXT("../Resources/Shader/Flash.txt")))))
+		return E_FAIL;
+
+	/* Prototype_Com_Texture_Thirdee_Ending */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_ENDING), TEXT("Prototype_Component_Texture_Thirdee_Ending"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/Thirdee_Ending.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Com_Texture_Toodoo_Ending */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_ENDING), TEXT("Prototype_Component_Texture_Toodoo_Ending"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/Toodoo_Ending.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Com_Texture_Flash */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_ENDING), TEXT("Prototype_Component_Texture_Flash"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/Flash.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_GmaeObject_Camera*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_ENDING), TEXT("Prototype_GameObject_Camera"),
+		CCamera::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	m_isFinished = true; 
+	
 	return S_OK;
 }
 

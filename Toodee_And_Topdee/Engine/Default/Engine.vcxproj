@@ -183,6 +183,8 @@ call Copy.bat
     <ClCompile Include="..\Private\PSystem.cpp" />
     <ClCompile Include="..\private\Renderer.cpp" />
     <ClCompile Include="..\Private\Shader.cpp" />
+    <ClCompile Include="..\private\Shader_Ending.cpp" />
+    <ClCompile Include="..\private\Shader_Flash.cpp" />
     <ClCompile Include="..\private\Shader_Player.cpp" />
     <ClCompile Include="..\Private\Shader_Water.cpp" />
     <ClCompile Include="..\private\Sound_Manager.cpp" />
@@ -191,6 +193,7 @@ call Copy.bat
     <ClCompile Include="..\private\Timer.cpp" />
     <ClCompile Include="..\private\Timer_Manager.cpp" />
     <ClCompile Include="..\private\Transform.cpp" />
+    <ClCompile Include="..\private\UIObject.cpp" />
     <ClCompile Include="..\Private\Util.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Capsule.cpp" />
@@ -233,6 +236,8 @@ call Copy.bat
     <ClInclude Include="..\Public\PSystem.h" />
     <ClInclude Include="..\public\Renderer.h" />
     <ClInclude Include="..\Public\Shader.h" />
+    <ClInclude Include="..\public\Shader_Ending.h" />
+    <ClInclude Include="..\public\Shader_Flash.h" />
     <ClInclude Include="..\public\Shader_Player.h" />
     <ClInclude Include="..\Public\Shader_Water.h" />
     <ClInclude Include="..\public\Sound_Manager.h" />
@@ -241,6 +246,7 @@ call Copy.bat
     <ClInclude Include="..\public\Timer.h" />
     <ClInclude Include="..\public\Timer_Manager.h" />
     <ClInclude Include="..\public\Transform.h" />
+    <ClInclude Include="..\public\UIObject.h" />
     <ClInclude Include="..\Public\Util.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
     <ClInclude Include="..\Public\VIBuffer_Capsule.h" />
