@@ -48,6 +48,8 @@ public:
 	_bool IsPush() { return m_eCurrentState == BLOCKSTATE::PUSH; }
 	_bool IsStop() { return m_eCurrentState == BLOCKSTATE::STOP; }
 
+	void Hold();
+
 protected:
 #pragma region STATE PARAMETER
 	/* State */

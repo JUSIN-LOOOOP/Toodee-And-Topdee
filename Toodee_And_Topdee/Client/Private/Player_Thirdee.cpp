@@ -272,7 +272,7 @@ HRESULT CPlayer_Thirdee::Ready_Component()
     ColliderDesc.pOwner = this;
     ColliderDesc.bIsFixed = false;
     ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
-    ColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
+    ColliderDesc.vColliderScale = _float3(1.5f, 2.1f, 1.5f);
     ColliderDesc.pTransform = m_pTransformCom;
     
     m_fGroundCheckColliderY = ColliderDesc.vColliderScale.z * 0.7f;
