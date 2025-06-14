@@ -77,6 +77,23 @@ HRESULT CLevel_StageBoss::Render()
 
 void CLevel_StageBoss::ResetBlock(const FIANLBOSSRESET_EVENT& Event)
 {
+	static _uint count = 0;
+
+	++ count;
+
+	if (count == 2)
+	{
+		REMOVE_SPIKE tmp;
+		BLOCK_INFO info;
+		info.vPos = { 0.f,1.f,- 10.f };
+		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), EVENT_KEY::REMOVE_SPIKE, tmp);
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"),
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &info);
+		for (_uint i = 0; i < 4; ++i)
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"), ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_WallLock"), &m_LockBlockInfo[i]);
+		return;
+	}
+
 	m_pGameInstance->Reset_KeyCount();
 	for (_uint i = 0; i < 3; ++i)
 		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"), ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_Key"), &m_KeyInfo[i]);
@@ -86,9 +103,8 @@ void CLevel_StageBoss::ResetBlock(const FIANLBOSSRESET_EVENT& Event)
 	
 	for (_uint i = 0; i < 30; ++i)
 	{
-
 		BLOCK_INFO info = m_SpikeInfo[i];
-		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"), ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info);
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_Spike "), ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info);
 		m_pGameInstance->Set_Active(TEXT("Effect_BlockDust"), &info);
 	}
 }

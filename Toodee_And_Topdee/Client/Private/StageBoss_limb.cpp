@@ -123,6 +123,9 @@ HRESULT CStageBoss_limb::HIT(_float fTimeDelta)
         m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::FIN_ACTION, mode);
         name = TEXT("BossWall");
         m_pGameInstance->Set_Active(TEXT("Effect_ShotDust"), &pos);
+        SHAKING Event;
+        Event.fTime = .5f;
+        m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::CAM_SHAKING, Event);
     }
 
     return S_OK;

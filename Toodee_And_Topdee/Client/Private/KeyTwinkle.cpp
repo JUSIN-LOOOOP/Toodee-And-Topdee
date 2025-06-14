@@ -14,7 +14,7 @@ CKeyTwinkle::CKeyTwinkle(const CKeyTwinkle& Prototype)
 HRESULT CKeyTwinkle::Initialize()
 {
     m_fSize = 2.f;
-    m_iChunk = 1;
+    m_iChunk = 2;
     m_fFrameOffsetTime = .02f;
 
     for (_uint i = 0; i < 20; i++)

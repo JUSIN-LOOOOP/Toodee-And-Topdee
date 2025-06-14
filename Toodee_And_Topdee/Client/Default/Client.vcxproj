@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\BackCloud.h" />
     <ClInclude Include="..\Public\Backdrop.h" />
+    <ClInclude Include="..\Public\BackRock.h" />
     <ClInclude Include="..\Public\BackTile.h" />
     <ClInclude Include="..\Public\BackWall.h" />
     <ClInclude Include="..\Public\BasicTile.h" />
@@ -275,6 +276,7 @@
     <ClInclude Include="..\Public\WallParts.h" />
     <ClInclude Include="..\Public\Water.h" />
     <ClInclude Include="..\Public\WaterSplash.h" />
+    <ClInclude Include="..\Public\Wind.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -283,6 +285,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\BackCloud.cpp" />
     <ClCompile Include="..\Private\Backdrop.cpp" />
+    <ClCompile Include="..\Private\BackRock.cpp" />
     <ClCompile Include="..\Private\BackTile.cpp" />
     <ClCompile Include="..\Private\BackWall.cpp" />
     <ClCompile Include="..\Private\BasicTile.cpp" />
@@ -409,6 +412,7 @@
     <ClCompile Include="..\Private\WallParts.cpp" />
     <ClCompile Include="..\Private\Water.cpp" />
     <ClCompile Include="..\Private\WaterSplash.cpp" />
+    <ClCompile Include="..\Private\Wind.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
