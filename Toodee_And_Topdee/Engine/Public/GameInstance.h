@@ -84,6 +84,7 @@ public:
 	//Sound
 public:
 	void			PlayAudio(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);
+	void			PlayLoop(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);
 	void			PlayBGM(const TCHAR* pSoundKey, float fVolume);
 	void			StopSound(CHANNELID eID);
 	void			StopAll();
