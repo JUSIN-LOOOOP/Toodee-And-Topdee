@@ -25,6 +25,7 @@
 #include "BackCloud.h"
 #include "Fire_Projectile.h"
 #include "SpikeHole.h"
+#include "GiantHand.h"
 #pragma endregion
 
 #pragma region Boss
@@ -879,6 +880,11 @@ HRESULT CLoader::Loading_For_FinalBoss02()
 
 HRESULT CLoader::Loading_For_FinalBoss03()
 {	
+	/* Prototype_GameObject_GiantHand */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_GiantHand"),
+		CGiantHand::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_SpikeHole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_SpikeHole"),
 		CSpikeHole::Create(m_pGraphic_Device))))
@@ -938,6 +944,11 @@ HRESULT CLoader::Loading_For_FinalBoss03()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Toodoo"),
 		CToodoo::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_Component_Texture_GiantHand"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/FinalBoss/GiantHand.png"), 1))))
+		return E_FAIL;
+
 	m_isFinished = true;
 
 	return S_OK;

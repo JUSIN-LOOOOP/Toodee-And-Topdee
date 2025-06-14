@@ -184,6 +184,7 @@
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\FPSCamera.h" />
+    <ClInclude Include="..\public\GiantHand.h" />
     <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\Public\InteractionBlock.h" />
     <ClInclude Include="..\Public\JumpDust.h" />
@@ -317,6 +318,7 @@
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\FPSCamera.cpp" />
+    <ClCompile Include="..\private\GiantHand.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
     <ClCompile Include="..\Private\JumpDust.cpp" />

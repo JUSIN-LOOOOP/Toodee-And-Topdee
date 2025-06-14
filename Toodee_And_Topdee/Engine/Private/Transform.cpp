@@ -91,6 +91,22 @@ void CTransform::Go_Down(_float fTimeDelta)
 	Set_State(STATE::POSITION, vPosition);
 }
 
+void CTransform::Go_Down_UntilY(_float fTimeDelta, _float UntilY)
+{
+
+	_float3 vPosition = Get_State(STATE::POSITION);
+	_float3 vUp = Get_State(STATE::UP);
+
+	vPosition -= *D3DXVec3Normalize(&vUp, &vUp) * fTimeDelta * m_fSpeedPerSec;
+
+	if (vPosition.y <= UntilY)
+		vPosition.y = UntilY;
+
+
+	Set_State(STATE::POSITION, vPosition);
+}
+
+
 void CTransform::Look_At(const _float3& vTarget)
 {
 	_float3 vScale = Get_Scaled();
@@ -129,6 +145,11 @@ _bool CTransform::MoveUntilInRange(const _float3& vTarget, _float fTimeDelta, _f
 		vPosition += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * m_fSpeedPerSec * fTimeDelta;
 		Set_State(STATE::POSITION, vPosition);
 		return false;
+	}
+	else
+	{
+		vPosition += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * m_fSpeedPerSec * fTimeDelta;
+		Set_State(STATE::POSITION, vPosition);
 	}
 	
 	return true;
