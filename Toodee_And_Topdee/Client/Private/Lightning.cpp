@@ -27,6 +27,7 @@ HRESULT CLightning::Initialize(void* pArg)
 
 	name = TEXT("EnemyLightning");
 
+	m_iLevel = m_pGameInstance->Get_NextLevelID();
 	return S_OK;
 }
 
@@ -189,7 +190,7 @@ void CLightning::Change_Motion(_float fTimeDelta)
 		{
 			m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
 			m_pColliderCom->Collision_Off();
-			m_pGameInstance->Push(TEXT("Layer_Lightning"), this);
+			m_pGameInstance->Push(m_iLevel, TEXT("Layer_Lightning"), this);
 		}
 	}
 	else {
@@ -207,7 +208,7 @@ HRESULT CLightning::Bind_Lightning()
 		{
 			m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
 			m_pColliderCom->Collision_Off();
-			m_pGameInstance->Push(TEXT("Layer_Lightning"), this);
+			m_pGameInstance->Push(m_iLevel ,TEXT("Layer_Lightning"), this);
 			return S_OK;
 		}
 

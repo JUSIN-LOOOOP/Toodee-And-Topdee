@@ -227,6 +227,7 @@
     <ClInclude Include="..\Public\Part_Wing.h" />
     <ClInclude Include="..\Public\Pig.h" />
     <ClInclude Include="..\public\Player.h" />
+    <ClInclude Include="..\Public\PlayerChangeEffect.h" />
     <ClInclude Include="..\Public\PlayerState.h" />
     <ClInclude Include="..\Public\Player_Thirdee.h" />
     <ClInclude Include="..\public\Player_Toodee.h" />
@@ -359,6 +360,7 @@
     <ClCompile Include="..\Private\Part_Wing.cpp" />
     <ClCompile Include="..\Private\Pig.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
+    <ClCompile Include="..\Private\PlayerChagneEffect.cpp" />
     <ClCompile Include="..\Private\PlayerState.cpp" />
     <ClCompile Include="..\Private\Player_Thirdee.cpp" />
     <ClCompile Include="..\private\Player_Toodee.cpp" />

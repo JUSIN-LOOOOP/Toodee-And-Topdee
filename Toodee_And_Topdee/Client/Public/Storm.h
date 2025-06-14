@@ -59,6 +59,7 @@ private:
 	pair<_uint, _bool>		m_IsAttachSparkBlock = { };
 	_bool					m_IsAttachSparkBlock1 = { };
 
+	_uint					m_iLevel = {};
 
 private:
 	void					Compute_CrashSite(_float fTimeDelta);

@@ -65,12 +65,20 @@ private:
 	_float						m_fShaking = 0.f;
 	_float3						m_fBackupPos = {};
 
+	//Player Change Event
+	_float						m_fPoolAccumurateTime = { 0.05f };
+	_float						m_fPoolIntervalTime = { 0.05f };
+	_uint						m_fPoolNum = { 0 };
+	_bool						m_bStartPlayerChangeEffect = { false };
+
+
 private:
 	HRESULT Ready_Components(void* pArg);
 	void	CameraTestMoveInitialize();
 	void	CameraTestMove(_float fTimeDelta);
 	void	SetViewFlag() { m_bRotating = true; };
 	void	Shaking(_float fTimeDelta);
+	void	PlayerChangeEffect(_float fTimeDelta);
 
 public:
 	static CMultiViewCamera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

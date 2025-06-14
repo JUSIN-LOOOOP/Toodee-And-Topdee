@@ -92,8 +92,8 @@ public:
 	//Pool
 public:
 	void					First_Push(const _wstring& strPoolTag,  class CPoolableObject* pGameObject);
-	void					Push(const _wstring& strPoolTag, class CPoolableObject* pGameObject);
-	class CPoolableObject*	Pop(_uint iPrototypeLevelIndex, const _wstring& strPoolTag);
+	void					Push(_uint iNumLevels, const _wstring& strPoolTag, class CPoolableObject* pGameObject);
+	class CPoolableObject*	Pop(_uint iNumLevels, _uint iPrototypeLevelIndex, const _wstring& strPoolTag);
 
 	//Effect
 public:

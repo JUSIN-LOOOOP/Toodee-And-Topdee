@@ -9,9 +9,8 @@ namespace Engine
 		return start + (end - start) * value;
 	}
 
-	inline float EaseInOutBack(float x)
+	inline float EaseInOutBack(float x, const float c1 = 1.70158f)
 	{
-		const float c1 = 1.70158f;
 		const float c2 = c1 * 1.525f;
 
 		return x < 0.5
@@ -43,10 +42,10 @@ namespace Engine
 		}
 	}
 
-	inline bool EaseVector3InOutBack(D3DXVECTOR3* pOut , D3DXVECTOR3 start, D3DXVECTOR3 end, float fElapsedTime, float fDuringTime, float limitTime = 0.001f)
+	inline bool EaseVector3InOutBack(D3DXVECTOR3* pOut , D3DXVECTOR3 start, D3DXVECTOR3 end, float fElapsedTime, float fDuringTime, const float c1 = 1.70158f, float limitTime = 0.001f)
 	{
 		float ratio = min(fElapsedTime / fDuringTime, 1.f);
-		float eased = EaseInOutBack(ratio);
+		float eased = EaseInOutBack(ratio,c1);
 
 		D3DXVec3Lerp(pOut, &start, &end, eased);
 
