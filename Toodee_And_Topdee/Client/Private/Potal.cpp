@@ -41,10 +41,10 @@ HRESULT CPotal::Initialize(void* pArg)
 
 	_float3 vPosition = pDesc->vPos;
 	vPosition.x += 1.f;
-	vPosition.y += 1.5f;
+	vPosition.y += 0.8f;
 	vPosition.z += 1.f;
 
-	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
+	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 
 	m_pTransformCom->Scaling(4.f, 4.f, 4.f);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
