@@ -24,13 +24,18 @@ void CStageBoss_limb::Priority_Update(_float fTimeDelta)
 void CStageBoss_limb::Update(_float fTimeDelta)
 {
     m_fIdleTurnTime += fTimeDelta;
+    
+    
+    m_pGameInstance->Check_Collision(m_pColliderCom);
 
     if (m_fIdleTurnTime >= .5f)
     {
         m_fIdleTurnDir *= -1.f;
         m_fIdleTurnTime = 0;
     }
-    m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::UP), m_fIdleTurnDir * -fTimeDelta * 0.8);
+    m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::UP), m_fIdleTurnDir * -fTimeDelta * 0.8f);
+
+    CheckDead(fTimeDelta);
 
     switch (m_eState)
     {
@@ -116,7 +121,7 @@ HRESULT CStageBoss_limb::HIT(_float fTimeDelta)
         m_eState = STAGEMONERSTATE::IDLE;
         MONSTERSIGNAL mode;
         m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::FIN_ACTION, mode);
-        name = TEXT("WallBoss");
+        name = TEXT("BossWall");
         m_pGameInstance->Set_Active(TEXT("Effect_ShotDust"), &pos);
     }
 
@@ -167,11 +172,8 @@ HRESULT CStageBoss_limb::ChangeView(_float fTimeDelta)
 HRESULT CStageBoss_limb::MoveToOrigin(_float fTimeDelta)
 {
     _float3 Length = m_pTransformCom->Get_State(Engine::STATE::POSITION) - m_fInitPos;
-    if (D3DXVec3Length(&Length) > 1.f || m_eState == STAGEMONERSTATE::DAMAGE)
-    {
-        m_pTransformCom->MoveUntilInRange(m_fInitPos, fTimeDelta * 25.f, 1.f);
-        ChangeView(fTimeDelta);
-    }
+    if (D3DXVec3Length(&Length) > 1.f)
+        m_pTransformCom->MoveUntilInRange(m_fInitPos, fTimeDelta * 10.f, 1.f);
     else
     {
         m_eState = STAGEMONERSTATE::IDLE;
@@ -201,12 +203,39 @@ void CStageBoss_limb::RotateToFace(_float fTimeDelta)
         m_ChangeFlag[1] = false;
 }
 
+void CStageBoss_limb::CheckDead(_float fTimeDelta)
+{
+    if (m_eState != STAGEMONERSTATE::DAMAGE && (m_pColliderCom->OnCollisionEnter() || m_pColliderCom->OnCollisionStay()))
+    {
+        vector<CGameObject*>* pList;
+        m_pColliderCom->GetOverlapAll(pList);
+
+        for (auto pGameObject : *pList)
+        {
+            if (pGameObject != nullptr && pGameObject->CompareName(TEXT("EnemyProjectile")))
+            {
+                MONSTERSIGNAL tmp;
+                m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::STAGEBOSS_DAMAGED, tmp);
+            }
+        }
+    }
+}
+
 void CStageBoss_limb::GetSignal(const MONSTERSIGNAL& Event)
 {
     m_eState = (STAGEMONERSTATE)Event.iState;
     m_eViewMode = (VIEWMODE)Event.iViewMode;
 
-    if (m_eState == STAGEMONERSTATE::VIEWTURN || m_eState == STAGEMONERSTATE::DAMAGE)
+    if (m_eState == STAGEMONERSTATE::DEAD)
+    {
+        for (int i = 0; i < 3; ++i)
+        {
+            _float3 pos = m_pTransformCom->Get_State(Engine::STATE::POSITION);
+            m_pGameInstance->Set_Active(TEXT("Effect_ShotDust"), &pos);
+        }
+    }
+
+    else if (m_eState == STAGEMONERSTATE::VIEWTURN || m_eState == STAGEMONERSTATE::DAMAGE)
     {
         m_ChangeFlag[0] = true;
         m_ChangeFlag[1] = true;

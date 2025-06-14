@@ -7,7 +7,7 @@ CFire_Projectile::CFire_Projectile(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CFire_Projectile::CFire_Projectile(const CFire_Projectile& Prototype)
-    :CPoolableObject{ Prototype }
+    :CPoolableObject( Prototype )
 
 {
 }
@@ -51,7 +51,7 @@ void CFire_Projectile::Update(_float fTimeDelta)
 		_wstring strTargetName = {TEXT("")};
 		if(pGameObject != nullptr) strTargetName = pGameObject->Get_Name();
 
-		if (strTargetName != TEXT("Hole") && strTargetName != TEXT("Topdee") && strTargetName != TEXT("Toodee"))
+		if (strTargetName != TEXT("Hole") && strTargetName != TEXT("Topdee") && strTargetName != TEXT("Toodee") && strTargetName != TEXT("BossWall"))
 		{
 			m_bEffect = true;
 			m_pTransformCom->Scaling(5.f, 5.f, 1.f);
@@ -159,7 +159,7 @@ HRESULT CFire_Projectile::Ready_Components()
 	CCollider::COLLIDER_DESC  ColliderDesc{};
 	ColliderDesc.pOwner = reinterpret_cast<CGameObject*>(this);
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(1.5f, 1.0f, 1.0f);
+	ColliderDesc.vColliderScale = _float3(1.0f, 1.0f, 1.0f);
 	ColliderDesc.bIsFixed = false;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Collider_Cube"),

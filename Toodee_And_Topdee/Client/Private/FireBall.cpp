@@ -38,7 +38,7 @@ HRESULT CFireBall::Initialize(void* pArg)
     _float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
     m_pTransformCom->Set_State(STATE::POSITION, _float3{ vPosition.x, vPosition.y + 1.01f, vPosition.z });
 
-    name = TEXT("EnemyFireBall");
+    name = TEXT("EnemyBall");
 
     return S_OK;
 }

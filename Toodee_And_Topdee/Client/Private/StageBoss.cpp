@@ -35,6 +35,11 @@ HRESULT CStageBoss::Initialize(void* pArg)
 
 void CStageBoss::Priority_Update(_float fTimeDelta)
 {
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return ;
+	///debug
+	m_iDeadCount;
+
 	if (m_eState != STAGEMONERSTATE::VIEWTURN && m_pGameInstance->Key_Down('X'))
 	{
 		m_eViewMode = (m_eViewMode == VIEWMODE::TOPDEE) ? VIEWMODE::TOODEE : VIEWMODE::TOPDEE;
@@ -44,23 +49,18 @@ void CStageBoss::Priority_Update(_float fTimeDelta)
 		mode.iState = ENUM_CLASS(STAGEMONERSTATE::VIEWTURN);
  		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::SIG_MONSTER, mode);
 	}
-	if (m_pGameInstance->Key_Down(VK_SPACE)) //임시! 나중에 충돌 시그널 받기
-	{
-		m_eViewMode = VIEWMODE::TOODEE;
-		m_eState = STAGEMONERSTATE::DAMAGE;
-		CHANGECAM tmp;
-		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::CHANGE_CAM, tmp);
-		MONSTERSIGNAL mode;
-		mode.iViewMode = ENUM_CLASS(m_eViewMode);
-		mode.iState = ENUM_CLASS(STAGEMONERSTATE::DAMAGE);
-		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::SIG_MONSTER, mode);
-	}
 	for (auto limb : m_vlimbs)
 		limb->Priority_Update(fTimeDelta);
 }
 
 void CStageBoss::Update(_float fTimeDelta)
 {
+	m_fNonDamagedTime -= fTimeDelta;
+	if (m_fNonDamagedTime < 0.f)
+		m_fNonDamagedTime = 0;
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return ;
+
 	for (auto limb : m_vlimbs)
 		limb->Update(fTimeDelta);
 
@@ -81,6 +81,9 @@ void CStageBoss::Update(_float fTimeDelta)
 
 void CStageBoss::Late_Update(_float fTimeDelta)
 {
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return ;
+
 	for (auto limb : m_vlimbs)
 		limb->Late_Update(fTimeDelta);
 
@@ -90,6 +93,9 @@ void CStageBoss::Late_Update(_float fTimeDelta)
 
 HRESULT CStageBoss::Render()
 {
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return S_OK;
+
 	for (auto limb : m_vlimbs)
 		limb->Render();
 
@@ -194,10 +200,33 @@ void CStageBoss::isFinish()
 		m_eState = STAGEMONERSTATE::IDLE;
 }
 
+void CStageBoss::isDamaged()
+{
+	if (m_fNonDamagedTime > 0.f)
+		return;
+
+	++m_iDeadCount;
+
+	m_eViewMode = VIEWMODE::TOODEE;
+	m_eState = (m_iDeadCount == 2) ? STAGEMONERSTATE::DEAD : STAGEMONERSTATE::DAMAGE;
+	MONSTERSIGNAL mode;
+	mode.iViewMode = ENUM_CLASS(m_eViewMode);
+	mode.iState = ENUM_CLASS(m_eState);
+	m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::SIG_MONSTER, mode);
+	m_fNonDamagedTime = 30.f;
+	FIANLBOSSRESET_EVENT tmp2;
+	m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::STAGEBOSS_RESET, tmp2);
+
+}
+
 HRESULT CStageBoss::Ready_SubscribeEvent(_uint iPlayerLevel)
 {
 	m_pGameInstance->Subscribe<MONSTERSIGNAL>(iPlayerLevel, EVENT_KEY::FIN_ACTION, [this](const MONSTERSIGNAL& Event) {
 		this->isFinish(); });
+
+	m_pGameInstance->Subscribe<MONSTERDAMAGED>(iPlayerLevel, EVENT_KEY::STAGEBOSS_DAMAGED, [this](const MONSTERDAMAGED& Event) {
+		this->isDamaged(); });
+
 	return S_OK;
 }
 

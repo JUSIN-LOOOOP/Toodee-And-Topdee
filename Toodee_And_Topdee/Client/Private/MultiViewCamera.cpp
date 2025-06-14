@@ -89,7 +89,7 @@ void CMultiViewCamera::Update(_float fTimeDelta)
     if (m_fShaking > 0.f)
         Shaking(fTimeDelta);
 
-    CameraTestMove(fTimeDelta);
+    //CameraTestMove(fTimeDelta);
 }
 
 void CMultiViewCamera::Late_Update(_float fTimeDelta)

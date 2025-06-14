@@ -164,7 +164,7 @@ HRESULT CMainMenu_Portals::Render_Portal()
 	for (_int i = 0; i < 8; ++i)
 	{
 		//if () continue;
-		m_vPosition[i].y += 0.1;
+		m_vPosition[i].y += 0.1f;
 		m_pTransformCom->Set_State(STATE::POSITION, m_vPosition[i]);
 		m_pTransformCom->Bind_Matrix();
 		
@@ -188,7 +188,7 @@ HRESULT CMainMenu_Portals::Render_StageImage()
 	m_pTransformCom->Scaling(8.2f, 8.2f, 1.f);
 	for (_int i = 0; i < 8; ++i)
 	{
-		m_vPosition[i].y -= 0.1;
+		m_vPosition[i].y -= 0.1f;
 		m_pTransformCom->Set_State(STATE::POSITION, m_vPosition[i]);
 		m_pTransformCom->Bind_Matrix();
 		if (FAILED(m_pTextureCom_StageImage->Bind_Texture(i)))

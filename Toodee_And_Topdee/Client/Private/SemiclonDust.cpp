@@ -51,7 +51,7 @@ void CSemiclonDust::Update(_float fTimeDelta)
         return;
     for (auto& particle : m_Particles)
     {
-        particle._size *= 0.95;
+        particle._size *= 0.95f;
 
         if (particle._size * m_fSize < 0.1f)
             particle._isAlive = false;

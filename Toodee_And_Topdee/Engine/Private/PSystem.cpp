@@ -152,12 +152,12 @@ void CPSystem::postRender()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 }
 
-bool CPSystem::isEmpty()
+HRESULT CPSystem::isEmpty()
 {
 	return (m_Particles.size() == 0) ? S_OK : E_FAIL;
 }
 
-bool CPSystem::isDead()
+HRESULT CPSystem::isDead()
 {
 	for (auto& Particle : m_Particles)
 		if (Particle._isAlive == true)

@@ -64,9 +64,9 @@ void CColorLight::ResetParticle(PARTICLE* attribute, void* pArg)
     d3d::GetRandomVector(&attribute->_position, &min, &max);
     attribute->_position.y = m_BoundingBox._max.y;
 
-    attribute->_velocity.x = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5;
+    attribute->_velocity.x = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5f;
     attribute->_velocity.y = 0.f;
-    attribute->_velocity.z = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5;
+    attribute->_velocity.z = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5f;
 
     attribute->_size = d3d::GetRandomFloat(1.f, 2.5f);
     attribute->_color = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
@@ -95,8 +95,8 @@ void CColorLight::Update(_float fTimeDelta)
 
         if (particle._FrameTime >= d3d::GetRandomFloat(4.f, 8.f))
         {
-            particle._velocity.x = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5;
-            particle._velocity.z = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5;
+            particle._velocity.x = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5f;
+            particle._velocity.z = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5f;
             particle._FrameTime = 0;
         }
     }

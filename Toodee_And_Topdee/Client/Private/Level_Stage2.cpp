@@ -7,6 +7,7 @@
 #include "Level_Loading.h"
 #include "ColliderMap_Object.h"
 #include "Test_Cube2.h"
+#include "BackRock.h"
 
 CLevel_Stage2::CLevel_Stage2(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -202,6 +203,35 @@ HRESULT CLevel_Stage2::Ready_Layer_Back(const _wstring& strLayerTag)
 		ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_BackCloud"))))
 		return E_FAIL;
 
+	for (_uint i = 0; i < 3; ++i)
+	{
+		CBackRock::BACK_DESC dsc;
+
+		switch (i)
+		{
+		case 0:
+			dsc._pos = { -15.f, -.2f, -6.f };
+			dsc._size = { 20.f, 20.f, 1.f };
+			dsc._textureIdx = i;
+			break;
+
+		case 1:
+			dsc._pos = { 15.f, -.3f, 13.f };
+			dsc._size = { 12.f, 12.f, 1.f };
+			dsc._textureIdx = i;
+			break;
+
+		case 2:
+			dsc._pos = { 8.f, -.1f, 7.f };
+			dsc._size = { 8.f, 17.f, 1.f };
+			dsc._textureIdx = i;
+			break;
+
+		}
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE2), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_BackRock"), &dsc)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

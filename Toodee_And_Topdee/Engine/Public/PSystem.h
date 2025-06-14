@@ -35,7 +35,7 @@ protected :
 		D3DXCOLOR	_color;
 		BoundingBox	_BoundingBox;
 		_float		_FrameTime = 0.f;
-		_uint		_TextureIdx = 0.f;
+		_uint		_TextureIdx = 0;
 		_bool		_isAlive;
 		_float		_size = 1.f;
 		_float		_Speed = 1.f;
@@ -58,8 +58,8 @@ public:
 	virtual HRESULT Render();
 	virtual void postRender();
 
-	bool isEmpty();
-	bool isDead();
+	HRESULT isEmpty();
+	HRESULT isDead();
 
 protected:
 	virtual void removeDeadParticles();

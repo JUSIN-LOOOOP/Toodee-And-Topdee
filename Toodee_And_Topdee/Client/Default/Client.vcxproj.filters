@@ -393,6 +393,9 @@
     <ClCompile Include="..\Private\Wind.cpp">
       <Filter>00. Dummys\T Y J\Effect\Wind</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\BackRock.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -801,6 +804,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Wind.h">
       <Filter>00. Dummys\T Y J\Effect\Wind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackRock.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

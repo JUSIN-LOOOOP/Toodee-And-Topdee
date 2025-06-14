@@ -17,7 +17,7 @@ HRESULT CBlockDust::Initialize()
     m_fFrameOffsetTime = .06f;
     m_iChunk = 5;
 
-    for (_uint i = 0; i < 100; i++)
+    for (_uint i = 0; i < 200; i++)
     {
         PARTICLE attribute;
         m_Particles.push_back(attribute);

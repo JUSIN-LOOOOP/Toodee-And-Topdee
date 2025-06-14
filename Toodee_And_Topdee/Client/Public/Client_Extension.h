@@ -30,7 +30,7 @@ inline const _uint Stage_ColliderCount(LEVEL eLevel)
 	if (eLevel == LEVEL::LEVEL_STAGE1) return 14;	//LEVEL_STAGE1
 	if (eLevel == LEVEL::LEVEL_STAGE2) return 22;	//LEVEL_STAGE2
 	if (eLevel == LEVEL::LEVEL_STAGE3) return 11;	//LEVEL_STAGE3
-	if (eLevel == LEVEL::LEVEL_STAGEBOSS) return 7;	//LEVEL_STAGEBOSS
+	if (eLevel == LEVEL::LEVEL_STAGEBOSS) return 6;	//LEVEL_STAGEBOSS
 	if (eLevel == LEVEL::LEVEL_STAGE4) return 22;	//LEVEL_STAGE4
 	if (eLevel == LEVEL::LEVEL_STAGE5) return 8;  //LEVEL_STAGE5
 	if (eLevel == LEVEL::LEVEL_STAGE6) return 29;  //LEVEL_STAGE6
@@ -214,7 +214,7 @@ inline const pair<_float3, _float3> StageBoss_ColliderInfo(_uint iNum)
 		/* ¼¼·Î º®*/
 		{-31.f,		1.f,	0.f},
 		{31.f ,		1.f,	0.f},
-		{29.f ,		1.f,	4.f},
+		//{29.f ,		1.f,	4.f},
 
 	};
 	static const _float3 Scale[] = {
@@ -225,7 +225,7 @@ inline const pair<_float3, _float3> StageBoss_ColliderInfo(_uint iNum)
 
 		{	2.f,	2.f,	32.f},
 		{	2.f,	2.f,	32.f},
-		{	2.f,	2.f,	12.f},
+		//{	2.f,	2.f,	12.f},
 	};
 
 	return { Position[iNum],Scale[iNum] };

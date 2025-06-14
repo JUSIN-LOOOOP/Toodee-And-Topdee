@@ -16,7 +16,7 @@ HRESULT CShotDust::Initialize()
     m_fSize = 4.f;
     m_iChunk = 15;
 
-    for (_uint i = 0; i < 20; i++)
+    for (_uint i = 0; i < 100; i++)
     {
         PARTICLE attribute;
         m_Particles.push_back(attribute);
@@ -51,7 +51,7 @@ void CShotDust::Update(_float fTimeDelta)
 
     for (auto& particle : m_Particles)
     {
-        particle._size *= 0.9;
+        particle._size *= 0.9f;
 
         if (particle._size * m_fSize < 0.1f)
             particle._isAlive = false;
