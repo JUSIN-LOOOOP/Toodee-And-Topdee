@@ -2,12 +2,12 @@
 #include "GameInstance.h"
 
 CWater::CWater(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject { pGraphic_Device }
+	: CBlendObject{ pGraphic_Device }
 {
 }
 
 CWater::CWater(const CWater& Prototype)
-	: CGameObject { Prototype }
+	: CBlendObject{ Prototype }
 {
 }
 
@@ -31,7 +31,7 @@ HRESULT CWater::Initialize(void* pArg)
 	_float3 vPosition = m_vSinkPos = pDesc->vPosition;
 
 	vPosition.x -= 10.f;
-	vPosition.y = 1.1f;
+	vPosition.y = 1.5f;
 	vPosition.z -= 16.f;
 
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
@@ -94,7 +94,8 @@ void CWater::Update(_float fTimeDelta)
 
 void CWater::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+	__super::Compute_CamDistance(m_pTransformCom);
 }
 
 HRESULT CWater::Render()
@@ -135,6 +136,13 @@ void CWater::Check_Dimension()
 	if (m_eCurrentDimension == DIMENSION::TOPDEE)
 	{
 		m_fCurrentFillHeight = 0.f;
+		m_pGameInstance->StopSound(CHANNELID::SOUND_RESOURCE);
+		m_pGameInstance->PlayAudio(TEXT("FillWater.wav"), CHANNELID::SOUND_RESOURCE, 0.5f);
+	}
+	else if(m_eCurrentDimension == DIMENSION::TOODEE)
+	{
+		m_pGameInstance->StopSound(CHANNELID::SOUND_RESOURCE);
+		m_pGameInstance->PlayAudio(TEXT("SuckWater.wav"), CHANNELID::SOUND_RESOURCE, 0.5f);
 	}
 
 	m_eCurrentDimension = eNewDimension;
@@ -205,9 +213,7 @@ HRESULT CWater::Begin_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
 	return S_OK;
 }
@@ -240,7 +246,6 @@ HRESULT CWater::Begin_ShaderState()
 HRESULT CWater::End_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-//	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	return S_OK;
 }

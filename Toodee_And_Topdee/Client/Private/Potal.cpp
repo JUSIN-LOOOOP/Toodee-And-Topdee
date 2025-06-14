@@ -109,12 +109,17 @@ void CPotal::BeginOverlapPlayer(const ENTERPORTALEVENT& Event)
 	if (false == ResultPair.second)
 		return;
 
+	m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+	m_pGameInstance->PlayAudio(TEXT("EnterPortal.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
+
 	if (m_OverlapSubjects.size() >= 2) // 포탈에 2명 다 들어왔다면
 	{
 		CANCLEAREVENT Event;
 		Event.vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
 		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::CAN_CLEAR, Event);
+
+
 	}
 }
 
@@ -122,6 +127,9 @@ void CPotal::EndOverlapPlayer(const EXITPORTALEVENT& Event)
 {
 	if (nullptr == Event.pPlayer)
 		return;
+
+	m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+	m_pGameInstance->PlayAudio(TEXT("ExitPortal.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
 
 	_uint iErase = m_OverlapSubjects.erase(Event.pPlayer);
 

@@ -447,6 +447,11 @@ HRESULT CCollider::OBB_Render()
     return S_OK;
 }
 
+const _float3	CCollider::Get_ColliderPosition()
+{ 
+    return m_pTransform->Get_State(STATE::POSITION);
+}
+
 COLLIDER_SHAPE CCollider::Reference_Collider_Info(COLLIDER_DESC& desc)
 {
     desc.pOwner = m_pOwner;
@@ -509,6 +514,7 @@ void CCollider::Free()
         Safe_Release(pGameObject);*/
     m_pOthers.clear();
 
-    Safe_Release(m_pTransform);
+    if(m_pTransform != nullptr)
+        Safe_Release(m_pTransform);
 
 }

@@ -41,6 +41,7 @@ private:
 	_uint				m_iTextureIdx = 0;
 	_float				uFrameDelay = 0;
 	_float				m_fAngle = 0;
+	_bool				m_bFallFlag = false;
 
 public:
 	static CFinger* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

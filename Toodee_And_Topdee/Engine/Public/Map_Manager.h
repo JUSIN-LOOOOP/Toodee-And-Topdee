@@ -2,12 +2,6 @@
 #include "Base.h"
 #include "GameObject.h"
 
-/*
-	현재는
-	  1. Edit 모드 : 현재 선택된 타일 type 관리 + Save 기능
-	  2. Game Stage : Load 기능
-*/
-
 BEGIN(Engine)
 
 class CMap_Manager final : public CBase

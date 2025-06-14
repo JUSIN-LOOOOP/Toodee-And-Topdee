@@ -11,6 +11,7 @@
 #pragma endregion
 
 #pragma region Object
+#include "Player_Thirdee.h"
 #include "Hole.h"
 #include "Key.h"
 //#include "Cloud.h"
@@ -23,6 +24,7 @@
 #include "Cannon.h"
 #include "BackCloud.h"
 #include "Fire_Projectile.h"
+#include "SpikeHole.h"
 #pragma endregion
 
 #pragma region Boss
@@ -57,8 +59,11 @@
 #include "MainMenu_Spark.h"
 #include "MainMenu_CenterLine.h"
 #include "MainMenu_Title.h"
-#pragma endregion
+#include "MainMenu_Buttons.h"
+#include "MainMenu_Portals.h"
+#include "MainMenu_StageTitle.h"
 
+#pragma endregion
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:m_pGraphic_Device{ pGraphic_Device },
@@ -158,14 +163,6 @@ HRESULT CLoader::Loading_For_Logo_Level()
 		CMainMenu_BackGround::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* Spark */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Spark"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Spark/Mainmenu_Spark%d.png"), 10))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Spark"),
-		CMainMenu_Spark::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 	/* CenterLine */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_CenterLine"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/CenterLine/CenterLine%d.png"), 6))))
@@ -182,7 +179,38 @@ HRESULT CLoader::Loading_For_Logo_Level()
 		CMainMenu_Title::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Buttons */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Buttons"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Buttons/MainMenu_Button%d.png"), 2))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Arrow"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/MenuArrow/MainMenu_Arrow%d.png"), 2))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Buttons"),
+		CMainMenu_Buttons::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	/* Portal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_StagePortal"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Stage_Select/LevelPortal/levelPortalSpr_%d.png"), 10))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_StageImage"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Stage_Select/StageImage/StageImage%d.png"), 8))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Portal"),
+		CMainMenu_Portals::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Stage selected Text*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_LevelText"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Font/Level/LevelText%d.png"), 3))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Number"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/MainMenu/Font/Number/%d.png"), 10))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_StageTitle"),
+		CMainMenu_StageTitle::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	m_isFinished = true;
 
 	return S_OK;
@@ -732,6 +760,11 @@ HRESULT CLoader::Loading_For_StageBoss()
 
 HRESULT CLoader::Loading_For_FinalBoss01()
 {
+	/* Prototype_GameObject_SpikeHole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_SpikeHole"),
+		CSpikeHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Wood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1), TEXT("Prototype_GameObject_WallWood"),
 		CBlock_Wood::Create(m_pGraphic_Device))))
@@ -779,6 +812,15 @@ HRESULT CLoader::Loading_For_FinalBoss01()
 
 HRESULT CLoader::Loading_For_FinalBoss02()
 {
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_WallLock"),
+		CBlock_Lock::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_SpikeHole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_SpikeHole"),
+		CSpikeHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Break */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))
@@ -823,13 +865,25 @@ HRESULT CLoader::Loading_For_FinalBoss02()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_Toodoo"),
 		CToodoo::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* Prototype_GameObject_Wood */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS2), TEXT("Prototype_GameObject_WallWood"),
+		CBlock_Wood::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
 	m_isFinished = true;
 
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_FinalBoss03()
-{
+{	
+	/* Prototype_GameObject_SpikeHole */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_SpikeHole"),
+		CSpikeHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* Prototype_GameObject_Break */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallBreak"),
 		CBlock_Break::Create(m_pGraphic_Device))))
@@ -838,6 +892,11 @@ HRESULT CLoader::Loading_For_FinalBoss03()
 	/* Prototype_GameObject_Hole */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Hole"),
 		CHole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_Metal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_Metal"),
+		CBlock_Metal::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* Prototype_GameObject_Key */

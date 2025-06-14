@@ -36,7 +36,7 @@ void CMainMenu_BackGround::Update(_float fTimeDelta)
 
 void CMainMenu_BackGround::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_PRIORITY, this);
 }
 
 HRESULT CMainMenu_BackGround::Render()

@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Event.h"
 
 BEGIN(Engine)
 
@@ -27,6 +28,10 @@ public:
 	void				Late_Update(_float fTimeDelta) override;
 	HRESULT				Render() override;
 
+public:
+	void OnPageButtons(const MAINMENU_SWAP_EVENT& event);
+	void OnPageStage(const MAINMENU_SWAP_EVENT& event);
+
 private:
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
@@ -38,6 +43,11 @@ private:
 	_float						m_bMotionPosition = { false };
 	_float						m_fMotionIntervalTime = { 0.1f };
 	_float						m_fAccumulateMotionTime = { 0.f };
+
+	_uint						m_iPlayLevel = {};
+	_bool						m_bIsMeinMenu = { false };
+	_bool						m_bPageOnceChange = { false };
+
 
 // 기본 설정값들
 	//실제 텍스쳐 픽셀위치 
@@ -58,10 +68,15 @@ private:
 
 	_float				fBaseY = { 2.f };
 
+	_float				fPageButtonPositionZ = { 0.f };
+	_float				fPagePositionZ = { 0.f };
+	_float				fPageStagePositionZ = { 36.f };
+	_float				fEasedTime = { 0.f };
 
 
 private:
-	_float3				RotationEndPoint(_float fRadian, _float fDistance, _float3 vPostion);
+	void				Change_Page(_float fTimeDelta);
+	HRESULT				Ready_SubscribeEvent(_uint iPlayLevel);
 
 private:
 	HRESULT				Ready_Components();

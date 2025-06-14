@@ -1,6 +1,6 @@
 #pragma once
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "BlendObject.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -12,7 +12,7 @@ END
 
 BEGIN(Client)
 
-class CWater final : public CGameObject
+class CWater final : public CBlendObject
 {
 public:
 	typedef struct tagWaterDesc {

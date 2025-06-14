@@ -68,6 +68,9 @@ void CBlock_Lock::Get_Key(const GETKEYEVENT& Event)
 	{
 		m_bOpenLock = true;
 		m_pColliderCom->Collision_Off();
+
+		m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+		m_pGameInstance->PlayAudio(TEXT("KeyOpen.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
 	}
 }
 

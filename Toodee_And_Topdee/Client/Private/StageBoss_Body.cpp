@@ -54,7 +54,7 @@ void CStageBoss_Body::Update(_float fTimeDelta)
 
 	if (m_eViewMode == VIEWMODE::TOODEE)
 	{
-		if (m_fIdleTime >= 2.f)
+		if (m_fIdleTime >= 3.f)
 		{
 			Create_Fire();
 			m_fIdleTime = 0;
@@ -62,6 +62,8 @@ void CStageBoss_Body::Update(_float fTimeDelta)
 		else
 			m_fIdleTime += fTimeDelta;
 	}
+	else
+		m_fIdleTime = 0;
 
 	Calculate_Pupil_Pos();
 }
@@ -187,8 +189,6 @@ HRESULT CStageBoss_Body::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{};
-	/*TransformDesc.fSpeedPerSec = 20.f;
-	TransformDesc.fRotationPerSec = D3DXToRadian(40.f);*/
 	TransformDesc.fSpeedPerSec = 1.f;
 	TransformDesc.fRotationPerSec = 1;
 
@@ -309,12 +309,8 @@ void CStageBoss_Body::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pPartsTextureCom);
-	Safe_Release(m_pColliderCom);
-
+	
 	for (auto& parts : m_sParts)
 		Safe_Release(parts.pVIPartsBufferCom);
 }

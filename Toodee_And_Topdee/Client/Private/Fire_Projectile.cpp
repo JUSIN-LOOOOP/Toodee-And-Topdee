@@ -23,6 +23,7 @@ HRESULT CFire_Projectile::Initialize(void* pArg)
 		return E_FAIL;
 	m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+
 	m_pTransformCom->Scaling(2.f, 1.f, 2.f);
 	name = TEXT("EnemyProjectile");
 
@@ -40,17 +41,24 @@ void CFire_Projectile::Update(_float fTimeDelta)
 
 	Fire_Forward(fTimeDelta);
 	Change_Motion(fTimeDelta);
-
+	Effect_Motion(fTimeDelta);
 	m_pGameInstance->Check_Collision(m_pColliderCom);
 
-	if (m_pColliderCom->OnCollisionEnter()|| m_pColliderCom->OnCollisionStay())
-	{		
-		if (!m_pColliderCom->GetOverlapTarget()->CompareName(TEXT("Hole")))
-		{
-			m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
-			m_pGameInstance->Push(TEXT("Layer_Projectile_Fire"), this);
-		}
 
+	if (m_pColliderCom->OnCollisionEnter() || m_pColliderCom->OnCollisionStay())
+	{
+		CGameObject* pGameObject = m_pColliderCom->GetOverlapTarget();
+		_wstring strTargetName = {TEXT("")};
+		if(pGameObject != nullptr) strTargetName = pGameObject->Get_Name();
+
+		if (strTargetName != TEXT("Hole") && strTargetName != TEXT("Topdee") && strTargetName != TEXT("Toodee"))
+		{
+			m_bEffect = true;
+			m_pTransformCom->Scaling(5.f, 5.f, 1.f);
+			m_pColliderCom->Collision_Off();
+			name = TEXT("Effect");
+		}
+	
 	}
 
 	if (m_fLifeInterval <= m_fAccumulateLifeTime + fTimeDelta)
@@ -66,7 +74,7 @@ void CFire_Projectile::Late_Update(_float fTimeDelta)
 {
 	if (!m_bActive) return;
 
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 
 }
 
@@ -74,20 +82,29 @@ HRESULT CFire_Projectile::Render()
 {
 	if (!m_bActive) return S_OK;
 
-	m_pTransformCom->Bind_Matrix();
+	if (!m_bEffect) {
+		m_pTransformCom->Bind_Matrix();
+		if (FAILED(m_pTextureCom->Bind_Texture(m_iMotionNum + static_cast<_uint>(m_eDir) * 10)))
+			return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Texture(m_iMotionNum + static_cast<_uint>(m_eDir) * 10)))
-		return E_FAIL;
+		m_pVIBufferCom->Bind_Buffers();
+		SetUp_RenderState();
+		m_pVIBufferCom->Render();
+		Reset_RenderState();
+		m_pColliderCom->Render();
+	}
+	else
+	{
+		m_pTransformCom->Bind_Matrix();
+		if (FAILED(m_pTextureCom_Eff->Bind_Texture(m_iEffNum)))
+			return E_FAIL;
 
-	m_pVIBufferCom->Bind_Buffers();
-
-	SetUp_RenderState();
-
-	m_pVIBufferCom->Render();
-
-	Reset_RenderState();
-
-	m_pColliderCom->Render();
+		m_pVIBufferCom->Bind_Buffers();
+		SetUp_RenderState();
+		m_pVIBufferCom->Render();
+		Reset_RenderState();
+		m_pColliderCom->Render();
+	}
 
 	return S_OK;
 }
@@ -101,6 +118,11 @@ HRESULT CFire_Projectile::Initialize_Pool(void* pArg)
 	m_iMotionNum = { 0 };
 	m_fAccumulateMotionTime = { 0.f };
 	m_fAccumulateLifeTime = { 0.f };
+	m_bEffect = false;
+
+	m_pColliderCom->Collision_On();
+	m_pTransformCom->Scaling(2.f, 1.f, 2.f);
+	name = TEXT("EnemyProjectile");
 
 	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
@@ -117,6 +139,11 @@ HRESULT CFire_Projectile::Ready_Components()
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Projectile_Fire"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_Projectile"),
+		TEXT("Com_Texture1"), reinterpret_cast<CComponent**>(&m_pTextureCom_Eff))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -165,6 +192,7 @@ void CFire_Projectile::Reset_RenderState()
 
 void CFire_Projectile::Fire_Forward(_float fTimeDelta)
 {
+	if (m_bEffect) return;
 
 	switch (m_eDir)
 	{
@@ -185,12 +213,35 @@ void CFire_Projectile::Fire_Forward(_float fTimeDelta)
 
 void CFire_Projectile::Change_Motion(_float fTimeDelta)
 {
+	if (m_bEffect) return;
+
 	if (m_fMotionIntervalTime <= m_fAccumulateMotionTime + fTimeDelta)
 	{
 		m_iMotionNum = ++m_iMotionNum == 10 ? 0 : m_iMotionNum;
 	}
 	else
 		m_fAccumulateMotionTime += fTimeDelta;
+}
+
+void CFire_Projectile::Effect_Motion(_float fTimeDelta)
+{
+	if (!m_bEffect) return;
+
+	if (m_fEffIntervalMotion <= m_fEffAccumurateTime + fTimeDelta)
+	{
+		m_fEffAccumurateTime = 0.f;
+		++m_iEffNum;
+		if (m_iEffNum >= 9)
+		{
+			m_bEffect = false;
+			m_iEffNum = 0;
+
+			m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
+			m_pGameInstance->Push(TEXT("Layer_Projectile_Fire"), this);
+		}
+	}
+	else
+		m_fEffAccumurateTime += fTimeDelta;
 }
 
 CFire_Projectile* CFire_Projectile::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -227,5 +278,6 @@ void CFire_Projectile::Free()
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTextureCom_Eff);
 
 }

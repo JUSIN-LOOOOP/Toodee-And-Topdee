@@ -36,6 +36,8 @@ HRESULT CKey::Initialize(void* pArg)
 	if (m_pGameInstance->Rand(0.f, 2.f) > 1.f)
 		m_bTextureChangeDirection = true;
 
+	m_bDead = false;
+
     return S_OK;
 }
 
@@ -46,11 +48,20 @@ void CKey::Priority_Update(_float fTimeDelta)
 void CKey::Update(_float fTimeDelta)
 {
 	Change_Motion(fTimeDelta);
+
+	m_iTwinkleDelayTime += fTimeDelta;
+
+	if (m_iTwinkleDelayTime > m_pGameInstance->Rand(1.f, 4.f))
+	{
+		_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+		m_pGameInstance->Set_Active(TEXT("Effect_Twinkle"), &pos);
+		m_iTwinkleDelayTime = 0;
+	}
 }
 
 void CKey::Late_Update(_float fTimeDelta)
 {
-	if(!IsDead())
+	if(!m_bDead)
 		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 
 }
@@ -76,8 +87,11 @@ HRESULT CKey::Render()
 
 void CKey::Get_Key()
 {
-	m_Dead = true;
+	m_bDead = true;
 	m_pColliderCom->Collision_Off();
+
+	m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
+	m_pGameInstance->PlayAudio(TEXT("KeyPickup.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
 }
 
 HRESULT CKey::Ready_Components()

@@ -30,9 +30,6 @@ HRESULT CCannon::Initialize(void* pArg)
     m_iCannonDir = ENUM_CLASS(info->eDir);
     m_eType = info->eType;
 
-    m_fIntervalShooting = 0.3f;
-    m_fIntervalMotion = 0.2f;
-
     m_pTransformCom->Set_State(STATE::POSITION, info->vPosition);
     m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
     
@@ -75,12 +72,13 @@ void CCannon::Update(_float fTimeDelta)
 {
     Shooting(fTimeDelta);
     Motion(fTimeDelta);
+    //Effect_Motion(fTimeDelta);
 }
 
 void CCannon::Late_Update(_float fTimeDelta)
 {
 
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
 
 HRESULT CCannon::Render()
@@ -91,13 +89,38 @@ HRESULT CCannon::Render()
         return E_FAIL;
 
     m_pVIBufferCom->Bind_Buffers();
-
     SetUp_RenderState();
-
     m_pVIBufferCom->Render();
-
     Reset_RenderState();
 
+	//if (m_bEffect) {
+ //       _float3     pos = m_pTransformCom->Get_State(STATE::POSITION);
+
+ //       switch (m_iCannonDir)
+ //       {
+ //       case 0:                 /* Right */
+ //           pos.x += 0.5f;
+ //           pos.y += 0.1f;
+ //           m_pTransformCom->Set_State(STATE::POSITION, pos);
+ //           m_pTransformCom->Scaling(5.f, 5.f, 5.f);
+
+ //           break;
+ //       case 1:                 /* Left */
+ //           pos.x -= 0.5f;
+ //           pos.y += 0.1f;
+ //           m_pTransformCom->Set_State(STATE::POSITION, pos);
+ //           m_pTransformCom->Scaling(5.f, 5.f, 5.f);
+ //           break;
+ //       }
+ //       m_pTransformCom->Bind_Matrix();
+	//	if (FAILED(m_pTextureCom_Eff->Bind_Texture(m_iEffNum)))
+	//		return E_FAIL;
+
+	//	m_pVIBufferCom->Bind_Buffers();
+ //       SetUp_AlphaRenderState();
+	//	m_pVIBufferCom->Render();
+ //       Reset_AlphaRenderState();
+ //   }
 
     return S_OK;
 }
@@ -109,15 +132,15 @@ void CCannon::Shooting(_float fTimeDelta)
         m_fAccumulateShootingTime = 0.f;
 
         m_bMotion = true;
-
+       // m_bEffect = true;
         CFire_Projectile::Protectile_Info info{};
 
         info.eDir = static_cast<CANNON_DIRECTION>(m_iCannonDir);
         info.vPosition = m_vOriginalPosition;
 
         CPoolableObject* pProjectile {nullptr};
-
-        // todo �߻�ü ��ô
+        _float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+        // todo �߻�ü ��ô
         switch (m_iCannonDir)
         {
         case 0:                 /* Right */
@@ -125,12 +148,14 @@ void CCannon::Shooting(_float fTimeDelta)
                  pProjectile =  m_pGameInstance->Pop( ENUM_CLASS(LEVEL::LEVEL_STATIC) ,TEXT("Layer_Projectile_Fire"));
              if (m_eType == CANNON_TYPE::LASER)
                   pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
+             pos.x += 1.f;
             break;
         case 1:                 /* Left */
             if (m_eType == CANNON_TYPE::FIRE)
                  pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Fire"));
              if (m_eType == CANNON_TYPE::LASER)
                   pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
+             pos.x -= 1.f;
             break;
         case 2:                 /* Up */
             if (m_eType == CANNON_TYPE::FIRE)
@@ -138,16 +163,20 @@ void CCannon::Shooting(_float fTimeDelta)
             if (m_eType == CANNON_TYPE::LASER)
                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
             break;
+            pos.z += 1.f;
         case 3:                 /* Down */
             if (m_eType == CANNON_TYPE::FIRE)
                 pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Fire"));
             if (m_eType == CANNON_TYPE::LASER)
                pProjectile = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
+            pos.z -= 1.f;
             break;
         }
 
         if(pProjectile != nullptr)
             pProjectile->Initialize_Pool(&info);
+
+        m_pGameInstance->Set_Active(TEXT("Effect_CannonDust"), &pos);
     }
     else
         m_fAccumulateShootingTime += fTimeDelta;
@@ -172,8 +201,6 @@ void CCannon::Motion(_float fTimeDelta)
     else
     {
         m_fAccumulateMotionTime += fTimeDelta;
-
-        _float fFlag = (m_fAccumulateMotionTime >= m_fIntervalMotion * 0.5f ? -1.f : 1.f);
 
         switch (m_iCannonDir)
         {
@@ -200,6 +227,26 @@ void CCannon::Motion(_float fTimeDelta)
     }
 }
 
+void CCannon::Effect_Motion(_float fTimeDelta)
+{
+    if (!m_bEffect) return;
+
+    if (m_fEffIntervalMotion <= m_fEffAccumurateTime + fTimeDelta)
+    {
+        m_fEffAccumurateTime = 0.f;
+        ++m_iEffNum;
+        if (m_iEffNum >= 3)
+        {
+            m_bEffect = false;
+            m_iEffNum = 0;
+        }
+
+    }
+    else
+        m_fEffAccumurateTime += fTimeDelta;
+
+}
+
 HRESULT CCannon::Ready_Components()
 {
     /* For.Com_VIBuffer*/
@@ -210,6 +257,11 @@ HRESULT CCannon::Ready_Components()
     /* For.Com_Texture */
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Cannon"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        return E_FAIL;
+
+    /* For.m_pTextureCom_Eff */
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Effect_Cannon"),
+        TEXT("Com_Texture1"), reinterpret_cast<CComponent**>(&m_pTextureCom_Eff))))
         return E_FAIL;
 
     /* For.Com_Transform */
@@ -230,6 +282,7 @@ void CCannon::SetUp_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    D3DCOLOR_ARGB(20, 255, 255, 255);  // ���� 128 = 50%
 
 }
 
@@ -240,6 +293,42 @@ void CCannon::Reset_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
+}
+
+void CCannon::SetUp_AlphaRenderState()
+{
+    // ���� ����� ����
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+    // ���ϰ� ����� ���� �ؽ�ó���� ���� (���İ� ����)
+    m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(128, 255, 255, 255)); 
+
+    // �ؽ�ó ����� ���͸� ���ؼ� ���ϰ� �����
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
+
+    // ���� ���� �ؽ�ó�� ���͸� ���ؼ� �ε巴��
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+
+}
+
+void CCannon::Reset_AlphaRenderState()
+{
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+
 }
 
 CCannon* CCannon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -275,4 +364,5 @@ void CCannon::Free()
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTextureCom);
+    Safe_Release(m_pTextureCom_Eff);
 }

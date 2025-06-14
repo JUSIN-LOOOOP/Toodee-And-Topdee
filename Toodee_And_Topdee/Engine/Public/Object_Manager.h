@@ -30,9 +30,9 @@ public:
 	class CGameObject* Get_BackGameObject(_uint iLayerLevelIndex, const _wstring& strLayerTag);
 
 private:
-	class CGameInstance*					m_pGameInstance = { nullptr };
+	class CGameInstance* m_pGameInstance = { nullptr };
 	_uint									m_iNumLevels = {};
-	map<const _wstring, class CLayer*>*		m_pLayers = {};
+	map<const _wstring, class CLayer*>* m_pLayers = {};
 
 private:
 	CLayer* Find_Layer(_uint iLayerLevelIndex, const _wstring& strLayerTag);

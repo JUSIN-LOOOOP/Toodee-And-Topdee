@@ -71,7 +71,7 @@ void CRedButton::Update(_float fTimeDelta)
 
 void CRedButton::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
 
 HRESULT CRedButton::Render()

@@ -31,6 +31,7 @@ HRESULT CColliderMap_Object::Initialize(void* pArg)
     m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
 
     name = TEXT("Wall");
+
     return S_OK;
 
 }

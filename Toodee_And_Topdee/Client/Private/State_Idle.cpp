@@ -45,11 +45,6 @@ void CState_Idle::HandleInput(CPlayer* pPlayer, _uint iInputData, _float fTimeDe
         if(FAILED(pPlayer->Change_State(PLAYERSTATE::ACTION)))
             MSG_BOX(TEXT("Failed Change State : ACTION"));
     }
-
-    if (iInputData & ENUM_CLASS(KEYINPUT::KEY_X))
-    {
-        pPlayer->Stop();
-    }
 }
 
 void CState_Idle::Update(CPlayer* pPlayer, _float fTimeDelta)
