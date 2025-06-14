@@ -26,7 +26,7 @@ HRESULT CPig::Initialize(void* pArg)
 {
 	name = TEXT("Enemy_Monster_Pig");
 	m_bLeft = false;
-	m_iPlayLevel = m_pGameInstance->Get_CurrentLevelID();
+	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -156,14 +156,14 @@ HRESULT CPig::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC	TransformDesc{};
-	TransformDesc.fSpeedPerSec = 5.f;
+	TransformDesc.fSpeedPerSec = 10.f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.f);
 	
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_vColliderScale = _float3(3.0f, 3.0f, 3.0f);
+	m_vColliderScale = _float3(1.5f, 1.5f, 1.5f);
 
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
@@ -404,12 +404,15 @@ void CPig::Compute_Collision(_float3 vDir)
 			return;
 
 		CCollider::COLLIDER_DESC pOtherDesc = {};
-		static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pOtherDesc);
+		CCollider* pCollider = static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")));
+		if (!pCollider)
+			break;
+
+		pCollider->Reference_Collider_Info(pOtherDesc);
 		_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
 		_float3 vOtherRadius = pOtherDesc.vColliderScale * 0.5f;
 		_float3 vDeltaPos = vOtherPos - vMyPos;
 		_float3 vDistance = (vMyRadius + vOtherRadius) - absfloat3(vDeltaPos);
-
 
 
 		if (vDistance.x < vDistance.z && vOldOtherPos.z != vOtherPos.z) // 좌 우 
@@ -460,7 +463,15 @@ void CPig::Move_Patrol(_float fTimeDelta)
 				
 				_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION); // 충돌체 포지션값 받아옴
 				_float fDeltaX = (vMyPos.x - vOtherPos.x);
-				static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pDesc);
+
+				CCollider* pCollider = static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")));
+				if (!pCollider)
+					break;
+
+				pCollider->Reference_Collider_Info(pDesc);
+				
+				//static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pDesc);
+
 				//if (m_pTransformCom->Get_Scaled().x * 0.5f < fDelta) // 객체의 Collider 반지름보다 벗어났을때 안떨어지게 하기위해
 				if (fDeltaX > 0 && fDeltaX > (pDesc.vColliderScale.x * 0.5f)) // 양수, 객체보다 충돌체가 좌측
 				{
@@ -485,8 +496,12 @@ void CPig::Move_Patrol(_float fTimeDelta)
 			{
 
 				_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
-				static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pDesc);
 				
+				CCollider* pCollider = static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")));
+				if (!pCollider)
+					break;
+
+				pCollider->Reference_Collider_Info(pDesc);				
 				
 				_float fOtherMaxZ = vOtherPos.z + pDesc.vColliderScale.z * 0.5f; // 충돌 객체의 중심 z값 + z값에 대한 반지름 (충돌객체의 높이 판단) 벽이 아니라면 포지션값보다 높을수가 없음
 				if(vMyPos.z <= fOtherMaxZ)
@@ -566,8 +581,8 @@ void CPig::Free()
 	}
 	m_vParts.clear();
 
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
+	//Safe_Release(m_pVIBufferCom);
+	//Safe_Release(m_pTransformCom);
+	//Safe_Release(m_pTextureCom);
+	//Safe_Release(m_pColliderCom);
 }

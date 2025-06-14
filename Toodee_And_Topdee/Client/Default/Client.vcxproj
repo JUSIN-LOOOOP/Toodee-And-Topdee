@@ -147,7 +147,6 @@
   <ItemGroup>
     <ClInclude Include="..\Public\BackCloud.h" />
     <ClInclude Include="..\Public\Backdrop.h" />
-    <ClInclude Include="..\Public\BackRock.h" />
     <ClInclude Include="..\Public\BackTile.h" />
     <ClInclude Include="..\Public\BackWall.h" />
     <ClInclude Include="..\Public\BasicTile.h" />
@@ -185,6 +184,7 @@
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\FPSCamera.h" />
+    <ClInclude Include="..\public\GiantHand.h" />
     <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\Public\InteractionBlock.h" />
     <ClInclude Include="..\Public\JumpDust.h" />
@@ -228,6 +228,7 @@
     <ClInclude Include="..\Public\Part_Wing.h" />
     <ClInclude Include="..\Public\Pig.h" />
     <ClInclude Include="..\public\Player.h" />
+    <ClInclude Include="..\Public\PlayerChangeEffect.h" />
     <ClInclude Include="..\Public\PlayerState.h" />
     <ClInclude Include="..\Public\Player_Thirdee.h" />
     <ClInclude Include="..\public\Player_Toodee.h" />
@@ -274,7 +275,6 @@
     <ClInclude Include="..\Public\WallParts.h" />
     <ClInclude Include="..\Public\Water.h" />
     <ClInclude Include="..\Public\WaterSplash.h" />
-    <ClInclude Include="..\Public\Wind.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -283,7 +283,6 @@
   <ItemGroup>
     <ClCompile Include="..\Private\BackCloud.cpp" />
     <ClCompile Include="..\Private\Backdrop.cpp" />
-    <ClCompile Include="..\Private\BackRock.cpp" />
     <ClCompile Include="..\Private\BackTile.cpp" />
     <ClCompile Include="..\Private\BackWall.cpp" />
     <ClCompile Include="..\Private\BasicTile.cpp" />
@@ -319,6 +318,7 @@
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\FPSCamera.cpp" />
+    <ClCompile Include="..\private\GiantHand.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
     <ClCompile Include="..\Private\JumpDust.cpp" />
@@ -362,6 +362,7 @@
     <ClCompile Include="..\Private\Part_Wing.cpp" />
     <ClCompile Include="..\Private\Pig.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
+    <ClCompile Include="..\Private\PlayerChagneEffect.cpp" />
     <ClCompile Include="..\Private\PlayerState.cpp" />
     <ClCompile Include="..\Private\Player_Thirdee.cpp" />
     <ClCompile Include="..\private\Player_Toodee.cpp" />
@@ -408,7 +409,6 @@
     <ClCompile Include="..\Private\WallParts.cpp" />
     <ClCompile Include="..\Private\Water.cpp" />
     <ClCompile Include="..\Private\WaterSplash.cpp" />
-    <ClCompile Include="..\Private\Wind.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

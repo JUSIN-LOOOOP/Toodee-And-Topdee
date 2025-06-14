@@ -80,10 +80,10 @@ protected:
 	_uint								m_iNumTextures = 0;
 	_float								m_fFrameOffsetTime;
 
-	_uint								m_iNumVertices = { };	/* Á¤Á¡ÀÇ °¹¼ö */
-	_uint								m_iVertexStride = { }; /* Á¤Á¡ÇÏ³ªÀÇ Å©±â(Byte) */
-	D3DPRIMITIVETYPE					m_ePrimitiveType = {};	/* ¾î¶² ¹æ½ÄÀ¸·Î ±×¸± °ÍÀÎÁö */
-	_uint								m_iNumPrimitive = {};	/* ±âº»ÇüÀÇ °¹¼ö  */
+	_uint								m_iNumVertices = { };	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+	_uint								m_iVertexStride = { }; /* ï¿½ï¿½ï¿½ï¿½ï¿½Ï³ï¿½ï¿½ï¿½ Å©ï¿½ï¿½(Byte) */
+	D3DPRIMITIVETYPE					m_ePrimitiveType = {};	/* ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	_uint								m_iNumPrimitive = {};	/* ï¿½âº»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  */
 
 	DWORD vbSize;
 	DWORD vbOffset;

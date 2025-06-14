@@ -44,19 +44,19 @@ void CColorLight::ResetParticle(PARTICLE* attribute, void* pArg)
     _float3 min, max;
     switch (posIdx)
     {
-    case 0:    //¾Æ·¡
+    case 0:    //ï¿½Æ·ï¿½
         min = { -65.f, -30.f,  -40.f };
         max = { 65.f, -30.f, -35.f };
         break;
-    case 1:    //À§
+    case 1:    //ï¿½ï¿½
         min = { -65.f, -30.f,  40.f };
         max = { 65.f, -30.f, 45.f };
         break;
-    case 2:    //¿ÞÂÊ
+    case 2:    //ï¿½ï¿½ï¿½ï¿½
         min = { -65.f, -30.f,  -45.f };
         max = { -60.f, -30.f, 45.f };
         break;
-    case 3:    //¿À¸¥ÂÊ
+    case 3:    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         min = { 60.f, -30.f,  -45.f };
         max = { 65.f, -30.f, 45.f };
         break;

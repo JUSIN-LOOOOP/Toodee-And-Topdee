@@ -66,7 +66,7 @@ public:
 	void Go_Left(_float fTimeDelta);
 	void Go_Up(_float fTimeDelta);
 	void Go_Down(_float fTimeDelta);
-
+	void Go_Down_UntilY(_float fTimeDelta, _float UntilY);
 	void Look_At(const _float3& vTarget);
 	void Move_To(const _float3& vTarget, _float fTimeDelta, _float fLimitRange = 0.f);
 	_bool MoveUntilInRange(const _float3& vTarget, _float fTimeDelta, _float fLimitRange);

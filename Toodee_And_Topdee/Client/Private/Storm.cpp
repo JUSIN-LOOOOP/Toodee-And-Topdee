@@ -57,6 +57,8 @@ HRESULT CStorm::Initialize(void* pArg)
 		m_LightningSpawnTime[i] = { 1.f,  0.f };
 	}
 
+
+	m_iLevel = m_pGameInstance->Get_NextLevelID();
 	return S_OK;
 }
 
@@ -227,7 +229,7 @@ void CStorm::SpawnRain(_float fTimeDelta)
 			m_RainSpawnTime[i] = { 0.f, m_pGameInstance->Rand(0.05f, 0.15f) };
 			CPoolableObject* pRain = { nullptr };
 
-			pRain = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Rain"));
+			pRain = m_pGameInstance->Pop(m_iLevel, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Rain"));
 			if (pRain == nullptr) {
 				m_RainSpawnTime[i].second = m_pGameInstance->Rand(0.05f, 0.15f);
 				continue;
@@ -267,7 +269,7 @@ void CStorm::SpawnRainSplash(_float fTimeDelta)
 			m_fRainSplashAccumulateTime = 0.f;
 				for (_uint i = 0; i < 3; ++i) {
 					CPoolableObject* pRainSplash = { nullptr };
-					pRainSplash = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_RainSplash"));
+					pRainSplash = m_pGameInstance->Pop(m_iLevel, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_RainSplash"));
 					if (pRainSplash != nullptr)
 					{
 						_float3 pos = m_CrashGroundPosition[i];
@@ -291,7 +293,7 @@ void CStorm::SpawnLightning(_float fTimeDelta)
 			m_LightningSpawnTime[i] = { 0.f, m_pGameInstance->Rand(1.f, 2.5f) };
 
 			CPoolableObject* pLightning = { nullptr };
-			pLightning = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Lightning"));
+			pLightning = m_pGameInstance->Pop(m_iLevel, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Lightning"));
 			if(pLightning != nullptr)
 			{
 				CLightning::LIGHTNING info;

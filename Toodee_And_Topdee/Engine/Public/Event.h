@@ -102,5 +102,12 @@ typedef struct tagFinalBossAttack : public CEvent {
 typedef struct tagFinalBossReset : public CEvent {
 }FIANLBOSSRESET_EVENT;
 
+/* Players(topdee- toodee Position */
+typedef struct tagPlayersPosition : public CEvent {
+	DIMENSION eWho;
+	class CTransform* pTransformToodee;
+	class CTransform* pTransformTopdee;
+}PLAYERSPOSITION_EVENT;
+
 END
 

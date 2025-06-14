@@ -58,18 +58,23 @@ HRESULT CSpikes::Initialize(void* pArg)
 	m_pTransformCom->Scaling(2.f, 2.f, 2.f);
 	//m_pTransformCom->Go_Up(1.f);
 	//m_pTransformCom->Scaling(2.f, 2.f, 2.f);
-	//m_pTransformCom->Set_State(STATE::POSITION, _float3(7.f, 0.1f, 7.f));
-	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
-	m_ParentMatrix = *m_pTransformCom->Get_WorldMatrix();
-	m_ParentMatrix._43 -= 2.f;
+	if (m_pGameInstance->Get_NextLevelID() < ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1))
+		m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+	else
+	{
+		m_pTransformCom->TurnToRadian(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(90.f));
+	}
 
 	return S_OK;
 }
 
 void CSpikes::Priority_Update(_float fTimeDelta)
 {
-	Check_Dimension();
+
+	if (m_pGameInstance->Get_NextLevelID() < ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1))
+		Check_Dimension();
 	// m_pGameInstance->Check_Collision(m_pColliderCom);
 }
 
@@ -82,7 +87,7 @@ void CSpikes::Late_Update(_float fTimeDelta)
 	if (m_bChange_Dimension)
 		Update_AnimCount(fTimeDelta);
 
-	RotationAround(m_ParentMatrix,	90.f, m_iAnimCount * 15.f);
+//	RotationAround(m_ParentMatrix,	90.f, m_iAnimCount * 15.f);
 
 	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
@@ -203,7 +208,7 @@ HRESULT CSpikes::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(1.5f, 2.f, 1.5f);
+	ColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
 

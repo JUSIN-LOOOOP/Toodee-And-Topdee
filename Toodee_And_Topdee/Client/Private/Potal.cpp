@@ -119,11 +119,7 @@ void CPotal::BeginOverlapPlayer(const ENTERPORTALEVENT& Event)
 
 		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::CAN_CLEAR, Event);
 
-		LOADINGSCREEN_EVENT event;
-		event.bFadeIn = false;
-		event.vPos = m_pTransformCom->Get_State(STATE::POSITION);
-		event.vPos.y = 3.f;
-		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::LOADINGSCREEN, event);
+
 	}
 }
 

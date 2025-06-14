@@ -45,6 +45,7 @@ private:
 	_float3				m_vStartPosition = {};
 	_float3				m_vCrashPosition = {};
 
+	_uint				m_iLevel = {};
 private:
 	HRESULT				Ready_Components();
 	void				SetUp_RenderState();

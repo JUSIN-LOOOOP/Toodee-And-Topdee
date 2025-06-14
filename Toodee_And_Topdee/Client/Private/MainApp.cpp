@@ -23,6 +23,7 @@
 #include "Player_Toodee.h"
 #include "Player_Topdee.h"
 #include "Player_Thirdee.h"
+#include "PlayerChangeEffect.h"
 
 #include "Potal.h"
 #include "TileOutline.h"
@@ -88,6 +89,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Layer_LoadingScreen(TEXT("Layer_LoadingScreen"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_PlayerChangeEffect(TEXT("Layer_PlayerChangeEffect"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Effect()))
 		return E_FAIL;
 
@@ -121,7 +125,7 @@ void CMainApp::Update(_float fTimeDelta)
 
 HRESULT CMainApp::Render()
 {
-	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
+	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 0.f, 1.f));
 
 	m_pGameInstance->Draw();
 
@@ -305,6 +309,7 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackTile */
+
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackTile"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Tile.png"), 1))))
 		return E_FAIL;
@@ -609,6 +614,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"),
 		CTileOutline::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_PlayerChangeEffect"),
+		CPlayerChangeEffect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma endregion
 
 	return S_OK;
@@ -727,6 +737,18 @@ HRESULT CMainApp::Ready_Layer_LoadingScreen(const _wstring strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(	ENUM_CLASS(LEVEL::LEVEL_STATIC), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_LoadingScreen"))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Layer_PlayerChangeEffect(const _wstring strLayerTag)
+{
+	for (_uint i = 0; i < 10; ++i)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STATIC), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_PlayerChangeEffect"))))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

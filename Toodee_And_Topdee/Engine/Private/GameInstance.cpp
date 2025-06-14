@@ -401,20 +401,35 @@ void CGameInstance::First_Push(const _wstring& strPoolTag, class CPoolableObject
 	m_pPool_Manager->Push(m_iNextLevelID, strPoolTag, pGameObject);
 }
 
-void CGameInstance::Push(const _wstring& strPoolTag, CPoolableObject* pGameObject)
+void CGameInstance::Push(_uint iNumLevels, const _wstring& strPoolTag, CPoolableObject* pGameObject)
 {
 	if (nullptr == m_pPool_Manager)
 		return;
 
-	m_pPool_Manager->Push(m_iCurrentLevelID,strPoolTag, pGameObject);
+	m_pPool_Manager->Push(iNumLevels,strPoolTag, pGameObject);
 }
 
-CPoolableObject* CGameInstance::Pop(_uint iPrototypeLevelIndex, const _wstring& strPoolTag)
+CPoolableObject* CGameInstance::Pop(_uint iNumLevels, _uint iPrototypeLevelIndex, const _wstring& strPoolTag)
 {
 	if (nullptr == m_pPool_Manager)
 		return nullptr;
 
-	return m_pPool_Manager->Pop(m_iCurrentLevelID, iPrototypeLevelIndex, strPoolTag);
+	return m_pPool_Manager->Pop(iNumLevels, iPrototypeLevelIndex, strPoolTag);
+}
+
+void CGameInstance::Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag)
+{
+	m_pEffect_Manager->Add_PSystem(pPSystem, strEffectTag);
+}
+
+void CGameInstance::Set_Active(const _wstring& strEffectTag, void* pArg)
+{
+	m_pEffect_Manager->Set_Active(strEffectTag, pArg);
+}
+
+void CGameInstance::Set_Stop(const _wstring& strEffectTag, void* pArg)
+{
+	m_pEffect_Manager->Set_Stop(strEffectTag,pArg);
 }
 
 void CGameInstance::Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag)

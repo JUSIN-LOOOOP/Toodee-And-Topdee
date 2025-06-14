@@ -27,6 +27,7 @@ HRESULT CFire_Projectile::Initialize(void* pArg)
 	m_pTransformCom->Scaling(2.f, 1.f, 2.f);
 	name = TEXT("EnemyProjectile");
 
+	m_iLevel = m_pGameInstance->Get_NextLevelID();
     return S_OK;
 }
 
@@ -64,7 +65,7 @@ void CFire_Projectile::Update(_float fTimeDelta)
 	if (m_fLifeInterval <= m_fAccumulateLifeTime + fTimeDelta)
 	{
 		m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
-		m_pGameInstance->Push(TEXT("Layer_Projectile_Fire"),this);
+		m_pGameInstance->Push(m_iLevel,TEXT("Layer_Projectile_Fire"),this);
 	}
 	else
 		m_fAccumulateLifeTime += fTimeDelta;
@@ -237,7 +238,7 @@ void CFire_Projectile::Effect_Motion(_float fTimeDelta)
 			m_iEffNum = 0;
 
 			m_pTransformCom->Set_State(STATE::POSITION, _float3(128.f, 128.f, 128.f));
-			m_pGameInstance->Push(TEXT("Layer_Projectile_Fire"), this);
+			m_pGameInstance->Push(m_iLevel,TEXT("Layer_Projectile_Fire"), this);
 		}
 	}
 	else

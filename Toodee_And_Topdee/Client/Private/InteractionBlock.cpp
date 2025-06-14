@@ -363,7 +363,7 @@ void CInteractionBlock::Update_Attached_Position()
 
 	vBoxPosition.x = vOwnerPosition.x;
 	vBoxPosition.y = vOwnerPosition.y + 1.5f;
-	vBoxPosition.z = vOwnerPosition.z + 0.5f;
+	vBoxPosition.z = vOwnerPosition.z;
 
 
 	m_pTransformCom->Set_State(STATE::POSITION, vBoxPosition);
@@ -407,6 +407,11 @@ void CInteractionBlock::FallIntoHole(_float fTimeDelta)
 	vPosition.y -= fGravity;
 
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+}
+
+void CInteractionBlock::Hold()
+{
+	name = TEXT("Wall");
 }
 
 void CInteractionBlock::Free()

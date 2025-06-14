@@ -69,8 +69,6 @@ void CSpikeHole::Late_Update(_float fTimeDelta)
 
 HRESULT CSpikeHole::Render()
 {
-	m_pColliderCom->Render();
-
 	m_pTransformCom->Bind_Matrix();
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))

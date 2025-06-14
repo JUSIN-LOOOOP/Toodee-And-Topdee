@@ -77,7 +77,7 @@ void CPSystem::PreRender()
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE); // Åõ¸í ÆÄÆ¼Å¬¿ë Ã³¸®
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼Å¬ï¿½ï¿½ Ã³ï¿½ï¿½
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
@@ -100,6 +100,7 @@ HRESULT CPSystem::Render()
 	D3DXVECTOR3 right(viewMatrix._11, viewMatrix._12, viewMatrix._13);
 	D3DXVECTOR3 up(viewMatrix._21, viewMatrix._22, viewMatrix._23);
 
+ 
 	
 	VTXPOSTEX* v = nullptr;
 

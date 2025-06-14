@@ -66,6 +66,7 @@ private:
 	_float				m_fEffIntervalMotion = { 0.03f };
 	_float				m_fEffAccumurateTime = {0.f};
 	
+	_uint				m_iLevel = {};
 
 
 private:

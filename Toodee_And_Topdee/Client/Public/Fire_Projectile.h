@@ -58,6 +58,7 @@ private:
 	_float						m_fEffIntervalMotion = { 0.025f };
 	_float						m_fEffAccumurateTime = { 0.f };
 
+	_uint						m_iLevel = {};
 private:
 	HRESULT						Ready_Components();
 	void						SetUp_RenderState();
