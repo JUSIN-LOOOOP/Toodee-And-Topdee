@@ -34,6 +34,9 @@ HRESULT CLevel_Stage1::Initialize()
 	if (FAILED(Ready_Layer_Cloud(TEXT("Layer_Cloud"))))
 		return E_FAIL;
 
+	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
+	m_pGameInstance->PlayBGM(TEXT("Stage1-2Bgm.ogg"), 0.5f);
+
 	return S_OK;
 }
 
@@ -90,15 +93,16 @@ HRESULT CLevel_Stage1::Ready_Layer_MapObject(const _wstring& strLayerTag)
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
-	int a = 0;
 
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
 	{
 		switch (static_cast<MAPOBJECT>(info.iBlockType))
 		{
 		case MAPOBJECT::NONE:
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
+				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), info.vPos)))
+				return E_FAIL;
 			break;
-
 		case MAPOBJECT::WALL:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_WallBlock"), &info)))
@@ -159,13 +163,13 @@ HRESULT CLevel_Stage1::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			break;
 
 		case MAPOBJECT::TOODEE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Player_TooDee"),
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Toodee"), &info)))
 				return E_FAIL;
 			break;
 
 		case MAPOBJECT::TOPDEE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Player_TopDee"),
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player_Topdee"), &info)))
 				return E_FAIL;
 			break;
@@ -174,7 +178,6 @@ HRESULT CLevel_Stage1::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info)))
 				return E_FAIL;
-			a++;
 			break;
 		default:
 			MSG_BOX(TEXT("Error : Block Index error!"));

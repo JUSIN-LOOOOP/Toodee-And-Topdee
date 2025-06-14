@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "BlendObject.h"
 #include "Event.h"
 
 BEGIN(Engine)
@@ -9,13 +9,14 @@ class CTransform;
 class CTexture;
 class CVIBuffer_Rect;
 class CCollider;
+class CShader;
 END
 
 BEGIN(Client)
 
 class CPlayerState;
 
-class CPlayer abstract : public CGameObject
+class CPlayer abstract : public CBlendObject
 {
 public:
 	typedef struct tagPlayerDesc {
@@ -68,14 +69,15 @@ protected:
 
 	
 	virtual void Check_Dimension();														// Toodee Topdee Check
-
+	HRESULT Begin_Shader();
+	HRESULT End_Shader();
 
 protected:
 	CTransform*						m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*					m_pVIBufferCom = { nullptr };
 	CTexture*						m_pTextureComs[ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END)] = { nullptr };
 	CCollider*						m_pColliderCom = { nullptr };
-
+	CShader*						m_pShader = { nullptr };
 	/* State */
 	PLAYERSTATE_DESC				m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END)];					// Player State 보관 배열
 	map<PLAYERSTATE, CPlayerState*> m_States;																	// CPlayerStates 보관 맵

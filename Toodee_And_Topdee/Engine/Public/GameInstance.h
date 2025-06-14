@@ -95,6 +95,11 @@ public:
 	void					Push(const _wstring& strPoolTag, class CPoolableObject* pGameObject);
 	class CPoolableObject*	Pop(_uint iPrototypeLevelIndex, const _wstring& strPoolTag);
 
+	//Effect
+public:
+	void					Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag);
+	void					Set_Active(const _wstring& strEffectTag, void* pArg = nullptr);
+	void					Set_Stop(const _wstring& strEffectTag, void* pArg = nullptr);
 	//Dimension
 public:
 	void			Change_Dimension(DIMENSION eDimension) 
@@ -128,6 +133,7 @@ private:
 	class CMap_Manager*			m_pMap_Manager = { nullptr };
 	class CSound_Manager*		m_pSound_Manager = { nullptr };
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
+	class CEffectManager*		m_pEffect_Manager = { nullptr };
 
 	CEventBus* m_pEventBus = { nullptr };
 

@@ -24,6 +24,7 @@ private:
 	HRESULT Ready_Layer_ColliderMap(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Block_Disappear(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_RedButton(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Effect(const _wstring& strLayerTag);
 
 
 public:

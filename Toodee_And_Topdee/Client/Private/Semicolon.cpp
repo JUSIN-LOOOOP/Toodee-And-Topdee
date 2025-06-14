@@ -36,8 +36,12 @@ void CSemicolon::Update(_float fTimeDelta)
 {
     m_pTransformCom->Go_Backward(fTimeDelta * 15.f);
 
-    if (m_pTransformCom->Get_State(STATE::POSITION).x < -115.f)
+    _float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+    
+    if (pos.x < -115.f)
         m_Dead = true;
+
+    m_pGameInstance->Set_Active(TEXT("Effect_SemiclonDust"), &pos);
 }
 
 void CSemicolon::Late_Update(_float fTimeDelta)

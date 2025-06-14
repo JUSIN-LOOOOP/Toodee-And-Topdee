@@ -40,7 +40,7 @@ void CMainMenu_CenterLine::Update(_float fTimeDelta)
 
 void CMainMenu_CenterLine::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_PRIORITY, this);
 }
 
 HRESULT CMainMenu_CenterLine::Render()

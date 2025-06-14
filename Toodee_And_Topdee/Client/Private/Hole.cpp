@@ -8,7 +8,7 @@ CHole::CHole(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CHole::CHole(const CHole& Prototype)
-    : CGameObject{ Prototype }
+    : CGameObject( Prototype )
 {
 }
 
@@ -24,12 +24,16 @@ HRESULT CHole::Initialize(void* pArg)
 
 	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 
+
 	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPos);
-	m_pTransformCom->Go_Up(0.1f);
+	m_pColliderCom->ApplyFixedPosition(pDesc->vPos);
+	m_pTransformCom->Go_Up(0.01f);
 	m_pTransformCom->Scaling(2.f, 2.f, 2.f);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
 	name = TEXT("Hole");
+
+	m_bDead = false;
 
     return S_OK;
 }
@@ -38,14 +42,15 @@ void CHole::Priority_Update(_float fTimeDelta)
 {
 	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE)
 		m_pColliderCom->Collision_Off();
-	else
-		m_pColliderCom->Collision_On();
+	else if(m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOPDEE)
+	{
+		if (!m_bDead)
+			m_pColliderCom->Collision_On();
+	}
 }
 
 void CHole::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		m_pColliderCom->Collision_Off();
 }
 
 void CHole::Late_Update(_float fTimeDelta)
@@ -58,6 +63,7 @@ void CHole::Late_Update(_float fTimeDelta)
 HRESULT CHole::Render()
 {
 	m_pColliderCom->Render();
+
 	m_pTransformCom->Bind_Matrix();
 
 	if (FAILED(m_pTextureCom->Bind_Texture(m_iTextureIdx)))
@@ -67,6 +73,13 @@ HRESULT CHole::Render()
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CHole::Set_Dead()
+{
+	m_bDead = true;
+
+	m_pColliderCom->Collision_Off();
 }
 
 HRESULT CHole::Ready_Components()
@@ -94,7 +107,7 @@ HRESULT CHole::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
+	ColliderDesc.vColliderScale = _float3(1.5f, 3.f, 1.5f);
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
 

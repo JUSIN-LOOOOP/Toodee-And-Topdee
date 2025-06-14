@@ -130,6 +130,18 @@
     <Filter Include="01. Utility\05. Component\VIBuffer\Capsule">
       <UniqueIdentifier>{277660aa-b44a-4901-a541-ca3bcb4cade3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. GameObject\BlendObject">
+      <UniqueIdentifier>{ff7092e1-b974-4c5b-a6b5-f014165e031a}</UniqueIdentifier>
+    </Filter>      
+    <Filter Include="01. Utility\09. EffectManager">
+      <UniqueIdentifier>{84506f3b-b66a-47e0-a7e1-f5ae81fe5a18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\09. EffectManager\ParticleSystem">
+      <UniqueIdentifier>{627a1cd8-aee7-4082-a145-7773ba563cb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\VIBuffer\AlphaCube">
+      <UniqueIdentifier>{0f8b6759-83c5-4627-bf8d-4dc32ef59d8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -264,6 +276,18 @@
     <ClInclude Include="..\Public\VIBuffer_Sphere.h">
       <Filter>01. Utility\05. Component\VIBuffer\Sphere</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BlendObject.h">
+      <Filter>01. Utility\03. GameObject\BlendObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shader_Player.h">
+      <Filter>00. Dummys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PSystem.h">
+      <Filter>01. Utility\09. EffectManager\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EffectManager.h">
+      <Filter>01. Utility\09. EffectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -373,6 +397,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Sphere.cpp">
       <Filter>01. Utility\05. Component\VIBuffer\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BlendObject.cpp">
+      <Filter>01. Utility\03. GameObject\BlendObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shader_Player.cpp">
+      <Filter>00. Dummys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PSystem.cpp">
+      <Filter>01. Utility\09. EffectManager\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EffectManager.cpp">
+      <Filter>01. Utility\09. EffectManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

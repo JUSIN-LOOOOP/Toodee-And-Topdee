@@ -159,10 +159,12 @@ call Copy.bat
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\private\BlendObject.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
     <ClCompile Include="..\private\Collision.cpp" />
     <ClCompile Include="..\Private\Collision_Manager.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
+    <ClCompile Include="..\Private\EffectManager.cpp" />
     <ClCompile Include="..\Private\EventBus.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\private\GameObject.cpp" />
@@ -178,8 +180,10 @@ call Copy.bat
     <ClCompile Include="..\private\PoolableObject.cpp" />
     <ClCompile Include="..\private\Pool_Manager.cpp" />
     <ClCompile Include="..\private\Prototype_Manager.cpp" />
+    <ClCompile Include="..\Private\PSystem.cpp" />
     <ClCompile Include="..\private\Renderer.cpp" />
     <ClCompile Include="..\Private\Shader.cpp" />
+    <ClCompile Include="..\private\Shader_Player.cpp" />
     <ClCompile Include="..\Private\Shader_Water.cpp" />
     <ClCompile Include="..\private\Sound_Manager.cpp" />
     <ClCompile Include="..\private\Texture.cpp" />
@@ -197,10 +201,12 @@ call Copy.bat
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\public\BlendObject.h" />
     <ClInclude Include="..\Public\Collider.h" />
     <ClInclude Include="..\public\Collision.h" />
     <ClInclude Include="..\Public\Collision_Manager.h" />
     <ClInclude Include="..\public\Component.h" />
+    <ClInclude Include="..\Public\EffectManager.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Easing.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
@@ -224,8 +230,10 @@ call Copy.bat
     <ClInclude Include="..\public\PoolableObject.h" />
     <ClInclude Include="..\public\Pool_Manager.h" />
     <ClInclude Include="..\public\Prototype_Manager.h" />
+    <ClInclude Include="..\Public\PSystem.h" />
     <ClInclude Include="..\public\Renderer.h" />
     <ClInclude Include="..\Public\Shader.h" />
+    <ClInclude Include="..\public\Shader_Player.h" />
     <ClInclude Include="..\Public\Shader_Water.h" />
     <ClInclude Include="..\public\Sound_Manager.h" />
     <ClInclude Include="..\public\Texture.h" />

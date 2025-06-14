@@ -40,6 +40,7 @@ private:
 	HRESULT Ready_Prototype_ForStatic_Gimmick();
 	HRESULT Ready_Prototype_ForStatic_Player();
 	HRESULT Ready_Prototype_ForStatic_Monster();
+	HRESULT Ready_Effect();
 	HRESULT Start_Level(LEVEL eStartLevelID);
 	HRESULT Ready_Layer_LoadingScreen(const _wstring strLayerTag);
 

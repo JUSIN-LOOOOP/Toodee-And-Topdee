@@ -24,17 +24,25 @@ HRESULT CMainMenu_Spark::Initialize(void* pArg)
 	MAINMENU_SPARK* info = reinterpret_cast<MAINMENU_SPARK*>(pArg);
 	m_iMotionMaxNum = info->iMotionMaxNum;
 	m_vPosition = info->vPosition;
-	if (m_vPosition.z < -10.f)
-		m_iAlphaValue = 255;
-	else if (m_vPosition.z < 0)
-		m_iAlphaValue = 196;
-	else if (m_vPosition.z < 10.f)
-		m_iAlphaValue = 128;
-	else if (m_vPosition.z < 20.f)
-		m_iAlphaValue = 64;
 
-	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-	m_pTransformCom->Scaling(2.f, 2.f, 2.f);
+	if (info->bFinalBoss)
+	{
+		m_iAlphaValue = static_cast<_uint>(m_pGameInstance->Rand(50.f, 192.f));
+		m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
+	}
+	else
+	{
+		if (m_vPosition.z < -10.f)
+			m_iAlphaValue = 255;
+		else if (m_vPosition.z < 0)
+			m_iAlphaValue = 196;
+		else if (m_vPosition.z < 10.f)
+			m_iAlphaValue = 128;
+		else if (m_vPosition.z < 20.f)
+			m_iAlphaValue = 64;
+		m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+		m_pTransformCom->Scaling(2.f, 2.f, 2.f);
+	}
 	m_pTransformCom->Set_State(STATE::POSITION, m_vPosition);
 
 	return S_OK;
@@ -51,7 +59,7 @@ void CMainMenu_Spark::Update(_float fTimeDelta)
 
 void CMainMenu_Spark::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_PRIORITY, this);
 }
 
 HRESULT CMainMenu_Spark::Render()
@@ -92,7 +100,7 @@ HRESULT CMainMenu_Spark::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_MainMenu_Spark"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_MainMenu_Spark"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -110,6 +118,7 @@ HRESULT CMainMenu_Spark::Ready_Components()
 void CMainMenu_Spark::SetUp_RenderState()
 {
 	// 알파 블렌딩 설정
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -131,6 +140,7 @@ void CMainMenu_Spark::SetUp_RenderState()
 
 void CMainMenu_Spark::Reset_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);

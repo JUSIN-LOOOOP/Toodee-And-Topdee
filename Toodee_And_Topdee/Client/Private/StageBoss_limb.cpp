@@ -117,6 +117,7 @@ HRESULT CStageBoss_limb::HIT(_float fTimeDelta)
         MONSTERSIGNAL mode;
         m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::FIN_ACTION, mode);
         name = TEXT("WallBoss");
+        m_pGameInstance->Set_Active(TEXT("Effect_ShotDust"), &pos);
     }
 
     return S_OK;
@@ -227,4 +228,5 @@ void CStageBoss_limb::Free()
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTextureCom);
+    Safe_Release(m_pColliderCom);
 }

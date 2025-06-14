@@ -250,7 +250,6 @@
     <ClCompile Include="..\private\State_Swim.cpp">
       <Filter>02. GameObjects\Player\03. State</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\InteractionBlock.cpp" />
     <ClCompile Include="..\private\Block_Disappear.cpp">
       <Filter>00. Dummys\T Y J\MapObject\Blocks\Disaapear</Filter>
     </ClCompile>
@@ -336,6 +335,60 @@
     </ClCompile>
     <ClCompile Include="..\Private\Thirdee_Part.cpp">
       <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InteractionBlock.cpp">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Thirdee_Dead.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Thirdee_Clear.cpp">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FinalTile.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpikeHole.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FinalBoss.cpp">
+      <Filter>02. GameObjects\FinalBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WaterSplash.cpp">
+      <Filter>00. Dummys\T Y J\Effect\WaterSplash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Leaves.cpp">
+      <Filter>00. Dummys\T Y J\Effect\Leaves</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\JumpDust.cpp">
+      <Filter>00. Dummys\T Y J\Effect\JumpDust</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BlockDust.cpp">
+      <Filter>00. Dummys\T Y J\Effect\BlockDust</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WallParts.cpp">
+      <Filter>00. Dummys\T Y J\Effect\WallParts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CannonDust.cpp">
+      <Filter>00. Dummys\T Y J\Effect\CannonDust</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShotDust.cpp">
+      <Filter>00. Dummys\T Y J\Effect\ShotDust</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FingerDust.cpp">
+      <Filter>00. Dummys\T Y J\Effect\FingerDust</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SemiclonDust.cpp">
+      <Filter>00. Dummys\T Y J\Effect\SemiclonDust</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColorLight.cpp">
+      <Filter>00. Dummys\T Y J\Effect\ColorLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KeyTwinkle.cpp">
+      <Filter>00. Dummys\T Y J\Effect\KeyTwinkle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FireFly..cpp">
+      <Filter>00. Dummys\T Y J\Effect\FireFly</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -564,7 +617,6 @@
     <ClInclude Include="..\Public\Key.h">
       <Filter>00. Dummys\T Y J\MapObject\Key</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\InteractionBlock.h" />
     <ClInclude Include="..\Public\Cloud.h">
       <Filter>02. GameObjects\Cloud</Filter>
     </ClInclude>
@@ -689,6 +741,60 @@
     </ClInclude>
     <ClInclude Include="..\Public\Thirdee_Part.h">
       <Filter>00. Dummys\K J H\Thirdee\Part</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\InteractionBlock.h">
+      <Filter>00. Dummys\T Y J\MapObject\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Thirdee_Dead.h">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Thirdee_Clear.h">
+      <Filter>00. Dummys\K J H\Thirdee\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FinalTile.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SpikeHole.h">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FinalBoss.h">
+      <Filter>02. GameObjects\FinalBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\JumpDust.h">
+      <Filter>00. Dummys\T Y J\Effect\JumpDust</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Leaves.h">
+      <Filter>00. Dummys\T Y J\Effect\Leaves</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WaterSplash.h">
+      <Filter>00. Dummys\T Y J\Effect\WaterSplash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BlockDust.h">
+      <Filter>00. Dummys\T Y J\Effect\BlockDust</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WallParts.h">
+      <Filter>00. Dummys\T Y J\Effect\WallParts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CannonDust.h">
+      <Filter>00. Dummys\T Y J\Effect\CannonDust</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShotDust.h">
+      <Filter>00. Dummys\T Y J\Effect\ShotDust</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FingerDust.h">
+      <Filter>00. Dummys\T Y J\Effect\FingerDust</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SemiclonDust.h">
+      <Filter>00. Dummys\T Y J\Effect\SemiclonDust</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColorLight.h">
+      <Filter>00. Dummys\T Y J\Effect\ColorLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KeyTwinkle.h">
+      <Filter>00. Dummys\T Y J\Effect\KeyTwinkle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FireFly.h">
+      <Filter>00. Dummys\T Y J\Effect\FireFly</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -978,6 +1084,48 @@
     </Filter>
     <Filter Include="00. Dummys\K J H\Thirdee\Part">
       <UniqueIdentifier>{53dfb615-66b5-4c7b-8fa5-51ff26a3c11f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\FinalBoss">
+      <UniqueIdentifier>{d4d2a1db-ae9c-457f-8022-3b3f7bae17ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect">
+      <UniqueIdentifier>{1a8c1edb-bd97-428f-92d8-c222aa12909c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\JumpDust">
+      <UniqueIdentifier>{bfab4916-86c5-4fd6-9fd0-af36e13c1cea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\Leaves">
+      <UniqueIdentifier>{6c94f6fa-53b6-4e4f-8632-a2722f8a77b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\WaterSplash">
+      <UniqueIdentifier>{2fbc4bdf-f5c5-4a79-b166-6ba8836790ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\BlockDust">
+      <UniqueIdentifier>{66aecf92-2ba9-44bb-9e24-a4ff87ea0e25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\WallParts">
+      <UniqueIdentifier>{a5f92492-31d9-47c0-a9db-77e7e922782d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\CannonDust">
+      <UniqueIdentifier>{c31b9570-f83e-4446-bbae-2a2361f05f4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\ShotDust">
+      <UniqueIdentifier>{4abccd11-08b0-4f45-9a82-49395a12c630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\FingerDust">
+      <UniqueIdentifier>{f4870f4c-88f0-4170-92ed-d12fccf40a95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\SemiclonDust">
+      <UniqueIdentifier>{a7cc6477-3b5a-478f-9fbe-954a1cc79be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\ColorLight">
+      <UniqueIdentifier>{7ca3c58c-a378-4a43-b29c-b673aaedb82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\KeyTwinkle">
+      <UniqueIdentifier>{98da24a5-4abb-46b4-bfa7-754582ecdb6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\FireFly">
+      <UniqueIdentifier>{b498dc43-4827-44b8-872e-a436e5b8cb1c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

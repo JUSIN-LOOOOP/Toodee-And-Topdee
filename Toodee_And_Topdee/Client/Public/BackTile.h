@@ -1,7 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 
-#include "GameObject.h"
+#include "BlendObject.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -11,7 +11,7 @@ END
 
 BEGIN(Client)
 
-class CBackTile : public CGameObject
+class CBackTile : public CBlendObject
 {
 private:
 	CBackTile(LPDIRECT3DDEVICE9 pGraphic_Device);

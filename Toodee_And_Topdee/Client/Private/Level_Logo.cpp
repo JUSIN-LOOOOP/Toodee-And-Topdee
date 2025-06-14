@@ -89,7 +89,7 @@ HRESULT CLevel_Logo::Ready_Layer_Spark(const _wstring& strLayerTag)
 		info.vPosition = _float3(m_pGameInstance->Rand(-31.f, 31.f), 1.f, m_pGameInstance->Rand(-17.f, 17.f));
 
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_LOGO), strLayerTag,
-			ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_GameObject_MainMenu_Spark"),&info)))
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_MainMenu_Spark"),&info)))
 			return E_FAIL;
 	}
 

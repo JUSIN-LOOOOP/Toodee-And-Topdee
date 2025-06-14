@@ -30,6 +30,9 @@ public:
 	virtual void Clear(_float3 vPortalPosition) override;
 	virtual void Dead() override;
 
+
+	void SwimEffect();
+	
 	_bool InWater() { return m_bInWater; }
 	void OutWater() { m_bOutWater = true; }
 

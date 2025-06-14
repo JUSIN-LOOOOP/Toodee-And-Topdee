@@ -11,9 +11,9 @@ END
 
 BEGIN(Client)
 
-class CHole final : public CGameObject
+class CHole : public CGameObject
 {
-private:
+protected:
 	CHole(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CHole(const CHole& Prototype);
 	virtual ~CHole() = default;
@@ -26,19 +26,20 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void Set_Dead() { m_bDead = true; }
+	void Set_Dead();
+
 private: 
 	HRESULT Ready_Components();
 
-private: 
+protected:
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
 
 	_uint	m_iTextureIdx = {};
-
 	_bool m_bDead = {};
+
 public:
 	static CHole* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

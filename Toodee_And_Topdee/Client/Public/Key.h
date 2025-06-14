@@ -39,7 +39,9 @@ private:
 	_uint	m_iTextureIdx = {};
 	_float	m_iIntervalTime = {0.07f};
 	_float	m_iAccumulateTime = { 0.f };
+	_float	m_iTwinkleDelayTime = { 0.f };
 
+	_bool	m_bDead = {};
 
 private:
 	HRESULT Ready_Components();
