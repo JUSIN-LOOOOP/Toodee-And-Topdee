@@ -43,6 +43,7 @@ private:
 	HRESULT Ready_Effect();
 	HRESULT Start_Level(LEVEL eStartLevelID);
 	HRESULT Ready_Layer_LoadingScreen(const _wstring strLayerTag);
+	HRESULT Ready_Layer_PlayerChangeEffect(const _wstring strLayerTag);
 
 
 public:

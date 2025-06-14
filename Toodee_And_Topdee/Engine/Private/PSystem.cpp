@@ -99,7 +99,7 @@ HRESULT CPSystem::Render()
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &viewMatrix);
 	D3DXVECTOR3 right(viewMatrix._11, viewMatrix._12, viewMatrix._13);
 	D3DXVECTOR3 up(viewMatrix._21, viewMatrix._22, viewMatrix._23);
-
+ 
 	
 	VTXPOSTEX* v = nullptr;
 
