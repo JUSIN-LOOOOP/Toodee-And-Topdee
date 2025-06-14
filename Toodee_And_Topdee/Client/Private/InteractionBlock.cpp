@@ -409,6 +409,11 @@ void CInteractionBlock::FallIntoHole(_float fTimeDelta)
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 }
 
+void CInteractionBlock::Hold()
+{
+	name = TEXT("Wall");
+}
+
 void CInteractionBlock::Free()
 {
 	__super::Free();
