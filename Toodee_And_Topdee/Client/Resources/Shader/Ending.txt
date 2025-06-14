@@ -1,0 +1,97 @@
+static const float g_MaxTime = 2.5f;
+static const float g_FadeOutTime = 1.5f;
+// 공통 상수
+float4x4    	g_WorldMatrix;
+float4x4    	g_ViewMatrix;
+float4x4    	g_ProjMatrix;
+float	    	g_TotalTime;
+
+texture g_BaseTexture;
+sampler2D g_BaseSampler = sampler_state {
+    Texture = <g_BaseTexture>;
+    MinFilter = LINEAR;
+    MagFilter = LINEAR;
+    MipFilter = LINEAR;
+};
+
+float CrossMask(float2 TEX, float2 CenterTEX, float Angle)
+{
+    float2 Postion = TEX - CenterTEX;
+
+    float2 RotateTex = float2(Postion.x * cos(Angle)- Postion.y * sin(Angle), Postion.x * sin(Angle) + Postion.y * cos(Angle));
+
+    // 십자가 모양 마스크
+    float Width = 0.05f;  // 십자가 굵기
+    float Length = 0.5f;  // 십자가 길이
+
+    float Distance = length(RotateTex);
+    float dynamicWidth = lerp(Width, Width * 0.2f, saturate(Distance / Length));
+
+    float horz = smoothstep(dynamicWidth, 0.0, abs(RotateTex.y)) * step(abs(RotateTex.x), Length);
+    float vert = smoothstep(dynamicWidth, 0.0, abs(RotateTex.x)) * step(abs(RotateTex.y), Length);
+    return saturate(horz + vert);
+}
+
+// VS 입력 구조체
+struct VS_INPUT {
+    float4 Pos : POSITION;
+    float2 Tex : TEXCOORD0;
+};
+
+// VS 출력 구조체
+struct VS_OUTPUT {
+    float4 Pos : POSITION;
+    float2 Tex : TEXCOORD0;
+};
+
+
+// 정점 셰이더
+VS_OUTPUT VS_Main(VS_INPUT input) {
+    VS_OUTPUT output;
+
+    float4 LocalPos = input.Pos;
+   
+    output.Pos = mul(input.Pos, g_WorldMatrix);
+    output.Pos = mul(output.Pos , g_ViewMatrix);
+    output.Pos = mul(output.Pos, g_ProjMatrix);
+
+    output.Tex = input.Tex;
+    return output;
+}
+
+
+// 픽셀 셰이더
+float4 PS_Main(VS_OUTPUT input) : COLOR {
+    
+    float2 Tex = input.Tex;
+    
+    float4 texColor = tex2D(g_BaseSampler, Tex);
+   
+    float Time = saturate(g_TotalTime / g_MaxTime); // 0~1
+
+    float Alpha = texColor.a;
+
+    if(Time >= 1.f)
+    {
+        float MaskTime = g_TotalTime - g_MaxTime;
+
+        float2 CenterTex = float2(0.5f, 0.5f);
+
+        float mask = CrossMask(Tex, CenterTex, MaskTime);
+        
+        if(mask < 0.01)
+            discard;
+
+        Alpha = saturate(g_FadeOutTime / MaskTime );
+
+        Alpha *= mask;
+    }
+    
+    
+    float3 resultColor = lerp(texColor.rgb, float3(1.f, 1.f, 1.f), Time);
+    
+    texColor.rgb = resultColor;
+
+
+    return float4(texColor.rgb, Alpha);
+}

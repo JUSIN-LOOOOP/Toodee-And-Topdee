@@ -396,6 +396,18 @@
     <ClCompile Include="..\private\GiantHand.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Thirdee_Ending.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Toodoo_Ending.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Ending.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Ending_Flash.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BasicTile.h">
@@ -808,6 +820,18 @@
     <ClInclude Include="..\public\GiantHand.h">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Thirdee_Ending.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Toodoo_Ending.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Ending.h">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Ending_Flash.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1139,7 +1163,6 @@
     <Filter Include="00. Dummys\T Y J\Effect\FireFly">
       <UniqueIdentifier>{b498dc43-4827-44b8-872e-a436e5b8cb1c}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="02. GameObjects\Player\06. ChangeEffect">
       <UniqueIdentifier>{4eaf960a-c8f0-4ead-85e8-d818fadd2795}</UniqueIdentifier>
     </Filter>

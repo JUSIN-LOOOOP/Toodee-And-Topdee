@@ -523,6 +523,9 @@ void CPlayer_Thirdee::Check_Collision_Portal(CGameObject* pGameObject)
     if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
     {
         EnterClear();
+        m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+        m_pGameInstance->PlayAudio(TEXT("Clear.wav"), CHANNELID::SOUND_PLAYER, 1.f);
+
         m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::CLEAR);
     }
 }

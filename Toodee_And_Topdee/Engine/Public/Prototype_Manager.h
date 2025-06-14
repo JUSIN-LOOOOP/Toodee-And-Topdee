@@ -5,14 +5,17 @@
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Cube.h"
-#include "Transform.h"
-#include "Texture.h"
-#include "Collider.h"
-#include "Shader_Water.h"
-#include "Shader_Player.h"
 #include "VIBuffer_Sphere.h"
 #include "VIBuffer_Capsule.h"
 
+#include "Transform.h"
+#include "Texture.h"
+#include "Collider.h"
+
+#include "Shader_Ending.h"
+#include "Shader_Water.h"
+#include "Shader_Player.h"
+#include "Shader_Flash.h"
 
 
 /* 프로토타입 기능을 담당하는 클래스 */
