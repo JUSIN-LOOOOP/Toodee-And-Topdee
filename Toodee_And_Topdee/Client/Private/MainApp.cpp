@@ -23,6 +23,7 @@
 #include "Player_Toodee.h"
 #include "Player_Topdee.h"
 #include "Player_Thirdee.h"
+#include "PlayerChangeEffect.h"
 
 #include "Potal.h"
 #include "TileOutline.h"
@@ -85,6 +86,9 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_LoadingScreen(TEXT("Layer_LoadingScreen"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_PlayerChangeEffect(TEXT("Layer_PlayerChangeEffect"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Effect()))
@@ -597,6 +601,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Player()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_TileOutline"),
 		CTileOutline::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_PlayerChangeEffect"),
+		CPlayerChangeEffect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma endregion
 
 	return S_OK;
@@ -714,6 +723,18 @@ HRESULT CMainApp::Ready_Layer_LoadingScreen(const _wstring strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(	ENUM_CLASS(LEVEL::LEVEL_STATIC), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_LoadingScreen"))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Layer_PlayerChangeEffect(const _wstring strLayerTag)
+{
+	for (_uint i = 0; i < 10; ++i)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STATIC), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_PlayerChangeEffect"))))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

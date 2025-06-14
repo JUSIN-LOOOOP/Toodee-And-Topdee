@@ -57,6 +57,9 @@ HRESULT CObject_Manager::Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _w
 	if (strLayerTag == L"Layer_Lightning")
 		m_pGameInstance->First_Push(strLayerTag, dynamic_cast<CPoolableObject*>(pGameObject));
 
+	if (strLayerTag == L"Layer_PlayerChangeEffect")
+		m_pGameInstance->First_Push(strLayerTag, dynamic_cast<CPoolableObject*>(pGameObject));
+
 	return S_OK;
 }
 

@@ -378,6 +378,9 @@
     <ClCompile Include="..\Private\FireFly..cpp">
       <Filter>00. Dummys\T Y J\Effect\FireFly</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\PlayerChagneEffect.cpp">
+      <Filter>02. GameObjects\Player\06. ChangeEffect</Filter>
+   </ClCompile>
     <ClCompile Include="..\Private\Sink.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
@@ -799,6 +802,9 @@
     <ClInclude Include="..\Public\FireFly.h">
       <Filter>00. Dummys\T Y J\Effect\FireFly</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\PlayerChangeEffect.h">
+      <Filter>02. GameObjects\Player\06. ChangeEffect</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\Sink.h">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClInclude>
@@ -1156,6 +1162,9 @@
     </Filter>
     <Filter Include="00. Dummys\T Y J\Effect\FireFly">
       <UniqueIdentifier>{b498dc43-4827-44b8-872e-a436e5b8cb1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\06. ChangeEffect">
+      <UniqueIdentifier>{4eaf960a-c8f0-4ead-85e8-d818fadd2795}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. Dummys\K J H\GameObject">
       <UniqueIdentifier>{3d4262b9-397d-4b54-bab0-135592023d57}</UniqueIdentifier>
