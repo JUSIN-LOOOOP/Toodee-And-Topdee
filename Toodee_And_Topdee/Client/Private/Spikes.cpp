@@ -90,7 +90,9 @@ void CSpikes::Late_Update(_float fTimeDelta)
 	if (m_bChange_Dimension)
 		Update_AnimCount(fTimeDelta);
 
-//	RotationAround(m_ParentMatrix,	90.f, m_iAnimCount * 15.f);
+	if (m_pGameInstance->Get_CurrentLevelID() == ENUM_CLASS(LEVEL::LEVEL_STAGE1) ||
+		m_pGameInstance->Get_CurrentLevelID() == ENUM_CLASS(LEVEL::LEVEL_STAGE4))
+		RotationAround(m_ParentMatrix, 90.f, m_iAnimCount * 18.f);
 
 	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
@@ -181,7 +183,10 @@ void CSpikes::RotationAround(_float4x4 ParentMat, _float fRadianX, _float fRadia
 
 	fX = fLengthX * sinf(D3DXToRadian(fRadianY)) * cosf(D3DXToRadian(-fRadianX));
 	fY = fLengthY * cosf(D3DXToRadian(fRadianY));
-	fZ = fLengthZ * sinf(D3DXToRadian(fRadianY)) * sinf(D3DXToRadian(-fRadianX));
+	if(fRadianY == 90.f)
+		fZ = 1.05f * sinf(D3DXToRadian(fRadianY)) * sinf(D3DXToRadian(-fRadianX));
+	else
+		fZ = fLengthZ * sinf(D3DXToRadian(fRadianY)) * sinf(D3DXToRadian(-fRadianX));
 	
 	_float3 vPos = vWorldPos + vRight * fX + vUp * fY + vLook * fZ;
 	 
