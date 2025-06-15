@@ -44,6 +44,11 @@ HRESULT CFPSCamera::Initialize(void* pArg)
 
     m_pPlayer = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(ENUM_CLASS(m_pGameInstance->Get_NextLevelID()), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0));
 
+    LOADINGSCREEN_EVENT event;
+    event.bFadeIn = true;
+    event.vPos = _float3{ -100.f,-3.f,0.f };
+    m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::LOADINGSCREEN, event);
+
     return S_OK;
 }
 
