@@ -30,6 +30,7 @@ private:
 	class CTexture* m_pTextureCom = { nullptr };
 	class CTransform* m_pTransformCom = { nullptr };
 
+
 	HRESULT				Ready_Components();
 	HRESULT				Begin_RenderState();
 	HRESULT				End_RenderState();

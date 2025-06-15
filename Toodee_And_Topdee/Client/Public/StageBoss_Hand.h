@@ -21,6 +21,7 @@ public:
 
 private:
 	virtual HRESULT Ready_Components();
+	_float			m_DamagedTime = {};
 
 public:
 	static CStageBoss_Hand* Create(LPDIRECT3DDEVICE9 pGraphic_Device, void* pArg);

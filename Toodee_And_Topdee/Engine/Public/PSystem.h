@@ -35,9 +35,10 @@ protected :
 		D3DXCOLOR	_color;
 		BoundingBox	_BoundingBox;
 		_float		_FrameTime = 0.f;
-		_uint		_TextureIdx = 0.f;
+		_uint		_TextureIdx = 0;
 		_bool		_isAlive;
 		_float		_size = 1.f;
+		_float		_Speed = 1.f;
 	}PARTICLE;
 
 protected:
@@ -57,8 +58,8 @@ public:
 	virtual HRESULT Render();
 	virtual void postRender();
 
-	bool isEmpty();
-	bool isDead();
+	HRESULT isEmpty();
+	HRESULT isDead();
 
 protected:
 	virtual void removeDeadParticles();
@@ -68,6 +69,7 @@ protected:
 	LPDIRECT3DDEVICE9					m_pGraphic_Device;
 	BoundingBox							m_BoundingBox;
 	_float								m_fSize;
+	_float								m_fSizeRatio = 1.f;
 	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
 	list<PARTICLE>						m_Particles;
 	_uint								m_iFVF;
@@ -78,10 +80,10 @@ protected:
 	_uint								m_iNumTextures = 0;
 	_float								m_fFrameOffsetTime;
 
-	_uint								m_iNumVertices = { };	/* Á¤Á¡ÀÇ °¹¼ö */
-	_uint								m_iVertexStride = { }; /* Á¤Á¡ÇÏ³ªÀÇ Å©±â(Byte) */
-	D3DPRIMITIVETYPE					m_ePrimitiveType = {};	/* ¾î¶² ¹æ½ÄÀ¸·Î ±×¸± °ÍÀÎÁö */
-	_uint								m_iNumPrimitive = {};	/* ±âº»ÇüÀÇ °¹¼ö  */
+	_uint								m_iNumVertices = { };	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+	_uint								m_iVertexStride = { }; /* ï¿½ï¿½ï¿½ï¿½ï¿½Ï³ï¿½ï¿½ï¿½ Å©ï¿½ï¿½(Byte) */
+	D3DPRIMITIVETYPE					m_ePrimitiveType = {};	/* ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	_uint								m_iNumPrimitive = {};	/* ï¿½âº»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  */
 
 	DWORD vbSize;
 	DWORD vbOffset;

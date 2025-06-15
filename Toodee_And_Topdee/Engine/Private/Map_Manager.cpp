@@ -131,7 +131,7 @@ HRESULT CMap_Manager::Load_Initial_Data(vector<_uint>* blockData)
 	if (nullptr == blockData)
 		return E_FAIL;
 
-	m_iNumTypes = blockData->size();
+	m_iNumTypes = (_uint)blockData->size();
 
 	if (0 == m_iNumTypes)
 		return E_FAIL;

@@ -15,16 +15,15 @@ HRESULT CColorLight::Initialize()
 {
     BoundingBox box;
 
-    box._max = _float3{ 140.f, -30.f, 80.f };
-    box._min = _float3{ -100.f, -30.f, -80.f };
+    box._max = _float3{ 140.f, 10.f, 80.f };
+    box._min = _float3{ -100.f, 10.f, -80.f };
     m_BoundingBox = box;
-    m_fSize = 30.f;
+    m_fSize = 20.f;
     m_iChunk = 4;
 
     for (_uint i = 0; i < 5; i++)
         AddParticle();
 
-    //D3DXCreateTextureFromFile(m_pGraphic_Device, TEXT("../Resources/Textures/Particle/ColorLightsAlpha.png"), reinterpret_cast<LPDIRECT3DTEXTURE9*>(&m_Texture));
     D3DXCreateTextureFromFile(m_pGraphic_Device, TEXT("../Resources/Textures/Particle/SpotColorLight.png"), reinterpret_cast<LPDIRECT3DTEXTURE9*>(&m_Texture));
 
     m_iNumTextures = 3;
@@ -44,19 +43,19 @@ void CColorLight::ResetParticle(PARTICLE* attribute, void* pArg)
     _float3 min, max;
     switch (posIdx)
     {
-    case 0:    //¾Æ·¡
+    case 0:    //ï¿½Æ·ï¿½
         min = { -65.f, -30.f,  -40.f };
         max = { 65.f, -30.f, -35.f };
         break;
-    case 1:    //À§
+    case 1:    //ï¿½ï¿½
         min = { -65.f, -30.f,  40.f };
         max = { 65.f, -30.f, 45.f };
         break;
-    case 2:    //¿ÞÂÊ
+    case 2:    //ï¿½ï¿½ï¿½ï¿½
         min = { -65.f, -30.f,  -45.f };
         max = { -60.f, -30.f, 45.f };
         break;
-    case 3:    //¿À¸¥ÂÊ
+    case 3:    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         min = { 60.f, -30.f,  -45.f };
         max = { 65.f, -30.f, 45.f };
         break;
@@ -64,9 +63,9 @@ void CColorLight::ResetParticle(PARTICLE* attribute, void* pArg)
     d3d::GetRandomVector(&attribute->_position, &min, &max);
     attribute->_position.y = m_BoundingBox._max.y;
 
-    attribute->_velocity.x = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5;
+    attribute->_velocity.x = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5f;
     attribute->_velocity.y = 0.f;
-    attribute->_velocity.z = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5;
+    attribute->_velocity.z = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5f;
 
     attribute->_size = d3d::GetRandomFloat(1.f, 2.5f);
     attribute->_color = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
@@ -95,11 +94,13 @@ void CColorLight::Update(_float fTimeDelta)
 
         if (particle._FrameTime >= d3d::GetRandomFloat(4.f, 8.f))
         {
-            particle._velocity.x = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5;
-            particle._velocity.z = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5;
+            particle._velocity.x = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5f;
+            particle._velocity.z = d3d::GetRandomFloat(-2.5f, 2.5f) * 1.5f;
             particle._FrameTime = 0;
         }
     }
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+
 }
 
 CColorLight* CColorLight::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

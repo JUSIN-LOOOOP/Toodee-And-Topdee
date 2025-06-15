@@ -47,6 +47,10 @@
 #include "FireFly.h"
 #include "ColorLight.h"
 #include "KeyTwinkle.h"
+#include "Wind.h"
+#include "PotalEffect.h"
+#include "MapCloud.h"
+#include "Damaged.h"
 
 #include "ColliderMap_Object.h"
 #include "SpeechBallon.h"
@@ -323,9 +327,21 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackCloud */
-
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackCloud"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/BackCloud.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_BackRock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackRock"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Rock3.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Tree"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Tree2.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackRock3"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Rock4.png"), 1))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodoo"),
@@ -713,6 +729,10 @@ HRESULT CMainApp::Ready_Effect()
 	m_pGameInstance->Add_PSystem(CFireFly::Create(m_pGraphic_Device), TEXT("Effect_FireFly"));
 	m_pGameInstance->Add_PSystem(CColorLight::Create(m_pGraphic_Device), TEXT("Effect_ColorLight"));
 	m_pGameInstance->Add_PSystem(CKeyTwinkle::Create(m_pGraphic_Device), TEXT("Effect_Twinkle"));
+	m_pGameInstance->Add_PSystem(CWind::Create(m_pGraphic_Device), TEXT("Effect_Wind"));
+	m_pGameInstance->Add_PSystem(CPotalEffect::Create(m_pGraphic_Device), TEXT("Effect_PotalEffect"));
+	m_pGameInstance->Add_PSystem(CMapCloud::Create(m_pGraphic_Device), TEXT("Effect_CloudEffect"));
+	m_pGameInstance->Add_PSystem(CDamaged::Create(m_pGraphic_Device), TEXT("Effect_Damaged"));
 
 	return S_OK;
 }

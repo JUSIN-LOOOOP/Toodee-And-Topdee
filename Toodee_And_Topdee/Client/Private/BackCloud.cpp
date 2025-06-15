@@ -35,11 +35,13 @@ void CBackCloud::Priority_Update(_float fTimeDelta)
 void CBackCloud::Update(_float fTimeDelta)
 {
     m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
+
+   
 }
 
 void CBackCloud::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_TILE, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_PRIORITY, this);
     __super::Compute_CamDistance(m_pTransformCom);
 }
 
@@ -67,14 +69,12 @@ HRESULT CBackCloud::Begin_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);    // 알파 테스트 ON
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);            // 기준 알파값 (0~255)
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 비교 방식
-
     return S_OK;
 }
 
 HRESULT CBackCloud::End_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
     return S_OK;
 }
 

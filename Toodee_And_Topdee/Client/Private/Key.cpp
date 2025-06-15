@@ -51,7 +51,7 @@ void CKey::Update(_float fTimeDelta)
 
 	m_iTwinkleDelayTime += fTimeDelta;
 
-	if (m_iTwinkleDelayTime > m_pGameInstance->Rand(1.f, 4.f))
+	if (!m_bDead && m_iTwinkleDelayTime > m_pGameInstance->Rand(1.f, 4.f))
 	{
 		_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
 		m_pGameInstance->Set_Active(TEXT("Effect_Twinkle"), &pos);
@@ -63,7 +63,6 @@ void CKey::Late_Update(_float fTimeDelta)
 {
 	if(!m_bDead)
 		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
-
 }
 
 HRESULT CKey::Render()
@@ -92,6 +91,10 @@ void CKey::Get_Key()
 
 	m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
 	m_pGameInstance->PlayAudio(TEXT("KeyPickup.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
+
+	_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+	m_pGameInstance->Set_Active(TEXT("Effect_CannonDust"), &pos);
+
 }
 
 HRESULT CKey::Ready_Components()

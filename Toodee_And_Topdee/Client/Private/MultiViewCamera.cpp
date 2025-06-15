@@ -79,11 +79,7 @@ void CMultiViewCamera::Priority_Update(_float fTimeDelta)
 
 void CMultiViewCamera::Update(_float fTimeDelta)
 {
-    if (m_pGameInstance->Key_Down('R'))
-    {
-        m_fShaking = 2.f;
-        m_fBackupPos = m_pTransformCom->Get_State(STATE::POSITION);
-    }
+
     if (m_fShaking > 0.f)
         Shaking(fTimeDelta);
 
@@ -183,6 +179,8 @@ void CMultiViewCamera::CameraTestMove(_float fTimeDelta)
         m_pTransformCom->Go_Right(fTimeDelta);
     }
 
+    return;
+
     POINT			ptMouse{};
 
     GetCursorPos(&ptMouse);
@@ -213,9 +211,9 @@ void CMultiViewCamera::Shaking(_float fTimeDelta)
     if (m_fShaking <= 0.f)
         m_pTransformCom->Set_State(STATE::POSITION, m_fBackupPos);
     else
-        m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_fBackupPos.x + m_pGameInstance->Rand(-.2f, .2f),
-                                                            m_fBackupPos.y + m_pGameInstance->Rand(-.2f, .2f),
-                                                            m_fBackupPos.z + m_pGameInstance->Rand(-.2f, .2f) });
+        m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_fBackupPos.x + m_pGameInstance->Rand(-.25f, .25f),
+                                                            m_fBackupPos.y + m_pGameInstance->Rand(-.25f, .25f),
+                                                            m_fBackupPos.z + m_pGameInstance->Rand(-.25f, .25f) });
 }
 
 void CMultiViewCamera::PlayerChangeEffect(_float fTimeDelta)

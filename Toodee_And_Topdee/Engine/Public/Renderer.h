@@ -17,12 +17,12 @@ private:
 	virtual ~CRenderer() = default;
 
 public:
-	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
+	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CBase* pRenderObject);
 	HRESULT Draw();
 
 private:
 	LPDIRECT3DDEVICE9						m_pGraphic_Device = {};
-	list<class CGameObject*>				m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_END)];
+	list<class CBase*>				m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_END)];
 
 private:
 	HRESULT Render_Priority();

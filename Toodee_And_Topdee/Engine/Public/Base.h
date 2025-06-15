@@ -22,6 +22,8 @@ public:
 	/* 참조갯수를 감소시키거나 삭제하고 감소하기 이전의 값을 리턴한다. */
 	unsigned int Release();
 
+	virtual HRESULT Render() { return S_OK; };
+
 private:
 	unsigned int m_iRefCnt = {};
 

@@ -9,6 +9,7 @@
 
 #include "Test_Cube2.h"
 #include "Cloud.h"
+#include "BackRock.h"
 
 CLevel_Stage1::CLevel_Stage1(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -36,7 +37,7 @@ HRESULT CLevel_Stage1::Initialize()
 
 	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
 	m_pGameInstance->PlayBGM(TEXT("Stage1-2Bgm.ogg"), 0.5f);
-
+	m_pGameInstance->Set_Active(TEXT("Effect_Wind"));
 	return S_OK;
 }
 
@@ -93,7 +94,6 @@ HRESULT CLevel_Stage1::Ready_Layer_MapObject(const _wstring& strLayerTag)
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
-	int a = 0;
 
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
 	{
@@ -200,14 +200,45 @@ HRESULT CLevel_Stage1::Ready_Layer_Back(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackDrop"), &BackdropThemeIdx)))
 		return E_FAIL;
-
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_BackCloud"))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_BackTile"), &BackTileIdx)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_BackCloud"))))
-		return E_FAIL;
+	for (_uint i = 0; i < 3; ++i)
+	{
+		CBackRock::BACK_DESC dsc;
+		
+		switch (i)
+		{
+		case 0 :
+			dsc._pos = { -15.f, -.2f, -6.f };
+			dsc._size = { 20.f, 20.f, 1.f };
+			dsc._textureIdx = i;
+			break;
+
+		case 1:
+			dsc._pos = { 15.f, -.3f, 13.f };
+			dsc._size = { 12.f, 12.f, 1.f };
+			dsc._textureIdx = i;
+			break;
+
+		case 2:
+			dsc._pos = { 8.f, -.1f, 7.f };
+			dsc._size = { 8.f, 17.f, 1.f };
+			dsc._textureIdx = i;
+			break;
+
+		}
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGE1), strLayerTag,
+			ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_BackRock"), &dsc)))
+			return E_FAIL;
+
+		
+	}
+		
 
 	return S_OK;
 }

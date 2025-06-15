@@ -156,7 +156,7 @@ void CCannon::Shooting(_float fTimeDelta)
                  pProjectile = m_pGameInstance->Pop(m_iLevel, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Fire"));
              if (m_eType == CANNON_TYPE::LASER)
                   pProjectile = m_pGameInstance->Pop(m_iLevel, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Projectile_Laser"));
-             pos.x -= 1.f;
+             pos.x -= 1.0f;
             break;
         case 2:                 /* Up */
             if (m_eType == CANNON_TYPE::FIRE)

@@ -76,8 +76,8 @@ void CPSystem::PreRender()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE); // 투명 파티클용 처리
+	//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
@@ -99,6 +99,7 @@ HRESULT CPSystem::Render()
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &viewMatrix);
 	D3DXVECTOR3 right(viewMatrix._11, viewMatrix._12, viewMatrix._13);
 	D3DXVECTOR3 up(viewMatrix._21, viewMatrix._22, viewMatrix._23);
+
  
 	
 	VTXPOSTEX* v = nullptr;
@@ -107,7 +108,8 @@ HRESULT CPSystem::Render()
 		return E_FAIL;
 
 	_int count = 0;
-	_float halfSize = m_fSize * 0.5f;
+	_float halfSizeW = m_fSize * 0.5f;
+	_float hlafSizeH = halfSizeW * m_fSizeRatio;
 
 	for (const auto& particle : m_Particles)
 	{
@@ -116,13 +118,12 @@ HRESULT CPSystem::Render()
 
 		const _float3& pos = particle._position;
 		
-		_float3 r = right * halfSize * particle._size;
-		_float3 u = up * halfSize * particle._size;
+		_float3 r = right * halfSizeW * particle._size;
+		_float3 u = up * hlafSizeH * particle._size;
 
 		_float frameWidth = 1.0f / static_cast<_float>(m_iNumTextures);
 		_float uStart = particle._TextureIdx * frameWidth;
 		_float uEnd = uStart + frameWidth;
-
 
 		v[0] = { pos - r + u, _float2(uStart, 1.f) };
 		v[1] = { pos + r + u, _float2(uEnd, 1.f) };
@@ -146,18 +147,17 @@ HRESULT CPSystem::Render()
 
 void CPSystem::postRender()
 {
-	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 }
 
-bool CPSystem::isEmpty()
+HRESULT CPSystem::isEmpty()
 {
 	return (m_Particles.size() == 0) ? S_OK : E_FAIL;
 }
 
-bool CPSystem::isDead()
+HRESULT CPSystem::isDead()
 {
 	for (auto& Particle : m_Particles)
 		if (Particle._isAlive == true)

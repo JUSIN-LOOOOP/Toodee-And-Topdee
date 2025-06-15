@@ -61,6 +61,8 @@ void CWaterSplash::Update(_float fTimeDelta)
                 particle._isAlive = false;
         }
     }   
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+
 }
 
 CWaterSplash* CWaterSplash::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

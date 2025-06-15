@@ -259,7 +259,7 @@ CGameObject* CGameInstance::Get_Ready_BackGameObject( const _wstring& strLayerTa
 
 #pragma region RENDERER
 
-HRESULT CGameInstance::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
+HRESULT CGameInstance::Add_RenderGroup(RENDERGROUP eRenderGroup, CBase* pRenderObject)
 {
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
@@ -453,6 +453,7 @@ HRESULT CGameInstance::DrawFont(const _wstring& strFontTag, const _tchar* pDrawT
 {
 	return m_pFont_Manager->DrawFont(strFontTag, pDrawText, pRect, dwColor);
 }
+
 #pragma endregion
 
 
@@ -491,6 +492,7 @@ void CGameInstance::Release_Engine()
 	Release();
 
 	/* 오브젝트가 사용하는 의존성들 먼저 유지하고 오브젝트 먼저 해제할게요 */
+
 	Safe_Release(m_pEventBus);
 	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pObject_Manager);

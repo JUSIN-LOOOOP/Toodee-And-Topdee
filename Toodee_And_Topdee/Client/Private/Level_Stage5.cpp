@@ -1,4 +1,4 @@
-﻿#include "Level_Stage5.h"
+﻿ #include "Level_Stage5.h"
 #include "Client_Extension.h"
 
 #include "GameInstance.h"
@@ -38,6 +38,7 @@ HRESULT CLevel_Stage5::Initialize()
 	m_pGameInstance->PlayBGM(TEXT("Stage5-6Bgm.ogg"), 0.5f);
 	m_pGameInstance->Set_Active(TEXT("Effect_FireFly"));
 	m_pGameInstance->Set_Active(TEXT("Effect_ColorLight"));
+	m_pGameInstance->Set_Active(TEXT("Effect_CloudEffect"));
 
 	return S_OK;
 }
