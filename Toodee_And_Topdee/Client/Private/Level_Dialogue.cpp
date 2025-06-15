@@ -37,7 +37,7 @@ HRESULT CLevel_Dialogue::Initialize()
 		return E_FAIL;
 
 	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
-	m_pGameInstance->PlayBGM(TEXT("Stage1-2Bgm.ogg"), 0.5f);	//수정
+	m_pGameInstance->PlayBGM(TEXT("DialogueBgm.ogg"), 0.5f);	//수정
 
 	return S_OK;
 }
@@ -132,6 +132,10 @@ HRESULT CLevel_Dialogue::Ready_Layer_MapObject(const _wstring& strLayerTag)
 		}
 
 	}
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), TEXT("Small_Toodoo"),
+		ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), TEXT("Prototype_GameObject_SmallToodd"))))
+		return E_FAIL;
 
 	return S_OK;
 }

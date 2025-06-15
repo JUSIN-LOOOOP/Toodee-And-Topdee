@@ -117,9 +117,6 @@ typedef struct tagRemoveSpike : public CEvent {
 typedef struct tagSpeechNumber : public CEvent {
 	_uint iCurrentSpeechNumber;
 }SPEECHNUMBER_EVENT;
-/* FinalBoss ResetBlcok*/
-typedef struct tagRemoveSpike : public CEvent {
-}REMOVE_SPIKE;
 
 
 
