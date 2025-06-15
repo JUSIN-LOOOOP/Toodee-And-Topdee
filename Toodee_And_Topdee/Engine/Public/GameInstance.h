@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Prototype_Manager.h"
+#include "FontManager.h"
 #include "EventBus.h"
 
 BEGIN(Engine)
@@ -101,6 +102,12 @@ public:
 	void					Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag);
 	void					Set_Active(const _wstring& strEffectTag, void* pArg = nullptr);
 	void					Set_Stop(const _wstring& strEffectTag, void* pArg = nullptr);
+	
+	//Font
+public:
+	HRESULT					Add_Font(const _wstring& strFontTag, class CFont* pFont);
+	HRESULT					DrawFont(const _wstring& strFontTag, const _tchar* pDrawText, LPRECT pRect, D3DCOLOR dwColor);
+	
 	//Dimension
 public:
 	void			Change_Dimension(DIMENSION eDimension) 
@@ -135,7 +142,7 @@ private:
 	class CSound_Manager*		m_pSound_Manager = { nullptr };
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 	class CEffectManager*		m_pEffect_Manager = { nullptr };
-
+	class CFontManager*			m_pFont_Manager = { nullptr };
 	CEventBus* m_pEventBus = { nullptr };
 
 private:

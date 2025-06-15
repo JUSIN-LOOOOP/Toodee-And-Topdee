@@ -94,6 +94,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Effect()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Font()))
+		return E_FAIL;
+
 	m_pGameInstance->Subscribe<LEVELCHANGE_EVENT>(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, [this](const LEVELCHANGE_EVENT& Event) {
 		this->Ready_Open_Level(Event);
 		});
@@ -704,6 +707,22 @@ HRESULT CMainApp::Ready_Effect()
 	m_pGameInstance->Add_PSystem(CFireFly::Create(m_pGraphic_Device), TEXT("Effect_FireFly"));
 	m_pGameInstance->Add_PSystem(CColorLight::Create(m_pGraphic_Device), TEXT("Effect_ColorLight"));
 	m_pGameInstance->Add_PSystem(CKeyTwinkle::Create(m_pGraphic_Device), TEXT("Effect_Twinkle"));
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Font()
+{
+	CFont::FONT_DESC FontDesc{};
+
+	FontDesc.fWidth = 10.f;
+	FontDesc.fHegiht = 20.f;
+	FontDesc.fWeight = 50.f;
+	FontDesc.FontName = TEXT("Arial");
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Arial"),
+		CFont::Create(m_pGraphic_Device, &FontDesc))))
+		return E_FAIL;
 
 	return S_OK;
 }
