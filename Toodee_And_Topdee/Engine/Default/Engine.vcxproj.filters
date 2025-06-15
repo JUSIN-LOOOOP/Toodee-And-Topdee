@@ -145,6 +145,12 @@
     <Filter Include="01. Utility\03. GameObject\UIObject">
       <UniqueIdentifier>{74a381c7-8e3c-4e5f-bcb8-f34c6f3cc141}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\VIBuffer\Diffuse">
+      <UniqueIdentifier>{8b08306d-6c74-48ab-8f1a-1204604f17df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\VIBuffer\Diffuse\Cube">
+      <UniqueIdentifier>{8f7d7fac-7872-4536-a050-9098d295b64c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -300,6 +306,9 @@
     <ClInclude Include="..\public\Shader_Flash.h">
       <Filter>00. Dummys</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_DiffuseCube.h">
+      <Filter>01. Utility\05. Component\VIBuffer\Diffuse\Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -430,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Shader_Flash.cpp">
       <Filter>00. Dummys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_DiffuseCube.cpp">
+      <Filter>01. Utility\05. Component\VIBuffer\Diffuse\Cube</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

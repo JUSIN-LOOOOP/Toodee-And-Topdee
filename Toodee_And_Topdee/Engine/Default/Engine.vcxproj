@@ -198,6 +198,7 @@ call Copy.bat
     <ClCompile Include="..\private\VIBuffer.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Capsule.cpp" />
     <ClCompile Include="..\private\VIBuffer_Cube.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_DiffuseCube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Sphere.cpp" />
     <ClCompile Include="..\private\VIBuffer_Terrain.cpp" />
@@ -251,6 +252,7 @@ call Copy.bat
     <ClInclude Include="..\public\VIBuffer.h" />
     <ClInclude Include="..\Public\VIBuffer_Capsule.h" />
     <ClInclude Include="..\public\VIBuffer_Cube.h" />
+    <ClInclude Include="..\Public\VIBuffer_DiffuseCube.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_Sphere.h" />
     <ClInclude Include="..\public\VIBuffer_Terrain.h" />

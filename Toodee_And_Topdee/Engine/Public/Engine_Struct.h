@@ -42,6 +42,12 @@ namespace Engine
 		unsigned int	iTileTextureIdx;
 	}BLOCK_INFO;
 
+	typedef struct tagVertexDiffuse
+	{
+		D3DXVECTOR3 vPosition;
+		D3DCOLOR    dwColor;
+	}VTXCUBEDIFFUSE;
+
 }
 
 
