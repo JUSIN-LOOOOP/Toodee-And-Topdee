@@ -443,6 +443,7 @@ void CGameInstance::Set_Stop(const _wstring& strEffectTag, void* pArg)
 	m_pEffect_Manager->Set_Stop(strEffectTag,pArg);
 }
 
+
 HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, CFont* pFont)
 {
 	return m_pFont_Manager->Add_Font(strFontTag, pFont);
@@ -451,6 +452,20 @@ HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, CFont* pFont)
 HRESULT CGameInstance::DrawFont(const _wstring& strFontTag, const _tchar* pDrawText, LPRECT pRect, D3DCOLOR dwColor)
 {
 	return m_pFont_Manager->DrawFont(strFontTag, pDrawText, pRect, dwColor);
+}
+void CGameInstance::Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag)
+{
+	m_pEffect_Manager->Add_PSystem(pPSystem, strEffectTag);
+}
+
+void CGameInstance::Set_Active(const _wstring& strEffectTag, void* pArg)
+{
+	m_pEffect_Manager->Set_Active(strEffectTag, pArg);
+}
+
+void CGameInstance::Set_Stop(const _wstring& strEffectTag, void* pArg)
+{
+	m_pEffect_Manager->Set_Stop(strEffectTag,pArg);
 }
 
 #pragma endregion
@@ -490,7 +505,7 @@ void CGameInstance::Release_Engine()
 {
 	Release();
 
-	/*¿ÀºêÁ§Æ®°¡ »ç¿ëÇÏ´Â ÀÇÁ¸¼ºµé ¸ÕÀú À¯ÁöÇÏ°í ¿ÀºêÁ§Æ® ¸ÕÀú ÇØÁ¦ÇÒ°Ô¿ä*/
+	/*ì˜¤ë¸Œì íŠ¸ê°€ ì‚¬ìš©í•˜ëŠ” ì˜ì¡´ì„±ë“¤ ë¨¼ì € ìœ ì§€í•˜ê³  ì˜¤ë¸Œì íŠ¸ ë¨¼ì € í•´ì œí• ê²Œìš”*/
 	Safe_Release(m_pEventBus);
 	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pObject_Manager);
