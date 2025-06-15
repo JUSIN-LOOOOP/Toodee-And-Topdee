@@ -8,6 +8,7 @@ BEGIN(Engine)
 class CTransform;
 class CTexture;
 class CVIBuffer_Rect;
+class CVIBuffer_DiffuseCube;
 class CCollider;
 class CShader;
 END
@@ -78,6 +79,8 @@ protected:
 	CTexture*						m_pTextureComs[ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END)] = { nullptr };
 	CCollider*						m_pColliderCom = { nullptr };
 	CShader*						m_pShader = { nullptr };
+	CVIBuffer_DiffuseCube*			m_VIBufferCom_Diffuse = { nullptr };
+
 	/* State */
 	PLAYERSTATE_DESC				m_tStateInitDesc[ENUM_CLASS(PLAYERSTATE::PLAYERSTATE_END)];					// Player State 보관 배열
 	map<PLAYERSTATE, CPlayerState*> m_States;																	// CPlayerStates 보관 맵
@@ -109,6 +112,25 @@ protected:
 	_float3 m_vPotalStartPosition = {};																			// Spiral에 넘겨주기 위한 포탈과의 거리
 	_float m_fPotalDistance = {};																				// Clear 애니메이션 시작할 포탈과의 거리
 	_bool m_bClear = {};																						// Clear Anim End
+
+	/* Shadow :  switching - camera angle */
+	_float					m_fToodeeAngle = { 390.f };
+	_float					m_fTopdeeAngle = { 210.f };
+	_float					m_fCurAngle = { };
+
+	_float					m_fToodeeLightDirY = { 1.8f };
+	_float					m_fTopdeeLightDirY = { 1.6f };
+	_float					m_fCurLightY = { };
+
+	_bool					m_bCameraChange = { false };
+	_bool					m_bComputeComplete = { false };
+	DIMENSION				m_ePreDimension = { DIMENSION::NONE };
+
+	/* Shadow*/
+protected:
+	HRESULT		Render_Shadow();
+	void		Compute_AttributeShadow();
+
 
 protected:
 	virtual CGameObject* Clone(void* pArg) PURE;

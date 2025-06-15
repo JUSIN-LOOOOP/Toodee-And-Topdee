@@ -82,7 +82,8 @@ _float CBlock::ComputeDirDotLook(const _float3& vPlayerPosition, const _float3& 
 
 HRESULT CBlock::Render_Shadow()
 {
-	Compute_MatrixShadow();
+	Compute_AttributeShadow();
+
 	_float3 vGroundPoint = _float3(0.f, -0.51f, 0.f);
 	_float3 vGroundNormal = _float3(0.f, 1.f, 0.f);
 	D3DXPLANE groundPlane;
@@ -160,7 +161,7 @@ HRESULT CBlock::Render_Shadow()
 	return S_OK;
 }
 
-void CBlock::Compute_MatrixShadow()
+void CBlock::Compute_AttributeShadow()
 {
 	if (!m_bCameraChange && m_pGameInstance->Get_CurrentDimension() == DIMENSION::CHANGE)
 	{

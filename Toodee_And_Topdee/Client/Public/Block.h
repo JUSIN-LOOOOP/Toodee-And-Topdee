@@ -31,10 +31,10 @@ public:
 	
 	/* Shadow*/
 protected:
-	CVIBuffer_DiffuseCube* m_VIBufferCom_Diffuse = nullptr;
+	CVIBuffer_DiffuseCube* m_VIBufferCom_Diffuse = { nullptr };
 	_float4x4				m_matrixShadow = {};
 
-	/* switching - camera angle */
+	/* Shadow : switching - camera angle */
 	_float					m_fToodeeAngle = { 390.f };
 	_float					m_fTopdeeAngle = { 210.f };
 	_float					m_fCurAngle = { };
@@ -50,7 +50,7 @@ protected:
 	/* Shadow*/
 protected:
 	HRESULT		Render_Shadow();
-	void		Compute_MatrixShadow();
+	void		Compute_AttributeShadow();
 
 protected:
 	/* Component */
