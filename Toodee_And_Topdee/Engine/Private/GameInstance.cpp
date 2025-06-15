@@ -491,6 +491,8 @@ void CGameInstance::Release_Engine()
 {
 	Release();
 
+	/* 오브젝트가 사용하는 의존성들 먼저 유지하고 오브젝트 먼저 해제할게요 */
+
 	Safe_Release(m_pEventBus);
 	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pObject_Manager);
