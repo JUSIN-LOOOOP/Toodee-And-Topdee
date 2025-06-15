@@ -408,6 +408,7 @@
     <ClCompile Include="..\private\Ending_Flash.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
+
     <ClCompile Include="..\Private\BackRock.cpp">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
     </ClCompile>
@@ -425,6 +426,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Dialogue.cpp">
       <Filter>01. Levels\04. Dialogue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpeechBallon.cpp">
+      <Filter>00. Dummys\K J H</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -867,6 +871,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_Dialogue.h">
       <Filter>01. Levels\04. Dialogue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpeechBallon.h">
+      <Filter>00. Dummys\K J H</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
