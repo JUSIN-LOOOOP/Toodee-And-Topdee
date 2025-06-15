@@ -248,6 +248,7 @@
     <ClInclude Include="..\Public\Semicolon.h" />
     <ClInclude Include="..\Public\ShotDust.h" />
     <ClInclude Include="..\Public\Sink.h" />
+    <ClInclude Include="..\Public\SpeechBallon.h" />
     <ClInclude Include="..\public\SpikeHole.h" />
     <ClInclude Include="..\Public\Spikes.h" />
     <ClInclude Include="..\Public\StageBoss.h" />
@@ -392,6 +393,7 @@
     <ClCompile Include="..\Private\Semicolon.cpp" />
     <ClCompile Include="..\Private\ShotDust.cpp" />
     <ClCompile Include="..\Private\Sink.cpp" />
+    <ClCompile Include="..\Private\SpeechBallon.cpp" />
     <ClCompile Include="..\private\SpikeHole.cpp" />
     <ClCompile Include="..\Private\Spikes.cpp" />
     <ClCompile Include="..\Private\StageBoss.cpp" />

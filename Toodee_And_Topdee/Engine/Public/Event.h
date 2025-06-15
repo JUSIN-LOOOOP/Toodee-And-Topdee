@@ -109,6 +109,9 @@ typedef struct tagPlayersPosition : public CEvent {
 	class CTransform* pTransformTopdee;
 }PLAYERSPOSITION_EVENT;
 
+typedef struct tagSpeechNumber : public CEvent {
+	_uint iCurrentSpeechNumber;
+}SPEECHNUMBER_EVENT;
 /* FinalBoss ResetBlcok*/
 typedef struct tagRemoveSpike : public CEvent {
 }REMOVE_SPIKE;

@@ -10,6 +10,7 @@
 #include "Test_Cube2.h"
 #include "Cloud.h"
 #include "BackRock.h"
+#include "SpeechBallon.h"
 
 CLevel_Dialogue::CLevel_Dialogue(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -30,6 +31,9 @@ HRESULT CLevel_Dialogue::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_ColliderMap(TEXT("Layer_ColliderMap"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Speech(TEXT("Layer_Speech"))))
 		return E_FAIL;
 
 	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
@@ -134,7 +138,7 @@ HRESULT CLevel_Dialogue::Ready_Layer_MapObject(const _wstring& strLayerTag)
 
 HRESULT CLevel_Dialogue::Ready_Layer_Back(const _wstring& strLayerTag)
 {
-	_uint BackdropThemeIdx = 3;
+	_uint BackdropThemeIdx = 4;
 	_uint BackTileIdx[2];
 
 	BackTileIdx[0] = 116;
@@ -166,6 +170,64 @@ HRESULT CLevel_Dialogue::Ready_Layer_ColliderMap(const _wstring& strLayerTag)
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Collider_Map"), &desc)))
 			return E_FAIL;
 	}
+
+
+	return S_OK;
+}
+//730
+HRESULT CLevel_Dialogue::Ready_Speech(const _wstring& strLayerTag)
+{
+	CSpeechBallon::SPEECH_DESC Desc{};
+	Desc.strText = TEXT("It is quite a surprise that you got this far");
+	Desc.tRect = RECT{ 400, 150, 950, 260 };
+	Desc.dwColor = D3DCOLOR_ARGB(255, 0, 0, 0);
+	Desc.iSpeechNumber = 1;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_SpeechBallon"), &Desc)))
+		return E_FAIL;
+
+	Desc.strText = TEXT("Each one of you, is tiny and weak");
+	Desc.tRect = RECT{ 420, 150, 950, 260 };
+	Desc.dwColor = D3DCOLOR_ARGB(255, 0, 0, 0);
+	Desc.iSpeechNumber = 2;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_SpeechBallon"), &Desc)))
+		return E_FAIL;
+
+	Desc.strText = TEXT("But i didn’t expect such a threat");
+	Desc.tRect = RECT{ 420, 150, 950, 260 };
+	Desc.dwColor = D3DCOLOR_ARGB(255, 0, 0, 0);
+	Desc.iSpeechNumber = 3;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_SpeechBallon"), &Desc)))
+		return E_FAIL;
+
+
+	Desc.strText = TEXT("So I’ve planed a courrpution");
+	Desc.tRect = RECT{ 420, 150, 950, 260 };
+	Desc.dwColor = D3DCOLOR_ARGB(255, 0, 0, 0);
+	Desc.iSpeechNumber = 4;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_SpeechBallon"), &Desc)))
+		return E_FAIL;
+
+	Desc.strText = TEXT("Now it’s going to expand and swallow everything here");
+	Desc.tRect = RECT{ 380, 150, 970, 260 };
+	Desc.dwColor = D3DCOLOR_ARGB(255, 0, 0, 0);
+	Desc.iSpeechNumber = 5;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_SpeechBallon"), &Desc)))
+		return E_FAIL;
+
+
+	Desc.strText = TEXT("Welcome to “THRID DIMENSION ”");
+	Desc.tRect = RECT{ 420, 150, 950, 260 };
+	Desc.dwColor = D3DCOLOR_ARGB(255, 0, 0, 0);
+	Desc.iSpeechNumber = 6;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), strLayerTag,
+		ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_SpeechBallon"), &Desc)))
+		return E_FAIL;
+
 
 
 	return S_OK;

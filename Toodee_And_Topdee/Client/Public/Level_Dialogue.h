@@ -23,7 +23,7 @@ private:
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_ColliderMap(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Cloud(const _wstring& strLayerTag);
-
+	HRESULT Ready_Speech(const _wstring& strLayerTag);
 
 public:
 	static CLevel_Dialogue* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -53,6 +53,7 @@
 #include "Damaged.h"
 
 #include "ColliderMap_Object.h"
+#include "SpeechBallon.h"
 
 Client::CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
@@ -168,6 +169,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/*Prototype_Component_Shader_Payer */
 	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Shader_Player"),
 		CShader_Player::Create(m_pGraphic_Device, TEXT("../Resources/Shader/Player.txt")))))
+		return E_FAIL;
+
+	/*Prototype_Component_Texture_SpeechBallon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_SpeechBallon"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Speech/SpeechBallon.png"), 1))))
 		return E_FAIL;
 
 	/* Prototype_Component_VIBuffer_Cube */
@@ -742,6 +748,10 @@ HRESULT CMainApp::Ready_Font()
 
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Arial"),
 		CFont::Create(m_pGraphic_Device, &FontDesc))))
+		return E_FAIL;
+
+	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_SpeechBallon"),
+		CSpeechBallon::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;
