@@ -50,6 +50,7 @@ void CMonster::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_VIBufferCom_Diffuse);
 	Safe_Release(m_pTargetTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);

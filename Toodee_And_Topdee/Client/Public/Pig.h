@@ -51,12 +51,18 @@ private : // Test¿ë
 	_float3 absfloat3(const _float3& vec3) { return _float3(fabsf(vec3.x), fabsf(vec3.y), fabsf(vec3.z)); }
 
 	_float3 Move_To_Target(_float fTimeDelta);
-	
+
+	private:
+	HRESULT Render_Shadow() override;
+	void Compute_AttributeShadow() override;
+
 
 public:
 	static CPig* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
+
+
 };
 
 
