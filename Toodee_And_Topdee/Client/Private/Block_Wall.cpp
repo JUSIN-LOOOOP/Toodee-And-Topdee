@@ -26,7 +26,10 @@ HRESULT CBlock_Wall::Initialize(void* pArg)
 
 	m_pColliderCom->Collision_Off();
 
+    __super::Initialize(nullptr);
+
 	name = TEXT("Wall");
+
 
     return S_OK;
 }
@@ -56,9 +59,9 @@ void CBlock_Wall::Late_Update(_float fTimeDelta)
 }
 
 HRESULT CBlock_Wall::Render()
-{
+{   
 	__super::Render();
-
+;
 	return S_OK;
 }
 
@@ -68,6 +71,11 @@ HRESULT CBlock_Wall::Ready_Components()
 	/* For.Com_VIBuffer*/
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Cube"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_DiffuseCube"),
+		TEXT("Com_VIBuffer2"), reinterpret_cast<CComponent**>(&m_VIBufferCom_Diffuse))))
 		return E_FAIL;
 
 	/* For.Com_Texture */
@@ -139,5 +147,4 @@ CGameObject* CBlock_Wall::Clone(void* pArg)
 void CBlock_Wall::Free()
 {
 	__super::Free();
-
 }

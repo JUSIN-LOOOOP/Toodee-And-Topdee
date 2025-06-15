@@ -195,6 +195,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 		CVIBuffer_Capsule::Create(m_pGraphic_Device, 20, 20))))
 		return E_FAIL;
 
+	/* Prototype_Component_VIBuffer_DuffuseCube */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_DiffuseCube"),
+		CVIBuffer_DiffuseCube::Create(m_pGraphic_Device))))
+
+		return E_FAIL;
 	/* Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
 		CTransform::Create(m_pGraphic_Device))))
