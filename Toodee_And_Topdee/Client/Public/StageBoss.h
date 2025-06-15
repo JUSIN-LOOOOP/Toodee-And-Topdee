@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
+class CVIBuffer_DiffuseCube;
 class CCollider;
 END
 
@@ -30,6 +31,15 @@ public:
 	virtual void				Late_Update(_float fTimeDelta) override;
 	virtual HRESULT				Render() override;
 	void						SetParts(CStageBoss_limb* Parts){ m_vlimbs.push_back(Parts); };
+
+	/* Shadow*/
+private:
+	CVIBuffer_DiffuseCube* m_VIBufferCom_Diffuse = { nullptr };
+	_float4x4				m_matrixShadow = {};
+
+	/* Shadow*/
+private:
+	HRESULT		Render_Shadow(const _float4x4& matChainWorld);
 
 private :
 	vector<CStageBoss_limb*>	m_vlimbs		= {};

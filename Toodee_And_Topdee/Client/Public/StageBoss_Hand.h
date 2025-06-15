@@ -21,11 +21,13 @@ public:
 
 private:
 	virtual HRESULT Ready_Components();
+	virtual HRESULT Render_Shadow() override;
 
 public:
 	static CStageBoss_Hand* Create(LPDIRECT3DDEVICE9 pGraphic_Device, void* pArg);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
+;
 };
 
 END

@@ -30,6 +30,7 @@ HRESULT CStageBoss::Initialize(void* pArg)
 	name = TEXT("StageBoss");
 	m_eViewMode = VIEWMODE::TOODEE;
 	Ready_SubscribeEvent(m_iPlayLevel);
+
 	return S_OK;
 }
 
@@ -143,6 +144,8 @@ HRESULT CStageBoss::Render()
 			m_pVIBufferCom->Bind_Buffers();
 			m_pVIBufferCom->Render();
 
+			Render_Shadow(WorldMatrix);
+
 			D3DXMatrixIdentity(&WorldMatrix);
 
 			++textureIdx;
@@ -194,6 +197,86 @@ void CStageBoss::isFinish()
 		m_eState = STAGEMONERSTATE::IDLE;
 }
 
+HRESULT CStageBoss::Render_Shadow(const _float4x4& matChainWorld)
+{
+	_float3 vGroundPoint = _float3(0.f, -0.51f, 0.f);
+	_float3 vGroundNormal = _float3(0.f, 1.f, 0.f);
+	D3DXPLANE groundPlane;
+	D3DXPlaneFromPointNormal(&groundPlane, &vGroundPoint, &vGroundNormal);
+
+	_float angle = D3DXToRadian(30.f);
+	_float3 lightDir = _float3(cosf(angle), 2.5f, sinf(angle));
+	D3DXVec3Normalize(&lightDir, &lightDir);
+	_float4 light = _float4(lightDir.x, lightDir.y, lightDir.z, 0.0f);
+
+	_float4x4 matShadow;
+	D3DXMatrixShadow(&matShadow, &light, &groundPlane);
+
+	_float4x4 matWorld = matChainWorld;
+	matWorld._11 = 1.5f;    matWorld._12 = matWorld._13 = 0.f;
+	matWorld._22 = 1.5f;    matWorld._21 = matWorld._23 = 0.f;
+	matWorld._33 = 1.5f;    matWorld._31 = matWorld._32 = 0.f;
+	m_matrixShadow = matShadow * matWorld;
+
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_matrixShadow);
+
+	//텍스처 스테이지 상태 백업
+	DWORD oldColorOp, oldColorArg1, oldAlphaOp, oldAlphaArg1;
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLOROP, &oldColorOp);
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLORARG1, &oldColorArg1);
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAOP, &oldAlphaOp);
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAARG1, &oldAlphaArg1);
+
+	//렌더 상태 백업
+	DWORD oldAlphaEnable, oldSrcBlend, oldDestBlend, oldZWrite, oldLighting;
+	m_pGraphic_Device->GetRenderState(D3DRS_ALPHABLENDENABLE, &oldAlphaEnable);
+	m_pGraphic_Device->GetRenderState(D3DRS_SRCBLEND, &oldSrcBlend);
+	m_pGraphic_Device->GetRenderState(D3DRS_DESTBLEND, &oldDestBlend);
+	m_pGraphic_Device->GetRenderState(D3DRS_ZWRITEENABLE, &oldZWrite);
+	m_pGraphic_Device->GetRenderState(D3DRS_LIGHTING, &oldLighting);
+
+	//스텐실 버퍼
+	m_pGraphic_Device->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+	m_pGraphic_Device->SetRenderState(D3DRS_STENCILREF, 0x0);
+	m_pGraphic_Device->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);
+	m_pGraphic_Device->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
+	m_pGraphic_Device->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+	m_pGraphic_Device->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	m_pGraphic_Device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);
+
+
+	//그림자 렌더 설정
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(196, 8, 8, 8));
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TFACTOR);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TFACTOR);
+
+	// 그림자 렌더링
+	m_VIBufferCom_Diffuse->Bind_Buffers();
+	m_VIBufferCom_Diffuse->Render();
+
+	//원복
+	m_pGraphic_Device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, oldColorOp);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, oldColorArg1);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, oldAlphaOp);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, oldAlphaArg1);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, oldAlphaEnable);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, oldSrcBlend);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, oldDestBlend);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, oldZWrite);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, oldLighting);
+	return S_OK;
+}
+
+
 HRESULT CStageBoss::Ready_SubscribeEvent(_uint iPlayerLevel)
 {
 	m_pGameInstance->Subscribe<MONSTERSIGNAL>(iPlayerLevel, EVENT_KEY::FIN_ACTION, [this](const MONSTERSIGNAL& Event) {
@@ -226,6 +309,11 @@ HRESULT CStageBoss::Ready_Component(const _wstring& strLayerTag)
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_Chain"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_DiffuseCube"),
+		TEXT("Com_VIBuffer2"), reinterpret_cast<CComponent**>(&m_VIBufferCom_Diffuse))))
 		return E_FAIL;
 
 	return S_OK;
@@ -266,6 +354,7 @@ void CStageBoss::Free()
 	for (auto limb : m_vlimbs)
 		Safe_Release(limb);
 
+	Safe_Release(m_VIBufferCom_Diffuse);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 

@@ -99,7 +99,7 @@ HRESULT CStageBoss_limb::Turn(_float fTimeDelta)
         name = TEXT("EnemyBoss");
     }
     else
-        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::UP), fTimeDelta * 30.f);
+        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::UP), fTimeDelta * 15.f);
 
     return S_OK;
 }
@@ -225,6 +225,7 @@ void CStageBoss_limb::Free()
 {
     __super::Free();
 
+    Safe_Release(m_VIBufferCom_Diffuse);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTextureCom);

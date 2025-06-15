@@ -9,6 +9,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Cube;
 class CVIBuffer_Rect;
+class CVIBuffer_DiffuseCube;
 class CCollider;
 END
 
@@ -58,6 +59,17 @@ protected:
 	_float			m_AccAngle = 0.f;					//¸ðµå ¹Ù²ð ¶§
 	_bool			m_ChangeFlag[2]{ false, false };
 	_float3			m_fInitPos = {};
+
+
+	/* Shadow*/
+protected:
+	CVIBuffer_DiffuseCube* m_VIBufferCom_Diffuse = { nullptr };
+	_float4x4				m_matrixShadow = {};
+
+	/* Shadow*/
+protected:
+	virtual HRESULT		Render_Shadow() = 0;
+
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
