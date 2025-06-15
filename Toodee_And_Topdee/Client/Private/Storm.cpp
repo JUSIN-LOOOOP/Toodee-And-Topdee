@@ -35,6 +35,10 @@ HRESULT CStorm::Initialize(void* pArg)
 	if (m_pCamera == nullptr) return E_FAIL;
 	Safe_AddRef(m_pCamera);
 
+	/* Get Topdee Transform*/
+	m_pTransformCom_Topdee = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(m_pGameInstance->Get_NextLevelID(), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0));
+	if (m_pTransformCom_Topdee == nullptr) return E_FAIL;
+	Safe_AddRef(m_pTransformCom_Topdee);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -57,6 +61,10 @@ HRESULT CStorm::Initialize(void* pArg)
 		m_LightningSpawnTime[i] = { 1.f,  0.f };
 	}
 
+	m_pGameInstance->StopSound(CHANNELID::SOUND_LOOP);
+	m_pGameInstance->PlayLoop(TEXT("Rain.mp3"), CHANNELID::SOUND_LOOP, 0.1f);
+
+	m_iLevel = m_pGameInstance->Get_NextLevelID();
 	return S_OK;
 }
 
@@ -66,6 +74,8 @@ void CStorm::Priority_Update(_float fTimeDelta)
 
 void CStorm::Update(_float fTimeDelta)
 {
+	PlaySound();
+
 	DIMENSION dimension = { m_pGameInstance->Get_CurrentDimension() };
 	if (dimension != m_eDimension)
 	{
@@ -227,7 +237,7 @@ void CStorm::SpawnRain(_float fTimeDelta)
 			m_RainSpawnTime[i] = { 0.f, m_pGameInstance->Rand(0.05f, 0.15f) };
 			CPoolableObject* pRain = { nullptr };
 
-			pRain = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Rain"));
+			pRain = m_pGameInstance->Pop(m_iLevel, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Rain"));
 			if (pRain == nullptr) {
 				m_RainSpawnTime[i].second = m_pGameInstance->Rand(0.05f, 0.15f);
 				continue;
@@ -267,7 +277,7 @@ void CStorm::SpawnRainSplash(_float fTimeDelta)
 			m_fRainSplashAccumulateTime = 0.f;
 				for (_uint i = 0; i < 3; ++i) {
 					CPoolableObject* pRainSplash = { nullptr };
-					pRainSplash = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_RainSplash"));
+					pRainSplash = m_pGameInstance->Pop(m_iLevel, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_RainSplash"));
 					if (pRainSplash != nullptr)
 					{
 						_float3 pos = m_CrashGroundPosition[i];
@@ -291,7 +301,7 @@ void CStorm::SpawnLightning(_float fTimeDelta)
 			m_LightningSpawnTime[i] = { 0.f, m_pGameInstance->Rand(1.f, 2.5f) };
 
 			CPoolableObject* pLightning = { nullptr };
-			pLightning = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Lightning"));
+			pLightning = m_pGameInstance->Pop(m_iLevel, ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Layer_Lightning"));
 			if(pLightning != nullptr)
 			{
 				CLightning::LIGHTNING info;
@@ -323,6 +333,35 @@ void CStorm::SpawnLightning(_float fTimeDelta)
 		}
 	}
 	m_IsAttachSparkBlock1 = false;
+
+}
+
+void CStorm::PlaySound()
+{
+	_float3 vPlayerPos = m_pTransformCom_Topdee->Get_State(STATE::POSITION);
+	_float3	vDistance = vPlayerPos - m_pCloudTransformCom->Get_State(STATE::POSITION);
+	_float fDistance = D3DXVec3Length(&vDistance);
+
+	if (fDistance < 10.f) { 
+		m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.9f); 
+		m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM, 0.2f);
+		if (!m_bOnceLightningSound) {
+				m_bOnceLightningSound = true;
+				m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT4);
+				m_pGameInstance->PlayAudio(TEXT("Lightning.mp3"), CHANNELID::SOUND_EFFECT4, 1.f);
+		}
+	}
+	else if (fDistance < 20.f) 
+	{
+		m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.85f);
+		m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM, 0.25f);
+	}
+	else if (fDistance < 30.f)	{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.5f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.3f);	}
+	else if (fDistance < 40.f)	{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.5f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.3f);	}
+	else if (fDistance < 50.f)	{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.3f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.5f);	}
+	else if (fDistance < 60.f)	{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.2f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.5f);	}
+	else						{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.1f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.5f);	}
+
 
 }
 
@@ -386,6 +425,8 @@ CGameObject* CStorm::Clone(void* pArg)
 
 void CStorm::Free()
 {
+	m_pGameInstance->StopSound(CHANNELID::SOUND_LOOP);
+
 	__super::Free();
 
 	for (_uint i = 0; i < 3; ++i)
@@ -393,7 +434,7 @@ void CStorm::Free()
 		Safe_Release(m_pColliderCom[i]);
 		Safe_Release(m_pTransformCom[i]);
 	}
-
+	Safe_Release(m_pTransformCom_Topdee);
 	Safe_Release(m_pCloudTransformCom);
 	Safe_Release(m_pCamera);
 	

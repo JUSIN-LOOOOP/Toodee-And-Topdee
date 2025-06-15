@@ -94,6 +94,11 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	name = TEXT("Topdee");
 	ComputeTileCenter();
 
+	PLAYERSPOSITION_EVENT event;
+	event.eWho = DIMENSION::TOPDEE;
+	event.pTransformTopdee = m_pTransformCom;
+	m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::PLAYERS_POSITION, event);
+
 	return S_OK;
 }
 

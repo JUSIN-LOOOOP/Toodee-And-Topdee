@@ -59,6 +59,11 @@ private:
 	pair<_uint, _bool>		m_IsAttachSparkBlock = { };
 	_bool					m_IsAttachSparkBlock1 = { };
 
+	_uint					m_iLevel = {};
+
+	//비 사운드용
+	CTransform* 			m_pTransformCom_Topdee = { nullptr };
+	_bool					m_bOnceLightningSound = { false };
 
 private:
 	void					Compute_CrashSite(_float fTimeDelta);
@@ -66,7 +71,7 @@ private:
 	void					SpawnRain(_float fTimeDelta);
 	void					SpawnRainSplash(_float fTimeDelta);
 	void					SpawnLightning(_float fTimeDelta);
-
+	void					PlaySound();
 
 
 private:

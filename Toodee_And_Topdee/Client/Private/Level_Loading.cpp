@@ -16,7 +16,7 @@
 #include "Level_FinalBoss02.h"
 #include "Level_FinalBoss03.h"
 #include "Level_Test.h"
-
+#include "Level_Ending.h"
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CLevel{ pGraphicDev }
@@ -84,7 +84,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 		case LEVEL::LEVEL_FINALBOSS3:
 			pNewLevel = CLevel_FinalBoss03::Create(m_pGraphic_Device);
 			break;
-
+		case LEVEL::LEVEL_ENDING:
+			pNewLevel = CLevel_Ending::Create(m_pGraphic_Device);
+			break;
 		}	
 
 		if (FAILED(m_pGameInstance->Open_Level(static_cast<_uint>(m_eNextLevelID), pNewLevel)))

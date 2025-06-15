@@ -43,7 +43,7 @@ void CLevel_FinalBoss03::Update(_float fTimeDelta)
 	{
 		LEVELCHANGE_EVENT Event;
 		Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3);
-		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_STAGE1);
+		Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_ENDING);
 
 
 		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
@@ -126,7 +126,7 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_MapObject(const _wstring& strLayerTag)
 
 		case MAPOBJECT::LOCK:
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_WallLock"), &info)))
+				ENUM_CLASS(LEVEL::LEVEL_FINALBOSS3), TEXT("Prototype_GameObject_GiantHand"), &info)))
 				return E_FAIL;
 			break;
 
@@ -200,6 +200,7 @@ HRESULT CLevel_FinalBoss03::Ready_Layer_MapObject(const _wstring& strLayerTag)
 		}
 
 	}
+
 	return S_OK;
 }
 

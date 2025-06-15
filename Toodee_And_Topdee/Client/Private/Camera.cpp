@@ -38,20 +38,20 @@ HRESULT CCamera::Initialize(void* pArg)
 	/*GetCursorPos(&m_OldPoint);
 	ScreenToClient(g_hWnd, &m_OldPoint);*/
 
-	m_OldPoint.x = g_iWinSizeX >> 1;
-	m_OldPoint.y = g_iWinSizeY >> 1;
-
-	POINT		ptMouse = m_OldPoint;
-	ClientToScreen(g_hWnd, &ptMouse);
-
-	SetCursorPos(ptMouse.x, ptMouse.y);
-
+	//m_OldPoint.x = g_iWinSizeX >> 1;
+	//m_OldPoint.y = g_iWinSizeY >> 1;
+	//
+	//POINT		ptMouse = m_OldPoint;
+	//ClientToScreen(g_hWnd, &ptMouse);
+	//
+	//SetCursorPos(ptMouse.x, ptMouse.y);
+	//
 	return S_OK;
 }
 
 void CCamera::Priority_Update(_float fTimeDelta)
 {
-	if (GetKeyState('W') < 0)
+	/*if (GetKeyState('W') < 0)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
 	}
@@ -86,12 +86,10 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	if (iMouseMove = ptMouse.y - m_OldPoint.y)
 	{
 		m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * m_fMouseSensor);
-	}
+	}*/
 
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFovy, m_fAspect, m_fNear, m_fFar));
-
-	m_OldPoint = ptMouse;
 }
 
 void CCamera::Update(_float fTimeDelta)

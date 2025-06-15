@@ -84,6 +84,7 @@ public:
 	//Sound
 public:
 	void			PlayAudio(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);
+	void			PlayLoop(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);
 	void			PlayBGM(const TCHAR* pSoundKey, float fVolume);
 	void			StopSound(CHANNELID eID);
 	void			StopAll();
@@ -92,8 +93,8 @@ public:
 	//Pool
 public:
 	void					First_Push(const _wstring& strPoolTag,  class CPoolableObject* pGameObject);
-	void					Push(const _wstring& strPoolTag, class CPoolableObject* pGameObject);
-	class CPoolableObject*	Pop(_uint iPrototypeLevelIndex, const _wstring& strPoolTag);
+	void					Push(_uint iNumLevels, const _wstring& strPoolTag, class CPoolableObject* pGameObject);
+	class CPoolableObject*	Pop(_uint iNumLevels, _uint iPrototypeLevelIndex, const _wstring& strPoolTag);
 
 	//Effect
 public:

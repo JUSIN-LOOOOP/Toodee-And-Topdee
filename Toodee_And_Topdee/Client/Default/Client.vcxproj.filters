@@ -184,9 +184,6 @@
     <ClCompile Include="..\Private\Level_MapEdit.cpp">
       <Filter>00. Dummys\T Y J</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Spikes.cpp">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\State_Dead.cpp">
       <Filter>00. Dummys\K J H</Filter>
     </ClCompile>
@@ -240,12 +237,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_StageBoss.cpp">
       <Filter>01. Levels\03. GamePlay\03. Stage_Boss01</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Sink.cpp">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Water.cpp">
-      <Filter>00. Dummys\K J H</Filter>
     </ClCompile>
     <ClCompile Include="..\private\State_Swim.cpp">
       <Filter>02. GameObjects\Player\03. State</Filter>
@@ -348,9 +339,6 @@
     <ClCompile Include="..\private\FinalTile.cpp">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\SpikeHole.cpp">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\FinalBoss.cpp">
       <Filter>02. GameObjects\FinalBoss</Filter>
     </ClCompile>
@@ -389,6 +377,36 @@
     </ClCompile>
     <ClCompile Include="..\Private\FireFly..cpp">
       <Filter>00. Dummys\T Y J\Effect\FireFly</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerChagneEffect.cpp">
+      <Filter>02. GameObjects\Player\06. ChangeEffect</Filter>
+   </ClCompile>
+    <ClCompile Include="..\Private\Sink.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpikeHole.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Spikes.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Water.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GiantHand.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Thirdee_Ending.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Toodoo_Ending.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Ending.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Ending_Flash.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -590,9 +608,6 @@
     <ClInclude Include="..\Public\Client_Extension.h">
       <Filter>99. Defines</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Spikes.h">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\State_Dead.h">
       <Filter>00. Dummys\K J H</Filter>
     </ClInclude>
@@ -646,12 +661,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_StageBoss.h">
       <Filter>01. Levels\03. GamePlay\03. Stage_Boss01</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Sink.h">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Water.h">
-      <Filter>00. Dummys\K J H</Filter>
     </ClInclude>
     <ClInclude Include="..\public\State_Swim.h">
       <Filter>02. GameObjects\Player\03. State</Filter>
@@ -754,9 +763,6 @@
     <ClInclude Include="..\public\FinalTile.h">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\SpikeHole.h">
-      <Filter>00. Dummys\K J H</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\FinalBoss.h">
       <Filter>02. GameObjects\FinalBoss</Filter>
     </ClInclude>
@@ -795,6 +801,36 @@
     </ClInclude>
     <ClInclude Include="..\Public\FireFly.h">
       <Filter>00. Dummys\T Y J\Effect\FireFly</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerChangeEffect.h">
+      <Filter>02. GameObjects\Player\06. ChangeEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sink.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SpikeHole.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Spikes.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Water.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GiantHand.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Thirdee_Ending.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Toodoo_Ending.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Ending.h">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Ending_Flash.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1126,6 +1162,12 @@
     </Filter>
     <Filter Include="00. Dummys\T Y J\Effect\FireFly">
       <UniqueIdentifier>{b498dc43-4827-44b8-872e-a436e5b8cb1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\Player\06. ChangeEffect">
+      <UniqueIdentifier>{4eaf960a-c8f0-4ead-85e8-d818fadd2795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\K J H\GameObject">
+      <UniqueIdentifier>{3d4262b9-397d-4b54-bab0-135592023d57}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

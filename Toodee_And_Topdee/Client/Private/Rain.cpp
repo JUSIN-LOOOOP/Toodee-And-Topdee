@@ -26,6 +26,7 @@ HRESULT CRain::Initialize(void* pArg)
 
 	name = TEXT("Rain");
 
+	m_iLevel = m_pGameInstance->Get_NextLevelID();
 	return S_OK;
 }
 
@@ -43,7 +44,7 @@ void CRain::Update(_float fTimeDelta)
 	if (m_pTransformCom->Approach(m_vCrashPosition, fTimeDelta, 25.f))
 	{
 		_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
-		m_pGameInstance->Push(TEXT("Layer_Rain"), this);
+		m_pGameInstance->Push(m_iLevel, TEXT("Layer_Rain"), this);
 	}
 }
 

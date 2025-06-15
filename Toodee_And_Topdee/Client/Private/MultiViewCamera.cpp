@@ -1,6 +1,6 @@
 #include "MultiViewCamera.h"
 #include "GameInstance.h"
-
+#include "PoolableObject.h"
 
 CMultiViewCamera::CMultiViewCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
@@ -79,8 +79,6 @@ void CMultiViewCamera::Priority_Update(_float fTimeDelta)
 
 void CMultiViewCamera::Update(_float fTimeDelta)
 {
-    if(GetAsyncKeyState(VK_F7)& 0x8000)
-        m_pGameInstance->PlayBGM(L"Test_Loop.mp3", 1.f);
     if (m_pGameInstance->Key_Down('R'))
     {
         m_fShaking = 2.f;
@@ -90,6 +88,7 @@ void CMultiViewCamera::Update(_float fTimeDelta)
         Shaking(fTimeDelta);
 
     CameraTestMove(fTimeDelta);
+    PlayerChangeEffect(fTimeDelta);
 }
 
 void CMultiViewCamera::Late_Update(_float fTimeDelta)
@@ -217,6 +216,38 @@ void CMultiViewCamera::Shaking(_float fTimeDelta)
         m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_fBackupPos.x + m_pGameInstance->Rand(-.2f, .2f),
                                                             m_fBackupPos.y + m_pGameInstance->Rand(-.2f, .2f),
                                                             m_fBackupPos.z + m_pGameInstance->Rand(-.2f, .2f) });
+}
+
+void CMultiViewCamera::PlayerChangeEffect(_float fTimeDelta)
+{
+    if (m_pGameInstance->Get_NextLevelID() < 3 ) return;
+
+    if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::CHANGE)
+    {
+        if (!m_bStartPlayerChangeEffect)
+        {
+            if (m_fPoolIntervalTime < m_fPoolAccumurateTime + fTimeDelta)
+            {
+                m_fPoolAccumurateTime = 0.f;
+                ++m_fPoolNum;
+                if (m_fPoolNum >= 5) {
+                    m_bStartPlayerChangeEffect = true;
+                    m_fPoolNum = 0;
+                }
+                else
+                {
+                    CPoolableObject* pObject = m_pGameInstance->Pop(ENUM_CLASS(LEVEL::LEVEL_STATIC),ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_PlayerChangeEffect"));
+                    if (pObject != nullptr)
+                        pObject->Initialize_Pool(nullptr);
+                }
+            }
+            else
+                m_fPoolAccumurateTime += fTimeDelta;
+        }
+    }
+    else
+        m_bStartPlayerChangeEffect = false;
+
 }
 
 CMultiViewCamera* CMultiViewCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
