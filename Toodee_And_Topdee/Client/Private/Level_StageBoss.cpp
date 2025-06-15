@@ -39,7 +39,7 @@ HRESULT CLevel_StageBoss::Initialize()
 
 	Ready_SubscribeEvent(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS));
 	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
-	m_pGameInstance->PlayBGM(TEXT("StageBossBgm.ogg"), 0.5f);
+	m_pGameInstance->PlayBGM(TEXT("StageBossBgm.ogg"), 0.2f);
 	m_pGameInstance->Set_Active(TEXT("Effect_FireFly"));
 	m_pGameInstance->Set_Active(TEXT("Effect_ColorLight"));
 	m_pGameInstance->Set_Active(TEXT("Effect_CloudEffect"));

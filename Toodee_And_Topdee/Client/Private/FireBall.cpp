@@ -18,6 +18,9 @@ HRESULT CFireBall::Initialize_Prototype()
 
 HRESULT CFireBall::Initialize(void* pArg)
 {
+    m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT4);
+    m_pGameInstance->PlayAudio(TEXT("StageBoss_FireBall.mp3"), CHANNELID::SOUND_EFFECT4, 0.4f);
+
     if (FAILED(Ready_Components()))
         return E_FAIL;
     m_fTargetPos = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Player_TooDee"), TEXT("Com_Transform"), 0))->Get_State(STATE::POSITION);
