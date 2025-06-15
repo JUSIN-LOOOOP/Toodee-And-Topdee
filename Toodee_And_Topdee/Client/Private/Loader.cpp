@@ -30,7 +30,7 @@
 #include "Toodoo_Ending.h"
 #include "Thirdee_Ending.h"
 #include "Ending_Flash.h"
-
+#include "Small_Toodoo.h"
 #pragma endregion
 
 #pragma region Boss
@@ -1030,6 +1030,14 @@ HRESULT CLoader::Loading_For_Ending()
 
 HRESULT CLoader::Loading_For_Dialogue()
 {
+	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), TEXT("Prototype_GameObject_SmallToodd"),
+		CSmall_Toodoo::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), TEXT("Prototype_Component_Texture_SmallToodoo"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Speech/Toodoo_Small.png"), 1))))
+		return E_FAIL;
+
 	m_isFinished = true;
 
 	return S_OK;

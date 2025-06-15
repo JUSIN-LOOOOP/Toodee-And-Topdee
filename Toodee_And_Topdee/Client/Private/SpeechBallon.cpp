@@ -72,18 +72,38 @@ void CSpeechBallon::Update(_float fTimeDelta)
 	if (m_fTime > 0.06f)
 	{
 		if(m_iCurrentTextLength < m_iTextLength)
+		{
 			m_iCurrentTextLength++;
-		
+			m_pGameInstance->PlayAudio(TEXT("SmallToodoo.wav"), CHANNELID::SOUND_EFFECT, 0.8f);
+		}
 		m_fTime = 0.f;
 	}
 
 	if (m_iCurrentTextLength == m_iTextLength)
 	{
-		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+		if(m_iSpeechNumber != 6)
 		{
-			SPEECHNUMBER_EVENT Event;
-			Event.iCurrentSpeechNumber = m_iSpeechNumber + 1;
-			m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::SPEECH, Event);
+			if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+			{
+				SPEECHNUMBER_EVENT Event;
+				Event.iCurrentSpeechNumber = m_iSpeechNumber + 1;
+				m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::SPEECH, Event);
+			}
+		}
+		else if(m_iSpeechNumber == 6)
+		{
+			LOADINGSCREEN_EVENT event;
+			event.bFadeIn = true;
+			event.vPos = _float3(0.f,0.f,0.f);
+			event.vPos.y = 3.f;
+			m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::LOADINGSCREEN, event);
+			if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+			{
+				LEVELCHANGE_EVENT Event;
+				Event.iChangeLevel = ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1);
+				Event.iCurrentLevel = ENUM_CLASS(LEVEL::LEVEL_DIALOGUE);
+				m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, Event);
+			}
 		}
 	}
 	m_fSizeX = 60.f;

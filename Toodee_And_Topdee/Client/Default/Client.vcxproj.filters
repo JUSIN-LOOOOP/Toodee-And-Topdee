@@ -895,7 +895,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\SpeechBallon.h">
       <Filter>00. Dummys\K J H</Filter>
-    </ClCompile>
+	</ClInclude>
     <ClInclude Include="..\Public\BackRock.h">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
     </ClInclude>

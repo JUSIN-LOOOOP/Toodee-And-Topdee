@@ -22,10 +22,10 @@ HRESULT CSmall_Toodoo::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	_float3 vPosition = _float3(21.f, 0.f, -5.f);
+	_float3 vPosition = _float3(17.f, 1.f, -1.f);
 
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-	m_pTransformCom->Scaling(4.f, 4.f, 4.f);
+	m_pTransformCom->Scaling(10.f, 20.f, 4.f);
 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
@@ -43,7 +43,7 @@ void CSmall_Toodoo::Update(_float fTimeDelta)
 	m_fTotalTime += fTimeDelta;
 	_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
-	_float fY = (-5.f) + ((sin(m_fTotalTime) * 5.f));
+	_float fY = (-1.f) + ((sin(m_fTotalTime) * 2.f));
 	vPosition.z = fY;
 
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
@@ -80,7 +80,7 @@ HRESULT CSmall_Toodoo::Ready_Component()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_LOGO), TEXT("Prototype_Component_Texture_SmallToodoo"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_DIALOGUE), TEXT("Prototype_Component_Texture_SmallToodoo"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

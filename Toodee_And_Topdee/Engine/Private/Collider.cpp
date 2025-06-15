@@ -318,7 +318,7 @@ const _bool CCollider::GetCollisionsOffset(_float3* distance, const _wstring str
 
 HRESULT CCollider::Render()
 {
-
+    return S_OK;
      //세계 변환 행렬 가져오기
     _float4x4 matWorld = *m_pTransform->Get_WorldMatrix();
 
