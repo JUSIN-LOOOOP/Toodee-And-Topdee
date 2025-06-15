@@ -7,7 +7,7 @@ CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	Safe_AddRef(m_pGraphic_Device);
 }
 
-HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
+HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eRenderGroup, CBase* pRenderObject)
 {
 	if (nullptr == pRenderObject)
 		return E_FAIL;
@@ -52,7 +52,7 @@ HRESULT CRenderer::Render_Priority()
 
 HRESULT CRenderer::Render_Tile()
 {
-	m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_TILE)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+	m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_TILE)].sort([](CBase* pSour, CBase* pDest)->_bool
 		{
 			return static_cast<CBlendObject*>(pSour)->Get_Depth() < static_cast<CBlendObject*>(pDest)->Get_Depth();
 		});
@@ -87,7 +87,7 @@ HRESULT CRenderer::Render_NonBlend()
 
 HRESULT CRenderer::Render_Blend()
 {
-	m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_BLEND)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+	m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_BLEND)].sort([](CBase* pSour, CBase* pDest)->_bool
 		{
 			return static_cast<CBlendObject*>(pSour)->Get_Depth() > static_cast<CBlendObject*>(pDest)->Get_Depth();
 		});

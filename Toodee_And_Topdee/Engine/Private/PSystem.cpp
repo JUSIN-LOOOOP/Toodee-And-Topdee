@@ -76,8 +76,8 @@ void CPSystem::PreRender()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE); // ���� ��ƼŬ�� ó��
+	//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
@@ -147,7 +147,6 @@ HRESULT CPSystem::Render()
 
 void CPSystem::postRender()
 {
-	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);

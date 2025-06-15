@@ -28,7 +28,7 @@ public:
 
 	//Renderer
 public:
-	HRESULT			Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
+	HRESULT			Add_RenderGroup(RENDERGROUP eRenderGroup, class CBase* pRenderObject);
 
 	//Level
 public:

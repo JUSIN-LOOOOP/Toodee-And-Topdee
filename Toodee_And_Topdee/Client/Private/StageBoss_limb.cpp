@@ -70,7 +70,7 @@ HRESULT CStageBoss_limb::Chase(_float fTimeDelta)
 
     D3DXVec3Normalize(&Length, &Length);
 
-    if (D3DXVec3Dot(&Length, &Upvec) < 0.85)
+    if (D3DXVec3Dot(&Length, &Upvec) < 0.95)
     {
         m_pTransformCom->Move_To(fPlayerPos, fTimeDelta * 30.f);
 
@@ -176,7 +176,7 @@ HRESULT CStageBoss_limb::MoveToOrigin(_float fTimeDelta)
 {
     _float3 Length = m_pTransformCom->Get_State(Engine::STATE::POSITION) - m_fInitPos;
     if (D3DXVec3Length(&Length) > 1.f)
-        m_pTransformCom->MoveUntilInRange(m_fInitPos, fTimeDelta * 10.f, 1.f);
+        m_pTransformCom->MoveUntilInRange(m_fInitPos, fTimeDelta * 5.f, 1.f);
     else
     {
         m_eState = STAGEMONERSTATE::IDLE;
@@ -219,6 +219,8 @@ void CStageBoss_limb::CheckDead(_float fTimeDelta)
             {
                 MONSTERSIGNAL tmp;
                 m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::STAGEBOSS_DAMAGED, tmp);
+                _float3 pos = dynamic_cast<CTransform*>(pGameObject->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
+                m_pGameInstance->Set_Active(TEXT("Effect_Damaged"), &pos);
             }
         }
     }
@@ -236,6 +238,7 @@ void CStageBoss_limb::GetSignal(const MONSTERSIGNAL& Event)
             _float3 pos = m_pTransformCom->Get_State(Engine::STATE::POSITION);
             m_pGameInstance->Set_Active(TEXT("Effect_ShotDust"), &pos);
         }
+        m_pColliderCom->Collision_Off();
     }
 
     else if (m_eState == STAGEMONERSTATE::VIEWTURN || m_eState == STAGEMONERSTATE::DAMAGE)

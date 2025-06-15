@@ -211,9 +211,9 @@ void CMultiViewCamera::Shaking(_float fTimeDelta)
     if (m_fShaking <= 0.f)
         m_pTransformCom->Set_State(STATE::POSITION, m_fBackupPos);
     else
-        m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_fBackupPos.x + m_pGameInstance->Rand(-.2f, .2f),
-                                                            m_fBackupPos.y + m_pGameInstance->Rand(-.2f, .2f),
-                                                            m_fBackupPos.z + m_pGameInstance->Rand(-.2f, .2f) });
+        m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_fBackupPos.x + m_pGameInstance->Rand(-.25f, .25f),
+                                                            m_fBackupPos.y + m_pGameInstance->Rand(-.25f, .25f),
+                                                            m_fBackupPos.z + m_pGameInstance->Rand(-.25f, .25f) });
 }
 
 void CMultiViewCamera::PlayerChangeEffect(_float fTimeDelta)

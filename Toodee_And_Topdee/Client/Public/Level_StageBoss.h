@@ -17,13 +17,14 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void	ResetBlock(const FIANLBOSSRESET_EVENT& Event);
-	HRESULT Ready_SubscribeEvent(_uint Level);
+	void		ResetBlock(const FIANLBOSSRESET_EVENT& Event);
+	HRESULT		Ready_SubscribeEvent(_uint Level);
 	
 	BLOCK_INFO	m_LockBlockInfo[4];
 	BLOCK_INFO	m_KeyInfo[3];
 	BLOCK_INFO	m_SpikeInfo[30];
 
+	_uint		m_DeadCount = 0;
 
 private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);

@@ -37,8 +37,8 @@ void CKeyTwinkle::ResetParticle(PARTICLE* attribute, void* pArg)
     attribute->_isAlive = true;
 
     _float3 pos = *static_cast<_float3*>(pArg);
-    _float3 min = { pos.x - .5f, 0, pos.z - .5f };
-    _float3 max = { pos.x + .5f, 0, pos.z + .5f };
+    _float3 min = { pos.x - .6f, 0, pos.z - .6f };
+    _float3 max = { pos.x + .6f, 0, pos.z + .6f };
 
     d3d::GetRandomVector(&attribute->_position, &min, &max);
     attribute->_TextureIdx = 0;
@@ -63,6 +63,8 @@ void CKeyTwinkle::Update(_float fTimeDelta)
                 particle._isAlive = false;
         }
     }
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+
 }
 
 CKeyTwinkle* CKeyTwinkle::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

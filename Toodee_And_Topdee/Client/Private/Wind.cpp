@@ -77,6 +77,8 @@ void CWind::Update(_float fTimeDelta)
             particle._FrameTime = 0;
         }
     }
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+
 }
 
 CWind* CWind::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

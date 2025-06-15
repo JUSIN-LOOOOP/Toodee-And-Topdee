@@ -57,7 +57,7 @@ void CStageBoss_Hand::Update(_float fTimeDelta)
 void CStageBoss_Hand::Late_Update(_float fTimeDelta)
 {
 	if (m_eState != STAGEMONERSTATE::DEAD)
-		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
 HRESULT CStageBoss_Hand::Render()

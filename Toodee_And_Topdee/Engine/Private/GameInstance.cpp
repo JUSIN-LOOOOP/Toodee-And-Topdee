@@ -255,7 +255,7 @@ CGameObject* CGameInstance::Get_Ready_BackGameObject( const _wstring& strLayerTa
 
 #pragma region RENDERER
 
-HRESULT CGameInstance::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
+HRESULT CGameInstance::Add_RenderGroup(RENDERGROUP eRenderGroup, CBase* pRenderObject)
 {
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;

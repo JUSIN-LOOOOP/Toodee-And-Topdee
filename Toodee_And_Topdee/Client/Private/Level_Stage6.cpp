@@ -44,6 +44,8 @@ HRESULT CLevel_Stage6::Initialize()
 
 	m_pGameInstance->Set_Active(TEXT("Effect_FireFly"));
 	m_pGameInstance->Set_Active(TEXT("Effect_ColorLight"));
+	m_pGameInstance->Set_Active(TEXT("Effect_CloudEffect"));
+
 	return S_OK;
 }
 

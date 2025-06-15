@@ -71,6 +71,8 @@ void CLeaves::Update(_float fTimeDelta)
 
         }
     } 
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+
 }
 
 CLeaves* CLeaves::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

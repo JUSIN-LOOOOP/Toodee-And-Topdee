@@ -207,13 +207,17 @@ void CStageBoss::isDamaged()
 
 	++m_iDeadCount;
 
+	SHAKING Event;
+	Event.fTime = 2.f;
+	m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::CAM_SHAKING, Event);
+
 	m_eViewMode = VIEWMODE::TOODEE;
 	m_eState = (m_iDeadCount == 2) ? STAGEMONERSTATE::DEAD : STAGEMONERSTATE::DAMAGE;
 	MONSTERSIGNAL mode;
 	mode.iViewMode = ENUM_CLASS(m_eViewMode);
 	mode.iState = ENUM_CLASS(m_eState);
 	m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::SIG_MONSTER, mode);
-	m_fNonDamagedTime = 30.f;
+	m_fNonDamagedTime = 10.f;
 	FIANLBOSSRESET_EVENT tmp2;
 	m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::STAGEBOSS_RESET, tmp2);
 

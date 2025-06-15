@@ -15,16 +15,15 @@ HRESULT CColorLight::Initialize()
 {
     BoundingBox box;
 
-    box._max = _float3{ 140.f, -30.f, 80.f };
-    box._min = _float3{ -100.f, -30.f, -80.f };
+    box._max = _float3{ 140.f, 10.f, 80.f };
+    box._min = _float3{ -100.f, 10.f, -80.f };
     m_BoundingBox = box;
-    m_fSize = 30.f;
+    m_fSize = 20.f;
     m_iChunk = 4;
 
     for (_uint i = 0; i < 5; i++)
         AddParticle();
 
-    //D3DXCreateTextureFromFile(m_pGraphic_Device, TEXT("../Resources/Textures/Particle/ColorLightsAlpha.png"), reinterpret_cast<LPDIRECT3DTEXTURE9*>(&m_Texture));
     D3DXCreateTextureFromFile(m_pGraphic_Device, TEXT("../Resources/Textures/Particle/SpotColorLight.png"), reinterpret_cast<LPDIRECT3DTEXTURE9*>(&m_Texture));
 
     m_iNumTextures = 3;
@@ -100,6 +99,8 @@ void CColorLight::Update(_float fTimeDelta)
             particle._FrameTime = 0;
         }
     }
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+
 }
 
 CColorLight* CColorLight::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

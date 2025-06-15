@@ -42,6 +42,7 @@ HRESULT CLevel_StageBoss::Initialize()
 	m_pGameInstance->PlayBGM(TEXT("StageBossBgm.ogg"), 0.5f);
 	m_pGameInstance->Set_Active(TEXT("Effect_FireFly"));
 	m_pGameInstance->Set_Active(TEXT("Effect_ColorLight"));
+	m_pGameInstance->Set_Active(TEXT("Effect_CloudEffect"));
 
 	return S_OK;
 }
@@ -77,11 +78,10 @@ HRESULT CLevel_StageBoss::Render()
 
 void CLevel_StageBoss::ResetBlock(const FIANLBOSSRESET_EVENT& Event)
 {
-	static _uint count = 0;
 
-	++ count;
+	++ m_DeadCount;
 
-	if (count == 2)
+	if (m_DeadCount == 2)
 	{
 		REMOVE_SPIKE tmp;
 		BLOCK_INFO info;
@@ -89,6 +89,7 @@ void CLevel_StageBoss::ResetBlock(const FIANLBOSSRESET_EVENT& Event)
 		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), EVENT_KEY::REMOVE_SPIKE, tmp);
 		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"),
 			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &info);
+		m_pGameInstance->Set_Active(TEXT("Effect_PotalEffect"));
 		for (_uint i = 0; i < 4; ++i)
 			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"), ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_WallLock"), &m_LockBlockInfo[i]);
 		return;
@@ -104,7 +105,7 @@ void CLevel_StageBoss::ResetBlock(const FIANLBOSSRESET_EVENT& Event)
 	for (_uint i = 0; i < 30; ++i)
 	{
 		BLOCK_INFO info = m_SpikeInfo[i];
-		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_Spike "), ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info);
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_Spike"), ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info);
 		m_pGameInstance->Set_Active(TEXT("Effect_BlockDust"), &info);
 	}
 }
@@ -226,9 +227,6 @@ HRESULT CLevel_StageBoss::Ready_Layer_MapObject(const _wstring& strLayerTag)
 				return E_FAIL;
 			break;
 		case MAPOBJECT::SPIKE:
-			/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info)))
-				return E_FAIL;*/
 			m_SpikeInfo[SpikeIdx++] = info;
 			break;
 		default:

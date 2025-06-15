@@ -54,7 +54,7 @@ void CStageBoss_Body::Update(_float fTimeDelta)
 
 	if (m_eViewMode == VIEWMODE::TOODEE)
 	{
-		if (m_fIdleTime >= 3.f)
+		if (m_fIdleTime >= 3.f && m_eState != STAGEMONERSTATE::DAMAGE)
 		{
 			Create_Fire();
 			m_fIdleTime = 0;
@@ -71,7 +71,7 @@ void CStageBoss_Body::Update(_float fTimeDelta)
 void CStageBoss_Body::Late_Update(_float fTimeDelta)
 {
 	if (m_eState != STAGEMONERSTATE::DEAD)
-		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
 HRESULT CStageBoss_Body::Render()
@@ -86,6 +86,7 @@ HRESULT CStageBoss_Body::Render()
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
+
 	m_pVIBufferCom->Bind_Buffers();
 	m_pVIBufferCom->Render();
 
@@ -112,8 +113,6 @@ HRESULT CStageBoss_Body::Render_Parts()
 	{
 		_float4x4 localScale, localRotY, localRotOrbit, localTrans, local;
 		D3DXMatrixScaling(&localScale, parts.fScale.x, parts.fScale.y, parts.fScale.z);
-		if (m_eState == STAGEMONERSTATE::DAMAGE)
-			localScale *= 1.5f;
 		D3DXMatrixRotationY(&localRotY, D3DXToRadian(parts.fRot));
 		D3DXMatrixTranslation(&localTrans, parts.fOffset.x, parts.fOffset.y, parts.fOffset.z);
 

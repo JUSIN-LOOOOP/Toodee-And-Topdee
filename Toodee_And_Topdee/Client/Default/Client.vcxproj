@@ -175,6 +175,7 @@
     <ClInclude Include="..\Public\Client_Extension.h" />
     <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
+    <ClInclude Include="..\Public\Damaged.h" />
     <ClInclude Include="..\public\FinalTile.h" />
     <ClInclude Include="..\Public\FinalBoss.h" />
     <ClInclude Include="..\Public\ColorLight.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="..\Public\MainMenu_Spark.h" />
     <ClInclude Include="..\Public\MainMenu_StageTitle.h" />
     <ClInclude Include="..\Public\MainMenu_Title.h" />
+    <ClInclude Include="..\Public\MapCLoud.h" />
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\MultiViewCamera.h" />
     <ClInclude Include="..\Public\Part_Body.h" />
@@ -235,6 +237,7 @@
     <ClInclude Include="..\public\Player_Toodee.h" />
     <ClInclude Include="..\public\Player_Topdee.h" />
     <ClInclude Include="..\Public\Potal.h" />
+    <ClInclude Include="..\Public\PotalEffect.h" />
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\Public\RainSplash.h" />
     <ClInclude Include="..\public\RedButton.h" />
@@ -311,6 +314,7 @@
     <ClCompile Include="..\Private\CannonDust.cpp" />
     <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
+    <ClCompile Include="..\Private\Damaged.cpp" />
     <ClCompile Include="..\private\FinalTile.cpp" />
     <ClCompile Include="..\Private\FinalBoss.cpp" />
     <ClCompile Include="..\Private\ColorLight.cpp" />
@@ -354,6 +358,7 @@
     <ClCompile Include="..\Private\MainMenu_Spark.cpp" />
     <ClCompile Include="..\Private\MainMenu_StageTitle.cpp" />
     <ClCompile Include="..\Private\MainMenu_Title.cpp" />
+    <ClCompile Include="..\Private\MapCLoud.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\MultiViewCamera.cpp" />
     <ClCompile Include="..\Private\Part_Body.cpp" />
@@ -371,6 +376,7 @@
     <ClCompile Include="..\private\Player_Toodee.cpp" />
     <ClCompile Include="..\private\Player_Topdee.cpp" />
     <ClCompile Include="..\Private\Potal.cpp" />
+    <ClCompile Include="..\Private\PotalEffect.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\Private\RainSplash.cpp" />
     <ClCompile Include="..\private\RedButton.cpp" />

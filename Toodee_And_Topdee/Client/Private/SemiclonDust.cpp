@@ -36,8 +36,8 @@ void CSemiclonDust::ResetParticle(PARTICLE* attribute, void* pArg)
     attribute->_isAlive = true;
 
     _float3 pos = *static_cast<_float3*>(pArg);
-    _float3 min = { pos.x + 4.f, pos.y - 8.f, pos.z - 4.f };
-    _float3 max = { pos.x + 8.f, pos.y + 5.f, pos.z + 4.f };
+    _float3 min = { pos.x + 0.f, pos.y - 8.f, pos.z - 3.f };
+    _float3 max = { pos.x + 4.f, pos.y + 5.f, pos.z + 3.f };
 
     d3d::GetRandomVector(&attribute->_position, &min, &max);
 
@@ -58,6 +58,7 @@ void CSemiclonDust::Update(_float fTimeDelta)
 
         particle._position.x += d3d::GetRandomFloat(0.02f, 0.07f);
     }   
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 
 }
 

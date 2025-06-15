@@ -48,6 +48,9 @@
 #include "ColorLight.h"
 #include "KeyTwinkle.h"
 #include "Wind.h"
+#include "PotalEffect.h"
+#include "MapCloud.h"
+#include "Damaged.h"
 
 #include "ColliderMap_Object.h"
 
@@ -718,6 +721,9 @@ HRESULT CMainApp::Ready_Effect()
 	m_pGameInstance->Add_PSystem(CColorLight::Create(m_pGraphic_Device), TEXT("Effect_ColorLight"));
 	m_pGameInstance->Add_PSystem(CKeyTwinkle::Create(m_pGraphic_Device), TEXT("Effect_Twinkle"));
 	m_pGameInstance->Add_PSystem(CWind::Create(m_pGraphic_Device), TEXT("Effect_Wind"));
+	m_pGameInstance->Add_PSystem(CPotalEffect::Create(m_pGraphic_Device), TEXT("Effect_PotalEffect"));
+	m_pGameInstance->Add_PSystem(CMapCloud::Create(m_pGraphic_Device), TEXT("Effect_CloudEffect"));
+	m_pGameInstance->Add_PSystem(CDamaged::Create(m_pGraphic_Device), TEXT("Effect_Damaged"));
 
 	return S_OK;
 }

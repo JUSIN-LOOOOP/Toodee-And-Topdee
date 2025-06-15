@@ -42,6 +42,7 @@ private:
 	CTexture*		m_pPartsTextureCom = {  };
 	_float			m_fAngle = {};
 	_float			m_fIdleTime = {};
+	_float			m_DamagedTime = {};
 
 private:
 	PARTS_DESC		m_sParts[ENUM_CLASS(PARTS_TYPE::PARTS_END)];

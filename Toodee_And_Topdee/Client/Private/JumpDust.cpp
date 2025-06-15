@@ -61,6 +61,7 @@ void CJumpDust::Update(_float fTimeDelta)
 
         particle._position.z += d3d::GetRandomFloat(0.02f, 0.07f);
     }   
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 
 }
 

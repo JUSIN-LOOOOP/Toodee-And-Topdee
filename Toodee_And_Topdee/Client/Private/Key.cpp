@@ -91,6 +91,10 @@ void CKey::Get_Key()
 
 	m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT);
 	m_pGameInstance->PlayAudio(TEXT("KeyPickup.wav"), CHANNELID::SOUND_EFFECT, 0.5f);
+
+	_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+	m_pGameInstance->Set_Active(TEXT("Effect_CannonDust"), &pos);
+
 }
 
 HRESULT CKey::Ready_Components()
