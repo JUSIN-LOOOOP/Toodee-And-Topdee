@@ -44,7 +44,6 @@ HRESULT CPig::Initialize(void* pArg)
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
 	
-	
 	m_ePreDimension = m_pGameInstance->Get_CurrentDimension();
 	if (m_ePreDimension == DIMENSION::TOODEE)
 	{

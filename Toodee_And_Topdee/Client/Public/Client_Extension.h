@@ -34,7 +34,7 @@ inline const _uint Stage_ColliderCount(LEVEL eLevel)
 	if (eLevel == LEVEL::LEVEL_STAGE4) return 22;	//LEVEL_STAGE4
 	if (eLevel == LEVEL::LEVEL_STAGE5) return 8;  //LEVEL_STAGE5
 	if (eLevel == LEVEL::LEVEL_STAGE6) return 29;  //LEVEL_STAGE6
-	if (eLevel == LEVEL::LEVEL_FINALBOSS1) return 9;  //LEVEL_FINALBOSS1
+	if (eLevel == LEVEL::LEVEL_FINALBOSS1) return 10;  //LEVEL_FINALBOSS1
 	if (eLevel == LEVEL::LEVEL_FINALBOSS2) return 6;  //LEVEL_FINALBOSS1
 	if (eLevel == LEVEL::LEVEL_FINALBOSS3) return 10;  //LEVEL_FINALBOSS1
 
@@ -406,7 +406,8 @@ inline const pair<_float3, _float3> FinalBoss1_ColliderInfo(_uint iNum)
 		{ -68.f,	1.f,	-9.f	},
 		{ -36.f,	1.f,	-9.f	},
 		{	0.f,	1.f,	-10.f	},
-		{ 58.f,		1.f,	-8.f	},
+		{ 58.f,		1.f,	-9.f	},
+		{ 94.f,		1.f,	-8.f	},
 		{  0.f,		1.f,	13.f	},
 
 		{-115.f,	1.f,	0.f		},
@@ -419,6 +420,7 @@ inline const pair<_float3, _float3> FinalBoss1_ColliderInfo(_uint iNum)
 		{	4.f,	2.f,	6.f		},
 		{	4.f,	2.f,	6.f		},
 		{	4.f,	2.f,	4.f		},
+		{	4.f,	2.f,	6.f		},
 		{	4.f,	2.f,	8.f		},
 		{	230.f,	2.f,	2.f		},
 
