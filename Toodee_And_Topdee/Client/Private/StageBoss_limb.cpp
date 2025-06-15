@@ -126,6 +126,9 @@ HRESULT CStageBoss_limb::HIT(_float fTimeDelta)
         SHAKING Event;
         Event.fTime = .5f;
         m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::CAM_SHAKING, Event);
+
+        m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT4);
+        m_pGameInstance->PlayAudio(TEXT("StageBoss_Attack.wav"), CHANNELID::SOUND_EFFECT4, 0.7f);
     }
 
     return S_OK;

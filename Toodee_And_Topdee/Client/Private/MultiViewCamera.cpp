@@ -35,7 +35,7 @@ HRESULT CMultiViewCamera::Initialize(void* pArg)
 
     m_bType = (m_pGameInstance->Get_CurrentDimension() == DIMENSION::TOODEE) ? CAM_TYPE::TOP : m_bType = CAM_TYPE::QURTER;
 
-    CameraTestMoveInitialize();
+    //CameraTestMoveInitialize();
     m_pGameInstance->Subscribe<CHANGECAM>(m_pGameInstance->Get_NextLevelID(), EVENT_KEY::CHANGE_CAM, [this](const CHANGECAM& Event) {
         this->SetViewFlag(); });
 

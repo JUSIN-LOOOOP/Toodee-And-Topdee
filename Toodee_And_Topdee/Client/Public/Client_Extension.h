@@ -208,7 +208,7 @@ inline const pair<_float3, _float3> StageBoss_ColliderInfo(_uint iNum)
 		/* 가로 벽*/
 		{0.f,		1.f,	-17.f},
 		{-25.f,		1.f,	9.f},
-		{25.f,		1.f,	9.f},
+		{26.f,		1.f,	9.f},
 		{0.f,		1.f,	17.f},
 
 		/* 세로 벽*/
@@ -220,7 +220,7 @@ inline const pair<_float3, _float3> StageBoss_ColliderInfo(_uint iNum)
 	static const _float3 Scale[] = {
 		{	64.f,	2.f,	2.f	},
 		{	10.f,	2.f,	2.f },
-		{	6.f,	2.f,	2.f },
+		{	8.f,	2.f,	2.f },
 		{	64.f,	2.f,	2.f	},
 
 		{	2.f,	2.f,	32.f},
