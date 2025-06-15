@@ -396,6 +396,18 @@
     <ClCompile Include="..\private\GiantHand.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Thirdee_Ending.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Toodoo_Ending.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Ending.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Ending_Flash.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+     </ClCompile>
     <ClCompile Include="..\Private\BackRock.cpp">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
     </ClCompile>
@@ -821,6 +833,18 @@
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GiantHand.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Thirdee_Ending.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Toodoo_Ending.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Ending.h">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Ending_Flash.h">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BackRock.h">

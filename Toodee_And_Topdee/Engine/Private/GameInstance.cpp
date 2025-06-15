@@ -360,6 +360,13 @@ void CGameInstance::PlayAudio(const TCHAR* pSoundKey, CHANNELID eID, float fVolu
 	m_pSound_Manager->PlayAudio(pSoundKey, eID, fVolume);
 }
 
+void CGameInstance::PlayLoop(const TCHAR* pSoundKey, CHANNELID eID, float fVolume)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+	m_pSound_Manager->PlayLoop(pSoundKey, eID, fVolume);
+}
+
 void CGameInstance::PlayBGM(const TCHAR* pSoundKey, float fVolume)
 {
 	if (nullptr == m_pSound_Manager)

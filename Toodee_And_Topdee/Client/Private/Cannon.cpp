@@ -178,6 +178,9 @@ void CCannon::Shooting(_float fTimeDelta)
             pProjectile->Initialize_Pool(&info);
 
         m_pGameInstance->Set_Active(TEXT("Effect_CannonDust"), &pos);
+
+        m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT2);
+        m_pGameInstance->PlayAudio(TEXT("Fireball.mp3"), CHANNELID::SOUND_EFFECT2, 0.2f);
     }
     else
         m_fAccumulateShootingTime += fTimeDelta;

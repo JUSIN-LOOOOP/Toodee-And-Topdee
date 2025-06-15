@@ -61,13 +61,17 @@ private:
 
 	_uint					m_iLevel = {};
 
+	//비 사운드용
+	CTransform* 			m_pTransformCom_Topdee = { nullptr };
+	_bool					m_bOnceLightningSound = { false };
+
 private:
 	void					Compute_CrashSite(_float fTimeDelta);
 	void					Collider_Position_Initailize();
 	void					SpawnRain(_float fTimeDelta);
 	void					SpawnRainSplash(_float fTimeDelta);
 	void					SpawnLightning(_float fTimeDelta);
-
+	void					PlaySound();
 
 
 private:

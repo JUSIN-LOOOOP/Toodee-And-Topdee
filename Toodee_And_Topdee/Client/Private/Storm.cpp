@@ -35,6 +35,10 @@ HRESULT CStorm::Initialize(void* pArg)
 	if (m_pCamera == nullptr) return E_FAIL;
 	Safe_AddRef(m_pCamera);
 
+	/* Get Topdee Transform*/
+	m_pTransformCom_Topdee = dynamic_cast<CTransform*>(m_pGameInstance->Find_Component(m_pGameInstance->Get_NextLevelID(), TEXT("Player_TopDee"), TEXT("Com_Transform"), 0));
+	if (m_pTransformCom_Topdee == nullptr) return E_FAIL;
+	Safe_AddRef(m_pTransformCom_Topdee);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -57,6 +61,8 @@ HRESULT CStorm::Initialize(void* pArg)
 		m_LightningSpawnTime[i] = { 1.f,  0.f };
 	}
 
+	m_pGameInstance->StopSound(CHANNELID::SOUND_LOOP);
+	m_pGameInstance->PlayLoop(TEXT("Rain.mp3"), CHANNELID::SOUND_LOOP, 0.1f);
 
 	m_iLevel = m_pGameInstance->Get_NextLevelID();
 	return S_OK;
@@ -68,6 +74,8 @@ void CStorm::Priority_Update(_float fTimeDelta)
 
 void CStorm::Update(_float fTimeDelta)
 {
+	PlaySound();
+
 	DIMENSION dimension = { m_pGameInstance->Get_CurrentDimension() };
 	if (dimension != m_eDimension)
 	{
@@ -328,6 +336,35 @@ void CStorm::SpawnLightning(_float fTimeDelta)
 
 }
 
+void CStorm::PlaySound()
+{
+	_float3 vPlayerPos = m_pTransformCom_Topdee->Get_State(STATE::POSITION);
+	_float3	vDistance = vPlayerPos - m_pCloudTransformCom->Get_State(STATE::POSITION);
+	_float fDistance = D3DXVec3Length(&vDistance);
+
+	if (fDistance < 10.f) { 
+		m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.9f); 
+		m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM, 0.2f);
+		if (!m_bOnceLightningSound) {
+				m_bOnceLightningSound = true;
+				m_pGameInstance->StopSound(CHANNELID::SOUND_EFFECT4);
+				m_pGameInstance->PlayAudio(TEXT("Lightning.mp3"), CHANNELID::SOUND_EFFECT4, 1.f);
+		}
+	}
+	else if (fDistance < 20.f) 
+	{
+		m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.85f);
+		m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM, 0.25f);
+	}
+	else if (fDistance < 30.f)	{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.5f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.3f);	}
+	else if (fDistance < 40.f)	{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.5f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.3f);	}
+	else if (fDistance < 50.f)	{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.3f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.5f);	}
+	else if (fDistance < 60.f)	{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.2f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.5f);	}
+	else						{m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_LOOP, 0.1f); m_pGameInstance->SetChannelVolume(CHANNELID::SOUND_BGM,0.5f);	}
+
+
+}
+
 HRESULT CStorm::Ready_Components()
  {
 	for (_uint i = 0; i < 3; ++i)
@@ -388,6 +425,8 @@ CGameObject* CStorm::Clone(void* pArg)
 
 void CStorm::Free()
 {
+	m_pGameInstance->StopSound(CHANNELID::SOUND_LOOP);
+
 	__super::Free();
 
 	for (_uint i = 0; i < 3; ++i)
@@ -395,7 +434,7 @@ void CStorm::Free()
 		Safe_Release(m_pColliderCom[i]);
 		Safe_Release(m_pTransformCom[i]);
 	}
-
+	Safe_Release(m_pTransformCom_Topdee);
 	Safe_Release(m_pCloudTransformCom);
 	Safe_Release(m_pCamera);
 	

@@ -13,6 +13,7 @@ CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphicDev)
 
 HRESULT CLevel_Logo::Initialize()
 {
+
 	/* 현재 레벨을 구성해주기 위한 객체들을 생성한다. */
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
@@ -31,6 +32,10 @@ HRESULT CLevel_Logo::Initialize()
 		return E_FAIL;
 	if (FAILED(Ready_Layer_StageTitle(TEXT("Layer_StageTitle"))))
 		return E_FAIL;
+
+	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
+  m_pGameInstance->PlayBGM(L"MainMenuBGM.ogg", 0.5f);
+
 
     return S_OK;
 }
