@@ -453,21 +453,6 @@ HRESULT CGameInstance::DrawFont(const _wstring& strFontTag, const _tchar* pDrawT
 {
 	return m_pFont_Manager->DrawFont(strFontTag, pDrawText, pRect, dwColor);
 }
-void CGameInstance::Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag)
-{
-	m_pEffect_Manager->Add_PSystem(pPSystem, strEffectTag);
-}
-
-void CGameInstance::Set_Active(const _wstring& strEffectTag, void* pArg)
-{
-	m_pEffect_Manager->Set_Active(strEffectTag, pArg);
-}
-
-void CGameInstance::Set_Stop(const _wstring& strEffectTag, void* pArg)
-{
-	m_pEffect_Manager->Set_Stop(strEffectTag,pArg);
-}
-
 #pragma endregion
 
 
@@ -505,7 +490,7 @@ void CGameInstance::Release_Engine()
 {
 	Release();
 
-	/*오브젝트가 사용하는 의존성들 먼저 유지하고 오브젝트 먼저 해제할게요*/
+	/* 오브젝트가 사용하는 의존성들 먼저 유지하고 오브젝트 먼저 해제할게요 */
 	Safe_Release(m_pEventBus);
 	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pObject_Manager);
