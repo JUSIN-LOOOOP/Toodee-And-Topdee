@@ -94,56 +94,60 @@ HRESULT CLoadingScreen::Render()
 void CLoadingScreen::OnStartScreen(const LOADINGSCREEN_EVENT& event)
 {
 
-	if (m_pGameInstance->Get_NextLevelID() >= ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1)) return;
-
-	m_bFadeIn = event.bFadeIn;
-
-	m_vPosition = event.vPos;
-
-	if (m_bFadeIn)
+	if (m_pGameInstance->Get_NextLevelID() >= ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1))
 	{
-		m_bStartScreen = true;
-		m_bEndScreen = false;
-		m_iframeKey = 0;
+		m_bFadeIn = event.bFadeIn;
+
+		m_vPosition = event.vPos;
+
+		if (m_bFadeIn)
+		{
+			m_bStartScreen = true;
+			m_bEndScreen = false;
+			m_iframeKey = 0;
+		}
+		else
+		{
+			m_bStartScreen = false;
+			m_bEndScreen = true;
+			m_iframeKey = 12;
+		}
+
+		m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
+		m_pTransformCom->Set_State(STATE::POSITION, m_vPosition);
+		m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
+		m_pTransformCom->Bind_Matrix();
+
+		m_fAccumurateTime = 0.f;
+		m_FadeAccumurateTime = 0.f;
 	}
 	else
 	{
-		m_bStartScreen = false;
-		m_bEndScreen = true;
-		m_iframeKey = 12;
+		m_bFadeIn = event.bFadeIn;
+
+		m_vPosition = event.vPos;
+
+		if (m_bFadeIn)
+		{
+			m_bStartScreen = true;
+			m_bEndScreen = false;
+			m_iframeKey = 0;
+		}
+		else
+		{
+			m_bStartScreen = false;
+			m_bEndScreen = true;
+			m_iframeKey = 12;
+		}
+
+		m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
+		m_pTransformCom->Set_State(STATE::POSITION, m_vPosition);
+		m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
+		m_pTransformCom->Bind_Matrix();
+
+		m_fAccumurateTime = 0.f;
+		m_FadeAccumurateTime = 0.f;
 	}
-
-	//D3DXMATRIX viewMatrix, cameraMatrix;
-	//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &viewMatrix);
-	//D3DXMatrixInverse(&cameraMatrix, nullptr, &viewMatrix);
-	//m_pTransformCom->Set_Matrix(cameraMatrix);
-
-	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-	m_pTransformCom->Set_State(STATE::POSITION, m_vPosition);
-	m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
-	m_pTransformCom->Bind_Matrix();
-
-	//_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
-	//m_vPosition = pos;
-
-	//if (m_pGameInstance->Get_NextLevelID() <  ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1))
-	//{
-	//	m_pTransformCom->Scaling(1.f,1.f,1.f);
-	//	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
-	//	m_pTransformCom->Set_State(STATE::POSITION, m_vPosition);
-	//}
-	//else
-	//{
-	//	//m_pTransformCom->Scaling(m_vScale.x, m_vScale.y, m_vScale.z);
-	//	m_pTransformCom->Scaling(1.f, 1.f, 1.f);
-
-	//	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
-	//	m_vPosition.y -= 10.f;
-	//	m_pTransformCom->Set_State(STATE::POSITION, m_vPosition);
-	//}
-
-	m_fAccumurateTime = 0.f;
-	m_FadeAccumurateTime = 0.f;
 }
 
 void CLoadingScreen::Motion_Change(_float fTimeDelta)

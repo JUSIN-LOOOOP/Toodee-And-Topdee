@@ -107,7 +107,7 @@ void CSpeechBallon::Update(_float fTimeDelta)
 		}
 	}
 	m_fSizeX = 60.f;
-	m_fSizeX += m_iCurrentTextLength * 11.f;
+	m_fSizeX += m_iCurrentTextLength * 13.f;
 }
 
 void CSpeechBallon::Late_Update(_float fTimeDelta)
