@@ -41,7 +41,7 @@ namespace Engine
 		LOADINGSCREEN,
 		FINALBOSS_ATTACK,
 		PLAYERS_POSITION,
-
+		SPEECH
 	};
 	
 

@@ -380,7 +380,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\PlayerChagneEffect.cpp">
       <Filter>02. GameObjects\Player\06. ChangeEffect</Filter>
-   </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Sink.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
@@ -407,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Ending_Flash.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpeechBallon.cpp">
+      <Filter>00. Dummys\K J H</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -831,6 +834,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Ending_Flash.h">
       <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpeechBallon.h">
+      <Filter>00. Dummys\K J H</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
