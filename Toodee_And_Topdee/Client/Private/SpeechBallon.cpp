@@ -62,6 +62,11 @@ void CSpeechBallon::Update(_float fTimeDelta)
 	if (m_iCurrentSpeechNumber != m_iSpeechNumber)
 		return;
 
+	m_fDealyTime += fTimeDelta;
+
+	if (m_iSpeechNumber == 1 && m_fDealyTime < 3.f)
+		return;
+
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > 0.06f)
@@ -93,6 +98,9 @@ void CSpeechBallon::Late_Update(_float fTimeDelta)
 
 HRESULT CSpeechBallon::Render()
 {
+	if (m_iSpeechNumber == 1 && m_fDealyTime < 3.f)
+		return S_OK;
+
 	if (FAILED(__super::Begin(m_pTransformCom)))
 		return E_FAIL;
 

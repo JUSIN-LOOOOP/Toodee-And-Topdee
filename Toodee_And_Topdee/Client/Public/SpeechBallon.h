@@ -53,8 +53,8 @@ private:
 	D3DCOLOR	m_dwColor = {};
 
 	_float		m_fTime = {};
-
-
+	_float		m_fDealyTime = {};
+	
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
