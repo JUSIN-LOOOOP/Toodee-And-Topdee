@@ -33,7 +33,7 @@ HRESULT CFont::Initialize(FONT_DESC* pFontDesc)
 void CFont::DrawFont(const _tchar* pDrawText, LPRECT pRect, D3DCOLOR dwColor)
 {
     m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
-    m_pFont->DrawTextW(m_pSprite, pDrawText, -1, pRect, DT_LEFT|DT_TOP, dwColor);
+    m_pFont->DrawTextW(m_pSprite, pDrawText, -1, pRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE, dwColor);
     m_pSprite->End();
 }
 
