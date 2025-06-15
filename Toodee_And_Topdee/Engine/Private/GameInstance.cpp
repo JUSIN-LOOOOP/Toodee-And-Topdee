@@ -75,6 +75,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pEffect_Manager)
 		return E_FAIL;
 
+	m_pFont_Manager = CFontManager::Create();
+	if (nullptr == m_pEffect_Manager)
+		return E_FAIL;
+
     return S_OK;
 }
 
@@ -439,6 +443,16 @@ void CGameInstance::Set_Stop(const _wstring& strEffectTag, void* pArg)
 	m_pEffect_Manager->Set_Stop(strEffectTag,pArg);
 }
 
+HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, CFont* pFont)
+{
+	return m_pFont_Manager->Add_Font(strFontTag, pFont);
+}
+
+HRESULT CGameInstance::DrawFont(const _wstring& strFontTag, const _tchar* pDrawText, LPRECT pRect, D3DCOLOR dwColor)
+{
+	return m_pFont_Manager->DrawFont(strFontTag, pDrawText, pRect, dwColor);
+}
+
 #pragma endregion
 
 
@@ -478,6 +492,7 @@ void CGameInstance::Release_Engine()
 
 	/*오브젝트가 사용하는 의존성들 먼저 유지하고 오브젝트 먼저 해제할게요*/
 	Safe_Release(m_pEventBus);
+	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pCollision_Manager);
