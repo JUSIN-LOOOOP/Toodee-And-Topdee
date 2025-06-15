@@ -53,6 +53,10 @@ HRESULT CUIObject::Render()
 
 HRESULT CUIObject::Begin(CTransform* pTransform)
 {
+	_float4x4 WorldMatrix = *pTransform->Get_WorldMatrix();
+	D3DXMatrixIdentity(&WorldMatrix);
+	pTransform->Set_WorldMatrix(WorldMatrix);
+
 	pTransform->Scaling(m_fSizeX, m_fSizeY, 1.f);
 	pTransform->Set_State(STATE::POSITION, _float3(
 		m_fX - m_fWinSizeX * 0.5f,

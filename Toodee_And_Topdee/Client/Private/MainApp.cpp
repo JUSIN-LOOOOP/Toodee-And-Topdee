@@ -317,7 +317,7 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 
 	/* Prototype_Component_Texture_Backdrop */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Backdrop"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Backdrop%d.png"), 4))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Backdrop%d.png"), 5))))
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackTile */
