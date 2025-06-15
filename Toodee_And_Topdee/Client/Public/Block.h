@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Cube;
+class CVIBuffer_DiffuseCube;
 class CCollider;
 END
 
@@ -28,6 +29,29 @@ public:
 
 	_float ComputeDirDotLook(const _float3& vPlayerPosition, const _float3& vLook);
 	
+	/* Shadow*/
+protected:
+	CVIBuffer_DiffuseCube* m_VIBufferCom_Diffuse = nullptr;
+	_float4x4				m_matrixShadow = {};
+
+	/* switching - camera angle */
+	_float					m_fToodeeAngle = { 390.f };
+	_float					m_fTopdeeAngle = { 210.f };
+	_float					m_fCurAngle = { };
+
+	_float					m_fToodeeLightDirY = { 1.8f };
+	_float					m_fTopdeeLightDirY= { 1.6f };
+	_float					m_fCurLightY = { };
+
+	_bool					m_bCameraChange = { false };
+	_bool					m_bComputeComplete = { false };
+	DIMENSION				m_ePreDimension = { DIMENSION::NONE };
+
+	/* Shadow*/
+protected:
+	HRESULT		Render_Shadow();
+	void		Compute_MatrixShadow();
+
 protected:
 	/* Component */
 	CVIBuffer_Cube*		m_pVIBufferCom = { nullptr };

@@ -72,6 +72,12 @@ HRESULT CBlock_Metal::Render()
 
 HRESULT CBlock_Metal::Ready_Components()
 {
+
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_DiffuseCube"),
+		TEXT("Com_VIBuffer2"), reinterpret_cast<CComponent**>(&m_VIBufferCom_Diffuse))))
+		return E_FAIL;
+
 	/* For.Com_VIBuffer*/
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Cube"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
