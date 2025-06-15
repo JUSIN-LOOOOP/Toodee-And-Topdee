@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\BackCloud.h" />
     <ClInclude Include="..\Public\Backdrop.h" />
+    <ClInclude Include="..\Public\BackRock.h" />
     <ClInclude Include="..\Public\BackTile.h" />
     <ClInclude Include="..\Public\BackWall.h" />
     <ClInclude Include="..\Public\BasicTile.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
     <ClInclude Include="..\public\Ending_Flash.h" />
+    <ClInclude Include="..\Public\Damaged.h" />
     <ClInclude Include="..\public\FinalTile.h" />
     <ClInclude Include="..\Public\FinalBoss.h" />
     <ClInclude Include="..\Public\ColorLight.h" />
@@ -192,6 +194,7 @@
     <ClInclude Include="..\Public\Key.h" />
     <ClInclude Include="..\Public\KeyTwinkle.h" />
     <ClInclude Include="..\Public\Leaves.h" />
+    <ClInclude Include="..\Public\Level_Dialogue.h" />
     <ClInclude Include="..\public\Level_Ending.h" />
     <ClInclude Include="..\Public\Level_FinalBoss01.h" />
     <ClInclude Include="..\Public\Level_FinalBoss02.h" />
@@ -219,6 +222,7 @@
     <ClInclude Include="..\Public\MainMenu_Spark.h" />
     <ClInclude Include="..\Public\MainMenu_StageTitle.h" />
     <ClInclude Include="..\Public\MainMenu_Title.h" />
+    <ClInclude Include="..\Public\MapCLoud.h" />
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\MultiViewCamera.h" />
     <ClInclude Include="..\Public\Part_Body.h" />
@@ -236,6 +240,7 @@
     <ClInclude Include="..\public\Player_Toodee.h" />
     <ClInclude Include="..\public\Player_Topdee.h" />
     <ClInclude Include="..\Public\Potal.h" />
+    <ClInclude Include="..\Public\PotalEffect.h" />
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\Public\RainSplash.h" />
     <ClInclude Include="..\public\RedButton.h" />
@@ -243,6 +248,8 @@
     <ClInclude Include="..\Public\Semicolon.h" />
     <ClInclude Include="..\Public\ShotDust.h" />
     <ClInclude Include="..\Public\Sink.h" />
+    <ClInclude Include="..\public\Small_Toodoo.h" />
+    <ClInclude Include="..\Public\SpeechBallon.h" />
     <ClInclude Include="..\public\SpikeHole.h" />
     <ClInclude Include="..\Public\Spikes.h" />
     <ClInclude Include="..\Public\StageBoss.h" />
@@ -279,6 +286,7 @@
     <ClInclude Include="..\Public\WallParts.h" />
     <ClInclude Include="..\Public\Water.h" />
     <ClInclude Include="..\Public\WaterSplash.h" />
+    <ClInclude Include="..\Public\Wind.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -287,6 +295,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\BackCloud.cpp" />
     <ClCompile Include="..\Private\Backdrop.cpp" />
+    <ClCompile Include="..\Private\BackRock.cpp" />
     <ClCompile Include="..\Private\BackTile.cpp" />
     <ClCompile Include="..\Private\BackWall.cpp" />
     <ClCompile Include="..\Private\BasicTile.cpp" />
@@ -313,6 +322,7 @@
     <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
     <ClCompile Include="..\private\Ending_Flash.cpp" />
+    <ClCompile Include="..\Private\Damaged.cpp" />
     <ClCompile Include="..\private\FinalTile.cpp" />
     <ClCompile Include="..\Private\FinalBoss.cpp" />
     <ClCompile Include="..\Private\ColorLight.cpp" />
@@ -330,6 +340,7 @@
     <ClCompile Include="..\Private\Key.cpp" />
     <ClCompile Include="..\Private\KeyTwinkle.cpp" />
     <ClCompile Include="..\Private\Leaves.cpp" />
+    <ClCompile Include="..\Private\Level_Dialogue.cpp" />
     <ClCompile Include="..\private\Level_Ending.cpp" />
     <ClCompile Include="..\Private\Level_FinalBoss01.cpp" />
     <ClCompile Include="..\Private\Level_FinalBoss02.cpp" />
@@ -357,6 +368,7 @@
     <ClCompile Include="..\Private\MainMenu_Spark.cpp" />
     <ClCompile Include="..\Private\MainMenu_StageTitle.cpp" />
     <ClCompile Include="..\Private\MainMenu_Title.cpp" />
+    <ClCompile Include="..\Private\MapCLoud.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\MultiViewCamera.cpp" />
     <ClCompile Include="..\Private\Part_Body.cpp" />
@@ -374,6 +386,7 @@
     <ClCompile Include="..\private\Player_Toodee.cpp" />
     <ClCompile Include="..\private\Player_Topdee.cpp" />
     <ClCompile Include="..\Private\Potal.cpp" />
+    <ClCompile Include="..\Private\PotalEffect.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\Private\RainSplash.cpp" />
     <ClCompile Include="..\private\RedButton.cpp" />
@@ -381,6 +394,8 @@
     <ClCompile Include="..\Private\Semicolon.cpp" />
     <ClCompile Include="..\Private\ShotDust.cpp" />
     <ClCompile Include="..\Private\Sink.cpp" />
+    <ClCompile Include="..\private\Small_Toodoo.cpp" />
+    <ClCompile Include="..\Private\SpeechBallon.cpp" />
     <ClCompile Include="..\private\SpikeHole.cpp" />
     <ClCompile Include="..\Private\Spikes.cpp" />
     <ClCompile Include="..\Private\StageBoss.cpp" />
@@ -417,6 +432,7 @@
     <ClCompile Include="..\Private\WallParts.cpp" />
     <ClCompile Include="..\Private\Water.cpp" />
     <ClCompile Include="..\Private\WaterSplash.cpp" />
+    <ClCompile Include="..\Private\Wind.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

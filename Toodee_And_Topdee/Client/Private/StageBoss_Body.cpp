@@ -34,7 +34,7 @@ HRESULT CStageBoss_Body::Initialize_Prototype(void* pArg)
 	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 	Ready_SubscribeEvent(m_iPlayLevel);
 	m_fInitPos = m_pTransformCom->Get_State(STATE::POSITION);
-	name = TEXT("WallBoss");
+	name = TEXT("BossWall");
 
 	return S_OK;
 }
@@ -54,7 +54,7 @@ void CStageBoss_Body::Update(_float fTimeDelta)
 
 	if (m_eViewMode == VIEWMODE::TOODEE)
 	{
-		if (m_fIdleTime >= 3.f)
+		if (m_fIdleTime >= 3.f && m_eState != STAGEMONERSTATE::DAMAGE)
 		{
 			Create_Fire();
 			m_fIdleTime = 0;
@@ -70,12 +70,18 @@ void CStageBoss_Body::Update(_float fTimeDelta)
 
 void CStageBoss_Body::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+	if (m_eState != STAGEMONERSTATE::DEAD)
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
 HRESULT CStageBoss_Body::Render()
 {
+
 	Render_Shadow();
+
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return S_OK;
+
 	if (FAILED(m_pColliderCom->Render()))
 		return E_FAIL;
 
@@ -83,6 +89,7 @@ HRESULT CStageBoss_Body::Render()
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
+
 	m_pVIBufferCom->Bind_Buffers();
 	m_pVIBufferCom->Render();
 
@@ -205,7 +212,7 @@ HRESULT CStageBoss_Body::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(8.f, 8.f, 8.f);		//ÀÓ½Ã
+	ColliderDesc.vColliderScale = _float3(10.f, 10.f, 10.f);		//Ã€Ã“Â½Ãƒ
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
 
@@ -314,14 +321,14 @@ HRESULT CStageBoss_Body::Render_Shadow()
 
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_matrixShadow);
 
-	//ÅØ½ºÃ³ ½ºÅ×ÀÌÁö »óÅÂ ¹é¾÷
+	//Ã…Ã˜Â½ÂºÃƒÂ³ Â½ÂºÃ…Ã—Ã€ÃŒÃÃ¶ Â»Ã³Ã…Ã‚ Â¹Ã©Â¾Ã·
 	DWORD oldColorOp, oldColorArg1, oldAlphaOp, oldAlphaArg1;
 	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLOROP, &oldColorOp);
 	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLORARG1, &oldColorArg1);
 	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAOP, &oldAlphaOp);
 	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAARG1, &oldAlphaArg1);
 
-	//·»´õ »óÅÂ ¹é¾÷
+	//Â·Â»Â´Ãµ Â»Ã³Ã…Ã‚ Â¹Ã©Â¾Ã·
 	DWORD oldAlphaEnable, oldSrcBlend, oldDestBlend, oldZWrite, oldLighting;
 	m_pGraphic_Device->GetRenderState(D3DRS_ALPHABLENDENABLE, &oldAlphaEnable);
 	m_pGraphic_Device->GetRenderState(D3DRS_SRCBLEND, &oldSrcBlend);
@@ -329,7 +336,7 @@ HRESULT CStageBoss_Body::Render_Shadow()
 	m_pGraphic_Device->GetRenderState(D3DRS_ZWRITEENABLE, &oldZWrite);
 	m_pGraphic_Device->GetRenderState(D3DRS_LIGHTING, &oldLighting);
 
-	//½ºÅÙ½Ç ¹öÆÛ
+	//Â½ÂºÃ…Ã™Â½Ã‡ Â¹Ã¶Ã†Ã›
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILREF, 0x0);
@@ -340,7 +347,7 @@ HRESULT CStageBoss_Body::Render_Shadow()
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);
 
 
-	//±×¸²ÀÚ ·»´õ ¼³Á¤
+	//Â±Ã—Â¸Â²Ã€Ãš Â·Â»Â´Ãµ Â¼Â³ÃÂ¤
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -352,11 +359,11 @@ HRESULT CStageBoss_Body::Render_Shadow()
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TFACTOR);
 
-	// ±×¸²ÀÚ ·»´õ¸µ
+	// Â±Ã—Â¸Â²Ã€Ãš Â·Â»Â´ÃµÂ¸Âµ
 	m_VIBufferCom_Diffuse->Bind_Buffers();
 	m_VIBufferCom_Diffuse->Render();
 
-	//¿øº¹
+	//Â¿Ã¸ÂºÂ¹
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, oldColorOp);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, oldColorArg1);

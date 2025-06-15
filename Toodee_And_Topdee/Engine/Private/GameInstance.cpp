@@ -75,6 +75,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pEffect_Manager)
 		return E_FAIL;
 
+	m_pFont_Manager = CFontManager::Create();
+	if (nullptr == m_pEffect_Manager)
+		return E_FAIL;
+
     return S_OK;
 }
 
@@ -255,7 +259,7 @@ CGameObject* CGameInstance::Get_Ready_BackGameObject( const _wstring& strLayerTa
 
 #pragma region RENDERER
 
-HRESULT CGameInstance::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
+HRESULT CGameInstance::Add_RenderGroup(RENDERGROUP eRenderGroup, CBase* pRenderObject)
 {
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
@@ -439,6 +443,17 @@ void CGameInstance::Set_Stop(const _wstring& strEffectTag, void* pArg)
 	m_pEffect_Manager->Set_Stop(strEffectTag,pArg);
 }
 
+
+HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, CFont* pFont)
+{
+	return m_pFont_Manager->Add_Font(strFontTag, pFont);
+}
+
+HRESULT CGameInstance::DrawFont(const _wstring& strFontTag, const _tchar* pDrawText, LPRECT pRect, D3DCOLOR dwColor)
+{
+	return m_pFont_Manager->DrawFont(strFontTag, pDrawText, pRect, dwColor);
+}
+
 #pragma endregion
 
 
@@ -476,8 +491,10 @@ void CGameInstance::Release_Engine()
 {
 	Release();
 
-	/*¿ÀºêÁ§Æ®°¡ »ç¿ëÇÏ´Â ÀÇÁ¸¼ºµé ¸ÕÀú À¯ÁöÇÏ°í ¿ÀºêÁ§Æ® ¸ÕÀú ÇØÁ¦ÇÒ°Ô¿ä*/
+	/* ì˜¤ë¸Œì íŠ¸ê°€ ì‚¬ìš©í•˜ëŠ” ì˜ì¡´ì„±ë“¤ ë¨¼ì € ìœ ì§€í•˜ê³  ì˜¤ë¸Œì íŠ¸ ë¨¼ì € í•´ì œí• ê²Œìš” */
+
 	Safe_Release(m_pEventBus);
+	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pCollision_Manager);

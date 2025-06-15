@@ -13,8 +13,8 @@ CCannonDust::CCannonDust(const CCannonDust& Prototype)
 
 HRESULT CCannonDust::Initialize()
 {
-    m_fSize = 1.f;
-    m_iChunk = 3;
+    m_fSize = 1.5f;
+    m_iChunk = 4;
 
     for (_uint i = 0; i < 20; i++)
     {
@@ -36,8 +36,8 @@ void CCannonDust::ResetParticle(PARTICLE* attribute, void* pArg)
     attribute->_isAlive = true;
 
     _float3 pos = *static_cast<_float3*>(pArg);
-    _float3 min = { pos.x - .5f, pos.y - .5f, pos.z - .5f };
-    _float3 max = { pos.x + .5f, pos.y + .5f, pos.z + .5f };
+    _float3 min = { pos.x - 0.75f, pos.y - 0.75f, pos.z - 0.75f };
+    _float3 max = { pos.x + 0.75f, pos.y + 0.75f, pos.z + 0.75f };
 
     d3d::GetRandomVector(&attribute->_position, &min, &max);
 
@@ -54,11 +54,12 @@ void CCannonDust::Update(_float fTimeDelta)
 
     for (auto& particle : m_Particles)
     {
-        particle._size *= 0.9;
+        particle._size *= 0.9f;
 
         if (particle._size * m_fSize < 0.1f)
             particle._isAlive = false;
     }
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 
 }
 

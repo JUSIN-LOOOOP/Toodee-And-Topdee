@@ -49,6 +49,8 @@ private :
 	_uint						m_iPlayLevel	= {};
 	CVIBuffer_Rect*				m_pVIBufferCom	= { nullptr };
 	CTexture*					m_pTextureCom	= { nullptr };
+	_uint						m_iDeadCount = 0;
+	_float						m_fNonDamagedTime = 0.f;
 
 private :
 	HRESULT						Ready_SubscribeEvent(_uint iPlayerLevel);
@@ -59,6 +61,7 @@ private :
 	HRESULT						Begin_RenderState();
 	HRESULT						End_RenderState();
 	void						isFinish();
+	void						isDamaged();
 
 public:
 	static CStageBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

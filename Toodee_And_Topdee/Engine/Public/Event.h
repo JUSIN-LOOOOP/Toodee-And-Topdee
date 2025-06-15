@@ -44,9 +44,13 @@ typedef struct tagMonsterSignal : public CEvent {
 	_uint iViewMode;
 }MONSTERSIGNAL;
 
+typedef struct tagBossDamaged : public CEvent {
+}MONSTERDAMAGED;
+
 /* CHANGE_CAMERA */
 typedef struct tagChangeCam : public CEvent {
 }CHANGECAM;
+
 
 typedef struct tagSinkBlock : public CEvent {
 }SINKBLOCKEVENT;
@@ -80,7 +84,7 @@ typedef struct tagMainMenuStageSelectNumber : public CEvent {
 
 /* CamShaking */
 typedef struct tagCamShaking : public CEvent {
-	_uint fTime;
+	_float fTime;
 }SHAKING;
 
 /* LoadingScreen StartPosition*/
@@ -94,6 +98,9 @@ typedef struct tagFinalBossAttack : public CEvent {
 	_bool	bIsAttacking;
 }FIANLBOSSATTACK_EVENT;
 
+/* FinalBoss ResetBlcok*/
+typedef struct tagFinalBossReset : public CEvent {
+}FIANLBOSSRESET_EVENT;
 
 /* Players(topdee- toodee Position */
 typedef struct tagPlayersPosition : public CEvent {
@@ -101,6 +108,16 @@ typedef struct tagPlayersPosition : public CEvent {
 	class CTransform* pTransformToodee;
 	class CTransform* pTransformTopdee;
 }PLAYERSPOSITION_EVENT;
+
+
+/* FinalBoss ResetBlcok*/
+typedef struct tagRemoveSpike : public CEvent {
+}REMOVE_SPIKE;
+
+typedef struct tagSpeechNumber : public CEvent {
+	_uint iCurrentSpeechNumber;
+}SPEECHNUMBER_EVENT;
+
 
 END
 

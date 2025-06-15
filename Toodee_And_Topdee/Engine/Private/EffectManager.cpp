@@ -22,11 +22,11 @@ void CEffectManager::Update(_float fTimeDelta)
 
 HRESULT CEffectManager::Render()
 {
-	for (auto& [tag, pSystem] : m_PSystems)
+	/*for (auto& [tag, pSystem] : m_PSystems)
 	{
 		if (pSystem)
 			pSystem->Render();
-	}
+	}*/
 	return S_OK;
 }
 

@@ -23,6 +23,7 @@
 #include "Water.h"
 #include "Cannon.h"
 #include "BackCloud.h"
+#include "BackRock.h"
 #include "Fire_Projectile.h"
 #include "SpikeHole.h"
 #include "GiantHand.h"
@@ -151,6 +152,10 @@ HRESULT CLoader::Loading()
 	case LEVEL::LEVEL_ENDING:
 		hr = Loading_For_Ending();
 		break;
+
+	case LEVEL::LEVEL_DIALOGUE:
+		hr = Loading_For_Dialogue();
+		break;;
 	}
 
 	if (FAILED(hr))
@@ -425,6 +430,11 @@ HRESULT CLoader::Loading_For_Stage1()
 		CBackCloud::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* Prototype_GameObject_BackRock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE1), TEXT("Prototype_GameObject_BackRock"),
+		CBackRock::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma endregion
 
 
@@ -469,6 +479,11 @@ HRESULT CLoader::Loading_For_Stage2()
 	/* Prototype_Component_Texture_BackCloud */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_BackCloud"),
 		CBackCloud::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_BackRock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STAGE2), TEXT("Prototype_GameObject_BackRock"),
+		CBackRock::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion
@@ -1010,6 +1025,13 @@ HRESULT CLoader::Loading_For_Ending()
 
 	m_isFinished = true; 
 	
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Dialogue()
+{
+	m_isFinished = true;
+
 	return S_OK;
 }
 

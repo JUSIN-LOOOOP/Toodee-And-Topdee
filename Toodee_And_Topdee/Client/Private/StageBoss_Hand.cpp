@@ -32,7 +32,7 @@ HRESULT CStageBoss_Hand::Initialize_Prototype(void* pArg)
 
 	m_fInitPos = m_pTransformCom->Get_State(STATE::POSITION);
 
-	name = TEXT("WallBoss");
+	name = TEXT("BossWall");
 
 
     return S_OK;
@@ -50,20 +50,23 @@ void CStageBoss_Hand::Priority_Update(_float fTimeDelta)
 
 void CStageBoss_Hand::Update(_float fTimeDelta)
 {
-	//�ϴ� Topdee����� ��
-	
 	__super::Update(fTimeDelta);
-
 }
 
 void CStageBoss_Hand::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+	if (m_eState != STAGEMONERSTATE::DEAD)
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
 HRESULT CStageBoss_Hand::Render()
 {
+
 	Render_Shadow();
+
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return S_OK;
+
 	if (FAILED(m_pColliderCom->Render()))
 		return E_FAIL;
 
@@ -185,7 +188,7 @@ HRESULT CStageBoss_Hand::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(6.f, 6.f, 6.f);
+	ColliderDesc.vColliderScale = _float3(7.f, 7.f, 7.f);
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Monster.h"
 
@@ -35,6 +35,7 @@ private:
 	_bool		m_bLeft{}, m_bGravity{};
 	_float3		m_vColliderScale{};
 	_uint		m_iPlayLevel = {};
+	_float3		m_vOldLook{};
 
 private:
 	HRESULT Ready_Components();
@@ -44,10 +45,9 @@ private:
 	_bool	Check_Gravity(_float fTimeDelta);
 	void	Compute_Collision(_float3 vDir = _float3(0.f,0.f,0.f));
 
-private : // Test¿ë
+private : // Testìš©
 	void Move_Patrol(_float fTimeDelta);
-	_float m_fMaxPat{}, m_fPatrol{};
-	_float3		m_vOldPos{};
+	
 	_float3 absfloat3(const _float3& vec3) { return _float3(fabsf(vec3.x), fabsf(vec3.y), fabsf(vec3.z)); }
 
 	_float3 Move_To_Target(_float fTimeDelta);

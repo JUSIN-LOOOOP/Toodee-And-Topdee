@@ -49,7 +49,7 @@ HRESULT CSpikes::Initialize(void* pArg)
 
 	m_iCount = 0;
 
-
+	
 	BLOCK_INFO* pDesc = static_cast<BLOCK_INFO*>(pArg);
 	_float3 vPos = pDesc->vPos;
 	vPos.y = 1.f;
@@ -67,19 +67,23 @@ HRESULT CSpikes::Initialize(void* pArg)
 		m_pTransformCom->TurnToRadian(_float3(0.f, 0.f, 1.f), D3DXToRadian(90.f));
 	}
 
+	Ready_SubscribeEvent(m_pGameInstance->Get_NextLevelID());
+	m_ParentMatrix = *m_pTransformCom->Get_WorldMatrix();
+	m_ParentMatrix._43 -= 2.f;
+
 	return S_OK;
 }
 
 void CSpikes::Priority_Update(_float fTimeDelta)
 {
-
 	if (m_pGameInstance->Get_NextLevelID() < ENUM_CLASS(LEVEL::LEVEL_FINALBOSS1))
 		Check_Dimension();
-	// m_pGameInstance->Check_Collision(m_pColliderCom);
 }
 
 void CSpikes::Update(_float fTimeDelta)
 {
+	if (GetAsyncKeyState('E'))
+		m_Dead = true;
 }
 
 void CSpikes::Late_Update(_float fTimeDelta)
@@ -87,7 +91,9 @@ void CSpikes::Late_Update(_float fTimeDelta)
 	if (m_bChange_Dimension)
 		Update_AnimCount(fTimeDelta);
 
-//	RotationAround(m_ParentMatrix,	90.f, m_iAnimCount * 15.f);
+	if (m_pGameInstance->Get_CurrentLevelID() == ENUM_CLASS(LEVEL::LEVEL_STAGE1) ||
+		m_pGameInstance->Get_CurrentLevelID() == ENUM_CLASS(LEVEL::LEVEL_STAGE4))
+		RotationAround(m_ParentMatrix, 90.f, m_iAnimCount * 18.f);
 
 	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
@@ -178,7 +184,10 @@ void CSpikes::RotationAround(_float4x4 ParentMat, _float fRadianX, _float fRadia
 
 	fX = fLengthX * sinf(D3DXToRadian(fRadianY)) * cosf(D3DXToRadian(-fRadianX));
 	fY = fLengthY * cosf(D3DXToRadian(fRadianY));
-	fZ = fLengthZ * sinf(D3DXToRadian(fRadianY)) * sinf(D3DXToRadian(-fRadianX));
+	if(fRadianY == 90.f)
+		fZ = 1.05f * sinf(D3DXToRadian(fRadianY)) * sinf(D3DXToRadian(-fRadianX));
+	else
+		fZ = fLengthZ * sinf(D3DXToRadian(fRadianY)) * sinf(D3DXToRadian(-fRadianX));
 	
 	_float3 vPos = vWorldPos + vRight * fX + vUp * fY + vLook * fZ;
 	 
@@ -219,6 +228,13 @@ HRESULT CSpikes::Ready_Components()
 	return S_OK;
 }
 
+HRESULT CSpikes::Ready_SubscribeEvent(_uint iPlayerLevel)
+{
+	m_pGameInstance->Subscribe<REMOVE_SPIKE>(iPlayerLevel, EVENT_KEY::REMOVE_SPIKE, [this](const REMOVE_SPIKE& Event) {
+		this->Remove(); });
+	return S_OK;
+}
+
 HRESULT CSpikes::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -233,6 +249,13 @@ HRESULT CSpikes::End_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	return S_OK;
+}
+
+void CSpikes::Remove()
+{
+	m_Dead = true;
+	_float3 pos = m_pTransformCom->Get_State(STATE::POSITION);
+	m_pGameInstance->Set_Active(TEXT("Effect_BlockDust"), &pos);
 }
 
 CSpikes* CSpikes::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

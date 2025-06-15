@@ -145,11 +145,19 @@
     <Filter Include="01. Utility\03. GameObject\UIObject">
       <UniqueIdentifier>{74a381c7-8e3c-4e5f-bcb8-f34c6f3cc141}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="01. Utility\05. Component\VIBuffer\Diffuse">
       <UniqueIdentifier>{8b08306d-6c74-48ab-8f1a-1204604f17df}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Utility\05. Component\VIBuffer\Diffuse\Cube">
       <UniqueIdentifier>{8f7d7fac-7872-4536-a050-9098d295b64c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\07.Font">
+      <UniqueIdentifier>{a1d11a3b-484e-4a3e-8b96-5ca6971bb984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\07.Font\Manager">
+      <UniqueIdentifier>{90d36460-785b-4503-b094-4163ded67d9f}</UniqueIdentifier>
+
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -306,8 +314,15 @@
     <ClInclude Include="..\public\Shader_Flash.h">
       <Filter>00. Dummys</Filter>
     </ClInclude>
+
     <ClInclude Include="..\Public\VIBuffer_DiffuseCube.h">
       <Filter>01. Utility\05. Component\VIBuffer\Diffuse\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FontManager.h">
+      <Filter>01. Utility\07.Font\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Font.h">
+      <Filter>01. Utility\07.Font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +457,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_DiffuseCube.cpp">
       <Filter>01. Utility\05. Component\VIBuffer\Diffuse\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FontManager.cpp">
+      <Filter>01. Utility\07.Font\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font.cpp">
+      <Filter>01. Utility\07.Font</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

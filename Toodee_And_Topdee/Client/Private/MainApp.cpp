@@ -47,8 +47,13 @@
 #include "FireFly.h"
 #include "ColorLight.h"
 #include "KeyTwinkle.h"
+#include "Wind.h"
+#include "PotalEffect.h"
+#include "MapCloud.h"
+#include "Damaged.h"
 
 #include "ColliderMap_Object.h"
+#include "SpeechBallon.h"
 
 Client::CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
@@ -92,6 +97,9 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Effect()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Font()))
 		return E_FAIL;
 
 	m_pGameInstance->Subscribe<LEVELCHANGE_EVENT>(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::CHANGE_LEVEL, [this](const LEVELCHANGE_EVENT& Event) {
@@ -161,6 +169,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/*Prototype_Component_Shader_Payer */
 	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Shader_Player"),
 		CShader_Player::Create(m_pGraphic_Device, TEXT("../Resources/Shader/Player.txt")))))
+		return E_FAIL;
+
+	/*Prototype_Component_Texture_SpeechBallon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_SpeechBallon"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Speech/SpeechBallon.png"), 1))))
 		return E_FAIL;
 
 	/* Prototype_Component_VIBuffer_Cube */
@@ -319,9 +332,21 @@ HRESULT CMainApp::Ready_Prototype_ForStatic_Background()
 		return E_FAIL;
 
 	/* Prototype_Component_Texture_BackCloud */
-
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackCloud"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/BackCloud.png"), 1))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_BackRock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackRock"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Rock3.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Tree"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Tree2.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_BackRock3"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Resources/Textures/Map/Rock4.png"), 1))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Toodoo"),
@@ -709,6 +734,30 @@ HRESULT CMainApp::Ready_Effect()
 	m_pGameInstance->Add_PSystem(CFireFly::Create(m_pGraphic_Device), TEXT("Effect_FireFly"));
 	m_pGameInstance->Add_PSystem(CColorLight::Create(m_pGraphic_Device), TEXT("Effect_ColorLight"));
 	m_pGameInstance->Add_PSystem(CKeyTwinkle::Create(m_pGraphic_Device), TEXT("Effect_Twinkle"));
+	m_pGameInstance->Add_PSystem(CWind::Create(m_pGraphic_Device), TEXT("Effect_Wind"));
+	m_pGameInstance->Add_PSystem(CPotalEffect::Create(m_pGraphic_Device), TEXT("Effect_PotalEffect"));
+	m_pGameInstance->Add_PSystem(CMapCloud::Create(m_pGraphic_Device), TEXT("Effect_CloudEffect"));
+	m_pGameInstance->Add_PSystem(CDamaged::Create(m_pGraphic_Device), TEXT("Effect_Damaged"));
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Font()
+{
+	CFont::FONT_DESC FontDesc{};
+
+	FontDesc.fWidth = 10.f;
+	FontDesc.fHegiht = 20.f;
+	FontDesc.fWeight = 50.f;
+	FontDesc.FontName = TEXT("Arial");
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Arial"),
+		CFont::Create(m_pGraphic_Device, &FontDesc))))
+		return E_FAIL;
+
+	if(FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_SpeechBallon"),
+		CSpeechBallon::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	return S_OK;
 }

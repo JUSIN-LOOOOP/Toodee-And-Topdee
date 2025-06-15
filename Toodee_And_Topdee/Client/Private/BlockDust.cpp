@@ -15,7 +15,7 @@ HRESULT CBlockDust::Initialize()
 {
     m_fSize = 3.f;
     m_fFrameOffsetTime = .06f;
-    m_iChunk = 5;
+    m_iChunk = 2;
 
     for (_uint i = 0; i < 100; i++)
     {
@@ -38,6 +38,7 @@ void CBlockDust::ResetParticle(PARTICLE* attribute, void* pArg)
     
     attribute->_TextureIdx = 0;
     attribute->_position = *static_cast<_float3*>(pArg);
+    attribute->_position.y += 1.f;
     attribute->_color = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 }
 
@@ -57,6 +58,8 @@ void CBlockDust::Update(_float fTimeDelta)
                 particle._isAlive = false;
         }
     }   
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
+
 }
 
 CBlockDust* CBlockDust::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

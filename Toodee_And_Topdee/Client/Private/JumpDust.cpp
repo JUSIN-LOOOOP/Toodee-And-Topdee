@@ -54,13 +54,14 @@ void CJumpDust::Update(_float fTimeDelta)
         return;
     for (auto& particle : m_Particles)
     {
-        particle._size *= 0.9;
+        particle._size *= 0.9f;
 
         if (particle._size * m_fSize < 0.1f)
             particle._isAlive = false;
 
         particle._position.z += d3d::GetRandomFloat(0.02f, 0.07f);
     }   
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 
 }
 

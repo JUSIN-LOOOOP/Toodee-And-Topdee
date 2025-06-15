@@ -36,6 +36,11 @@ HRESULT CStageBoss::Initialize(void* pArg)
 
 void CStageBoss::Priority_Update(_float fTimeDelta)
 {
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return ;
+	///debug
+	m_iDeadCount;
+
 	if (m_eState != STAGEMONERSTATE::VIEWTURN && m_pGameInstance->Key_Down('X'))
 	{
 		m_eViewMode = (m_eViewMode == VIEWMODE::TOPDEE) ? VIEWMODE::TOODEE : VIEWMODE::TOPDEE;
@@ -45,23 +50,18 @@ void CStageBoss::Priority_Update(_float fTimeDelta)
 		mode.iState = ENUM_CLASS(STAGEMONERSTATE::VIEWTURN);
  		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::SIG_MONSTER, mode);
 	}
-	if (m_pGameInstance->Key_Down(VK_SPACE)) //ÀÓ½Ã! ³ªÁß¿¡ Ãæµ¹ ½Ã±×³Î ¹Þ±â
-	{
-		m_eViewMode = VIEWMODE::TOODEE;
-		m_eState = STAGEMONERSTATE::DAMAGE;
-		CHANGECAM tmp;
-		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::CHANGE_CAM, tmp);
-		MONSTERSIGNAL mode;
-		mode.iViewMode = ENUM_CLASS(m_eViewMode);
-		mode.iState = ENUM_CLASS(STAGEMONERSTATE::DAMAGE);
-		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::SIG_MONSTER, mode);
-	}
 	for (auto limb : m_vlimbs)
 		limb->Priority_Update(fTimeDelta);
 }
 
 void CStageBoss::Update(_float fTimeDelta)
 {
+	m_fNonDamagedTime -= fTimeDelta;
+	if (m_fNonDamagedTime < 0.f)
+		m_fNonDamagedTime = 0;
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return ;
+
 	for (auto limb : m_vlimbs)
 		limb->Update(fTimeDelta);
 
@@ -82,6 +82,9 @@ void CStageBoss::Update(_float fTimeDelta)
 
 void CStageBoss::Late_Update(_float fTimeDelta)
 {
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return ;
+
 	for (auto limb : m_vlimbs)
 		limb->Late_Update(fTimeDelta);
 
@@ -91,6 +94,9 @@ void CStageBoss::Late_Update(_float fTimeDelta)
 
 HRESULT CStageBoss::Render()
 {
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return S_OK;
+
 	for (auto limb : m_vlimbs)
 		limb->Render();
 
@@ -197,6 +203,7 @@ void CStageBoss::isFinish()
 		m_eState = STAGEMONERSTATE::IDLE;
 }
 
+
 HRESULT CStageBoss::Render_Shadow(const _float4x4& matChainWorld)
 {
 	_float3 vGroundPoint = _float3(0.f, -0.51f, 0.f);
@@ -220,14 +227,14 @@ HRESULT CStageBoss::Render_Shadow(const _float4x4& matChainWorld)
 
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_matrixShadow);
 
-	//ÅØ½ºÃ³ ½ºÅ×ÀÌÁö »óÅÂ ¹é¾÷
+	//ï¿½Ø½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	DWORD oldColorOp, oldColorArg1, oldAlphaOp, oldAlphaArg1;
 	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLOROP, &oldColorOp);
 	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLORARG1, &oldColorArg1);
 	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAOP, &oldAlphaOp);
 	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAARG1, &oldAlphaArg1);
 
-	//·»´õ »óÅÂ ¹é¾÷
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	DWORD oldAlphaEnable, oldSrcBlend, oldDestBlend, oldZWrite, oldLighting;
 	m_pGraphic_Device->GetRenderState(D3DRS_ALPHABLENDENABLE, &oldAlphaEnable);
 	m_pGraphic_Device->GetRenderState(D3DRS_SRCBLEND, &oldSrcBlend);
@@ -235,7 +242,7 @@ HRESULT CStageBoss::Render_Shadow(const _float4x4& matChainWorld)
 	m_pGraphic_Device->GetRenderState(D3DRS_ZWRITEENABLE, &oldZWrite);
 	m_pGraphic_Device->GetRenderState(D3DRS_LIGHTING, &oldLighting);
 
-	//½ºÅÙ½Ç ¹öÆÛ
+	//ï¿½ï¿½ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILREF, 0x0);
@@ -246,7 +253,7 @@ HRESULT CStageBoss::Render_Shadow(const _float4x4& matChainWorld)
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);
 
 
-	//±×¸²ÀÚ ·»´õ ¼³Á¤
+	//ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -258,11 +265,11 @@ HRESULT CStageBoss::Render_Shadow(const _float4x4& matChainWorld)
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TFACTOR);
 
-	// ±×¸²ÀÚ ·»´õ¸µ
+	// ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	m_VIBufferCom_Diffuse->Bind_Buffers();
 	m_VIBufferCom_Diffuse->Render();
 
-	//¿øº¹
+	//ï¿½ï¿½ï¿½ï¿½
 	m_pGraphic_Device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, oldColorOp);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, oldColorArg1);
@@ -276,11 +283,37 @@ HRESULT CStageBoss::Render_Shadow(const _float4x4& matChainWorld)
 	return S_OK;
 }
 
+void CStageBoss::isDamaged()
+{
+	if (m_fNonDamagedTime > 0.f)
+		return;
+
+	++m_iDeadCount;
+
+	SHAKING Event;
+	Event.fTime = 2.f;
+	m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::CAM_SHAKING, Event);
+
+	m_eViewMode = VIEWMODE::TOODEE;
+	m_eState = (m_iDeadCount == 2) ? STAGEMONERSTATE::DEAD : STAGEMONERSTATE::DAMAGE;
+	MONSTERSIGNAL mode;
+	mode.iViewMode = ENUM_CLASS(m_eViewMode);
+	mode.iState = ENUM_CLASS(m_eState);
+	m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::SIG_MONSTER, mode);
+	m_fNonDamagedTime = 10.f;
+	FIANLBOSSRESET_EVENT tmp2;
+	m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::STAGEBOSS_RESET, tmp2);
+
+}
 
 HRESULT CStageBoss::Ready_SubscribeEvent(_uint iPlayerLevel)
 {
 	m_pGameInstance->Subscribe<MONSTERSIGNAL>(iPlayerLevel, EVENT_KEY::FIN_ACTION, [this](const MONSTERSIGNAL& Event) {
 		this->isFinish(); });
+
+	m_pGameInstance->Subscribe<MONSTERDAMAGED>(iPlayerLevel, EVENT_KEY::STAGEBOSS_DAMAGED, [this](const MONSTERDAMAGED& Event) {
+		this->isDamaged(); });
+
 	return S_OK;
 }
 

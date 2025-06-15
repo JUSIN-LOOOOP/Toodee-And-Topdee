@@ -380,7 +380,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\PlayerChagneEffect.cpp">
       <Filter>02. GameObjects\Player\06. ChangeEffect</Filter>
-   </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Sink.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
@@ -406,6 +406,31 @@
       <Filter>00. Dummys\K J H</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Ending_Flash.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClCompile>
+
+    <ClCompile Include="..\Private\BackRock.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Wind.cpp">
+      <Filter>00. Dummys\T Y J\Effect\Wind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PotalEffect.cpp">
+      <Filter>00. Dummys\T Y J\Effect\PotalEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MapCLoud.cpp">
+      <Filter>00. Dummys\T Y J\Effect\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Damaged.cpp">
+      <Filter>00. Dummys\T Y J\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Dialogue.cpp">
+      <Filter>01. Levels\04. Dialogue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpeechBallon.cpp">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Small_Toodoo.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
@@ -832,6 +857,30 @@
     <ClInclude Include="..\public\Ending_Flash.h">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BackRock.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Wind.h">
+      <Filter>00. Dummys\T Y J\Effect\Wind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PotalEffect.h">
+      <Filter>00. Dummys\T Y J\Effect\PotalEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MapCLoud.h">
+      <Filter>00. Dummys\T Y J\Effect\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Damaged.h">
+      <Filter>00. Dummys\T Y J\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Dialogue.h">
+      <Filter>01. Levels\04. Dialogue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpeechBallon.h">
+      <Filter>00. Dummys\K J H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Small_Toodoo.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -842,9 +891,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="01. Levels">
-      <UniqueIdentifier>{f0d05312-d057-4c93-bad6-101e518e1499}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects">
       <UniqueIdentifier>{04fb3f47-2b35-4d92-85d5-485cac20e0c8}</UniqueIdentifier>
     </Filter>
@@ -853,12 +899,6 @@
     </Filter>
     <Filter Include="98. Defaults">
       <UniqueIdentifier>{8305bc86-8d4f-4ca3-a609-207ee3d04d50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\00. Loading">
-      <UniqueIdentifier>{93e904e9-7c29-4d97-8713-2d8e1b9685a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\00. Loading\Loader">
-      <UniqueIdentifier>{b1399b48-563a-4b35-a3b2-a0b23dc3b306}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObjects\BackGround">
       <UniqueIdentifier>{d48cf147-ff74-45d8-8875-518f1bd3ee78}</UniqueIdentifier>
@@ -874,9 +914,6 @@
     </Filter>
     <Filter Include="02. GameObjects\Tiles">
       <UniqueIdentifier>{b1c523dd-ae83-4779-aba9-6def65818c77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\00 Temp">
-      <UniqueIdentifier>{1915325c-45b8-4fd5-a371-e250756055de}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObjects\Monster">
       <UniqueIdentifier>{2798810b-4491-47b8-afea-2e5b8b03bac7}</UniqueIdentifier>
@@ -910,33 +947,6 @@
     </Filter>
     <Filter Include="00. Dummys\T Y J">
       <UniqueIdentifier>{86caa7e6-001d-440e-9f9f-94bc55cc9ec9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\01. Logo">
-      <UniqueIdentifier>{1cf05208-e82a-4710-bb50-f3e786b03444}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay">
-      <UniqueIdentifier>{d097451e-f374-4d78-9afa-d15befce4f26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\00 Stage01">
-      <UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\01. Stage02">
-      <UniqueIdentifier>{91cee869-d0b8-45dd-8c2f-f05f811abbc8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\02. Stage03">
-      <UniqueIdentifier>{e0ce0096-306c-464a-9fb9-6f8f6ca38953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\03. Stage_Boss01">
-      <UniqueIdentifier>{1cdc3b42-bb26-4213-b622-593cde19df3d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\04. Stage04">
-      <UniqueIdentifier>{f2a546ae-6241-4fdc-851e-039a5a57d64e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\05. Stage05">
-      <UniqueIdentifier>{2b658529-152c-49b6-962f-8cff1ca2757c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\06. Stage06">
-      <UniqueIdentifier>{4a5272c6-0002-4e42-a084-8d052085742d}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. Dummys\T Y J\BackGroundObj">
       <UniqueIdentifier>{96055de1-5330-42e8-85aa-b908c8d83573}</UniqueIdentifier>
@@ -1070,18 +1080,6 @@
     <Filter Include="02. GameObjects\Cannon\Projectile\Laser">
       <UniqueIdentifier>{e7f456fe-e6b4-4e0e-bed7-0ba4538dc7cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss">
-      <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss01">
-      <UniqueIdentifier>{6ab22999-aa06-4f10-8f20-d72c23240afd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss02">
-      <UniqueIdentifier>{e114c4cc-c88d-4b97-98c4-4735ffc76177}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03">
-      <UniqueIdentifier>{8d2bf573-1f4e-4358-b01b-ac4c2010e77c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\MainMenu">
       <UniqueIdentifier>{37e9bd32-f164-4538-9cbb-78fbb94b33ca}</UniqueIdentifier>
     </Filter>
@@ -1168,6 +1166,69 @@
     </Filter>
     <Filter Include="00. Dummys\K J H\GameObject">
       <UniqueIdentifier>{3d4262b9-397d-4b54-bab0-135592023d57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\Wind">
+      <UniqueIdentifier>{d7493a7e-d4f1-41e5-b42e-0d67916867e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\PotalEffect">
+      <UniqueIdentifier>{7e6f3f5c-ab31-4f52-92be-83b753784aa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Dummys\T Y J\Effect\Cloud">
+      <UniqueIdentifier>{01b4b2a8-4a34-4ff8-abcb-892b93c50c75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels">
+      <UniqueIdentifier>{f0d05312-d057-4c93-bad6-101e518e1499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00. Loading">
+      <UniqueIdentifier>{93e904e9-7c29-4d97-8713-2d8e1b9685a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00. Loading\Loader">
+      <UniqueIdentifier>{b1399b48-563a-4b35-a3b2-a0b23dc3b306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00 Temp">
+      <UniqueIdentifier>{1915325c-45b8-4fd5-a371-e250756055de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\01. Logo">
+      <UniqueIdentifier>{1cf05208-e82a-4710-bb50-f3e786b03444}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay">
+      <UniqueIdentifier>{d097451e-f374-4d78-9afa-d15befce4f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\00 Stage01">
+      <UniqueIdentifier>{c8473bb5-9664-46b3-9a63-de1c71349115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\01. Stage02">
+      <UniqueIdentifier>{91cee869-d0b8-45dd-8c2f-f05f811abbc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\02. Stage03">
+      <UniqueIdentifier>{e0ce0096-306c-464a-9fb9-6f8f6ca38953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\03. Stage_Boss01">
+      <UniqueIdentifier>{1cdc3b42-bb26-4213-b622-593cde19df3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\04. Stage04">
+      <UniqueIdentifier>{f2a546ae-6241-4fdc-851e-039a5a57d64e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\05. Stage05">
+      <UniqueIdentifier>{2b658529-152c-49b6-962f-8cff1ca2757c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\06. Stage06">
+      <UniqueIdentifier>{4a5272c6-0002-4e42-a084-8d052085742d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss">
+      <UniqueIdentifier>{4da03167-82e2-4034-9b75-cae91bec70f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss01">
+      <UniqueIdentifier>{6ab22999-aa06-4f10-8f20-d72c23240afd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss02">
+      <UniqueIdentifier>{e114c4cc-c88d-4b97-98c4-4735ffc76177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03">
+      <UniqueIdentifier>{8d2bf573-1f4e-4358-b01b-ac4c2010e77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\04. Dialogue">
+      <UniqueIdentifier>{180c72be-b612-4ef3-b4d2-0ca88c2f6610}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
