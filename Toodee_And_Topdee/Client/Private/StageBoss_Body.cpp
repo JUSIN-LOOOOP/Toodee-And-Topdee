@@ -34,7 +34,7 @@ HRESULT CStageBoss_Body::Initialize_Prototype(void* pArg)
 	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 	Ready_SubscribeEvent(m_iPlayLevel);
 	m_fInitPos = m_pTransformCom->Get_State(STATE::POSITION);
-	name = TEXT("WallBoss");
+	name = TEXT("BossWall");
 
 	return S_OK;
 }
@@ -54,7 +54,7 @@ void CStageBoss_Body::Update(_float fTimeDelta)
 
 	if (m_eViewMode == VIEWMODE::TOODEE)
 	{
-		if (m_fIdleTime >= 3.f)
+		if (m_fIdleTime >= 3.f && m_eState != STAGEMONERSTATE::DAMAGE)
 		{
 			Create_Fire();
 			m_fIdleTime = 0;
@@ -70,11 +70,15 @@ void CStageBoss_Body::Update(_float fTimeDelta)
 
 void CStageBoss_Body::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
+	if (m_eState != STAGEMONERSTATE::DEAD)
+		m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
 HRESULT CStageBoss_Body::Render()
 {
+	if (m_eState == STAGEMONERSTATE::DEAD)
+		return S_OK;
+
 	if (FAILED(m_pColliderCom->Render()))
 		return E_FAIL;
 
@@ -82,6 +86,7 @@ HRESULT CStageBoss_Body::Render()
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
+
 	m_pVIBufferCom->Bind_Buffers();
 	m_pVIBufferCom->Render();
 
@@ -199,7 +204,7 @@ HRESULT CStageBoss_Body::Ready_Components()
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vColliderScale = _float3(8.f, 8.f, 8.f);		//임시
+	ColliderDesc.vColliderScale = _float3(10.f, 10.f, 10.f);		//임시
 	ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
 	ColliderDesc.bIsFixed = false;
 

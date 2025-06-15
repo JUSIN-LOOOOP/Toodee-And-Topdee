@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Event.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -25,7 +26,6 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
 
 private:
 	CTransform* m_pTransformCom = { nullptr };
@@ -54,9 +54,11 @@ private:
 
 
 	HRESULT Ready_Components();
+	HRESULT	Ready_SubscribeEvent(_uint iPlayerLevel);
 
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
+	void	Remove();
 
 
 public:

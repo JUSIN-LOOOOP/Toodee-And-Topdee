@@ -38,6 +38,7 @@ protected:
 	HRESULT			ChangeView(_float fTimeDelta);
 	HRESULT			MoveToOrigin(_float fTimeDelta);
 	void			RotateToFace(_float fTimeDelta);
+	void			CheckDead(_float fTimeDelta);
 	void			GetSignal(const MONSTERSIGNAL& Event);
 	HRESULT			Ready_SubscribeEvent(_uint iPlayerLevel);
 

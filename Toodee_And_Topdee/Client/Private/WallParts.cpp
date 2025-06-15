@@ -87,6 +87,7 @@ void CWallParts::Update(_float fTimeDelta)
         else
             particle._position += particle._velocity * fTimeDelta;
     }
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 
 }
 

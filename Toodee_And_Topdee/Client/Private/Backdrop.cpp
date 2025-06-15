@@ -60,12 +60,6 @@ void CBackdrop::Late_Update(_float fTimeDelta)
     m_pTransformCom->Set_State(STATE::LOOK, vLook );
 
     m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_PRIORITY, this);
-
-    /*if (m_iThemeIdx == 3)
-    {
-        m_fMoveOffset += fTimeDelta;
-        
-    }*/
 }
 
 HRESULT CBackdrop::Render()
@@ -81,30 +75,6 @@ HRESULT CBackdrop::Render()
 
     m_pVIBufferCom->Bind_Buffers();
     m_pVIBufferCom->Render();
-
-    /*const _float4x4* world = m_pTransformCom->Get_WorldMatrix();
-
-    if (m_iThemeIdx == 3)
-    {
-        m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-        m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-        m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-        m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-
-        _float3 backupPos = m_pTransformCom->Get_State(STATE::POSITION);
-
-        m_pTransformCom->Scaling(18.f, 14.f, 1.f);
-        m_pTransformCom->Set_State(STATE::POSITION, _float3{ backupPos.x, backupPos.y - 5.f, backupPos.z - 5.f });
-        m_pTransformCom->Bind_Matrix();
-        if (FAILED(m_pBossTextureCom->Bind_Texture(ENUM_CLASS(0))))
-            return E_FAIL;
-        m_pVIBufferCom->Bind_Buffers();
-        m_pVIBufferCom->Render();
-        m_pTransformCom->Set_State(STATE::POSITION, _float3{ backupPos.x, backupPos.y, backupPos.z });
-
-        m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-        m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    }*/
 
     m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);

@@ -37,11 +37,12 @@ HRESULT CLevel_StageBoss::Initialize()
 	if (FAILED(Ready_Layer_StageBoss(TEXT("Layer_StageMonster"))))
 		return E_FAIL;
 
-
+	Ready_SubscribeEvent(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS));
 	m_pGameInstance->StopSound(CHANNELID::SOUND_BGM);
 	m_pGameInstance->PlayBGM(TEXT("StageBossBgm.ogg"), 0.5f);
 	m_pGameInstance->Set_Active(TEXT("Effect_FireFly"));
 	m_pGameInstance->Set_Active(TEXT("Effect_ColorLight"));
+	m_pGameInstance->Set_Active(TEXT("Effect_CloudEffect"));
 
 	return S_OK;
 }
@@ -49,6 +50,7 @@ HRESULT CLevel_StageBoss::Initialize()
 void CLevel_StageBoss::Update(_float fTimeDelta)
 {
 	// -- 임시 --
+
 	if (m_pGameInstance->Key_Down(VK_RETURN))
 	{
 		LEVELCHANGE_EVENT Event;
@@ -71,6 +73,48 @@ HRESULT CLevel_StageBoss::Render()
 {
 	SetWindowText(g_hWnd, TEXT("CLevel_StageBoss"));
 
+	return S_OK;
+}
+
+void CLevel_StageBoss::ResetBlock(const FIANLBOSSRESET_EVENT& Event)
+{
+
+	++ m_DeadCount;
+
+	if (m_DeadCount == 2)
+	{
+		REMOVE_SPIKE tmp;
+		BLOCK_INFO info;
+		info.vPos = { 0.f,1.f,- 10.f };
+		m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), EVENT_KEY::REMOVE_SPIKE, tmp);
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"),
+			ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Potal"), &info);
+		m_pGameInstance->Set_Active(TEXT("Effect_PotalEffect"));
+		for (_uint i = 0; i < 4; ++i)
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"), ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_WallLock"), &m_LockBlockInfo[i]);
+		return;
+	}
+
+	m_pGameInstance->Reset_KeyCount();
+	for (_uint i = 0; i < 3; ++i)
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"), ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_Key"), &m_KeyInfo[i]);
+
+	for (_uint i = 0; i < 4; ++i)
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_MapObject"), ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_WallLock"), &m_LockBlockInfo[i]);
+	
+	for (_uint i = 0; i < 30; ++i)
+	{
+		BLOCK_INFO info = m_SpikeInfo[i];
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Layer_Spike"), ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info);
+		m_pGameInstance->Set_Active(TEXT("Effect_BlockDust"), &info);
+	}
+}
+
+HRESULT CLevel_StageBoss::Ready_SubscribeEvent(_uint Level)
+{
+	m_pGameInstance->Subscribe<FIANLBOSSRESET_EVENT>(Level, EVENT_KEY::STAGEBOSS_RESET, [this](const FIANLBOSSRESET_EVENT& Event) {
+		this->ResetBlock(Event);
+		});
 	return S_OK;
 }
 
@@ -99,6 +143,9 @@ HRESULT CLevel_StageBoss::Ready_Layer_MapObject(const _wstring& strLayerTag)
 
 	BLOCK_INFO	info = {};
 	_uint		idx = {};
+	_uint		LockBlockIdx = {};
+	_uint		KeyIdx = {};
+	_uint		SpikeIdx = {};
 
 	while (S_OK == (m_pGameInstance->Get_Tile_Data(idx++, info)))
 	{
@@ -128,6 +175,7 @@ HRESULT CLevel_StageBoss::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_WallLock"), &info)))
 				return E_FAIL;
+			m_LockBlockInfo[LockBlockIdx++] = info;
 			break;
 
 		case MAPOBJECT::FALL:
@@ -158,6 +206,7 @@ HRESULT CLevel_StageBoss::Ready_Layer_MapObject(const _wstring& strLayerTag)
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), strLayerTag,
 				ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_Key"), &info)))
 				return E_FAIL;
+			m_KeyInfo[KeyIdx++] = info;
 			break;
 
 		case MAPOBJECT::PORTAL:
@@ -178,9 +227,7 @@ HRESULT CLevel_StageBoss::Ready_Layer_MapObject(const _wstring& strLayerTag)
 				return E_FAIL;
 			break;
 		case MAPOBJECT::SPIKE:
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), strLayerTag,
-				ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Spikes"), &info)))
-				return E_FAIL;
+			m_SpikeInfo[SpikeIdx++] = info;
 			break;
 		default:
 			MSG_BOX(TEXT("Error : Block Index error!"));
@@ -259,8 +306,6 @@ HRESULT CLevel_StageBoss::Ready_Layer_StageBoss(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), strLayerTag,
 		ENUM_CLASS(LEVEL::LEVEL_STAGEBOSS), TEXT("Prototype_GameObject_StageBoss"))))
 		return E_FAIL;
-	return S_OK;
-
 	return S_OK;
 }
 

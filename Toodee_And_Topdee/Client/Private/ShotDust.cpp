@@ -16,7 +16,7 @@ HRESULT CShotDust::Initialize()
     m_fSize = 4.f;
     m_iChunk = 15;
 
-    for (_uint i = 0; i < 20; i++)
+    for (_uint i = 0; i < 100; i++)
     {
         PARTICLE attribute;
         m_Particles.push_back(attribute);
@@ -36,8 +36,8 @@ void CShotDust::ResetParticle(PARTICLE* attribute, void* pArg)
     attribute->_isAlive = true;
 
     _float3 pos = *static_cast<_float3*>(pArg);
-    _float3 min = { pos.x - 8.f, pos.y - 2.f, pos.z - 8.f };
-    _float3 max = { pos.x + 8.f, pos.y - 5.f, pos.z + 8.f };
+    _float3 min = { pos.x - 8.f, pos.y + 2.f, pos.z - 8.f };
+    _float3 max = { pos.x + 8.f, pos.y + 5.f, pos.z + 8.f };
     d3d::GetRandomVector(&attribute->_position, &min, &max);
 
     attribute->_size = d3d::GetRandomFloat(0.5f, 1.5f);
@@ -51,11 +51,13 @@ void CShotDust::Update(_float fTimeDelta)
 
     for (auto& particle : m_Particles)
     {
-        particle._size *= 0.9;
+        particle._size *= 0.9f;
 
         if (particle._size * m_fSize < 0.1f)
             particle._isAlive = false;
     }
+
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_NONBLEND, this);
 }
 
 CShotDust* CShotDust::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
