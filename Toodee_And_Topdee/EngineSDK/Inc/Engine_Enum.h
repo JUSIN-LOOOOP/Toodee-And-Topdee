@@ -44,9 +44,7 @@ namespace Engine
 		SPEECH,
 		STAGEBOSS_DAMAGED,
 		STAGEBOSS_RESET,
-		REMOVE_SPIKE,
-		SPEECH,
-
+		REMOVE_SPIKE
 	};
 	
 
