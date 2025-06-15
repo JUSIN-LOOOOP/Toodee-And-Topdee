@@ -408,8 +408,30 @@
     <ClCompile Include="..\private\Ending_Flash.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
+
+    <ClCompile Include="..\Private\BackRock.cpp">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Wind.cpp">
+      <Filter>00. Dummys\T Y J\Effect\Wind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PotalEffect.cpp">
+      <Filter>00. Dummys\T Y J\Effect\PotalEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MapCLoud.cpp">
+      <Filter>00. Dummys\T Y J\Effect\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Damaged.cpp">
+      <Filter>00. Dummys\T Y J\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Dialogue.cpp">
+      <Filter>01. Levels\04. Dialogue</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\SpeechBallon.cpp">
       <Filter>00. Dummys\K J H</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Small_Toodoo.cpp">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackRock.cpp">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
@@ -853,6 +875,24 @@
     <ClInclude Include="..\public\Ending_Flash.h">
       <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BackRock.h">
+      <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Wind.h">
+      <Filter>00. Dummys\T Y J\Effect\Wind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PotalEffect.h">
+      <Filter>00. Dummys\T Y J\Effect\PotalEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MapCLoud.h">
+      <Filter>00. Dummys\T Y J\Effect\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Damaged.h">
+      <Filter>00. Dummys\T Y J\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Dialogue.h">
+      <Filter>01. Levels\04. Dialogue</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\SpeechBallon.h">
       <Filter>00. Dummys\K J H</Filter>
     </ClCompile>
@@ -873,6 +913,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_Dialogue.h">
       <Filter>01. Levels\04. Dialogue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Small_Toodoo.h">
+      <Filter>00. Dummys\K J H\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
