@@ -407,7 +407,7 @@
     </ClCompile>
     <ClCompile Include="..\private\Ending_Flash.cpp">
       <Filter>00. Dummys\K J H\GameObject</Filter>
-     </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\BackRock.cpp">
       <Filter>00. Dummys\T Y J\BackGroundObj</Filter>
     </ClCompile>
@@ -422,6 +422,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Damaged.cpp">
       <Filter>00. Dummys\T Y J\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Dialogue.cpp">
+      <Filter>01. Levels\04. Dialogue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -862,6 +865,9 @@
     <ClInclude Include="..\Public\Damaged.h">
       <Filter>00. Dummys\T Y J\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Dialogue.h">
+      <Filter>01. Levels\04. Dialogue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1207,6 +1213,9 @@
     </Filter>
     <Filter Include="01. Levels\03. GamePlay\07. Final_Boss\Final_Boss03">
       <UniqueIdentifier>{8d2bf573-1f4e-4358-b01b-ac4c2010e77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\04. Dialogue">
+      <UniqueIdentifier>{180c72be-b612-4ef3-b4d2-0ca88c2f6610}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

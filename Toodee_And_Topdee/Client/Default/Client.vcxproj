@@ -194,6 +194,7 @@
     <ClInclude Include="..\Public\Key.h" />
     <ClInclude Include="..\Public\KeyTwinkle.h" />
     <ClInclude Include="..\Public\Leaves.h" />
+    <ClInclude Include="..\Public\Level_Dialogue.h" />
     <ClInclude Include="..\public\Level_Ending.h" />
     <ClInclude Include="..\Public\Level_FinalBoss01.h" />
     <ClInclude Include="..\Public\Level_FinalBoss02.h" />
@@ -337,6 +338,7 @@
     <ClCompile Include="..\Private\Key.cpp" />
     <ClCompile Include="..\Private\KeyTwinkle.cpp" />
     <ClCompile Include="..\Private\Leaves.cpp" />
+    <ClCompile Include="..\Private\Level_Dialogue.cpp" />
     <ClCompile Include="..\private\Level_Ending.cpp" />
     <ClCompile Include="..\Private\Level_FinalBoss01.cpp" />
     <ClCompile Include="..\Private\Level_FinalBoss02.cpp" />

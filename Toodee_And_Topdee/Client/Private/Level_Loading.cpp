@@ -17,6 +17,7 @@
 #include "Level_FinalBoss03.h"
 #include "Level_Test.h"
 #include "Level_Ending.h"
+#include "Level_Dialogue.h"
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CLevel{ pGraphicDev }
@@ -86,6 +87,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			break;
 		case LEVEL::LEVEL_ENDING:
 			pNewLevel = CLevel_Ending::Create(m_pGraphic_Device);
+			break;
+		case LEVEL::LEVEL_DIALOGUE:
+			pNewLevel = CLevel_Dialogue::Create(m_pGraphic_Device);
 			break;
 		}	
 

@@ -152,6 +152,10 @@ HRESULT CLoader::Loading()
 	case LEVEL::LEVEL_ENDING:
 		hr = Loading_For_Ending();
 		break;
+
+	case LEVEL::LEVEL_DIALOGUE:
+		hr = Loading_For_Dialogue();
+		break;;
 	}
 
 	if (FAILED(hr))
@@ -1021,6 +1025,13 @@ HRESULT CLoader::Loading_For_Ending()
 
 	m_isFinished = true; 
 	
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Dialogue()
+{
+	m_isFinished = true;
+
 	return S_OK;
 }
 

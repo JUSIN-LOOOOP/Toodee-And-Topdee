@@ -179,6 +179,8 @@ void CMultiViewCamera::CameraTestMove(_float fTimeDelta)
         m_pTransformCom->Go_Right(fTimeDelta);
     }
 
+    return;
+
     POINT			ptMouse{};
 
     GetCursorPos(&ptMouse);

@@ -50,6 +50,7 @@ private:
 	HRESULT Loading_For_FinalBoss02();
 	HRESULT Loading_For_FinalBoss03();
 	HRESULT Loading_For_Ending();
+	HRESULT Loading_For_Dialogue();
 
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphicDev, LEVEL eNextLevelID);
