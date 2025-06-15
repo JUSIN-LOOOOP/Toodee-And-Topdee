@@ -439,6 +439,21 @@ void CGameInstance::Set_Stop(const _wstring& strEffectTag, void* pArg)
 	m_pEffect_Manager->Set_Stop(strEffectTag,pArg);
 }
 
+void CGameInstance::Add_PSystem(class CPSystem* pPSystem, const _wstring& strEffectTag)
+{
+	m_pEffect_Manager->Add_PSystem(pPSystem, strEffectTag);
+}
+
+void CGameInstance::Set_Active(const _wstring& strEffectTag, void* pArg)
+{
+	m_pEffect_Manager->Set_Active(strEffectTag, pArg);
+}
+
+void CGameInstance::Set_Stop(const _wstring& strEffectTag, void* pArg)
+{
+	m_pEffect_Manager->Set_Stop(strEffectTag,pArg);
+}
+
 #pragma endregion
 
 
