@@ -406,7 +406,7 @@ inline const pair<_float3, _float3> FinalBoss1_ColliderInfo(_uint iNum)
 		{ -68.f,	1.f,	-9.f	},
 		{ -36.f,	1.f,	-9.f	},
 		{	0.f,	1.f,	-10.f	},
-		{ 58.f,		1.f,	-9.f	},
+		{ 58.f,		1.f,	-8.f	},
 		{  0.f,		1.f,	13.f	},
 
 		{-115.f,	1.f,	0.f		},
@@ -419,7 +419,7 @@ inline const pair<_float3, _float3> FinalBoss1_ColliderInfo(_uint iNum)
 		{	4.f,	2.f,	6.f		},
 		{	4.f,	2.f,	6.f		},
 		{	4.f,	2.f,	4.f		},
-		{	4.f,	2.f,	6.f		},
+		{	4.f,	2.f,	8.f		},
 		{	230.f,	2.f,	2.f		},
 
 		{	2.f,	2.f,	26.f	},

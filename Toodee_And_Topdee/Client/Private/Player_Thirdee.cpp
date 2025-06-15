@@ -272,7 +272,7 @@ HRESULT CPlayer_Thirdee::Ready_Component()
     ColliderDesc.pOwner = this;
     ColliderDesc.bIsFixed = false;
     ColliderDesc.vColliderPosion = m_pTransformCom->Get_State(STATE::POSITION);
-    ColliderDesc.vColliderScale = _float3(1.5f, 1.5f, 1.5f);
+    ColliderDesc.vColliderScale = _float3(1.5f, 2.1f, 1.5f);
     ColliderDesc.pTransform = m_pTransformCom;
     
     m_fGroundCheckColliderY = ColliderDesc.vColliderScale.z * 0.7f;
@@ -523,6 +523,9 @@ void CPlayer_Thirdee::Check_Collision_Portal(CGameObject* pGameObject)
     if (pGameObject->Get_Name().find(TEXT("Portal")) != string::npos)
     {
         EnterClear();
+        m_pGameInstance->StopSound(CHANNELID::SOUND_PLAYER);
+        m_pGameInstance->PlayAudio(TEXT("Clear.wav"), CHANNELID::SOUND_PLAYER, 1.f);
+
         m_pCurrentState->Request_ChangeState(this, PLAYERSTATE::CLEAR);
     }
 }

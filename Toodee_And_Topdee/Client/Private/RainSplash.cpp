@@ -27,7 +27,7 @@ HRESULT CRainSplash::Initialize(void* pArg)
 	m_fMotionIntervalTime = { 0.2f };
 
 	name = TEXT("RainSplash");
-
+	m_iLevel = m_pGameInstance->Get_NextLevelID();
 	return S_OK;
 }
 
@@ -41,7 +41,7 @@ void CRainSplash::Update(_float fTimeDelta)
 	if (!m_bActive) return;
 
 	if (m_pGameInstance->Get_CurrentDimension() != DIMENSION::TOODEE)
-		m_pGameInstance->Push(TEXT("Layer_RainSplash"), this);
+		m_pGameInstance->Push(m_iLevel,TEXT("Layer_RainSplash"), this);
 
 	Change_Motion(fTimeDelta);
 }

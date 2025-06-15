@@ -174,6 +174,7 @@
     <ClInclude Include="..\Public\Client_Extension.h" />
     <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
+    <ClInclude Include="..\public\Ending_Flash.h" />
     <ClInclude Include="..\public\FinalTile.h" />
     <ClInclude Include="..\Public\FinalBoss.h" />
     <ClInclude Include="..\Public\ColorLight.h" />
@@ -184,12 +185,14 @@
     <ClInclude Include="..\public\Fire_Projectile.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\FPSCamera.h" />
+    <ClInclude Include="..\public\GiantHand.h" />
     <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\Public\InteractionBlock.h" />
     <ClInclude Include="..\Public\JumpDust.h" />
     <ClInclude Include="..\Public\Key.h" />
     <ClInclude Include="..\Public\KeyTwinkle.h" />
     <ClInclude Include="..\Public\Leaves.h" />
+    <ClInclude Include="..\public\Level_Ending.h" />
     <ClInclude Include="..\Public\Level_FinalBoss01.h" />
     <ClInclude Include="..\Public\Level_FinalBoss02.h" />
     <ClInclude Include="..\Public\Level_FinalBoss03.h" />
@@ -227,6 +230,7 @@
     <ClInclude Include="..\Public\Part_Wing.h" />
     <ClInclude Include="..\Public\Pig.h" />
     <ClInclude Include="..\public\Player.h" />
+    <ClInclude Include="..\Public\PlayerChangeEffect.h" />
     <ClInclude Include="..\Public\PlayerState.h" />
     <ClInclude Include="..\Public\Player_Thirdee.h" />
     <ClInclude Include="..\public\Player_Toodee.h" />
@@ -260,6 +264,7 @@
     <ClInclude Include="..\Public\Thirdee_Body.h" />
     <ClInclude Include="..\public\Thirdee_Clear.h" />
     <ClInclude Include="..\public\Thirdee_Dead.h" />
+    <ClInclude Include="..\public\Thirdee_Ending.h" />
     <ClInclude Include="..\Public\Thirdee_Hair.h" />
     <ClInclude Include="..\Public\Thirdee_Head.h" />
     <ClInclude Include="..\Public\Thirdee_Idle.h" />
@@ -270,6 +275,7 @@
     <ClInclude Include="..\Public\TileOutline.h" />
     <ClInclude Include="..\Public\TextureUI.h" />
     <ClInclude Include="..\Public\Toodoo.h" />
+    <ClInclude Include="..\public\Toodoo_Ending.h" />
     <ClInclude Include="..\Public\WallParts.h" />
     <ClInclude Include="..\Public\Water.h" />
     <ClInclude Include="..\Public\WaterSplash.h" />
@@ -306,6 +312,7 @@
     <ClCompile Include="..\Private\CannonDust.cpp" />
     <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
+    <ClCompile Include="..\private\Ending_Flash.cpp" />
     <ClCompile Include="..\private\FinalTile.cpp" />
     <ClCompile Include="..\Private\FinalBoss.cpp" />
     <ClCompile Include="..\Private\ColorLight.cpp" />
@@ -316,12 +323,14 @@
     <ClCompile Include="..\private\Fire_Projectile.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\FPSCamera.cpp" />
+    <ClCompile Include="..\private\GiantHand.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\InteractionBlock.cpp" />
     <ClCompile Include="..\Private\JumpDust.cpp" />
     <ClCompile Include="..\Private\Key.cpp" />
     <ClCompile Include="..\Private\KeyTwinkle.cpp" />
     <ClCompile Include="..\Private\Leaves.cpp" />
+    <ClCompile Include="..\private\Level_Ending.cpp" />
     <ClCompile Include="..\Private\Level_FinalBoss01.cpp" />
     <ClCompile Include="..\Private\Level_FinalBoss02.cpp" />
     <ClCompile Include="..\Private\Level_FinalBoss03.cpp" />
@@ -359,6 +368,7 @@
     <ClCompile Include="..\Private\Part_Wing.cpp" />
     <ClCompile Include="..\Private\Pig.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
+    <ClCompile Include="..\Private\PlayerChagneEffect.cpp" />
     <ClCompile Include="..\Private\PlayerState.cpp" />
     <ClCompile Include="..\Private\Player_Thirdee.cpp" />
     <ClCompile Include="..\private\Player_Toodee.cpp" />
@@ -392,6 +402,7 @@
     <ClCompile Include="..\Private\Thirdee_Body.cpp" />
     <ClCompile Include="..\private\Thirdee_Clear.cpp" />
     <ClCompile Include="..\private\Thirdee_Dead.cpp" />
+    <ClCompile Include="..\private\Thirdee_Ending.cpp" />
     <ClCompile Include="..\Private\Thirdee_Hair.cpp" />
     <ClCompile Include="..\Private\Thirdee_Head.cpp" />
     <ClCompile Include="..\Private\Thirdee_Idle.cpp" />
@@ -402,6 +413,7 @@
     <ClCompile Include="..\Private\TileOutline.cpp" />
     <ClCompile Include="..\Private\TextureUI.cpp" />
     <ClCompile Include="..\Private\Toodoo.cpp" />
+    <ClCompile Include="..\private\Toodoo_Ending.cpp" />
     <ClCompile Include="..\Private\WallParts.cpp" />
     <ClCompile Include="..\Private\Water.cpp" />
     <ClCompile Include="..\Private\WaterSplash.cpp" />
