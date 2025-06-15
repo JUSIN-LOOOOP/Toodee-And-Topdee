@@ -62,6 +62,11 @@ void CSpeechBallon::Update(_float fTimeDelta)
 	if (m_iCurrentSpeechNumber != m_iSpeechNumber)
 		return;
 
+	m_fDealyTime += fTimeDelta;
+
+	if (m_iSpeechNumber == 1 && m_fDealyTime < 3.f)
+		return;
+
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > 0.06f)
@@ -102,7 +107,7 @@ void CSpeechBallon::Update(_float fTimeDelta)
 		}
 	}
 	m_fSizeX = 60.f;
-	m_fSizeX += m_iCurrentTextLength * 11.f;
+	m_fSizeX += m_iCurrentTextLength * 13.f;
 }
 
 void CSpeechBallon::Late_Update(_float fTimeDelta)
@@ -113,6 +118,9 @@ void CSpeechBallon::Late_Update(_float fTimeDelta)
 
 HRESULT CSpeechBallon::Render()
 {
+	if (m_iSpeechNumber == 1 && m_fDealyTime < 3.f)
+		return S_OK;
+
 	if (FAILED(__super::Begin(m_pTransformCom)))
 		return E_FAIL;
 

@@ -746,10 +746,10 @@ HRESULT CMainApp::Ready_Font()
 {
 	CFont::FONT_DESC FontDesc{};
 
-	FontDesc.fWidth = 10.f;
+	FontDesc.fWidth = 20.f;
 	FontDesc.fHegiht = 20.f;
-	FontDesc.fWeight = 50.f;
-	FontDesc.FontName = TEXT("Arial");
+	FontDesc.fWeight = 10.f;
+	FontDesc.FontName = TEXT("DungGeunMo");
 
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Arial"),
 		CFont::Create(m_pGraphic_Device, &FontDesc))))
