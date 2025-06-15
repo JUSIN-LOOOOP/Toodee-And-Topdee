@@ -18,15 +18,19 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
-
+  
+  private:
+	_float			m_DamagedTime = {};
+  
 private:
 	virtual HRESULT Ready_Components();
-	_float			m_DamagedTime = {};
-
+	virtual HRESULT Render_Shadow() override;
+  
 public:
 	static CStageBoss_Hand* Create(LPDIRECT3DDEVICE9 pGraphic_Device, void* pArg);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
+;
 };
 
 END

@@ -8,6 +8,8 @@ class CVIBuffer_Rect;
 class CTransform;
 class CCollider;
 class CTexture;
+class CVIBuffer_DiffuseCube;
+
 END
 
 
@@ -42,6 +44,29 @@ protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
+
+	/* Shadow*/
+protected:
+	CVIBuffer_DiffuseCube* m_VIBufferCom_Diffuse = { nullptr };
+	_float4x4				m_matrixShadow = {};
+
+	/* Shadow : switching - camera angle */
+	_float					m_fToodeeAngle = { 390.f };
+	_float					m_fTopdeeAngle = { 210.f };
+	_float					m_fCurAngle = { };
+
+	_float					m_fToodeeLightDirY = { 1.8f };
+	_float					m_fTopdeeLightDirY = { 1.6f };
+	_float					m_fCurLightY = { };
+
+	_bool					m_bCameraChange = { false };
+	_bool					m_bComputeComplete = { false };
+	DIMENSION				m_ePreDimension = { DIMENSION::NONE };
+
+	/* Shadow*/
+protected:
+	virtual HRESULT		Render_Shadow() = 0;
+	virtual void		Compute_AttributeShadow() = 0;
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

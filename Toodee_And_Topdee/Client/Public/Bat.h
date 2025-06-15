@@ -63,7 +63,9 @@ private : // Test¿ë
 	_float		m_fMaxDistance{};
 	_float3		m_vTargetDir{};
 
-	
+private:
+	HRESULT Render_Shadow() override;
+	void Compute_AttributeShadow() override;
 
 public:
 	static CBat* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

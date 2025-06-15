@@ -99,6 +99,16 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 	event.pTransformTopdee = m_pTransformCom;
 	m_pGameInstance->Publish(ENUM_CLASS(LEVEL::LEVEL_STATIC), EVENT_KEY::PLAYERS_POSITION, event);
 
+	m_ePreDimension = m_pGameInstance->Get_CurrentDimension();
+	if (m_ePreDimension == DIMENSION::TOODEE)
+	{
+		m_fCurAngle = m_fToodeeAngle; m_fCurLightY = m_fToodeeLightDirY;
+	}
+	else
+	{
+		m_fCurAngle = m_fTopdeeAngle; m_fCurLightY = m_fTopdeeLightDirY;
+	}
+
 	return S_OK;
 }
 
@@ -204,6 +214,8 @@ void CPlayer_Topdee::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer_Topdee::Render()
 {
+	Render_Shadow();
+
 	if (FAILED(m_pColliderCom->Render()))
 		return E_FAIL;
 
@@ -719,6 +731,11 @@ HRESULT CPlayer_Topdee::Ready_Components()
 	/* For.Com_VIBuffer*/
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_DiffuseCube"),
+		TEXT("Com_VIBuffer2"), reinterpret_cast<CComponent**>(&m_VIBufferCom_Diffuse))))
 		return E_FAIL;
 
 	/* For.Com_Shader */

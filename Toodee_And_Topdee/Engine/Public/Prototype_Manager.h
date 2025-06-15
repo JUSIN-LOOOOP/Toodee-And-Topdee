@@ -7,6 +7,7 @@
 #include "VIBuffer_Cube.h"
 #include "VIBuffer_Sphere.h"
 #include "VIBuffer_Capsule.h"
+#include "VIBuffer_DiffuseCube.h"
 
 #include "Transform.h"
 #include "Texture.h"

@@ -48,10 +48,14 @@ private:
 	PARTS_DESC		m_sParts[ENUM_CLASS(PARTS_TYPE::PARTS_END)];
 	_float			IdleTime = {};
 
+private:
+	virtual  HRESULT Render_Shadow() override;
+
 public:
 	static CStageBoss_Body* Create(LPDIRECT3DDEVICE9 pGraphic_Device, void* pArg);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
+
 };
 
 END
