@@ -1,4 +1,4 @@
-#include "Pig.h"
+ï»¿#include "Pig.h"
 #include "GameInstance.h"
 #include "Parts.h"
 #include <Key.h>
@@ -25,7 +25,6 @@ HRESULT CPig::Initialize_Prototype()
 HRESULT CPig::Initialize(void* pArg)
 {
 	name = TEXT("Enemy_Monster_Pig");
-	m_bLeft = false;
 	m_iPlayLevel = m_pGameInstance->Get_NextLevelID();
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -34,17 +33,16 @@ HRESULT CPig::Initialize(void* pArg)
 		return E_FAIL;
 
 	PIG_DESC* pDesc = static_cast<PIG_DESC*>(pArg);
-	m_vOldPos = pDesc->vPosSet;
+	
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	m_pTransformCom->Scaling(4.f, 4.f, 4.f);
-	m_pTransformCom->Set_State(STATE::POSITION, m_vOldPos);
-
+	m_pTransformCom->Set_State(STATE::POSITION, pDesc->vPosSet);
+	m_vOldLook = m_pTransformCom->Get_State(STATE::LOOK);
+	D3DXVec3Normalize(&m_vOldLook, &m_vOldLook);
 	
 
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
-	
-	m_fMaxPat = 300.f;
 	
 	return S_OK;
 }
@@ -55,10 +53,12 @@ void CPig::Priority_Update(_float fTimeDelta)
 	m_pGameInstance->Check_Collision(m_pColliderCom);
 	if (m_pGameInstance->Get_CurrentDimension() == DIMENSION::CHANGE)
 	{
-		if (m_bLeft) // TOPDEE·Î ÀüÈ¯½Ã È¤½Ã¶óµµ TOODEE¿¡¼­ ¹æÇâÀÌ µÚÁıÇû´Ù¸é µ¹¸®´Â ÀÛ¾÷
+		_float3 vLook = m_pTransformCom->Get_State(STATE::LOOK);
+		D3DXVec3Normalize(&vLook, &vLook);
+		_float fDot = D3DXVec3Dot(&vLook, &m_vOldLook);
+		if (fDot < 0) // TOPDEEë¡œ ì „í™˜ì‹œ í˜¹ì‹œë¼ë„ TOODEEì—ì„œ ë°©í–¥ì´ ë’¤ì§‘í˜”ë‹¤ë©´ ëŒë¦¬ëŠ” ì‘ì—…
 		{
 			m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
-			m_bLeft = false;
 		}
 
 	}
@@ -66,32 +66,14 @@ void CPig::Priority_Update(_float fTimeDelta)
 
 void CPig::Update(_float fTimeDelta)
 {
-	//	if (GetKeyState('O') & 0x8000)
-	//		m_pColliderCom->Collision_On();
-	//	if (GetKeyState('P') & 0x8000)
-	//		m_pColliderCom->Collision_Off();
-	//	
-	//	_float3 vPos = m_pTransformCom->Get_State(STATE::POSITION);
-	//	if(vPos.z < -20.f)
-	//	{
-	//		vPos.z = 10.f; m_pTransformCom->Set_State(STATE::POSITION, vPos);
-	//	}
-
-
-
-
 	_float3 vTargetPos = m_pTargetTransformCom->Get_State(STATE::POSITION);
 
 	switch (m_pGameInstance->Get_CurrentDimension())
 	{
 	case::DIMENSION::TOODEE:
 	
-		if (Check_Gravity(fTimeDelta))
-			Compute_Collision();
-		else
-		{
+		if (!Check_Gravity(fTimeDelta))
 			Move_Patrol(fTimeDelta);
-		}
 			
 
 		for (auto& Pair : m_vParts)
@@ -104,8 +86,7 @@ void CPig::Update(_float fTimeDelta)
 	case::DIMENSION::TOPDEE:
 
 		_float3 vMoveDir = Move_To_Target(fTimeDelta);
-		m_pTransformCom->Move_To(vTargetPos, fTimeDelta* 0.5f);
-
+		m_pTransformCom->Move_To_LimitY(vTargetPos, fTimeDelta* 0.5f);
 		Compute_Collision(vMoveDir);
 
 		for (auto& Pair : m_vParts)
@@ -163,7 +144,7 @@ HRESULT CPig::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_vColliderScale = _float3(1.5f, 1.5f, 1.5f);
+	m_vColliderScale = _float3(2.5f, 2.5f, 2.5f);
 
 	CCollider::COLLIDER_DESC ColliderDesc{};
 	ColliderDesc.pOwner = this;
@@ -190,9 +171,9 @@ HRESULT CPig::Ready_Parts()
 #pragma region Parts_Body
 
 	PartDesc.pTextureCom = static_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Pig_Body")));
-	PartDesc.fFrame = 1.f;													// ÅØ½ºÃÄ ¹øÈ£(½ºÇÁ¶óÀÌÆ®·Î È°¿ëµÉ °íÁ¤ÀÌ¹ÌÁö ´ÙÀ½¹øÈ£)
-	PartDesc.fMaxFrame = 9.f;													// ½ºÇÁ¶óÀÌÆ®(¾Ö´Ï¸ŞÀÌ¼Ç)ÀÏ °æ¿ì ¸¶Áö¸· ÀÌ¹ÌÁö¹øÈ£ fFrame <-> MaxIndex ¼øÈ¸ÇÏ¸é¼­ ÀÌ¹ÌÁöÃâ·Â
-	PartDesc.fAngleY = 1.f;													// ÆÄÃ÷µéÀÇ ±âº» ¹èÄ¡ À§Ä¡ (°´Ã¼ÀÇ Á¤Áß¾Ó = AngleX = 90 , AngleY = 90(ÈÄ¸é), -90(Àü¸é)
+	PartDesc.fFrame = 1.f;													// í…ìŠ¤ì³ ë²ˆí˜¸(ìŠ¤í”„ë¼ì´íŠ¸ë¡œ í™œìš©ë  ê³ ì •ì´ë¯¸ì§€ ë‹¤ìŒë²ˆí˜¸)
+	PartDesc.fMaxFrame = 9.f;													// ìŠ¤í”„ë¼ì´íŠ¸(ì• ë‹ˆë©”ì´ì…˜)ì¼ ê²½ìš° ë§ˆì§€ë§‰ ì´ë¯¸ì§€ë²ˆí˜¸ fFrame <-> MaxIndex ìˆœíšŒí•˜ë©´ì„œ ì´ë¯¸ì§€ì¶œë ¥
+	PartDesc.fAngleY = 1.f;													// íŒŒì¸ ë“¤ì˜ ê¸°ë³¸ ë°°ì¹˜ ìœ„ì¹˜ (ê°ì²´ì˜ ì •ì¤‘ì•™ = AngleX = 90 , AngleY = 90(í›„ë©´), -90(ì „ë©´)
 	PartDesc.fAngleX = 90.f;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Part_Body"),
@@ -202,7 +183,7 @@ HRESULT CPig::Ready_Parts()
 
 #pragma endregion
 
-	// °íÁ¤ÀÌ¹ÌÁö¶ó 0À¸·Î º¯°æ
+	// ê³ ì •ì´ë¯¸ì§€ë¼ 0ìœ¼ë¡œ ë³€ê²½
 	PartDesc.fFrame = 0.f;	
 	PartDesc.fMaxFrame = 0.f;
 
@@ -332,11 +313,11 @@ void CPig::Render_Parts()
 }
 
 
-_bool CPig::Check_Gravity(_float fTimeDelta) // DimensionÀÌ TooDeeÀÏ °æ¿ì¸¸ µé¾î¿À´Â ÇÔ¼ö
+_bool CPig::Check_Gravity(_float fTimeDelta) // Dimensionì´ TooDeeì¼ ê²½ìš°ë§Œ ë“¤ì–´ì˜¤ëŠ” í•¨ìˆ˜
 {
-	_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION); // ³» À§Ä¡°ªÀ» ¿©·¯¹ø °ÙÇÏ´Â°Åº¸´Ù Áö¿ªº¯¼ö·Î ÇÑ¹ø¸¸ °Ù
+	_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION); // ë‚´ ìœ„ì¹˜ê°’ì„ ì—¬ëŸ¬ë²ˆ ê²Ÿí•˜ëŠ”ê±°ë³´ë‹¤ ì§€ì—­ë³€ìˆ˜ë¡œ í•œë²ˆë§Œ ê²Ÿ
 
-	vector<CGameObject*>* findAll = { nullptr };	// Ãæµ¹Ã¼ ¿©ºÎ¸¦ È®ÀÎÇÏ±â À§ÇÑ ¸®½ºÆ®¸¦ °¡Á®¿À±âÀ§ÇÔ
+	vector<CGameObject*>* findAll = { nullptr };	// ì¶©ëŒì²´ ì—¬ë¶€ë¥¼ í™•ì¸í•˜ê¸° ìœ„í•œ ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜¤ê¸°ìœ„í•¨
 	m_pColliderCom->GetOverlapAll(findAll);
 	if (nullptr == findAll)
 	{
@@ -346,16 +327,11 @@ _bool CPig::Check_Gravity(_float fTimeDelta) // DimensionÀÌ TooDeeÀÏ °æ¿ì¸¸ µé¾î
 		return true;
 	}
 
-	_float3 vOldOtherPos{}, vOldDistance{};
-
 	for (auto& Other : *findAll)
 	{
 
-		if (Other->IsDead())
-			return false;
-
 		_wstring strOtherName = Other->Get_Name();
-		if(strOtherName.find(TEXT("Key")) != string::npos)
+		if (strOtherName.find(TEXT("Key")) != string::npos)
 		{
 			GETKEYEVENT Event;
 			m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
@@ -363,15 +339,46 @@ _bool CPig::Check_Gravity(_float fTimeDelta) // DimensionÀÌ TooDeeÀÏ °æ¿ì¸¸ µé¾î
 			pKey->Get_Key();
 		}
 
-		if (strOtherName.find(TEXT("Block")) != string::npos || strOtherName.find(TEXT("Wall")) != string::npos)
+		if (strOtherName.find(TEXT("Block")) != string::npos ||
+			strOtherName.find(TEXT("Wall")) != string::npos)
 		{
 			_float3 OtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
-			_float fDistansZ = fabsf(OtherPos.z - vMyPos.z);
+			CCollider* pOtherCol = static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")));
+			_float3 vOtherRadius = pOtherCol->Get_ColliderScaled() * 0.5f;
+			_float3 vDelta = absfloat3(OtherPos - vMyPos);
+			
 
-			if (OtherPos.z < vMyPos.z && fDistansZ > m_vColliderScale.z * 0.5f )// Ãæµ¹°´Ã¼°¡ °´Ã¼º¸´Ù ¹Ø¿¡ÀÖ´Ù (°´Ã¼±âÁØ 8¹æÇâÁß ÇÏ´Ü 3¹æÇâ)
+			if (OtherPos.z < vMyPos.z && vDelta.z > m_vColliderScale.z * 0.5f)// ì¶©ëŒê°ì²´ê°€ ê°ì²´ë³´ë‹¤ ë°‘ì—ìˆë‹¤ (ê°ì²´ê¸°ì¤€ 8ë°©í–¥ì¤‘ í•˜ë‹¨ 3ë°©í–¥)
 			{
-				m_bGravity = false;
-				return false;
+				if(vDelta.x < (vOtherRadius.x + 0.1f))
+				{
+					_float fLastDeltaZ = (vOtherRadius.z + (m_vColliderScale.z * 0.5f)) - vDelta.z - 0.1f;
+					_float3 vUp = m_pTransformCom->Get_State(STATE::UP);
+					D3DXVec3Normalize(&vUp, &vUp);
+
+					vMyPos += vUp * fLastDeltaZ;
+
+					m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
+
+					m_bGravity = false;
+					return false;
+				}
+				else
+				{
+					if(1 == findAll->size())
+					{
+						_float fLastDeltaX = (vOtherRadius.x + (m_vColliderScale.x * 0.5f)) - vDelta.x + 0.1f;
+						_float3 vRight = m_pTransformCom->Get_State(STATE::RIGHT);
+						D3DXVec3Normalize(&vRight, &vRight);
+
+						vMyPos -= vRight * fLastDeltaX;
+
+						m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
+					}
+
+				}
+
+
 			}
 		}
 		else
@@ -382,12 +389,66 @@ _bool CPig::Check_Gravity(_float fTimeDelta) // DimensionÀÌ TooDeeÀÏ °æ¿ì¸¸ µé¾î
 	vMyPos.z -= GRAVITY * fTimeDelta;
 	m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
 	return true;
+
+
+
+	//// Redbuttonì— ëŒ€í•œ ì²˜ë¦¬
+
+
+	//_float3 vMyPos = m_pTransformCom->Get_State(STATE::POSITION); // ë‚´ ìœ„ì¹˜ê°’ì„ ì—¬ëŸ¬ë²ˆ ê²Ÿí•˜ëŠ”ê±°ë³´ë‹¤ ì§€ì—­ë³€ìˆ˜ë¡œ í•œë²ˆë§Œ ê²Ÿ
+
+	//vector<CGameObject*>* findAll = { nullptr };	// ì¶©ëŒì²´ ì—¬ë¶€ë¥¼ í™•ì¸í•˜ê¸° ìœ„í•œ ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜¤ê¸°ìœ„í•¨
+	//m_pColliderCom->GetOverlapAll(findAll);
+	//if (nullptr == findAll)
+	//{
+	//	m_bGravity = true;
+	//	vMyPos.z -= GRAVITY * fTimeDelta;
+	//	m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
+	//	return true;
+	//}
+
+	//_float3 vOldOtherPos{}, vOldDistance{};
+
+	//for (auto& Other : *findAll)
+	//{
+
+	//	if (Other->IsDead())
+	//		return false;
+
+	//	_wstring strOtherName = Other->Get_Name();
+	//	if (strOtherName.find(TEXT("Key")) != string::npos)
+	//	{
+	//		GETKEYEVENT Event;
+	//		m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
+	//		CKey* pKey = dynamic_cast<CKey*>(Other);
+	//		pKey->Get_Key();
+	//	}
+
+	//	if (strOtherName.find(TEXT("Block")) != string::npos || strOtherName.find(TEXT("Wall")) != string::npos)
+	//	{
+	//		_float3 OtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION);
+	//		_float fDistansZ = fabsf(OtherPos.z - vMyPos.z);
+
+	//		if (OtherPos.z < vMyPos.z && fDistansZ > m_vColliderScale.z * 0.5f)// ì¶©ëŒê°ì²´ê°€ ê°ì²´ë³´ë‹¤ ë°‘ì—ìˆë‹¤ (ê°ì²´ê¸°ì¤€ 8ë°©í–¥ì¤‘ í•˜ë‹¨ 3ë°©í–¥)
+	//		{
+	//			m_bGravity = false;
+	//			return false;
+	//		}
+	//	}
+	//	else
+	//		continue;
+	//}
+
+	//m_bGravity = true;
+	//vMyPos.z -= GRAVITY * fTimeDelta;
+	//m_pTransformCom->Set_State(STATE::POSITION, vMyPos);
+	//return true;
 }
 
 void CPig::Compute_Collision(_float3 vDir)
 {
 	vector<CGameObject*>* findAll = { nullptr };
-	if (!m_pColliderCom->GetOverlapAll(findAll)) // ÀÌµ¿ ÈÄ Ãæµ¹ ¾øÀ¸´Ï °Ë»çÇÏÁö¾ÊÀ½
+	if (!m_pColliderCom->GetOverlapAll(findAll)) // ì´ë™ í›„ ì¶©ëŒ ì—†ìœ¼ë‹ˆ ê²€ì‚¬í•˜ì§€ì•ŠìŒ
 		return;
 	_float3 vMyPos{}, vMyRadius{}, vOldOtherPos{};
 	_float fDeltaX{}, fDeltaZ{};
@@ -400,8 +461,14 @@ void CPig::Compute_Collision(_float3 vDir)
 
 	for (auto& Other : *findAll)
 	{
-		if (Other->IsDead())
-			return;
+		_wstring strOtherName = Other->Get_Name();
+		if (strOtherName.find(TEXT("Key")) != string::npos)
+		{
+			GETKEYEVENT Event;
+			m_pGameInstance->Publish(m_iPlayLevel, EVENT_KEY::GET_KEY, Event);
+			CKey* pKey = dynamic_cast<CKey*>(Other);
+			pKey->Get_Key();
+		}
 
 		CCollider::COLLIDER_DESC pOtherDesc = {};
 		CCollider* pCollider = static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")));
@@ -415,19 +482,19 @@ void CPig::Compute_Collision(_float3 vDir)
 		_float3 vDistance = (vMyRadius + vOtherRadius) - absfloat3(vDeltaPos);
 
 
-		if (vDistance.x < vDistance.z && vOldOtherPos.z != vOtherPos.z) // ÁÂ ¿ì 
+		if (vDistance.x < vDistance.z && vOldOtherPos.z != vOtherPos.z) // ì¢Œ ìš° 
 		{
-			// Ãæµ¹Ã¼°¡ °´Ã¼º¸´Ù ¿ìÃø¿¡ ÀÖ´Ù
+			// ì¶©ëŒì²´ê°€ ê°ì²´ë³´ë‹¤ ìš°ì¸¡ì— ìˆë‹¤
 			if (vDeltaPos.x > 0 && vDir.x >= 0) { fDeltaX = -vDistance.x; }
-			// Ãæµ¹Ã¼°¡ °´Ã¼º¸´Ù ÁÂÃø¿¡ ÀÖ´Ù
+			// ì¶©ëŒì²´ê°€ ê°ì²´ë³´ë‹¤ ì¢Œì¸¡ì— ìˆë‹¤
 			else if (vDeltaPos.x < 0 && vDir.x <= 0) { fDeltaX = vDistance.x; }
 		}
 
-		if (vDistance.x > vDistance.z && vOldOtherPos.x != vOtherPos.x) // »ó ÇÏ
+		if (vDistance.x > vDistance.z && vOldOtherPos.x != vOtherPos.x) // ìƒ í•˜
 		{
-			// Ãæµ¹Ã¼°¡ °´Ã¼º¸´Ù À§ÂÊ¿¡ ÀÖ´Ù
+			// ì¶©ëŒì²´ê°€ ê°ì²´ë³´ë‹¤ ìœ„ìª½ì— ìˆë‹¤
 			if (vDeltaPos.z > 0 && vDir.z >= 0) { fDeltaZ = -vDistance.z; }
-			// Ãæµ¹Ã¼°¡ °´Ã¼º¸´Ù ¾Æ·¡ÂÊ¿¡ ÀÖ´Ù
+			// ì¶©ëŒì²´ê°€ ê°ì²´ë³´ë‹¤ ì•„ë˜ìª½ì— ìˆë‹¤
 			else if (vDeltaPos.z < 0 && vDir.z <= 0) { fDeltaZ = vDistance.z; }
 		}
 
@@ -456,33 +523,31 @@ void CPig::Move_Patrol(_float fTimeDelta)
 		if (nullptr == findAll)
 			return;
 
-		if (1 == findAll->size()) // Ãæµ¹°´Ã¼°¡ 1°³ÀÌ¸ç ¹Ù´Ú °´Ã¼ÀÌ´Ù (¹Ù´Ú°´Ã¼¿Í 1:1Ãæµ¹½Ã¿¡¸¸ Áß·Â off±â ¶§¹®¿¡ ´Ù¸¥»óÈ²Àº ¾øÀ½)
+		if (1 == findAll->size()) // ì¶©ëŒê°ì²´ê°€ 1ê°œì´ë©° ë°”ë‹¥ ê°ì²´ì´ë‹¤ (ë°”ë‹¥ê°ì²´ì™€ 1:1ì¶©ëŒì‹œì—ë§Œ ì¤‘ë ¥ offê¸° ë•Œë¬¸ì— ë‹¤ë¥¸ìƒí™©ì€ ì—†ìŒ)
 		{
 			for (auto& Other : *findAll)
 			{
 				
-				_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION); // Ãæµ¹Ã¼ Æ÷Áö¼Ç°ª ¹Ş¾Æ¿È
+				_float3 vOtherPos = static_cast<CTransform*>(Other->Get_Component(TEXT("Com_Transform")))->Get_State(STATE::POSITION); // ì¶©ëŒì²´ í¬ì§€ì…˜ê°’ ë°›ì•„ì˜´
 				_float fDeltaX = (vMyPos.x - vOtherPos.x);
 
 				CCollider* pCollider = static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")));
 				if (!pCollider)
 					break;
 
-				pCollider->Reference_Collider_Info(pDesc);
+				_float3 vOtherRadius = pCollider->Get_ColliderScaled() * 0.5f;
 				
 				//static_cast<CCollider*>(Other->Get_Component(TEXT("Com_Collider")))->Reference_Collider_Info(pDesc);
 
-				//if (m_pTransformCom->Get_Scaled().x * 0.5f < fDelta) // °´Ã¼ÀÇ Collider ¹İÁö¸§º¸´Ù ¹ş¾î³µÀ»¶§ ¾È¶³¾îÁö°Ô ÇÏ±âÀ§ÇØ
-				if (fDeltaX > 0 && fDeltaX > (pDesc.vColliderScale.x * 0.5f)) // ¾ç¼ö, °´Ã¼º¸´Ù Ãæµ¹Ã¼°¡ ÁÂÃø
+				//if (m_pTransformCom->Get_Scaled().x * 0.5f < fDelta) // ê°ì²´ì˜ Collider ë°˜ì§€ë¦„ë³´ë‹¤ ë²—ì–´ë‚¬ì„ë•Œ ì•ˆë–¨ì–´ì§€ê²Œ í•˜ê¸°ìœ„í•´
+				if (fDeltaX > 0 && fDeltaX > (vOtherRadius.x)) // ì–‘ìˆ˜, ê°ì²´ë³´ë‹¤ ì¶©ëŒì²´ê°€ ì¢Œì¸¡
 				{
-					m_bLeft = false;
 					m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 					m_pTransformCom->Go_Right(fTimeDelta * 2.f);
 					return;
 				}
-				else if (fDeltaX < 0 && fDeltaX < (pDesc.vColliderScale.x * -0.5f)) // À½¼ö, °´Ã¼º¸´Ù Ãæµ¹Ã¼°¡ ¿ìÃø
+				else if (fDeltaX < 0 && fDeltaX < -vOtherRadius.x)  // ìŒìˆ˜, ê°ì²´ë³´ë‹¤ ì¶©ëŒì²´ê°€ ìš°ì¸¡
 				{
-					m_bLeft = true;
 					m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 					m_pTransformCom->Go_Right(fTimeDelta * 2.f);
 					return;
@@ -490,7 +555,7 @@ void CPig::Move_Patrol(_float fTimeDelta)
 			}
 			return;
 		}
-		else // Ãæµ¹Ã¼°¡ 2°³ ÀÌ»ó
+		else // ì¶©ëŒì²´ê°€ 2ê°œ ì´ìƒ
 		{
 			for (auto& Other : *findAll)
 			{
@@ -501,21 +566,19 @@ void CPig::Move_Patrol(_float fTimeDelta)
 				if (!pCollider)
 					break;
 
-				pCollider->Reference_Collider_Info(pDesc);				
+				_float3 vOtherRadius = pCollider->Get_ColliderScaled() * 0.5f;
 				
-				_float fOtherMaxZ = vOtherPos.z + pDesc.vColliderScale.z * 0.5f; // Ãæµ¹ °´Ã¼ÀÇ Áß½É z°ª + z°ª¿¡ ´ëÇÑ ¹İÁö¸§ (Ãæµ¹°´Ã¼ÀÇ ³ôÀÌ ÆÇ´Ü) º®ÀÌ ¾Æ´Ï¶ó¸é Æ÷Áö¼Ç°ªº¸´Ù ³ôÀ»¼ö°¡ ¾øÀ½
+				_float fOtherMaxZ = vOtherPos.z + vOtherRadius.z; // ì¶©ëŒ ê°ì²´ì˜ ì¤‘ì‹¬ zê°’ + zê°’ì— ëŒ€í•œ ë°˜ì§€ë¦„ (ì¶©ëŒê°ì²´ì˜ ë†’ì´ íŒë‹¨) ë²½ì´ ì•„ë‹ˆë¼ë©´ í¬ì§€ì…˜ê°’ë³´ë‹¤ ë†’ì„ìˆ˜ê°€ ì—†ìŒ
 				if(vMyPos.z <= fOtherMaxZ)
 				{
-					if (vMyPos.x > vOtherPos.x) // °´Ã¼ x°¡ Ãæµ¹Ã¼ÀÇ xº¸´Ù Å¬°æ¿ì °´Ã¼(¿À¸¥ÂÊ), Ãæµ¹Ã¼(¿ŞÂÊ) << ÀÌµ¿ Áß º® ¸¶ÁÖÄ§
+					if (vMyPos.x > vOtherPos.x) // ê°ì²´ xê°€ ì¶©ëŒì²´ì˜ xë³´ë‹¤ í´ê²½ìš° ê°ì²´(ì˜¤ë¥¸ìª½), ì¶©ëŒì²´(ì™¼ìª½) << ì´ë™ ì¤‘ ë²½ ë§ˆì£¼ì¹¨
 					{
-						m_bLeft = false;
 						m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 						m_pTransformCom->Go_Right(fTimeDelta * 2.f);
 						return;
 					}
 					else
 					{
-						m_bLeft = true;
 						m_pTransformCom->TurnToRadian(_float3(0.0f, 0.0f, 1.0f), D3DXToRadian(180.f));
 						m_pTransformCom->Go_Right(fTimeDelta * 2.f);
 						return;
