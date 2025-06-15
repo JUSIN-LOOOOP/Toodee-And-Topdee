@@ -114,6 +114,9 @@ HRESULT CPlayer_Topdee::Initialize(void* pArg)
 
 void CPlayer_Topdee::Priority_Update(_float fTimeDelta)
 {
+	if (m_iPlayLevel == ENUM_CLASS(LEVEL::LEVEL_DIALOGUE))
+		return;
+
 	Check_Dimension();
 
 	m_pActionCheckColliderCom->Collision_Off();
@@ -122,6 +125,9 @@ void CPlayer_Topdee::Priority_Update(_float fTimeDelta)
 
 void CPlayer_Topdee::Update(_float fTimeDelta)
 {
+	if (m_iPlayLevel == ENUM_CLASS(LEVEL::LEVEL_DIALOGUE))
+		return;
+
 	if (m_eCurrentState != PLAYERSTATE::CLEAR)
 	{
 		if (m_eCurrentState != PLAYERSTATE::STOP && m_eCurrentState != PLAYERSTATE::DEAD)

@@ -48,7 +48,7 @@ HRESULT CSpeechBallon::Initialize(void* pArg)
 	m_fY = (m_tRect.top + m_tRect.bottom) * 0.5f;
 
 	m_pText = new _tchar[m_iTextLength + 1];
-	
+
 	return S_OK;
 }
 
@@ -64,7 +64,7 @@ void CSpeechBallon::Update(_float fTimeDelta)
 
 	m_fTime += fTimeDelta;
 
-	if (m_fTime > 0.25f)
+	if (m_fTime > 0.06f)
 	{
 		if(m_iCurrentTextLength < m_iTextLength)
 			m_iCurrentTextLength++;
@@ -81,7 +81,8 @@ void CSpeechBallon::Update(_float fTimeDelta)
 			m_pGameInstance->Publish(m_pGameInstance->Get_CurrentLevelID(), EVENT_KEY::SPEECH, Event);
 		}
 	}
-	
+	m_fSizeX = 60.f;
+	m_fSizeX += m_iCurrentTextLength * 11.f;
 }
 
 void CSpeechBallon::Late_Update(_float fTimeDelta)
@@ -108,6 +109,7 @@ HRESULT CSpeechBallon::Render()
 
 	if (FAILED(__super::End()))
 		return E_FAIL;
+
 
 	wcsncpy_s(m_pText, m_iTextLength + 1, m_strText, m_iCurrentTextLength);
 
