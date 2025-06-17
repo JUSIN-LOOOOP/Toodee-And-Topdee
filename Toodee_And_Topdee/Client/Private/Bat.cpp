@@ -730,8 +730,8 @@ void CBat::Free()
 	}
 	m_vParts.clear();
 
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
+	//Safe_Release(m_pVIBufferCom);
+	//Safe_Release(m_pTransformCom);
+	//Safe_Release(m_pTextureCom);
+	//Safe_Release(m_pColliderCom);
 }

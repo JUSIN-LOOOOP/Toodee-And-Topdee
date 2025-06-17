@@ -175,8 +175,8 @@
     <ClInclude Include="..\Public\Client_Extension.h" />
     <ClInclude Include="..\Public\Cloud.h" />
     <ClInclude Include="..\Public\ColliderMap_Object.h" />
-    <ClInclude Include="..\public\Ending_Flash.h" />
     <ClInclude Include="..\Public\Damaged.h" />
+    <ClInclude Include="..\public\Ending_Flash.h" />
     <ClInclude Include="..\public\FinalTile.h" />
     <ClInclude Include="..\Public\FinalBoss.h" />
     <ClInclude Include="..\Public\ColorLight.h" />
@@ -200,7 +200,7 @@
     <ClInclude Include="..\Public\Level_FinalBoss02.h" />
     <ClInclude Include="..\Public\Level_FinalBoss03.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
-    <ClInclude Include="..\public\Level_Loading.h" />
+    <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\Public\Level_MapEdit.h" />
     <ClInclude Include="..\Public\Level_Stage1.h" />
@@ -264,7 +264,7 @@
     <ClInclude Include="..\Public\State_Stop.h" />
     <ClInclude Include="..\public\State_Swim.h" />
     <ClInclude Include="..\Public\Storm.h" />
-    <ClInclude Include="..\public\Test_Cube.h" />
+    <ClInclude Include="..\Public\Test_Cube.h" />
     <ClInclude Include="..\Public\Test_Cube2.h" />
     <ClInclude Include="..\Public\Thirdee_Action.h" />
     <ClInclude Include="..\Public\Thirdee_Arm.h" />
@@ -321,8 +321,8 @@
     <ClCompile Include="..\Private\CannonDust.cpp" />
     <ClCompile Include="..\Private\Cloud.cpp" />
     <ClCompile Include="..\Private\ColliderMap_Object.cpp" />
-    <ClCompile Include="..\private\Ending_Flash.cpp" />
     <ClCompile Include="..\Private\Damaged.cpp" />
+    <ClCompile Include="..\private\Ending_Flash.cpp" />
     <ClCompile Include="..\private\FinalTile.cpp" />
     <ClCompile Include="..\Private\FinalBoss.cpp" />
     <ClCompile Include="..\Private\ColorLight.cpp" />
@@ -346,7 +346,7 @@
     <ClCompile Include="..\Private\Level_FinalBoss02.cpp" />
     <ClCompile Include="..\Private\Level_FinalBoss03.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
-    <ClCompile Include="..\private\Level_Loading.cpp" />
+    <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
     <ClCompile Include="..\Private\Level_MapEdit.cpp" />
     <ClCompile Include="..\Private\Level_Stage1.cpp" />
@@ -410,7 +410,7 @@
     <ClCompile Include="..\Private\State_Stop.cpp" />
     <ClCompile Include="..\private\State_Swim.cpp" />
     <ClCompile Include="..\Private\Storm.cpp" />
-    <ClCompile Include="..\private\Test_Cube.cpp" />
+    <ClCompile Include="..\Private\Test_Cube.cpp" />
     <ClCompile Include="..\Private\Test_Cube2.cpp" />
     <ClCompile Include="..\Private\Thirdee_Action.cpp" />
     <ClCompile Include="..\Private\Thirdee_Arm.cpp" />

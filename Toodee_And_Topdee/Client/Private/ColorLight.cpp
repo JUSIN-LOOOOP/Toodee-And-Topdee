@@ -43,23 +43,23 @@ void CColorLight::ResetParticle(PARTICLE* attribute, void* pArg)
     _float3 min, max;
     switch (posIdx)
     {
-    case 0:    //�Ʒ�
-        min = { -65.f, -30.f,  -40.f };
-        max = { 65.f, -30.f, -35.f };
+    case 0:    //아래
+        min = { -30.f, 1.f,  -20.f };
+        max = { 30.f, 1.f, -20.f };
         break;
-    case 1:    //��
-        min = { -65.f, -30.f,  40.f };
-        max = { 65.f, -30.f, 45.f };
+    case 1:    //위
+        min = { -30.f, 1.f,  20.f };
+        max = { 30.f, 1.f, 20.f };
         break;
-    case 2:    //����
-        min = { -65.f, -30.f,  -45.f };
-        max = { -60.f, -30.f, 45.f };
+    case 2:    //왼쪽
+        min = { -30.f, 1.f,  -20.f };
+        max = { -20.f, 1.f, 20.f };
         break;
-    case 3:    //������
-        min = { 60.f, -30.f,  -45.f };
-        max = { 65.f, -30.f, 45.f };
+    case 3:    //오른쪽
+        min = { 20.f, 1.f,  -20.f };
+        max = { 30.f, 1.f, 20.f };
         break;
-    }
+    }    //}
     d3d::GetRandomVector(&attribute->_position, &min, &max);
     attribute->_position.y = m_BoundingBox._max.y;
 

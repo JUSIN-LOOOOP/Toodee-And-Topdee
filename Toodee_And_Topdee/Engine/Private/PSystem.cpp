@@ -141,6 +141,8 @@ HRESULT CPSystem::Render()
 	if (count > 0)
 		m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, count * 2);
 
+	postRender();
+
 	return S_OK;
 
 }

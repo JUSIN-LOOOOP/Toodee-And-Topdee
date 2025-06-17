@@ -31,7 +31,7 @@ HRESULT CWater::Initialize(void* pArg)
 	_float3 vPosition = m_vSinkPos = pDesc->vPosition;
 
 	vPosition.x -= 10.f;
-	vPosition.y = 1.5f;
+	vPosition.y = 1.1f;
 	vPosition.z -= 16.f;
 
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
@@ -49,7 +49,6 @@ HRESULT CWater::Initialize(void* pArg)
 	m_fTimeDelta = 0.f;
 
 	m_pColliderCom->Collision_Off();
-
 	return S_OK;
 }
 
@@ -62,6 +61,11 @@ void CWater::Update(_float fTimeDelta)
 {
 	if (m_eCurrentDimension == DIMENSION::TOODEE)
 	{
+		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		vPosition.y = 1.1f;
+
+		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+
 		m_fTimeDelta += fTimeDelta;
 
 		if (m_fCurrentFillHeight >= m_fFillHeight)
@@ -76,6 +80,12 @@ void CWater::Update(_float fTimeDelta)
 	}
 	else if (m_eCurrentDimension == DIMENSION::TOPDEE)
 	{
+		_float3 vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		
+		vPosition.y = 0.4f;
+
+		m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+
 		if (m_fCurrentStrength >= 1.f)
 		{
 			m_fCurrentStrength = 1.f;
